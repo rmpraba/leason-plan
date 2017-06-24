@@ -1,0 +1,65 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\generate-studentlist-itemcard/generate-studentlist-itemcard.html">
+
+<dom-module id="generate-studentlist-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        /*width: 60%;*/
+        border-collapse: collapse;
+        width:80%
+      }
+       #tb1{
+         width:15%
+        }
+        #tb2{
+         width:35%
+        }
+        #tb3{
+         width:10%
+        }
+        #itemcard:nth-child(odd) {
+        background-color: white;
+       
+      }
+      #itemcard:nth-child(even) {
+        background-color: #f1f1f1;
+      }
+      #itemcard{
+        width: 80%;
+      }
+</style>
+    <div>
+      <table >
+
+      <tr><th>Student Id</th><th colspan="2">Student Name</th><th>Enable/Disable</th></tr>
+
+      </table>
+
+      <template is="dom-repeat" items="{{studentarr}}">
+      <!-- <tr> -->
+        <!-- <td colspan="3">-->
+        <div id='itemcard'>
+        <generate-studentlist-itemcard studentid="{{item.id}}" studentname="{{item.student_name}}" sno="{{item.sno}}" edit="{{item.editable}}"></generate-studentlist-itemcard>
+        </div>
+        <!-- </td>  -->
+      <!-- </tr> -->
+      <!-- <tr><th>{{item.id}}</th><th>{{item.student_name}}</th><th><paper-button on-click="FnView">View</paper-button></th></tr> -->
+      </template>
+      <!-- </table> -->
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'generate-studentlist-card',
+    });
+  })();
+  </script>
+</dom-module>

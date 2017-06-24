@@ -1,0 +1,149 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+<dom-module id="cc-fa-fivetoten-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      } 
+      #tb1{
+        width: 24%;
+      } 
+      #tb2{
+        width: 20.5%;
+      } 
+      #tb6{
+        width: 18%;
+      }   
+      #tb3{
+        width: 12%;
+      }
+      #tb4{
+        width: 17%;
+      }
+      #tb5{
+        width: 13%;
+      }
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td id="tb1" hidden><paper-item>{{serialno}}</paper-item></td>
+        <td id="tb2" hidden><paper-item>{{studname}}</paper-item></td>
+        <td id="tb1" hidden$="{{hidepaperinput}}"><paper-input id="score1" required on-change="FnActivity1" value="{{score1}}"></paper-input></td>   
+        <!-- <td id="tb1"><paper-input id="score2" required on-change="FnActivity2" value="{{score2}}"></paper-input></td>   -->
+        <td id="tb2" hidden$="{{hidepaperinput}}"><paper-input id="score3" required on-change="FnActivity3" value="{{score3}}"></paper-input></td>  
+        <td id="tb6" hidden$="{{hidepaperinput}}"><paper-input id="score4" required on-change="FnActivity4" value="{{score4}}"></paper-input></td> 
+<!--
+
+ <td id="tb1" hidden$="{{hidepaperitem}}"><paper-item>{{score1}}</paper-item></td>   
+        <td id="tb1"><paper-input id="score2" required on-change="FnActivity2" value="{{score2}}"></paper-input></td>   
+        <td id="tb3" hidden$="{{hidepaperitem}}"><<paper-item>{{score3}}</paper-item></td>   
+        <td id="tb1" hidden$="{{hidepaperitem}}"><paper-item>{{score4}}</paper-item></td> -->
+         
+        <!-- <td id="tb1"><paper-input id="score5" required on-change="FnActivity5" value="{{score5}}"></paper-input></td>  -->
+        <td id="tb3"><paper-item>{{total}}</paper-item></td>
+        <td id="tb4"><paper-item>{{reduction}}</paper-item></td>
+        <td id="tb5"><paper-item>{{grade}}</paper-item></td>
+         <td><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button>
+        <paper-tooltip for="ps" offset="0">save</paper-tooltip></td>
+        </tr>
+        </table>
+    </div>
+    <term-assesment-service id="assesmentservice"></term-assesment-service>
+    <iron-ajax        
+        method="post"
+        id="fetchfagradesajax"
+        url="{{fetchfagradesurl}}"
+        params="{{fetchfagradesparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchfagradesResponse"
+        debounce-duration="300"
+    >
+  </template>
+     <script>
+       (function() {
+        'use strict';
+         var lower=[];
+         var higher=[];
+         var grade=[];
+      Polymer({
+        is: 'cc-fa-fivetoten-itemcard',
+       ready:function(){
+
+      },
+      FnActivity1:function(e){        
+        this.mark1=this.score1;
+        this.insertService();         
+      },
+      FnActivity2:function(e){                
+        this.mark2=this.score2; 
+        this.insertService();        
+      },
+      FnActivity3:function(e){                
+        this.mark3=this.score3;
+        this.insertService();         
+      },
+      FnActivity4:function(e){               
+        this.mark4=this.score4; 
+        this.insertService();       
+      },
+      insertService:function(){
+        this.$.score1.validate();
+        // this.$.score2.validate();
+        this.$.score3.validate();
+        this.$.score4.validate();      
+        if(this.score1==""||this.score3==""||this.score4==""||this.score1==null||this.score3==null||this.score4==null)
+        {
+          //alert("Please enter mark in previous fields!");
+        }
+        else
+        {      
+        this.total=parseFloat(((parseFloat(Math.max(parseFloat(this.score1),parseFloat(this.score3)))+parseFloat(this.score4))/2)*10).toFixed(2);
+        this.reduction=parseFloat(this.total/10).toFixed(2);  
+        this.callFetchGrade(); 
+        }        
+      },
+      FnSave:function(){           
+        this.$.assesmentservice.callinsertfaassesmentmarkService(this.studid,this.studname,localStorage.getItem("curr_sess_assesmenttype"),"Individual Activity1",this.score1,1,3); 
+       // this.$.assesmentservice.callinsertfaassesmentmarkService(this.studid,this.studname,localStorage.getItem("curr_sess_assesmenttype"),"Individual Activity2",this.score2,2,4);
+        this.$.assesmentservice.callinsertfaassesmentmarkService(this.studid,this.studname,localStorage.getItem("curr_sess_assesmenttype"),"Group Activity",this.score3,2,3);
+        this.$.assesmentservice.callinsertfaassesmentmarkService(this.studid,this.studname,localStorage.getItem("curr_sess_assesmenttype"),"Written Work",this.score4,3,3);
+        // this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,localStorage.getItem("curr_sess_assesmenttype"),this.total,this.reduction,this.grade);     
+      },
+      callFetchGrade:function(){
+        this.fetchfagradesurl=sessionStorage.getItem("addrinfo")+"/fetchfagrade-service"; 
+        this.$.fetchfagradesajax.generateRequest(); 
+      },
+      fetchfagradesResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.FnFindGrade((parseInt(this.total)));   
+      },
+      FnFindGrade:function(mark)
+      {        
+        for(var i=0;i<lower.length;i++)
+        {        
+          if(mark>=lower[i]&&mark<=higher[i])
+          {  
+            this.grade=grade[i];
+          }
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

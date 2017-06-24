@@ -1,0 +1,163 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../cocurricular-service/cocurricular-service.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+
+<dom-module id="cc-art-craft-onetofour-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+       table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      #p1{
+        width:-5px;
+      }
+      paper-input{
+        text-align: center;
+      }
+    </style>
+    <div> 
+     <table border="1">
+        <tr><td hidden><paper-input value="{{studid}}"></paper-input><paper-item value="{{studname}}"></paper-item></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{creativity}}" id="p1" on-change="FnCreativity"></td>
+        <td><paper-input  disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{skill}}" id="p2" on-change="FnSkill"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{interest}}" id="p3" on-change="FnInterest"></paper-input></td>
+        <!-- <td><paper-checkbox disabled="{{read}}" checked id="{{studid}}" on-change="FnChange"></paper-checkbox></td> -->
+        <td><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button></td>
+        <td><paper-icon-button id="ps" icon="icons:delete" on-click="FnDelete" ></paper-icon-button>
+        
+        </tr>
+      </table> 
+    </div>
+    <paper-dialog modal id="adialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <p>Mark as absent?</p>
+      <paper-button on-click="FnYes">Ok</paper-button>  
+      <!-- <paper-button on-click="FnNo">No</paper-button>       -->
+    </paper-dialog>
+
+     <!-- <cocurricular-service id="assesmentservice"></cocurricular-service> -->
+     <term-assesment-service id="assesmentservice"></term-assesment-service>
+     <iron-ajax        
+        method="post"
+        id="fetchgradesajax"
+        url="{{fetchgradesurl}}"
+        params="{{fetchgradesparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradesResponse"
+        debounce-duration="300"
+     >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var creativity,skill,interest;
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    Polymer({
+      is: 'cc-art-craft-onetofour-item-card',
+      ready:function(){
+      this.flag=0;
+      },
+      FnChange:function(e){
+         // alert(e.target.checked);
+        if(e.target.checked==false){
+          var id='adialog';          
+          document.getElementById(id).opened=true;          
+          this.read=true;
+          this.creativity=0;
+          this.skill=0;
+          this.interest=0;
+          localStorage.setItem("curr_sess_absflag",0);
+          this.callService();
+        }
+
+      },
+      
+      FnCreativity:function(){
+        creativity=parseFloat(this.creativity).toFixed(2); 
+        document.querySelector('cc-art-craft-onetofour-card').FnToggleDialog(this.creativity);        
+        // if(this.flag==1)
+        //   this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Creativity",this.creativity,1); 
+         // this.FnValidateCall(); 
+      },
+      FnSkill:function(){
+        skill=parseFloat(this.skill).toFixed(2);
+        document.querySelector('cc-art-craft-onetofour-card').FnToggleDialog(this.skill);  
+        // if(this.flag==1)
+        //   this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Skill",this.skill,2);
+         // this.FnValidateCall();      
+      } ,
+      FnInterest:function(){
+        interest=parseFloat(this.interest).toFixed(2);
+        document.querySelector('cc-art-craft-onetofour-card').FnToggleDialog(this.interest);
+         // if(this.flag==0)
+      // this.FnValidateCall();
+      // if(this.flag==1)
+      //   this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Interest",this.interest,3)
+      //   // this.FnValidateCall();
+      },
+      FnSave:function(){
+        this.FnValidateCall();
+      },
+      FnValidateCall:function(){
+        this.flag=1;
+         if(this.creativity==""||this.creativity==null||this.skill==""||this.skill==null||this.interest==""||this.interest==null){
+        this.$.p1.validate();
+        this.$.p2.validate();
+        this.$.p3.validate();
+         this.callFetchGrade();
+       
+      }  
+      else{
+        localStorage.setItem("curr_sess_absflag",1);
+        this.total=parseInt(this.creativity)+parseInt(this.skill)+parseInt(this.interest);
+        this.reduction=parseFloat(this.total)/3;
+        this.callFetchGrade(); 
+        }     
+      },
+      callFetchGrade:function(){
+        this.fetchgradesurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradesajax.generateRequest(); 
+      },
+      fetchgradesResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.grade=this.FnFindGrade((parseInt(this.reduction)));  
+        this.callService();  
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            this.grade=grade[i];
+          }
+        }
+        return this.grade;        
+      },
+      callService:function(){ 
+        this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Creativity",this.creativity,1,3); 
+        this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Skill",this.skill,2,3);
+        this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Art&Craft","Interest",this.interest,3,3); 
+        // this.$.assesmentservice.calloverallinsertcocurricularmarkService(this.studid,this.studname,"Art&Craft",this.total,this.reduction,this.grade);   
+      },
+       FnDelete:function(){
+        var studentid=this.studid;
+        var studentname=this.studname;
+        this.$.assesmentservice.callDeletemarkService(studentid);
+      }  
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,143 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->    
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../schooltype-card/schooltype-card.html">
+<link rel="import" href="../school-creation-card/school-creation-card.html">
+<link rel="import" href="../category-card/category-card.html">
+<link rel="import" href="../role-card/role-card.html">
+<link rel="import" href="../subject-card/subject-card.html">
+<link rel="import" href="../grade-creation-card/grade-creation-card.html">
+<link rel="import" href="../new-employee-creation-card/new-employee-creation-card.html">
+<link rel="import" href="../employe-schooltype-to-category-card/employe-schooltype-to-category-card.html">
+<link rel="import" href="../employe-category-creation-card/employe-category-creation-card.html">
+<link rel="import" href="../student-to-subject-mapping-card/student-to-subject-mapping-card.html">F
+<link rel="import" href="../master-school-type-creation-item-card/master-school-type-creation-item-card.html">
+<link rel="import" href="../school-grade-to-subject-card/school-grade-to-subject-card.html">
+<link rel="import" href="../student-transfer-grade/student-transfer-grade.html">
+<link rel="import" href="../Student-to-section-mapping-card/Student-to-section-mapping-card.html">
+<link rel="import" href="../master-school_type-creation/master-school_type-creation.html">
+<link rel="import" href="../master-ui-service/master-ui-service.html">
+<link rel="import" href="../section-allocation-card/section-allocation-card.html">
+<link rel="import" href="../student-allow-card/student-allow-card.html">
+<link rel="import" href="../school-type-item-card/school-type-item-card.html">
+<link rel="import" href="../working-days-card/working-days-card.html">
+
+
+<dom-module id="demosumbit-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #labelid,#labelid1,#labelid2,#labelid3
+
+
+      {
+            font-style: oblique;
+            font-size: 1.3em;
+
+      }
+      #newpopup,#newpopup1,#newpopup2,#newpopup3
+      {
+           border-radius: 10px;
+           width: 400px;
+           height: 150px;
+      }
+      .buttons paper-button
+      {
+        @apply(--layout-left);
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-left: 6%;
+      margin-top: 10%;
+      }
+      /*.buttons paper-button
+      {
+        height:20px; 
+         background-color: #363636;
+        color: #ffffff;
+        width:100px; 
+        margin: -20px -50px; 
+        position:relative;
+        top:50%; 
+        left:50%;
+      }*/
+
+    </style>
+    <div>
+       <paper-dialog id="newpopup" modal>
+          <center><b><label  id="labelid">Successfully Done!!!</label></b></center>
+            <div class="buttons">
+            </div>
+                  <center><paper-button style="background-color: #363636;color: #ffffff;" dialog-confirm autofocus>Ok</paper-button></center>
+        
+      </paper-dialog>
+    </div>
+
+     <div>
+       <paper-dialog id="newpopup1" modal>
+          <center><b><label  id="labelid1">Deleted Successfully!!!</label></b></center>
+            <div class="buttons">
+            </div>
+              <center><paper-button style="background-color: #363636;color: #ffffff;" dialog-confirm autofocus>Ok</paper-button></center>
+      </paper-dialog>
+    </div>
+
+    <div>
+       <paper-dialog id="newpopup2" modal>
+          <center><b><label  id="labelid2">Updated Successfully!!!</label></b></center>
+            <div class="buttons">         
+            </div>
+            <center><paper-button style="background-color: #363636;color: #ffffff;" dialog-confirm autofocus>Ok</paper-button></center>
+      </paper-dialog>
+    </div>
+
+    <div>
+       <paper-dialog id="newpopup3" modal>
+          <b><label  id="labelid3">Please Check whether input is given or not.</label></b>
+            <div class="buttons">         
+            </div>
+            <center><paper-button style="background-color: #363636;color: #ffffff;" dialog-confirm autofocus>Close</paper-button></center>
+      </paper-dialog>
+    </div>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';  
+
+    Polymer({
+      is: 'demosumbit-card',
+      toggleDialog:function()
+      {
+        this.$.newpopup.toggle();
+      },
+      toggleDialog1:function()
+      {
+      this.$.newpopup1.toggle();
+     
+      },
+      toggleDialog2:function()
+      {
+      this.$.newpopup2.toggle();
+     
+      },
+      toggleDialog3:function()
+      {
+        this.$.newpopup3.toggle();
+      }   
+    
+    });
+  })();
+  </script>
+</dom-module>

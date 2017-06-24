@@ -1,0 +1,106 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../submit-demo-card/submit-demo-card.html">
+<link rel="import" href="../update-demo-card/update-demo-card.html">
+
+
+<dom-module id="category-display-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+      .card
+      {
+        /*margin-top: 4%;*/
+        @apply(--layout-center);
+        @apply(--layout-horizontal);
+        border-bottom: 1px solid #dedede;
+        width: 200%;
+      }
+       paper-item,paper-input
+       {
+        width:45%;
+        margin-left: -1%;   
+      }
+      paper-icon-button
+      {  
+        width:5%;   
+      }
+      .itemcard
+      {
+        @apply(--layout-horizontal); 
+      }
+      paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+
+    </style>
+
+    <div class='itemcard'>
+            <paper-item hidden$="{{categoryid}}"></paper-item>
+            <paper-item hidden$="{{hidecategoryitem}}">{{categoryname}}</paper-item>
+            <paper-input value="{{categoryname}}" hidden$="{{hidecategoryinput}}"></paper-input>
+            <paper-icon-button id="btn1" icon='create' on-click='FnEdit' hidden$="{{hidecategoryitem}}"></paper-icon-button>
+            <paper-tooltip for="btn1">Edit</paper-tooltip>
+            <paper-icon-button id="btn2" icon='save' on-click='FnSave' hidden$="{{hidecategoryinput}}"></paper-icon-button>
+            <paper-tooltip for="btn2">Save</paper-tooltip>
+            <paper-icon-button id="btn3" icon='close' on-click='FnDelete'></paper-icon-button>
+            <paper-tooltip for="btn3">Delete</paper-tooltip>
+
+    </div>
+    <master-ui-service id="catservice"></master-ui-service>
+  </template>
+
+  <script>
+
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'category-display-card',  
+
+      ready:function()
+      {
+        //alert("test");      
+        this.hidecategoryinput=true;     
+        this.hidecategoryitem=false;
+      },
+      FnDelete:function()
+      {
+       this.$.catservice.FnDeleteCategoryname(this.categoryid);
+       document.querySelector('category-card').f12p();
+      },
+      
+      FnEdit:function()
+      {
+        localStorage.setItem('curr_sess_oldcategoryid',this.categoryid);
+        this.hidecategoryinput=false;
+        this.hidecategoryitem=true;
+      },
+      FnSave:function()
+      {
+        //alert("testtttt");
+        var categoryname=this.toTitleCase(this.categoryname);
+        var categoryid=(categoryname.toLowerCase()).replace(' ','');
+        //alert(categoryname+"  "+categoryid);
+        this.$.catservice.FnUpdateCategoryname(this.categorytype,categoryid,categoryname);
+        document.querySelector('category-card').upfunct();
+        this.hidecategoryinput=true;
+        this.hidecategoryitem=false;
+      },
+      toTitleCase:function(str)
+      {
+         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
+      
+    });
+  })();
+  </script>
+</dom-module>
+

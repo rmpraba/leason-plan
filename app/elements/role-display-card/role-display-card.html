@@ -1,0 +1,115 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../submit-demo-card/submit-demo-card.html">
+<link rel="import" href="../update-demo-card/update-demo-card.html">
+
+<dom-module id="role-display-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+      .card
+      {
+        @apply(--layout-center); 
+        @apply(--layout-horizontal);    
+        border-bottom: 1px solid #dedede;
+        width: 210%;
+      }
+       paper-item
+      {
+        width:36%;
+        margin-left: -7%;
+      }
+      paper-input
+      {
+        width: 55%;
+      }
+      paper-icon-button
+      {
+        width:5%;
+      }
+      .itemcard
+      {
+      @apply(--layout-horizontal); 
+      }
+
+      paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+
+    </style>
+
+    <div class='itemcard'>
+          <paper-item hidden$"{{roleid}}"></paper-item>
+          <paper-item hidden$="{{hiderolenameitem}}">{{rolename}}</paper-item>
+          <paper-input value="{{rolename}}" hidden$="{{hiderolenameinput}}"></paper-input>
+          <paper-icon-button  id="btn1" icon='create' on-click='FnEdit' hidden$="{{hiderolenameitem}}"></paper-icon-button>
+          <paper-tooltip for="btn1">Edit</paper-tooltip>
+          <paper-icon-button id="btn2" icon='save' on-click='FnSave' hidden$="{{hiderolenameinput}}"></paper-icon-button>
+          <paper-tooltip for="btn2">Save</paper-tooltip>
+          <paper-icon-button id="btn3" icon='close' on-click='FnDelete'></paper-icon-button>
+          <paper-tooltip for="btn3">Delete</paper-tooltip>
+
+    </div>
+        <master-ui-service id="service"></master-ui-service>
+  </template>
+
+
+  <script>
+    (function() {
+    'use strict';   
+
+      Polymer({
+      is: 'role-display-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'role-display-card',
+          notify: true
+        }
+      },
+      ready:function()
+      {
+        // alert('coming!');
+        this.hiderolenameinput=true;
+        this.hiderolenameitem=false;
+      },
+      FnDelete:function()
+
+      {
+          this.$.service.FnDeleteRole(this.roleid);
+          document.querySelector('role-card').fundelt();
+      },
+     
+      FnEdit:function()
+      {
+        localStorage.setItem('curr_sess_oldroleid',this.roleid);
+        this.hiderolenameinput=false;
+        this.hiderolenameitem=true;
+      },
+      FnSave:function()
+      {
+        var rolename=this.toTitleCase(this.rolename);
+        var roleid=(rolename.toLowerCase()).replace(' ','');
+        //alert(rolename+"  "+roleid);
+        this.$.service.FnUpdateRole(rolename,roleid);
+        document.querySelector('role-card').funnupdate();
+        this.hiderolenameinput=true;
+        this.hiderolenameitem=false;
+      },
+    toTitleCase:function(str)
+    {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+     
+    });
+  })();
+  </script>
+</dom-module>

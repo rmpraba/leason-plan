@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="studentsectionwise-report">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+       /*table   
+       {
+        border-collapse: collapse;
+        margin-top: 7%;
+        margin-left: 19%;
+        width: 60%;
+      }*/
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 5px;
+         padding-left: 17px;
+     }
+
+
+    </style>
+    <paper-input hidden>{{gradeidz}}</paper-input>
+     <paper-checkbox  on-change="fnsetsection" id="{{classname}}">{{sectionnames}}</paper-checkbox>
+     <iron-ajax
+        method="post"
+        id="allsections1ajax"
+        url="{{allsections1url}}"
+        params="{{allsections1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="allsections1Response"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var spsectionarr=[];
+    Polymer({
+      is: 'studentsectionwise-report',
+
+      Fnrefresh:function()
+      {
+        if(spsectionarr!=0)
+        {
+          for(var i=0;i<spsectionarr.length;i++)
+          {
+            var spsec1=spsectionarr[i].classname;
+            document.querySelector('#'+spsec1).checked=false;
+            spsectionarr.splice(i,1);
+          }
+        }
+      },
+    fnsetsection:function(e)
+    {
+  
+      if(document.querySelector('#'+this.classname).checked==true){
+        this.allsections1url=sessionStorage.getItem("addrinfo")+"/selectallsection1-service";
+        var obj={"schlid1":"","gradeid":"","academic_year":"","classname":""}
+        obj.schlid1=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.gradeid=this.gradeidz;
+        obj.classname=this.classname;
+          spsectionarr.push(obj);
+        this.allsections1param=obj;
+        this.$.allsections1ajax.generateRequest();
+     }   
+
+           for(var i=0;i<spsectionarr.length;i++)
+           {
+              if(spsectionarr[i].classname!=this.classname)
+              {
+                var zcacsdc=spsectionarr[i].classname;
+                document.querySelector('#'+zcacsdc).checked=false;
+                spsectionarr.splice(i,1);
+ 
+              }
+           }
+
+    
+    document.querySelector('student-to-section-report').fnhide();
+},
+allsections1Response:function(e){
+  var res=e.detail.response.returnval;
+  var newtemparr=[];
+    for(var i=0;i<res.length;i++)
+    {
+      var obj={"id":"","student_name":"","grade_name":"","section":"","squence":"","admission_status":""}
+          obj.id=res[i].id;
+          obj.student_name=res[i].student_name;
+          obj.grade_name=res[i].grade_name;
+          obj.section=res[i].section;
+          obj.admission_status=res[i].admission_status;
+            var a=i+1;
+          obj.squence=a;    
+           newtemparr.push(obj);
+          //alert(JSON.stringify(obj));
+      }
+      //alert(JSON.stringify(newtemparr));
+     document.querySelector('student-to-section-report').studentreportarr=newtemparr;
+     
+       
+}
+       
+    });
+  })();
+  </script>
+</dom-module>

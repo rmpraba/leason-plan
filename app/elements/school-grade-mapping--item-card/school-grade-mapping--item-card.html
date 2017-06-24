@@ -1,0 +1,89 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="school-grade-mapping--item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .innercard{
+        @apply(--layout-vertical);
+           border-bottom: 1px solid #dedede;
+         }
+    </style>
+    <span style="width:50px !important;">
+    <!-- <div hidden>{{schooltypeid}}</div>
+     <div hidden>{{schooltypename}}</div>
+     --> <div hidden>{{schooltype}}</div>
+    <paper-checkbox on-change="fngradechage" id="{{gradeid}}" checked="{{check}}">{{gradename}}</paper-checkbox> 
+
+   </span>
+  </template>
+  <script>      
+  (function() {
+    'use strict';
+   var gradearrs=[];
+   var delgradearrs=[];
+   var m;
+
+     //gradearr=[];     
+         Polymer({   
+      is: 'school-grade-mapping--item-card',
+     fngradechage:function(e){
+         m=this.gradeid;
+          if(document.querySelector('#'+m).checked==true){
+              var obj={"schooltype":"","gradename":"","gradeid":""};
+              obj.gradeid=this.gradeid;
+              obj.gradename=this.gradename;
+              obj.schooltype=this.schooltype;
+              gradearrs.push(obj);
+           document.querySelector('master-school-type-creation-item-card').fnsetgrade(gradearrs);
+        }
+        else if(document.querySelector('#'+m).checked==false){
+              var obj={"schooltype":"","gradename":"","gradeid":""};
+              obj.gradeid=this.gradeid;
+              obj.gradename=this.gradename;
+              obj.schooltype=this.schooltype;
+              delgradearrs.push(obj);
+           document.querySelector('master-school-type-creation-item-card').fnsetgrade1(delgradearrs);
+        }
+     
+     },
+     clear:function(){
+           var obj={"schooltype":"","gradename":"","gradeid":""};
+              obj.gradeid=this.gradeid;
+              obj.gradename=this.gradename;
+              obj.schooltype=this.schooltype;
+              delgradearrs.splice(obj);
+              gradearrs.splice(obj);
+       
+      },
+
+      fnnewsubmit:function()
+      {
+        //alert(111);
+        if(document.querySelector('#'+m).checked==true)
+        {
+          alert("Inserted");
+         }
+        else if(document.querySelector('#'+m).checked==false)
+        {
+          alert("Deleted");
+        }
+      }
+
+
+       });
+  })();
+  </script>
+</dom-module>

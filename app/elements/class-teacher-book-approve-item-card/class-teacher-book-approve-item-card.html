@@ -1,0 +1,165 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="class-teacher-book-approve-item-card">
+  <template>
+    <style>
+     
+        :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td{
+        width: 41%;        
+      } 
+      .card{
+        @apply(--layout-horizontal);
+      } 
+        p{
+        width: 25%;
+        margin-left: 10%;
+      } 
+      paper-button{
+        text-transform: none;
+        height: 25px;
+      } 
+
+    </style>
+    <div> 
+    <div class='card'>
+      <!-- <table border="1"> -->
+        <!-- <tr id="tb1"> -->
+        <!-- <p>{{sno}}</p> -->
+        <p hidden>{{sectionid}}</p>        
+        <p>{{empid}}</p>
+        <p>{{empname}}</p>        
+        <p><paper-button  id="tb3" on-click="FnView">View</paper-button></p>
+   
+    </div>
+    </div>
+      <iron-ajax
+        method="post"
+        id="fngetservifsddddsfdajax"
+        url="{{fngetservifsddddsfdurl}}"
+        params="{{fngetservifsddddsfdparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetservifsddddsfdResponse"
+        debounce-duration="300">
+    </iron-ajax> 
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({   
+      is: 'class-teacher-book-approve-item-card',
+ FnView:function(e){
+  //alert("1");
+    document.querySelector('app-card').setPage('homepage','');
+   document.querySelector('home-page').setPage('class-teacher-book-approve-pdf-card','');
+
+this.fngetservifsddddsfdurl=sessionStorage.getItem("addrinfo")+"/fngetclassbookpdf-service";
+  var obj={"emp_id":"","schoolid":"","academic_year":"","grade_id":"","subject_id":"","section_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.grade_id=sessionStorage.getItem("grdeidz");
+           obj.subject_id=sessionStorage.getItem("subjectidz");
+           obj.section_id=this.sectionid;
+           obj.emp_id=this.empid;
+           this.fngetservifsddddsfdparam=obj;
+          // alert(JSON.stringify(obj));
+           this.$.fngetservifsddddsfdajax.generateRequest();
+       
+},
+ fngetservifsddddsfdResponse:function(e){
+    //alert("1");
+ var res=e.detail.response.skillarr;
+ var res1=e.detail.response.valuearr;
+    //alert(JSON.stringify(res));
+    //alert(JSON.stringify(res1));
+ //   finalarr
+var adcarr=[];
+
+  for(var i=0;i<res.length;i++){
+     for( var j=0;j<res1.length;j++){
+           if(res[i].capterid==res1[j].capterid){
+               if(res[i].consid==res1[j].consid){
+                  var  obj={};
+                     obj.chaptername=res[i].chaptername;
+                     obj.conceptname=res[i].conceptname;
+                     obj.innovation=res[i].innovation;
+                     obj.skill=res[i].skill;
+                     obj.value_id=res1[j].value_id;
+                     obj.value_name=res1[j].value_name;
+                     obj.capterid=res1[j].capterid;
+                     obj.consid=res1[j].consid;
+                  
+                     adcarr.push(obj);
+                 }}
+
+     }
+  }
+
+                 // alert(JSON.stringify(generatearr));
+        var a=[];
+        var overall=[];
+       for(var k=0;k<adcarr.length;k++)
+       {       
+         var nameobj={"chaptername":"","conceptname":""};
+         nameobj.chaptername=adcarr[k].chaptername; 
+         nameobj.conceptname=adcarr[k].conceptname; 
+         nameobj.skill=adcarr[k].skill; 
+         nameobj.innovation=adcarr[k].innovation; 
+         nameobj.capterid=adcarr[k].capterid; 
+         nameobj.consid=adcarr[k].consid; 
+       
+         var obj={"value_id":"","value_name":""};
+
+        obj.value_id=adcarr[k].value_id;
+        obj.value_name=adcarr[k].value_name;
+        a.push(obj);
+        for(var l=k+1;l<adcarr.length;l++)
+        {
+           if(adcarr[k].consid==adcarr[l].consid)
+           {
+               if(adcarr[k].capterid==adcarr[l].capterid)
+           {
+        
+             var obj1={"value_id":"","value_name":""}
+             //obj1.Grade_name=generatearr[l].gradename;
+             obj1.value_id=adcarr[l].value_id;
+             obj1.value_name=adcarr[l].value_name;
+           
+             //alert('1');
+             //alert(JSON.stringify(obj1));
+             a.push(obj1);
+             //alert(JSON.stringify(a));
+             adcarr.splice(l,1);
+             l--;
+           // alert(JSON.stringify(generatearr));
+         }
+         }}
+            nameobj.valuearrr=a;
+            overall.push(nameobj);
+          
+        // alert(JSON.stringify(overall));
+           a=[];
+       }
+ // alert(JSON.stringify(overall));
+
+  document.querySelector('class-teacher-book-approve-pdf-card').finalarr=overall;
+  
+     },
+     dssca:function(e){
+
+     }
+
+    });
+  })();
+  </script>
+</dom-module>

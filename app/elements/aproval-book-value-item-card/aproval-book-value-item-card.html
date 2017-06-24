@@ -1,0 +1,65 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="aproval-book-value-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>
+        <paper-input value="{{conceptid}}" hidden></paper-input>
+        <paper-icon-button  icon="create" style="color:#ff1493" on-click="fnsetz"></paper-icon-button>
+
+    <iron-ajax
+        method="post"
+        id="skillgetcapturevalueajax"
+        url="{{skillgetcapturevalueurl}}"
+        params="{{skillgetcapturevalueparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="skillgetcapturevalueResponse"
+        debounce-duration="300">
+    </iron-ajax> 
+
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'aproval-book-value-item-card',
+
+fnsetz:function(e){
+     localStorage.setItem("curr_sess_conceptid",this.conceptid);
+       document.querySelector('teacher-book-chapter-refernce-card').conceptnamez=this.conceptname;
+     document.querySelector('teacher-book-chapter-refernce-card').conceptdatez=this.conceptdate;
+    
+   // alert(localStorage.getItem("curr_sess_conceptid"));
+      document.querySelector('teacher-book-chapter-refernce-card').FnEdit();
+      
+   },
+
+fngetskill1:function(e){
+         this.skillgetcapturevalueurl=sessionStorage.getItem("addrinfo")+"/skillgetcapturevalue-service";
+          var obj={"concept_id":""};
+             obj.concept_id=this.conceptid;
+         this.skillgetcapturevalueparam=obj;
+             // alert(JSON.stringify(obj));
+
+     this.$.skillgetcapturevalueajax.generateRequest();
+   // skillgetcapturevalue(this.conceptid)
+    },
+  
+  skillgetcapturevalueResponse:function(e){ 
+     var res=e.detail.response.returnval;
+            //alert(JSON.stringify(res));
+           // this.skillarr=res;
+     document.querySelector('teacher-book-refernce-card').skillarr=res;
+   
+     },
+      });
+  })();
+  </script>
+</dom-module>

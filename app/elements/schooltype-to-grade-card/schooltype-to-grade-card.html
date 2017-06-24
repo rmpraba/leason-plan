@@ -1,0 +1,97 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="schooltype-to-grade-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+      .card
+      {
+        @apply(--layout-horizontal);
+           border-bottom: 1px solid #dedede;
+      }
+      .innercard{
+
+      @apply(--layout-vertical);
+      }  
+    .creatediv
+       {
+        border-radius: 10px;
+          border: 1px solid #6699ff;
+          padding: 15px; 
+          width: 30%;
+          margin-top:5%;  
+          max-height: 400px;
+          /*height: 150px; */
+          margin-left:37%
+       }
+    </style>
+      <div class="title">
+         <h3><CENTER><b>School Type To Grade</b></CENTER></h3>        
+      </div>
+      <div class="creatediv">
+       <paper-dropdown-menu  label="Select School">
+                <paper-menu id="empgradeid" class="dropdown-content"  on-iron-select="fnselectgrade">
+                  <template is="dom-repeat" items="{{schoolarr}}">
+                    <paper-item value="{{item.id}}">{{item.name}}</paper-item>
+                  </template>    
+                </paper-menu>
+        </paper-dropdown-menu>
+          <paper-dropdown-menu id="term" label="Select Acadamic year">
+         <paper-menu id="academicyrr" class="dropdown-content"   on-iron-select="fnacadamic" attr-for-selected="value" required>
+                <paper-item value="2016-2017">2016-2017</paper-item>
+                <paper-item value="2017-2018">2017-2018</paper-item>
+                <paper-item value="2018-2019">2018-2019</paper-item>
+                <paper-item value="2019-2020">2019-2020</paper-item>
+            </paper-menu>
+          </paper-dropdown-menu>
+           
+     
+         <div id="schltype1">
+         <h4>Select School Type</h4>
+           <template is="dom-repeat" items="{{selectschooltypearr}}" as="view">
+              <master-school-type-creation-item-card id="EO1{{view.school_type_id}}"
+                schooltypeidzzzz="{{view.school_type_id}}" schoolid="{{schoolid}}" acadamicyear="{{acadamicyear}}" schooltypename="{{view.school_type_name}}"></master-school-type-creation-item-card>
+             </template>
+         </div>    
+       </div>
+
+        
+  <master-ui-service id="subservice"></master-ui-service>
+  </template>
+  <script>
+  (function() 
+  {
+    'use strict';   
+     var getarr=[];   
+    Polymer({
+      is: 'schooltype-to-grade-card',
+      fnschoolgrade:function()
+      {
+        this.$.schltype1.hidden=true;
+        
+      },
+      Fnnrefresh:function()
+      {
+          document.querySelector('#empgradeid').selected=-1;
+          document.querySelector('#academicyrr').selected=-1;
+      },
+
+    fnselectgrade:function(e){
+            this.schoolid=e.target.selectedItem.value;
+            this.$.subservice.selectschooltype1(this.schoolid);
+       
+     },
+     fnacadamic:function(e)
+     {
+         this.acadamicyear=e.target.selectedItem.textContent.trim();
+        this.$.schltype1.hidden=false;
+     },
+
+      });
+  })();
+  </script>
+</dom-module>

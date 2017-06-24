@@ -1,0 +1,87 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../beginner-assesment-service/beginner-assesment-service.html">
+<dom-module id="beginner-assesment-lang-markentrysheet-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+      #tb1{
+        width:25%
+      }
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td id="tb1"><paper-item>{{serialno}}</paper-item></td>
+        <td id="tb1"><paper-item>{{studname}}</paper-item></td>
+        <td id="tb1"><paper-input  value="{{score}}" on-change="FnActivity"></paper-input></td>   
+        <td id="tb1"><paper-item>{{grade}}</paper-item></td>
+        </tr>
+        </table>
+    </div>
+    <beginner-assesment-service id="bassesmentservice"></beginner-assesment-service>
+    <iron-ajax        
+        method="post"
+        id="fetchgradeajax"
+        url="{{fetchgradeurl}}"
+        params="{{fetchgradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    Polymer({
+      is: 'beginner-assesment-lang-markentrysheet-itemcard',
+      ready:function(){
+      },
+      FnActivity:function(e){      
+        this.mark=this.score; 
+        this.callFetchGrade();        
+      },
+      callService:function(){           
+        this.$.bassesmentservice.callbamarkinsertService(this.studid,"Activity",this.score,(parseInt(this.score)*4),this.grade); 
+      },
+      callFetchGrade:function(){
+        this.fetchgradeurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradeajax.generateRequest(); 
+      },
+      fetchgradeResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.FnFindGrade((parseInt(this.score)*4)/10);   
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            this.grade=grade[i];
+          }
+        }
+        this.callService();
+      }   
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,103 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../submit-demo-card/submit-demo-card.html">
+<link rel="import" href="../update-demo-card/update-demo-card.html">
+
+<dom-module id="subject-display-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }   
+      .card
+      {
+        /*margin-top: 4%;*/
+        @apply(--layout-center);
+        @apply(--layout-horizontal);     
+        border-bottom: 1px solid #dedede;
+        width: 200%;
+      }
+      paper-item,paper-input
+      {
+        width:40%;
+      }
+      paper-icon-button
+      {
+        width:5%;
+      }
+      .itemcard  
+      {
+      @apply(--layout-horizontal); 
+      }
+
+       paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+
+    </style>    
+
+
+    <div class='itemcard'>
+          <paper-item hidden$="{{subjectid}}"></paper-item>   
+          <paper-item hidden$="{{hidesubjectitem}}">{{subjectname}}</paper-item>
+          <paper-input value="{{subjectname}}" hidden$="{{hidesubjectinput}}"></paper-input>
+          <paper-item style="margin-left: -7em">{{subjectcategory}}</paper-item>
+          <paper-icon-button id="btn1" icon='create' on-click='FnEdit' hidden$="{{hidesubjectitem}}"></paper-icon-button>
+          <paper-tooltip for="btn1">Edit</paper-tooltip>
+          <paper-icon-button id="btn2" icon='save' on-click='FnSave' hidden$="{{hidesubjectinput}}"></paper-icon-button>
+          <paper-tooltip for="btn2">Save</paper-tooltip>
+          <paper-icon-button id="btn3" icon='close' on-click='FnDelete'></paper-icon-button>
+          <paper-tooltip for="btn3">Delete</paper-tooltip>
+    </div>
+
+    <master-ui-service id="service"></master-ui-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'subject-display-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'subject-display-card',
+          notify: true
+        }
+      },
+      ready:function()
+      {
+        
+        this.hidesubjectinput=true;     
+        this.hidesubjectitem=false;
+      },
+      FnDelete:function()
+      {
+          this.$.service.FnDeleteSubjectname(this.subjectid);
+          document.querySelector('subject-card').fundeltt(); 
+      },
+          
+      FnEdit:function()
+      {
+        this.hidesubjectinput=false;
+        this.hidesubjectitem=true;
+      },
+      FnSave:function()
+      {
+        this.$.service.FnUpdateSubjectname(this.subjectid,this.subjectname,this.subjectcategory);
+          document.querySelector('subject-card').funupdatee(); 
+        this.hidesubjectinput=true;
+        this.hidesubjectitem=false;
+      }
+     
+    });
+  })();
+  </script>
+</dom-module>

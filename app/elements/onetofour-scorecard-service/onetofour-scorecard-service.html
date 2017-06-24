@@ -1,0 +1,1473 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="onetofour-scorecard-service">
+  <template>
+    <iron-ajax
+        method="post"
+        id="fetchsubjectnameajax"
+        url="{{fetchsubjectnameurl}}"
+        params="{{fetchsubjectnameparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchsubjectnameResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchstudinfoajax"
+        url="{{fetchstudinfourl}}"
+        params="{{fetchstudinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchstudinfoResponse"
+        debounce-duration="300"
+    >        
+    <iron-ajax        
+        method="post"
+        id="fetchhealthattendanceinfoajax"
+        url="{{fetchhealthattendanceinfourl}}"
+        params="{{fetchhealthattendanceinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchhealthattendanceinfoResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax        
+        method="post"
+        id="fetchscholasticmarkajax"
+        url="{{fetchscholasticmarkurl}}"
+        params="{{fetchscholasticmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchscholasticmarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax        
+        method="post"
+        id="fetchcoscholasticmarkajax"
+        url="{{fetchcoscholasticmarkurl}}"
+        params="{{fetchcoscholasticmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchcoscholasticmarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchcocurricularmarkajax"
+        url="{{fetchcocurricularmarkurl}}"
+        params="{{fetchcocurricularmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchcocurricularmarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="mailreportcardajax"
+        url="{{mailreportcardurl}}"
+        params="{{mailreportcardparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="mailreportcardResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="sendmailajax"
+        url="{{sendmailurl}}"
+        params="{{sendmailparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="sendmailResponse"
+        debounce-duration="300"
+    >
+    
+     <iron-ajax
+        method="post"
+        id="fetchoveralltermwisegradeajax"
+        url="{{fetchoveralltermwisegradeurl}}"
+        params="{{fetchoveralltermwisegradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchoveralltermwisegradeResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchhealthinfoajax"
+        url="{{fetchhealthinfourl}}"
+        params="{{fetchhealthinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="healthinfoResponse"
+        debounce-duration="300"
+    >
+
+    <iron-ajax
+        method="post"
+        id="fetchfahealthinfoajax"
+        url="{{fetchfahealthinfourl}}"
+        params="{{fetchfahealthinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="healthfainfoResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchartinfoajax"
+        url="{{fetchartinfourl}}"
+        params="{{fetchartinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="artinfoResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchphysicalinfoajax"
+        url="{{fetchphysicalinfourl}}"
+        params="{{fetchphysicalinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="physicalinfoResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchgradeseperationajax"
+        url="{{fetchgradeseperationurl}}"
+        params="{{fetchgradeseperationparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeseperationResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var subjectarr;
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    var scholasticarr;
+    var coscholasticarr;
+    var cocurriculararr; 
+    // var markarr=[]; 
+    Polymer({
+      is: 'onetofour-scorecard-service',
+      ready:function(){        
+      },      
+      callFetchstudentinfoService:function(studid){
+        this.fetchstudinfourl=sessionStorage.getItem("addrinfo")+"/fetchstudinfo-service";
+        var obj={"schoolid":"","studid":"","grade":"","section":""};
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.studid=studid;
+        this.fetchstudinfoparam=obj;
+        this.$.fetchstudinfoajax.generateRequest();
+      },
+      fetchstudinfoResponse:function(e){        
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));       
+        if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){          
+        document.querySelector('cce-onetofour-score-card').enrno=arr[0].student_id;
+        document.querySelector('cce-onetofour-score-card').studentname=arr[0].student_name;        
+        document.querySelector('cce-onetofour-score-card').parentname=arr[0].parent_name;
+        document.querySelector('cce-onetofour-score-card').parentemail=arr[0].email;
+        document.querySelector('cce-onetofour-score-card').secemail=arr[0].alternate_mail;
+        }
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport"){
+        document.querySelector('comparisonreport-card').enrno=arr[0].student_id;
+        document.querySelector('comparisonreport-card').studentname=arr[0].student_name;        
+        document.querySelector('comparisonreport-card').parentname=arr[0].parent_name;
+        document.querySelector('comparisonreport-card').parentemail=arr[0].email;
+        }
+        }
+      },
+      callfetchhealthattendanceinfoService:function(studid){
+        this.fetchhealthattendanceinfourl=sessionStorage.getItem("addrinfo")+"/fetchhealthattendanceinfo-service";
+        var obj={"schoolid":"","studid":"","academicyear":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.studid=studid;
+        this.fetchhealthattendanceinfoparam=obj;
+        this.$.fetchhealthattendanceinfoajax.generateRequest();
+      },
+      fetchhealthattendanceinfoResponse:function(e){        
+        var arr=e.detail.response.returnval;  
+        // alert(JSON.stringify(arr));
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){          
+        if(arr.length==1||arr.length==2||arr.length==3){
+        document.querySelector('cce-onetofour-score-card').adterm1=arr[0].attendance;
+        document.querySelector('cce-onetofour-score-card').wdterm1=arr[0].working_days;
+        document.querySelector('cce-onetofour-score-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-onetofour-score-card').t1height=arr[0].height+" cm";
+        document.querySelector('cce-onetofour-score-card').t1weight=arr[0].weight+" Kg";  
+        document.querySelector('cce-onetofour-score-card').generalfeedback=arr[0].generic; 
+        document.querySelector('cce-onetofour-score-card').specificfeedback=arr[0].speccomment; 
+        document.querySelector('cce-fivetoten-score-card').term1attendance=arr[0].attendance;
+        document.querySelector('cce-fivetoten-score-card').term1wday=arr[0].working_days;
+        // document.querySelector('cce-fivetoten-score-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-fivetoten-score-card').height=arr[0].height+" cm";
+        document.querySelector('cce-fivetoten-score-card').weight=arr[0].weight+" Kg"; 
+
+        document.querySelector('fivetotencomparisonreport-card').term1attendance=arr[0].attendance;
+        document.querySelector('fivetotencomparisonreport-card').term1wday=arr[0].working_days;
+        // document.querySelector('cce-fivetoten-score-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('fivetotencomparisonreport-card').height=arr[0].height+" cm";
+        document.querySelector('fivetotencomparisonreport-card').weight=arr[0].weight+" Kg";   
+        document.querySelector('cce-fivetoten-score-card').term2attendance=arr[1].attendance;
+        document.querySelector('cce-fivetoten-score-card').term2wday=arr[1].working_days;
+        // document.querySelector('cce-fivetoten-score-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-fivetoten-score-card').height=arr[1].height+" cm";
+        document.querySelector('cce-fivetoten-score-card').weight=arr[1].weight+" Kg";   
+        document.querySelector('fivetotencomparisonreport-card').term1attendance=arr[1].attendance;
+        document.querySelector('fivetotencomparisonreport-card').term1wday=arr[1].working_days;
+        // document.querySelector('cce-fivetoten-score-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('fivetotencomparisonreport-card').height=arr[1].height+" cm";
+        document.querySelector('fivetotencomparisonreport-card').weight=arr[1].weight+" Kg";
+        }
+        if(arr.length==2){
+        document.querySelector('cce-onetofour-score-card').adterm2=arr[1].attendance;
+        document.querySelector('cce-onetofour-score-card').wdterm2=arr[1].working_days;
+        document.querySelector('cce-onetofour-score-card').pterm2=parseFloat((arr[1].attendance/arr[1].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-onetofour-score-card').t2height=arr[1].height+" cm";
+        document.querySelector('cce-onetofour-score-card').t2weight=arr[1].weight+" Kg";
+        document.querySelector('cce-onetofour-score-card').generalfeedback=arr[1].generic; 
+        document.querySelector('cce-onetofour-score-card').specificfeedback=arr[1].speccomment;  
+        }
+        if(arr.length==3){
+        document.querySelector('cce-onetofour-score-card').adterm2=arr[1].attendance;
+        document.querySelector('cce-onetofour-score-card').wdterm2=arr[1].working_days;
+        document.querySelector('cce-onetofour-score-card').pterm2=parseFloat((arr[1].attendance/arr[1].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-onetofour-score-card').t2height=arr[1].height+" cm";
+        document.querySelector('cce-onetofour-score-card').t2weight=arr[1].weight+" Kg";
+        document.querySelector('cce-onetofour-score-card').adterm3=arr[2].attendance; 
+        document.querySelector('cce-onetofour-score-card').wdterm3=arr[2].working_days;
+        document.querySelector('cce-onetofour-score-card').pterm3=parseFloat((arr[2].attendance/arr[2].working_days)*100).toFixed(2)+"%";
+        document.querySelector('cce-onetofour-score-card').t3height=arr[2].height+" cm";
+        document.querySelector('cce-onetofour-score-card').t3weight=arr[2].weight+" Kg";
+        document.querySelector('cce-onetofour-score-card').generalfeedback=arr[2].generic; 
+        document.querySelector('cce-onetofour-score-card').specificfeedback=arr[2].speccomment;  
+        }
+        }
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport"){          
+        if(arr.length==1||arr.length==2||arr.length==3){
+        document.querySelector('comparisonreport-card').adterm1=arr[0].attendance;
+        document.querySelector('comparisonreport-card').wdterm1=arr[0].working_days;
+        document.querySelector('comparisonreport-card').pterm1=parseFloat((arr[0].attendance/arr[0].working_days)*100).toFixed(2)+"%";
+        document.querySelector('comparisonreport-card').t1height=arr[0].height+" cm";
+        document.querySelector('comparisonreport-card').t1weight=arr[0].weight+" Kg"; 
+        document.querySelector('comparisonreport-card').generalfeedback=arr[0].generic; 
+        document.querySelector('comparisonreport-card').specificfeedback=arr[0].speccomment;         
+        }
+        if(arr.length==2){
+        document.querySelector('comparisonreport-card').adterm2=arr[1].attendance;
+        document.querySelector('comparisonreport-card').wdterm2=arr[1].working_days;
+        document.querySelector('comparisonreport-card').pterm1=parseFloat((arr[1].attendance/arr[1].working_days)*100).toFixed(2)+"%";
+        document.querySelector('comparisonreport-card').t2height=arr[1].height+" cm";
+        document.querySelector('comparisonreport-card').t2weight=arr[1].weight+" Kg";
+        document.querySelector('comparisonreport-card').generalfeedback=arr[1].generic; 
+        document.querySelector('comparisonreport-card').specificfeedback=arr[1].speccomment;  
+        }
+        if(arr.length==3){
+        document.querySelector('comparisonreport-card').adterm3=arr[2].attendance; 
+        document.querySelector('comparisonreport-card').wdterm3=arr[2].working_days;
+        document.querySelector('comparisonreport-card').pterm1=parseFloat((arr[2].attendance/arr[2].working_days)*100).toFixed(2)+"%";
+        document.querySelector('comparisonreport-card').t3height=arr[2].height+" cm";
+        document.querySelector('comparisonreport-card').t3weight=arr[2].weight+" Kg";
+        document.querySelector('comparisonreport-card').generalfeedback=arr[2].generic; 
+        document.querySelector('comparisonreport-card').specificfeedback=arr[2].speccomment;  
+        }
+        }
+        /*document.querySelector('cce-onetofour-score-card').height=arr[0].height;
+        document.querySelector('cce-onetofour-score-card').width=arr[0].width;
+        document.querySelector('cce-onetofour-score-card').bloodgroup=arr[0].blood_group;
+        document.querySelector('cce-onetofour-score-card').leftvision=arr[0].left_vision;
+        document.querySelector('cce-onetofour-score-card').rightvision=arr[0].right_vision;
+        document.querySelector('cce-onetofour-score-card').dental=arr[0].dental;*/
+      },
+      callFetchsubjectinfoService:function(studid){
+        this.fetchsubjectnameurl=sessionStorage.getItem("addrinfo")+"/fetchsubjectname-service";
+        var obj={"schoolid":"","studid":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.studid=studid;
+        this.fetchsubjectnameparam=obj;
+        this.$.fetchsubjectnameajax.generateRequest();
+      },
+      fetchsubjectnameResponse:function(e){        
+        subjectarr=e.detail.response.returnval;       
+      },
+      callfetchscholasticmarkService:function(studid){
+        this.fetchscholasticmarkurl=sessionStorage.getItem("addrinfo")+"/fetchscholasticmark-service";
+        var obj={"schoolid":"","studid":"","academicyear":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.studid=studid;
+        this.fetchscholasticmarkparam=obj;
+        this.$.fetchscholasticmarkajax.generateRequest(); 
+      },
+      fetchscholasticmarkResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+        var engarr=[];
+        var matharr=[];
+        var evsarr=[];
+        var hinarr=[];
+        var comarr=[];
+        var gkarr=[];
+        var acarr=[];
+        var mdarr=[];
+        var gamearr=[];
+        var parr=[];
+        var dancearr=[];
+        var engsubarr=[];
+        scholasticarr=e.detail.response.returnval;
+        // var engobj={"catcheck":"","subject":"","category":"","t1grade":"","t2grade":"","t3grade":"","comment":""};
+        for(var i=0;i<scholasticarr.length;i++){
+          // alert(scholasticarr[i].subject_name);
+          var obj={"catcheck":"","subject":"","category":"","t1grade":"","t2grade":"","t3grade":"","comment":""};          
+          if(scholasticarr[i].subject_name=="English"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            // alert((localStorage.getItem("curr_sess_termname")).toUpperCase()+"   "+(scholasticarr[i].term_name).toUpperCase());
+            // if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            obj.comment=scholasticarr[i].description;
+            // }
+            if(scholasticarr[i].term_name=="term1"){
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            // alert("Term1: "+obj.t1grade);
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            // alert("Term2: "+obj.t1grade);
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            obj.t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if(engarr.length==0)
+            engarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<engarr.length;j++)
+            {            
+            // alert(engarr[j].category+"   "+scholasticarr[i].category);
+            if(engarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            // alert('yes');
+            if(scholasticarr[i].term_name=="term1"){
+            engarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            // alert("Term1: "+obj.t1grade);
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            engarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            // alert("Term2: "+obj.t1grade);
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            engarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            engarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            // alert(JSON.stringify(obj));
+            engarr.push(obj);  
+            }
+            }
+            // alert(JSON.stringify(engarr));
+          }
+          if(scholasticarr[i].subject_name=="Mathematics"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // matharr.push(obj);
+            if(matharr.length==0)
+            matharr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<matharr.length;j++)
+            {            
+            if(matharr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            matharr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            matharr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            matharr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            matharr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            matharr.push(obj);  
+            }
+            }
+          }
+          if(scholasticarr[i].subject_name=="EVS"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // evsarr.push(obj);
+            if(evsarr.length==0)
+            evsarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<evsarr.length;j++)
+            {            
+            if(evsarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            evsarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            evsarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            evsarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            evsarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            evsarr.push(obj);  
+            }
+            }
+          }
+          if((scholasticarr[i].subject_name).trim()=="Hindi"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // hinarr.push(obj);
+            if(hinarr.length==0)
+            hinarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<hinarr.length;j++)
+            {            
+            if(hinarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            hinarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            hinarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            hinarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            hinarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            hinarr.push(obj);  
+            }
+            }
+          }
+           if((scholasticarr[i].subject_name).trim()=="Kannada"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // hinarr.push(obj);
+            if(hinarr.length==0)
+            hinarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<hinarr.length;j++)
+            {            
+            if(hinarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            hinarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            hinarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            hinarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            hinarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            hinarr.push(obj);  
+            }
+            }
+          }
+          if((scholasticarr[i].subject_name).trim()=="Computer"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // comarr.push(obj);
+            if(comarr.length==0)
+            comarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<comarr.length;j++)
+            {            
+            if(comarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            comarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            comarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            comarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            comarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            comarr.push(obj);  
+            }
+            }
+            // alert(JSON.stringify(comarr));
+          }          
+          if(scholasticarr[i].subject_name=="GK"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // gkarr.push(obj);
+            if(gkarr.length==0)
+            gkarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<gkarr.length;j++)
+            {            
+            if(gkarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            gkarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            gkarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            gkarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            gkarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            gkarr.push(obj);  
+            }
+            }
+          }          
+        
+        // for(var i=0;i<scholasticarr.length;i++){
+          // var obj={"category":"","t1grade":"","t2grade":"","t3grade":""};          
+          if(scholasticarr[i].subject_name=="Art&Craft"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;            
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;     
+            // acarr.push(obj);
+            if(acarr.length==0)
+            acarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<acarr.length;j++)
+            {            
+            if(acarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            acarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            acarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            acarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            acarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            acarr.push(obj);  
+            }
+            }
+          }
+          if(scholasticarr[i].subject_name=="music"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // mdarr.push(obj);
+            if(mdarr.length==0)
+            mdarr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<mdarr.length;j++)
+            {            
+            if(mdarr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            mdarr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            mdarr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            mdarr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            mdarr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            mdarr.push(obj);  
+            }
+            }
+          }
+          if(scholasticarr[i].subject_name=="dance"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // dancearr.push(obj);
+            if(dancearr.length==0)
+            dancearr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<dancearr.length;j++)
+            {            
+            if(dancearr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            dancearr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            dancearr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            dancearr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            dancearr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            dancearr.push(obj);  
+            }
+            }
+          }
+          if(scholasticarr[i].subject_name=="Games"){
+            obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+            obj.catcheck=scholasticarr[i].category_check;
+            obj.category=scholasticarr[i].category;
+            obj.comment=scholasticarr[i].description;
+            if(scholasticarr[i].term_name=="term1")
+            obj.t1grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term2")
+            obj.t2grade=scholasticarr[i].term_cat_grade;
+            if(scholasticarr[i].term_name=="term3")
+            obj.t3grade=scholasticarr[i].term_cat_grade;
+            // gamearr.push(obj);
+            if(gamearr.length==0)
+            gamearr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<gamearr.length;j++)
+            {            
+            if(gamearr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            gamearr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            gamearr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            gamearr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            gamearr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            gamearr.push(obj);  
+            }
+            }
+          }
+
+        if(scholasticarr[i].subject_name=="Personality Development"){ 
+          obj.category=scholasticarr[i].category; 
+          obj.comment=scholasticarr[i].description; 
+          obj.subject=scholasticarr[i].subject_name+"@"+localStorage.getItem("curr_sess_termname");
+          obj.catcheck=scholasticarr[i].category_check;     
+          if(scholasticarr[i].term_name=="term1"){
+            // alert('term1');
+          obj.t1grade=scholasticarr[i].term_cat_grade;
+          }
+          if(scholasticarr[i].term_name=="term2"){
+            // alert('term2');
+          obj.t2grade=scholasticarr[i].term_cat_grade;
+          }
+          if(scholasticarr[i].term_name=="term3"){
+            // alert('term3');
+          obj.t3grade=scholasticarr[i].term_cat_grade;
+          }
+          // parr.push(obj);
+          if(parr.length==0)
+            parr.push(obj);
+            else{
+            var flag=0;
+            for(var j=0;j<parr.length;j++)
+            {            
+            if(parr[j].category==scholasticarr[i].category)
+            {
+            flag=1;
+            if(scholasticarr[i].term_name=="term1"){
+            parr[j].t1grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term2")
+            {
+            parr[j].t2grade=scholasticarr[i].term_cat_grade;
+            }
+            if(scholasticarr[i].term_name=="term3"){
+            parr[j].t3grade=scholasticarr[i].term_cat_grade;    
+            }
+            if((localStorage.getItem("curr_sess_termname")).toUpperCase()==(scholasticarr[i].term_name).toUpperCase()){
+            parr[j].comment=scholasticarr[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+            parr.push(obj);  
+            }
+            }                  
+        }
+       }
+
+        // for(var i=0;i<engarr.length;i++){
+
+        // }
+        // alert(JSON.stringify(engarr.length));
+        // alert(JSON.stringify(engarr));
+
+        // engarr.push(engobj);
+
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){  
+        document.querySelector('cce-onetofour-score-card').personalityArray=parr;
+        document.querySelector('cce-onetofour-score-card').acArray=acarr;
+        document.querySelector('cce-onetofour-score-card').mdArray=mdarr;
+        document.querySelector('cce-onetofour-score-card').gamesArray=gamearr;
+
+        document.querySelector('cce-onetofour-score-card').engArray=engarr;
+        document.querySelector('cce-onetofour-score-card').mathArray=matharr;
+        document.querySelector('cce-onetofour-score-card').evsArray=evsarr;
+        document.querySelector('cce-onetofour-score-card').secArray=hinarr;
+
+        document.querySelector('cce-onetofour-score-card').csArray=comarr;
+        document.querySelector('cce-onetofour-score-card').gkArray=gkarr;
+        document.querySelector('cce-onetofour-score-card').danceArray=dancearr;
+        }
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport"){  
+        // alert('yes');        
+        document.querySelector('comparisonreport-card').personalityArray=parr;
+        // alert(JSON.stringify(document.querySelector('comparisonreport-card').personalityArray));
+        document.querySelector('comparisonreport-card').acArray=acarr;
+        document.querySelector('comparisonreport-card').mdArray=mdarr;
+        document.querySelector('comparisonreport-card').gamesArray=gamearr;
+
+        document.querySelector('comparisonreport-card').engArray=engarr;
+        document.querySelector('comparisonreport-card').mathArray=matharr;
+        document.querySelector('comparisonreport-card').evsArray=evsarr;
+        document.querySelector('comparisonreport-card').secArray=hinarr;
+
+        document.querySelector('comparisonreport-card').csArray=comarr;
+        document.querySelector('comparisonreport-card').gkArray=gkarr;
+        document.querySelector('comparisonreport-card').danceArray=dancearr;
+        // document.querySelector('comparisonreport-card').FnSetArray(engArray);
+        }
+      },
+      callfetchcoscholasticmarkService:function(studid){
+        this.fetchcoscholasticmarkurl=sessionStorage.getItem("addrinfo")+"/fetchcoscholasticmark-service";
+        var obj={"schoolid":"","studid":"","academicyear":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.studid=studid;
+        this.fetchcoscholasticmarkparam=obj;
+        this.$.fetchcoscholasticmarkajax.generateRequest();
+      },
+      fetchcoscholasticmarkResponse:function(e){        
+        coscholasticarr=e.detail.response.returnval;
+        var parr=[];
+        for(var i=0;i<coscholasticarr.length;i++){
+          var obj={"category":"","t1grade":"","t2grade":"","t3grade":""};
+          obj.category=coscholasticarr[i].category;            
+          if(coscholasticarr[i].term_name=="term1"){
+          obj.t1grade=coscholasticarr[i].term_cat_grade;
+          }
+          if(coscholasticarr[i].term_name=="term2"){
+          obj.t2grade=coscholasticarr[i].term_cat_grade;
+          }
+          if(coscholasticarr[i].term_name=="term3"){
+          obj.t3grade=coscholasticarr[i].term_cat_grade;
+          }
+          parr.push(obj);
+        }
+        document.querySelector('cce-onetofour-score-card').personalityArray=parr;
+      },
+      callfetchcocurricularmarkService:function(studid){
+        this.fetchcocurricularmarkurl=sessionStorage.getItem("addrinfo")+"/fetchcocurricularmark-service";
+        var obj={"schoolid":"","studid":"","academicyear":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.studid=studid;
+        this.fetchcocurricularmarkparam=obj;
+        this.$.fetchcocurricularmarkajax.generateRequest();
+      },
+      fetchcocurricularmarkResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+        cocurriculararr=e.detail.response.returnval;
+        var acarr=[];
+        var mdarr=[];
+        var gamearr=[];
+              
+        for(var i=0;i<cocurriculararr.length;i++){
+          var obj={"category":"","t1grade":"","t2grade":"","t3grade":""};          
+          if(cocurriculararr[i].subject_id=="Art&Craft"){            
+            obj.category=cocurriculararr[i].category;
+            if(cocurriculararr[i].term_name=="term1")
+            obj.t1grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term2")
+            obj.t2grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term3")
+            obj.t3grade=cocurriculararr[i].term_cat_grade;     
+            acarr.push(obj);
+          }
+          if(cocurriculararr[i].subject_id=="Music"){
+            obj.category=cocurriculararr[i].category;
+            if(cocurriculararr[i].term_name=="term1")
+            obj.t1grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term2")
+            obj.t2grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term3")
+            obj.t3grade=cocurriculararr[i].term_cat_grade;
+            mdarr.push(obj);
+          }
+          if(cocurriculararr[i].subject_id=="Games"){
+            obj.category=cocurriculararr[i].category;
+            if(cocurriculararr[i].term_name=="term1")
+            obj.t1grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term2")
+            obj.t2grade=cocurriculararr[i].term_cat_grade;
+            if(cocurriculararr[i].term_name=="term3")
+            obj.t3grade=cocurriculararr[i].term_cat_grade;
+            gamearr.push(obj);
+          }
+        }
+        document.querySelector('cce-onetofour-score-card').acArray=acarr;
+        document.querySelector('cce-onetofour-score-card').mdArray=mdarr;
+        document.querySelector('cce-onetofour-score-card').gamesArray=gamearr;
+      },
+      mailReportcardService:function(parentname){
+        this.mailreportcardurl=sessionStorage.getItem("addrinfo")+"/mailreportcard-service"; 
+        var obj={"schoolid":"","loggedid":"","schoolname":"","academicyear":"","grade":"","section":"","parentname":""}; 
+        obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.parentname=parentname;
+        this.mailreportcardparam=obj;
+        // alert(JSON.stringify(obj));      
+        this.$.mailreportcardajax.generateRequest();
+      },
+      mailreportcardResponse:function(e){
+        // alert(e.detail.response.returnval);
+        if(e.detail.response.returnval=='converted'){
+          this.sendmailService();
+        }
+      },
+      sendmailService:function(){
+        var obj={"secmail":"","parentmail":""};
+        obj.secmail=localStorage.getItem("curr_sess_secmail");
+        obj.parentmail=localStorage.getItem("curr_sess_parentmail");
+        this.sendmailurl=sessionStorage.getItem("addrinfo")+"/sendmail-service";
+        this.sendmailparam=obj;
+        this.$.sendmailajax.generateRequest();
+      },
+      sendmailResponse:function(e){
+        alert(e.detail.response);
+        if(e.detail.response=="mail sent")
+            document.querySelector('cce-onetofour-score-card').FnCloseSpinner();
+      },
+      fetchoveralltermwisegradeService:function(studid){
+        this.fetchoveralltermwisegradeurl=sessionStorage.getItem("addrinfo")+"/fetchoveralltermwisegrade-service";
+        var obj={"schoolid":"","studid":"","academicyear":"","grade":"section","":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=studid;
+        this.fetchoveralltermwisegradeparam=obj;
+        this.$.fetchoveralltermwisegradeajax.generateRequest(); 
+      },
+      fetchoveralltermwisegradeResponse:function(e){
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));
+        for(var i=0;i<arr.length;i++){
+          // alert(scholasticarr[i].subject_name);
+          // var obj={"category":"","t1grade":"","t2grade":"","t3grade":"","comment":""}; 
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){          
+          if(arr[i].subject_id=="English"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').et1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').et2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').et3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Mathematics"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').mt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').mt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').mt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="EVS"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').evt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').evt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').evt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Hindi"){    
+          // alert('hindi');  
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').ht1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').ht2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').ht3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Kannada"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').ht1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').ht2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').ht3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Computer"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').ct1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').ct2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').ct3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="GK"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').gt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').gt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').gt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Art&Craft"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').at1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').at2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').at3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="music"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').mdt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').mdt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').mdt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+         
+          if(arr[i].subject_id=="dance"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').dant1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').dant2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').dant3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Games"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').gat1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').gat2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').gat3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Personality Development"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('cce-onetofour-score-card').pdt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('cce-onetofour-score-card').pdt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('cce-onetofour-score-card').pdt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport"){          
+          if(arr[i].subject_id=="English"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').et1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').et2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').et3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Mathematics"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').mt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').mt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').mt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="EVS"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').evt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').evt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').evt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Hindi"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').ht1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').ht2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').ht3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Kannada"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').ht1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').ht2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').ht3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Computer"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').ct1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').ct2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').ct3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="GK"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').gt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').gt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').gt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Art&Craft"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').at1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').at2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').at3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="music"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').mdt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').mdt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').mdt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="dance"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').dant1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').dant2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').dant3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Games"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').gat1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').gat2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').gat3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          if(arr[i].subject_id=="Personality Development"){      
+            if(arr[i].term_name=="term1")
+            document.querySelector('comparisonreport-card').pdt1=arr[i].grade;
+            if(arr[i].term_name=="term2")
+            document.querySelector('comparisonreport-card').pdt2=arr[i].grade;
+            if(arr[i].term_name=="term3")
+            document.querySelector('comparisonreport-card').pdt3=arr[i].grade;   
+            // engarr.push(obj);
+          }
+          }
+
+        }
+      },
+      FnFetchHealthinfo:function(studid){
+        this.fetchhealthinfourl=sessionStorage.getItem("addrinfo")+"/fetchhealthinfo-service";
+        var obj={"termname":"","schoolid":"","studid":"","academicyear":"","grade":"","section":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=studid;
+        this.fetchhealthinfoparam=obj;
+        this.$.fetchhealthinfoajax.generateRequest(); 
+      },
+       FnFetchfaHealthinfo:function(studid){
+        this.fetchfahealthinfourl=sessionStorage.getItem("addrinfo")+"/fetchfahealthinfo-service";
+        var obj={"termname":"","schoolid":"","studid":"","academicyear":"","grade":"","section":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=studid;
+        this.fetchfahealthinfoparam=obj;
+        this.$.fetchfahealthinfoajax.generateRequest(); 
+      },
+      healthinfoResponse:function(e){
+       // alert(JSON.stringify(e.detail.response.returnval));
+         if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        document.querySelector('comparisonreport-card').healthArray=e.detail.response.returnval;
+    }
+    else
+    {     
+          // document.querySelector('fivetotencomparisonreport-card').height=e.detail.response.returnval[0].height+" "+"cm";
+          // document.querySelector('fivetotencomparisonreport-card').weight=e.detail.response.returnval[0].weight+" "+"kg";
+          // document.querySelector('fivetotencomparisonreport-card').leftvision=e.detail.response.returnval[0].height;
+          // document.querySelector('fivetotencomparisonreport-card').rightvision=e.detail.response.returnval[0].height;
+          // document.querySelector('fivetotencomparisonreport-card').dental=e.detail.response.returnval[0].dental;
+          // document.querySelector('fivetotencomparisonreport-card').bloodgroup="";
+          document.querySelector('fivetotencomparisonreport-card').healthArray=e.detail.response.returnval;
+    }
+      },
+      healthfainfoResponse:function(e){
+         document.querySelector('fivetotencomparisonreport-card').healthArray=e.detail.response.returnval;
+      },
+      FnFetchArtinfo:function(studid){
+        this.fetchartinfourl=sessionStorage.getItem("addrinfo")+"/fetchartinfo-service";
+        var obj={"termname":"","schoolid":"","studid":"","academicyear":"","grade":"","section":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=studid;
+        this.fetchartinfoparam=obj;
+        this.$.fetchartinfoajax.generateRequest(); 
+      },
+      artinfoResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+
+         if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        document.querySelector('comparisonreport-card').artArray=e.detail.response.returnval;
+    }
+    else
+    {
+        document.querySelector('fivetotencomparisonreport-card').artArray=e.detail.response.returnval;
+    }
+      },
+      FnFetchPhysicalinfo:function(studid){
+        this.fetchphysicalinfourl=sessionStorage.getItem("addrinfo")+"/fetchphysicalinfo-service";
+        var obj={"termname":"","schoolid":"","studid":"","academicyear":"","grade":"","section":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=studid;
+        this.fetchphysicalinfoparam=obj;
+        this.$.fetchphysicalinfoajax.generateRequest(); 
+      },
+      physicalinfoResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+         if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        document.querySelector('comparisonreport-card').physicalArray=e.detail.response.returnval;
+    }
+    else
+    {
+        document.querySelector('fivetotencomparisonreport-card').physicalArray=e.detail.response.returnval;
+    }
+      },
+      fetchgradeseperationService:function(term,subject,category){
+        this.fetchgradeseperationurl=sessionStorage.getItem("addrinfo")+"/fetchgradeseperation-service";
+        var obj={"termname":"","schoolid":"","studid":"","academicyear":"","grade":"","section":"","subject":"","category":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");        
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.studid=localStorage.getItem("curr_sess_viewstudid");
+        obj.termname=term;
+        obj.subject=subject;
+        obj.category=category;
+        this.fetchgradeseperationparam=obj;
+        this.$.fetchgradeseperationajax.generateRequest(); 
+      },
+      fetchgradeseperationResponse:function(e){ 
+        var arr1=e.detail.response.returnval;        
+        var markarr=[];
+        // alert(JSON.stringify(markarr));
+        // var arr1=a;
+        // alert(JSON.stringify(arr1.length));
+
+        var subflag=0;
+        
+        var subcat=[];
+        var subcatmark=[];
+        var ass1=[];
+        var ass2=[];
+        var ass3=[];
+
+        for(var i=0;i<arr1.length;i++)
+            markarr.push(arr1[i]); 
+
+        for(var i=0;i<arr1.length;i++){
+            if(arr1[i].subject_id=="Art&Craft"||arr1[i].subject_id=="music"||arr1[i].subject_id=="dance")
+                subflag=1;
+            for(var j=i+1;j<arr1.length;j++){
+                if(arr1[i].sub_category==arr1[j].sub_category)
+                    arr1.splice(j,1);
+            }           
+        }
+
+        var subcatlen=arr1.length;
+
+        if(subflag==0)
+        arr1.splice(subcatlen-1,1);
+
+        // alert(JSON.stringify(arr1))
+        
+        
+        // alert(JSON.stringify(markarr.length));      
+        // alert(JSON.stringify(arr1.length));
+        for(var j=0;j<markarr.length;j++){
+        for(var i=0;i<arr1.length;i++){
+            
+                if(markarr[j].assesment_id=="Assesment1"){
+                if(markarr[j].sub_category==arr1[i].sub_category){
+                    if(markarr[j].subject_id=="Personality Development"){
+                        if(markarr[j].mark=='8')
+                          ass1.push('A');
+                        if(markarr[j].mark=='7')
+                          ass1.push('B');
+                        if(markarr[j].mark=='5')
+                          ass1.push('C');  
+                        if(markarr[j].mark=='3')
+                          ass1.push('D');
+                    }
+                    else
+                    ass1.push(markarr[j].mark);
+                }
+                }
+            }
+        }
+        for(var j=0;j<markarr.length;j++){
+        for(var i=0;i<arr1.length;i++){
+            
+                if(markarr[j].assesment_id=="Assesment2"){
+                if(markarr[j].sub_category==arr1[i].sub_category){
+                    if(markarr[j].subject_id=="Personality Development"){
+                        if(markarr[j].mark=='8')
+                          ass2.push('A');
+                        if(markarr[j].mark=='7')
+                          ass2.push('B');
+                        if(markarr[j].mark=='5')
+                          ass2.push('C');  
+                        if(markarr[j].mark=='3')
+                          ass2.push('D');
+                    }
+                    else
+                    ass2.push(markarr[j].mark);
+                }
+                }
+            }
+        }
+
+        for(var j=0;j<markarr.length;j++){
+        for(var i=0;i<arr1.length;i++){
+            
+                if(markarr[j].assesment_id=="Assesment3"){
+                if(markarr[j].sub_category==arr1[i].sub_category){
+                    if(markarr[j].subject_id=="Personality Development"){
+                        if(markarr[j].mark=='8')
+                          ass3.push('A');
+                        if(markarr[j].mark=='7')
+                          ass3.push('B');
+                        if(markarr[j].mark=='5')
+                          ass3.push('C');  
+                        if(markarr[j].mark=='3')
+                          ass3.push('D');
+                    }
+                    else
+                    ass3.push(markarr[j].mark);
+                }
+                }
+            }
+        }
+
+        // alert(JSON.stringify(ass3));
+
+        document.querySelector('comparisonreport-card').subcatarr=arr1;
+        document.querySelector('comparisonreport-card').ass1=ass1;
+        document.querySelector('comparisonreport-card').ass2=ass2;
+        document.querySelector('comparisonreport-card').ass3=ass3;
+        document.querySelector('comparisonreport-card').FnCloseDialog();
+        subcat=[];        
+        ass1=[];
+        ass2=[];
+        ass3=[];
+        markarr=[];
+      }
+      });
+  })();
+  </script>
+</dom-module>

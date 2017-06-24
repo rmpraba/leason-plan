@@ -1,0 +1,107 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="school-grade-to-role-mapping-item">
+  <template>
+    <style>
+     
+    </style>
+    <div>
+       <div hidden>{{class}}{{section}}{{empid}}{{empname}}{{flage}}{{academicyear}}{{roleid}}{{schooltype}}{{classid}}</div>
+       <div hidden$="{{flag}}">{{compid}}</div>
+       <paper-checkbox hidden$="{{flagg}}" checked="{{check}}" on-change="FnSelectRole" id="sgtrm{{compid}}"></paper-checkbox>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var selected="";
+    var arr=[];
+    Polymer({
+      is: 'school-grade-to-role-mapping-item',
+      ready:function(){
+      },
+      FnSetSelectedRole:function(rolearr){
+        arr=rolearr;
+        // alert('setting');
+        // alert(JSON.stringify(arr));
+        if(arr.length>0)
+        selected='selected';
+      },
+      FnSelectRole:function(e){
+        // alert(document.querySelector('#'+this.compid).checked);
+        if(selected==""){
+          if(document.querySelector('#sgtrm'+this.compid).checked==true)
+          {
+          if(arr.length==0){
+          selected=this.compid;
+          var obj={};
+          obj.compid=this.compid;
+          obj.class=this.class;
+          obj.section=this.section;
+          obj.empid=this.empid;
+          obj.empname=this.empname;
+          obj.flage=this.flage;
+          obj.academicyear=this.academicyear;
+          obj.schooltype=this.schooltype;
+          obj.roleid=this.roleid;
+          obj.classid=this.classid;
+          }
+          arr.push(obj);
+          }
+          else
+          {
+          var f=0;
+          var obj={};
+          obj.compid=this.compid;
+          obj.class=this.class;
+          obj.section=this.section;
+          obj.empid=this.empid;
+          obj.empname=this.empname;
+          obj.flage=this.flage;
+          obj.academicyear=this.academicyear;
+          obj.schooltype=this.schooltype;
+          obj.roleid=this.roleid;
+          obj.classid=this.classid;
+          for(var i=0;i<arr.length;i++){
+          // alert(this.compid+" "+arr[i].compid);
+          if(this.compid==arr[i].compid){
+            f=1
+            arr.splice(i,1);
+          }
+          }
+          if(f==0)
+            arr.push(obj);
+          }
+        }
+        else{
+          var f=0;
+          var obj={};
+          obj.compid=this.compid;
+          obj.class=this.class;
+          obj.section=this.section;
+          obj.empid=this.empid;
+          obj.empname=this.empname;
+          obj.flage=this.flage;
+          obj.academicyear=this.academicyear;
+          obj.schooltype=this.schooltype;
+          obj.roleid=this.roleid;
+          obj.classid=this.classid;
+          for(var i=0;i<arr.length;i++){
+          // alert(this.compid+" "+arr[i].compid);
+          if(this.compid==arr[i].compid){
+            f=1
+            arr.splice(i,1);
+          }
+          }
+          if(f==0)
+            arr.push(obj);
+        }
+        // alert(JSON.stringify(arr));
+        document.querySelector('school-grade-to-role-mapping').FnSetMappingarr(arr);        
+      },
+      
+    });
+  })();
+  </script>
+</dom-module>

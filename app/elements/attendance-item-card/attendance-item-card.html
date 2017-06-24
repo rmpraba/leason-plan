@@ -1,0 +1,89 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../co-scholastic-service/co-scholastic-service.html">
+<dom-module id="attendance-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+         #tb1{
+        width:15%
+      }
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td id="tb1"><paper-item>{{serialno}}</paper-item></td>
+        <td id="tb1"><paper-item>{{studname}}</paper-item></td>
+        <td id="tb1"><paper-input on-change="FnAttendance" value="{{attendance}}"></paper-input></td>
+        <td id="tb1">
+        <paper-input on-change="FnGeneric" value="{{genericcomment}}"></paper-input>
+         <!--  <paper-dropdown-menu id="generic" label="Select comment" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" selected="{{generic}}"  on-iron-select="FnSelectComment"  attr-for-selected="value" required>  
+              <!-- <template is="dom-repeat" items="{{commentarr}}"> -->
+               <!--  <paper-item value="Good">Good</paper-item>
+                <paper-item value="Excellent">Excellent</paper-item>
+                <paper-item value="Poor">Poor</paper-item>
+                <paper-item value="Average">Average</paper-item> -->                             
+              <!-- </template> -->
+            <!-- </paper-menu>
+          </paper-dropdown-menu>  -->
+        </td>   
+        <td id="tb1"><paper-input on-change="FnSpecific" value="{{specificcomment}}"></paper-input></td>  
+        <td id="tb1"><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button></td>
+        </tr>
+        </table>
+    </div>
+    <co-scholastic-service id="assesmentservice"></co-scholastic-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    var generic;
+    Polymer({
+      is: 'attendance-item-card',
+      ready:function(){
+        this.flag=0;
+      },     
+      FnAttendance:function(e)
+      {  
+         // if(this.flag==1)
+         // this.callService();     
+      },
+      FnSpecific:function()
+      {
+          //   this.flag=1;
+          // this.callService();
+      },
+      FnGeneric:function(e)
+      {
+        // generic = e.target.selectedItem.textContent.trim();
+         // if(this.flag==1)
+         // this.callService();   
+      },
+      FnSave:function(){
+        this.flag=1;
+        this.callService();
+      },
+      callService:function()
+      {           
+        this.$.assesmentservice.callinsertattendanceService(this.studid,this.studname,this.attendance,this.workingdays,this.genericcomment,this.specificcomment); 
+      }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,206 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="../scorecard-service/scorecard-service.html">
+<link rel="import" href="../student-list-card/student-list-card.html">
+
+<dom-module id="cce-generate-score-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .card{
+      width: 100%;        
+      @apply(--layout-vertical);
+      }
+      .inner{
+      @apply(--layout-horizontal);
+      margin-left: 30%;
+      }
+      .list{
+      margin-left: 10%;
+      margin-top: 5%;
+      }
+      paper-dropdown-menu{
+        margin-left: 5%;
+      }
+      paper-dropdown-menu{
+      width: 15%;
+      /*margin-left: 3%;*/
+      --paper-input-container-label: { color: red };
+      text-align:center;
+      }
+    </style>
+      <div class="card">
+          <div class="inner">
+
+          <paper-dropdown-menu id="term" label="Select Term" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="rterm"  on-iron-select="FnSelectTerm"  attr-for-selected="value" required>     
+                <paper-item value="Term1">Term1</paper-item>
+                <paper-item value="Term2">Term2</paper-item>
+                <paper-item value="Term3">Term3</paper-item>
+              
+            </paper-menu>
+          </paper-dropdown-menu>
+
+          <paper-dropdown-menu id="grade" label="Select Grade" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="rgrade"  on-iron-select="FnSelectGrade"  attr-for-selected="value" required>     
+              <template is="dom-repeat" items="{{gradearr}}">
+                <paper-item value="{{item.grade_name}}">{{item.grade_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+
+          <paper-dropdown-menu id="section" label="Select Section" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="rsection"  on-iron-select="FnSelectSection"  attr-for-selected="value" required>
+              <template is="dom-repeat" items="{{sectionarr}}">
+                <paper-item value="{{item.section_name}}">{{item.section_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+          </div>
+    <div class="list" hidden$="{{hidecard}}">
+    <student-list-card></student-list-card>
+    </div>
+    </div>
+    <scorecard-service id="scorecardservice"></scorecard-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var gradename;
+    var section;
+    var termname;
+    var item=[];
+    Polymer({
+      is: 'cce-generate-score-card',
+      ready:function(){
+        this.hidecard=true;         
+      },
+      FnHide:function(){
+        this.hidecard=false;
+      },
+      FnRefresh:function()
+      {
+      document.querySelector('#rgrade').selected=-1;
+      document.querySelector('#rsection').selected=-1;
+      document.querySelector('#rterm').selected=-1;
+      this.hidecard=true;
+      this.flag=0;
+      },
+      FnSelectTerm:function(e){
+        termname = e.target.selectedItem.textContent.trim();       
+        localStorage.setItem("curr_sess_termname",termname);        
+        if(this.flag==1)
+          this.callService();
+      },
+      FnSelectGrade:function(e){        
+        gradename = e.target.selectedItem.textContent.trim();       
+        localStorage.setItem("curr_sess_grade",gradename);
+        this.$.scorecardservice.callSectionService(gradename);
+        if(this.flag==1)
+          this.callService();
+      },
+      FnSelectSection:function(e){
+        section = e.target.selectedItem.textContent.trim();
+        localStorage.setItem("curr_sess_section",section);                
+        this.callService();
+      },
+      callService:function(){
+        this.flag="1"; 
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Editinfo"){
+          this.$.scorecardservice.callFetchstudentnameService();
+        }
+        else
+        this.$.scorecardservice.callscorecardreadynessService();       
+        // this.$.scorecardservice.callFetchstudentnameService();
+      },
+      autocompletearr:function(autocompletearr)
+      {
+        item=autocompletearr;
+      },
+      FnInputChanged:function(e){     
+      if(e.keyCode==13|| e.keyCode==40)
+      this.querySelector('paper-listbox').focus();
+      var arr=[];
+      arr.push({"itemdes":"-----Select-----"});
+      this.querySelector('paper-listbox').style.visibility='visible';
+      if(e.keyCode==8){
+        this.itemflag="true";
+        this.itemval="";        
+        var len=(this.value).length;
+        if(len<=1){
+          this.querySelector('paper-listbox').style.visibility='hidden';
+          this.itemArray="";
+          this.itemval="";
+        }
+        if(len>1){
+          this.querySelector('paper-listbox').style.visibility='visible';
+          var backsubval=(((this.value).substring(0,(len-1))).trim()).toUpperCase();
+          for(var i=0;i<item.length;i++)
+          {
+            var subval=((item[i].student_name).trim()).substring(0,backsubval.length);
+            if((subval).toUpperCase()==(backsubval).toUpperCase())
+            {
+              var obj={"itemdes":""};
+              obj.itemdes=item[i].student_name;
+              arr.push(obj);
+            }
+          }
+          this.itemArray=arr;
+        }
+      }
+      if(e.keyCode!=8&& e.keyCode!=16&& e.keyCode!=13 && e.keyCode!=38&&e.keyCode!=40&&e.keyCode!=37&&e.keyCode!=39){
+        if(this.itemflag=="true") {
+          this.itemval = (this.value).toUpperCase()+String.fromCharCode((e.keyCode)).toUpperCase();
+          this.itemflag="false";
+        }
+        else
+        this.itemval = this.value +String.fromCharCode((e.keyCode));
+        if(this.itemval.length>0)
+        {
+          for(var i=0;i<item.length;i++){
+            var subval=((item[i].student_name).trim()).substring(0,this.itemval.length);
+            if((subval).toUpperCase()==(this.itemval).toUpperCase())
+            {
+              var obj={"itemdes":""};
+              obj.itemdes=item[i].student_name;
+              arr.push(obj);
+            }
+          }
+          if(arr.length>0)
+            this.itemArray=arr;
+          else
+          {
+            var obj={"itemdes":""};
+            obj.itemdes="No items found";
+            arr.push(obj);
+            this.itemArray=arr;
+          }
+        }
+      }
+   },
+   FnItemSelected:function(e)
+   {
+    this.querySelector('paper-listbox').style.visibility='hidden';
+    this.studname = e.target.selectedItem.textContent.trim();    
+    this.itemArray=[];
+    document.querySelector('#input1').selected=-1;
+    this.value=this.studname;    
+    this.$.scorecardservice.callFetchstudentinfoService(this.studname);
+    this.$.scorecardservice.callFetchsubjectinfoService(this.studname);
+    this.$.scorecardservice.callfetchhealthattendanceinfoService(this.studname);
+    this.$.scorecardservice.callFetchmarkService(this.studname); 
+    this.$.scorecardservice.callfetchcoscholasticmetricsService(this.studname);  
+    this.$.scorecardservice.callfetchcoscholasticinfoService(this.studname);
+    this.$.scorecardservice.callFetchmarkService(this.studname);   
+    document.querySelector('app-card').setPage('homepage','');
+    document.querySelector('home-page').setPage('ccefivetotenscorecard','');
+   }
+    
+  });
+  })();
+  </script>
+</dom-module>

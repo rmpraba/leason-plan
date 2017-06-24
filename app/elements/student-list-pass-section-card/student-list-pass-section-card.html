@@ -1,0 +1,359 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="student-list-pass-section-card">   
+  <template>
+    <style>
+      :host {
+        display: block;  
+      }
+  #empremapid
+    {   border-radius: 10px;
+        width: 350px;
+        min-height: 440px;
+    }
+    #labelid{
+            font-style: oblique;
+            font-size: 1.3em;
+          }
+     #noofstudent1
+     {
+           border-radius: 10px;
+           width: 370px;
+           height: 160px;
+     }
+     label
+     {
+            font-style: oblique;
+            font-size: 1.3em;
+     }
+     paper-button
+     {
+       @apply(--layout-left);
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-left: 6%;
+      margin-top: 10%;
+     }
+    </style>
+          <paper-input  hidden>{{stugradeid}}</paper-input>
+          <paper-input  hidden>{{gender}}</paper-input>
+          <paper-input  hidden>{{dob}}</paper-input>
+          <paper-input  hidden>{{admissinno}}</paper-input>
+          <paper-input  hidden>{{admissinno1}}</paper-input>
+          <paper-input  hidden>{{classid}}</paper-input>
+          <paper-input  hidden>{{noofstudent}}</paper-input>
+          <div hidden$="{{hideinput}}">{{sectionname}}</div>
+          <paper-checkbox  hidden$="{{hidecheck}}" on-change="fnsudentGrade" id="{{id}}" checked="{{check}}">
+          </paper-checkbox>     
+        <div class="outcard">  
+         <paper-dialog id="noofstudent1" modal>
+         <center>
+           <label><b>Cannot add more students to this section.</b></label><br>
+            <paper-button  dialog-confirm autofocus> close</paper-button>
+         </center>
+           
+        </paper-dialog>
+                 <!-- </div> -->
+      <paper-dialog id="empremapid11" modal>
+        <b><label  id="labelid">Already assigned student for this subject, Cannot undo
+        </label></b>
+             <template is="dom-repeat" items="{{dbsectionvalue}}" as="view">
+                  <h4 style="margin-left: 2%"> * {{view.subjectid}}</h4>
+           </template>
+     <div class="buttons">
+       <paper-button  on-click="FnSubmit">Submit</paper-button>
+       <paper-button dialog-confirm autofocus  on-click="fncancal">OK
+          </paper-button>
+       </div>
+     </paper-dialog>
+     
+     
+        <iron-ajax        
+        id="thirdlangrefretajax"
+        url="{{thirdlangrefreturl}}"
+        params="{{thirdlangrefretparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="thirdlangrefretResponse"
+        debounce-duration="300">
+      </iron-ajax>
+      <iron-ajax        
+        id="thirdlangrefret1ajax"
+        url="{{thirdlangrefret1url}}"
+        params="{{thirdlangrefret1param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="thirdlangrefret1Response"
+        debounce-duration="300">
+      </iron-ajax>
+       <iron-ajax        
+        id="thirdlangrefret11ajax"
+        url="{{thirdlangrefret11url}}"
+        params="{{thirdlangrefret11param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="thirdlangrefret11Response"
+        debounce-duration="300">
+      </iron-ajax>
+     </div>  
+  </template>
+  <script>
+  (function() {
+    'use strict';
+  var paspstuinfo=[];
+  var spliceid;
+  var rr;
+  var studentcheckinfoarr=[];
+  var v=[];
+  var pm=[];
+  var map;
+  var rm;
+  var rm1;
+var f;
+            
+  //var checkvalu=[];
+    Polymer({
+      is: 'student-list-pass-section-card',
+      
+     
+      fnsudentGrade:function(e){
+        rr=this.admissinno;
+        var count;
+        f=this.id;
+ if(document.querySelector('#'+this.id).checked==true){
+      count=0;
+         for(var i=0;i<studentcheckinfoarr.length;i++){ 
+                   if(studentcheckinfoarr[i].class_id==this.classid){
+            count++;
+          }
+        }
+      if(count<this.noofstudent){
+    
+    var obj={"id1":"","id":"","student_name":"","dob":"","gender":"","enq_id":"","classid":"",};
+            obj.id1=this.id;
+            obj.id=this.admissinno;
+            obj.student_name=this.studentname;
+            obj.dob=this.dob;
+            obj.gender=this.gender;
+            obj.enq_id=this.id;
+            obj.classid=this.classid;
+            paspstuinfo.push(obj);
+            v.push(obj);
+            rm=this.id;
+            rm1=this.classid;
+     
+      for(var i=0;i<paspstuinfo.length;i++){
+       if(paspstuinfo[i].id==this.admissinno){
+                   if(paspstuinfo[i].classid==this.classid){
+                  var m=paspstuinfo[i].enq_id;
+                  document.querySelector('#'+m).checked=true;
+                     pm.push(paspstuinfo[i].classid);
+
+    
+               }
+                  else if(paspstuinfo[i].classid!=this.classid){
+                 var s=paspstuinfo[i].enq_id;
+                 var bb=paspstuinfo[i].classid;
+                  document.querySelector('#'+s).checked=false;
+                   var a = pm.indexOf(bb);
+                for(var g=0;g<pm.length;g++){
+                   if(a==g){
+                   pm.splice(a,1);
+                }
+              }paspstuinfo.splice(i,1);
+                    }}
+
+                  }}
+           else{
+             this.$.noofstudent1.open();
+             document.querySelector('#'+this.id).checked=false;
+                }
+        var mn=0;
+           if(count<this.noofstudent){
+
+        for(var k=0;k<paspstuinfo.length;k++){
+                if(paspstuinfo[k].id1==this.id){
+
+                 if(paspstuinfo[k].classid==this.classid){
+
+                    map = pm.reduce(function(prev, cur) {
+
+                  prev[cur] = (prev[cur] || 0)+1;
+                  return prev;
+                       },{});
+                      var c=map[paspstuinfo[k].classid];
+                  //    alert(JSON.stringify(map));
+                 //     alert(JSON.stringify(c));
+              //   alert(c+count+"  "+this.noofstudent);
+                  //  alert(c+"  "   +count+"  "+this.noofstudent);
+                  
+                  if(JSON.stringify(map)===JSON.stringify({}))
+                  {
+                  }
+                   else if(c+count<=this.noofstudent){
+                   }
+                   else if(c+count>this.noofstudent){
+                      //    /('2f');
+          
+                        var m=paspstuinfo[k].id1;
+                    document.querySelector('#'+m).checked=false;
+                    paspstuinfo.splice(k,1);
+                         this.$.noofstudent1.open();
+                    }
+                         c=mn;
+                     
+                      }
+                     }
+                }
+          }
+     //   alert(JSON.stringify(pm));
+
+     if(mn+count!=this.noofstudent){
+      document.querySelector('Student-to-section-mapping-card').stupersonalinfo12();
+        }
+        document.querySelector('employee-schooltype-to-category-basecard').stupersonalinfo(paspstuinfo);  
+        }
+    else if(document.querySelector('#'+this.id).checked==false){
+//alert('1');
+this.thirdlangrefreturl=sessionStorage.getItem("addrinfo")+"/thirdlangrefret-service";    var obj={"id":"","school_id":"","gradeid":"","classid":"","academic_year":""};
+      obj.id=this.admissinno;
+      obj.gradeid=this.stugradeid;
+      obj.classid=this.classid;
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+      this.thirdlangrefretparam=obj;
+      //alert(JSON.stringify(obj));
+      this.$.thirdlangrefretajax.generateRequest();
+  
+           }},
+       thirdlangrefretResponse:function(e){
+         //    alert(JSON.stringify(e.detail.response.returnval));
+ 
+        if(e.detail.response.returnval=="empty"){
+
+            for(var i=0;i<paspstuinfo.length;i++){
+                   if(paspstuinfo[i].id1==this.id){
+                 if(paspstuinfo[i].classid==this.classid){
+                         var cc=paspstuinfo[i].classid;
+                 var a = pm.indexOf(cc);
+                for(var g=0;g<pm.length;g++){
+                   if(a==g){
+                   pm.splice(a,1);
+                  paspstuinfo.splice(i,1);
+              }}}}}
+            }
+         else{
+         this.dbsectionvalue=e.detail.response.returnval;
+         this.$.empremapid11.open();
+       //  alert(f);
+          document.querySelector('#'+f).checked=true;
+             }
+       },   
+        thirdlangrefret11Response:function(e){
+          if(e.detail.response.returnval=="Deleted!")
+      document.querySelector('#'+f).checked=false;
+    
+        },   
+         studentcheckinfo1:function(arr){
+       studentcheckinfoarr=arr;
+       },
+       f11:function(e){
+         var c=paspstuinfo.length;
+              if(paspstuinfo!=0){
+                this.fnsplice();
+              } 
+          },
+          stupersonalinfo11:function(arr){
+          for(var i=0;i<arr.length;i++){
+
+      if(arr[i].admno==rr){
+                var m=arr[i].dd;
+           document.querySelector('#'+m).checked=false;
+
+           }}},
+           ttt3:function(e){
+            pm=[];
+           },
+      FnSubmit:function(e){
+      
+      this.thirdlangrefret1url=sessionStorage.getItem("addrinfo")+"/thirdlangrefret1-service"; 
+         var obj={"id":"","school_id":"","gradeid":"","classid":"","academic_year":""};
+      obj.id=this.admissinno;
+      obj.gradeid=this.stugradeid;
+      obj.classid=this.classid;
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+      this.thirdlangrefret1param=obj;
+      this.$.thirdlangrefret1ajax.generateRequest();
+  this.thirdlangrefret11url=sessionStorage.getItem("addrinfo")+"/thirdlangrefret11-service"; 
+var obj={"id":"","school_id":"","gradeid":"","classid":"","academic_year":""};
+      obj.id=this.admissinno;
+      obj.gradeid=this.stugradeid;
+      obj.classid=this.classid;
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+      this.thirdlangrefret11param=obj;
+      this.$.thirdlangrefret11ajax.generateRequest();
+    },     
+   overallinfo:function(e){
+      for(var i=0;i<paspstuinfo.length;i++){
+               var empty=paspstuinfo[i].enq_id;
+              document.querySelector('#'+empty).checked=false;           
+             }
+
+  var obj={"id":"","student_name":"","dob":"","gender":"","enq_id":"","classid":"",};
+            obj.id=this.admissinno;
+            obj.student_name=this.studentname;
+            obj.dob=this.dob;
+            obj.gender=this.gender;
+            obj.enq_id=this.id;
+            obj.classid=this.classid;
+            paspstuinfo.splice(obj);
+          },
+         fnsplice:function(){
+              var rnwn=paspstuinfo.length;
+                   if(rnwn>0){
+
+                 for(var i=0;i<paspstuinfo.length;i++){
+               spliceid=paspstuinfo[i].enq_id;
+              document.querySelector('#'+spliceid).checked=false;
+              }
+             var obj={"id":"","student_name":"","dob":"","gender":"","enq_id":"","classid":"",};
+            obj.id=this.admissinno;
+            obj.student_name=this.studentname;
+            obj.dob=this.dob;
+            obj.gender=this.gender;
+            obj.enq_id=this.id;
+            obj.classid=this.classid;
+            paspstuinfo.splice(obj);
+           }
+        },
+        stupersonalinfo13:function(arr)
+        {
+                for(var k=0;k<arr.length;k++){
+                var  dbid=arr[k].dd;
+                    document.querySelector('#'+dbid).checked=false;
+        }
+     },
+
+     fnsaveinput:function()
+     {
+      if(paspstuinfo.length!=0)
+      {
+        document.querySelector('Student-to-section-mapping-card').fnsavezz();
+      }
+      else
+      {
+        document.querySelector('Student-to-section-mapping-card').fnnoinput();
+      }
+     }
+
+    });
+  })();  
+  </script>
+</dom-module>

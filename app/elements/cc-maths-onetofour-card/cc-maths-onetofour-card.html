@@ -1,0 +1,326 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../cc-maths-onetofour-item-card/cc-maths-onetofour-item-card.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="..\..\bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="..\..\bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../validationdialog-card/validationdialog-card.html">
+<link rel="import" href="..\..\bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="..\..\bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="..\..\bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../deleteicon-card/deleteicon-card.html">
+<link rel="import" href="../bindmarks-card/bindmarks-card.html">
+
+<dom-module id="cc-maths-onetofour-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+       table{
+          width: 103%;
+          border-collapse: collapse;
+          /*margin-left: 1%;*/
+      }
+       #tb1{
+          width:11%;
+        }
+         #tb2{width:21%;
+          }
+          #tb3{width:3%;
+          }
+       
+      .studname{
+        width: 30%;
+          }
+          .button{
+            width: 10%;
+            background: #252626;
+            color: white;
+            margin-top: 2%;
+            text-transform: none;
+          }
+          #btn2{
+            width: 10%;
+            background: #252626;
+            color: white;
+            margin-top: 2%;
+            height: 45px;
+            border-radius: 2px;
+            /*font-weight: bold;*/
+            font-family: Calibri;
+            font-size: 17px;
+          }
+          /*paper-item,td{
+            text-align:left;
+          }*/
+          paper-item,td,paper-input{
+            text-align:center;
+          }
+          #submit{
+            width: 15%;
+          }
+          .spinner{
+            margin-left: 50%;            
+           
+            /*color: #0f9d58;*/
+            /*border: none;*/
+          }
+          #spinner{
+            margin: 0;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+          }
+    </style>
+   <div class="spinner"><paper-dialog id="spinner" modal entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
+   <div class="card">
+   <center><h1>{{schoolname}}</h1> 
+   <div id="hidetop">
+      <h3>Continuous Comprehensive Evaluation -AY-{{academicyear}}</h3>  
+      <h4>Term: {{term}}  &nbsp&nbspAssesment: {{assesmentname}}  &nbsp&nbspGrade: {{grade}}&nbsp&nbspSection: {{section}} &nbsp&nbsp Subject: {{subject}} </h4>  
+      <table border="1" id="MarkTable8">
+      <tr><th>Sl.No</th><th>Student's Name</th>
+      <th colspan="1" id="tb1">Concept</th>
+      <th colspan="2" id="tb2">Activity/Project</th>
+      <th colspan="2" id="tb2">MentalAbility</th>
+      <th colspan="2" id="tb2">TableActivity</th>
+      <th colspan="1" id="tb1">WrittenWork</th>
+      <th colspan="1" id="tb3"></th><th colspan="1" id="tb3"></th>
+      </tr>
+      <tr><th></th><th></th>
+      <th  id="tb1"> Understanding</th>      
+
+      <th id="tb1">Group Activity</th>
+      <th id="tb1">Individual Activity</th>     
+
+      <th id="tb1">Accuracy</th>
+      <th id="tb1">Knowledge</th>
+
+      <th id="tb1">Accuracy</th>
+      <th id="tb1">Neatness</th>
+
+      <th id="tb1">Activity</th>
+      <th></th><th></th>
+      </tr>
+      <tr><th></th><th></th>
+      <th>{{assesment}}(10)</th>
+
+      <th>{{assesment}}(10)</th>
+      <th>{{assesment}}(10)</th>
+
+      <th>{{assesment}}(10)</th>
+      <th>{{assesment}}(10)</th>
+
+      <th>{{assesment}}(10)</th>
+      <th>{{assesment}}(10)</th>
+
+      <th>{{assesment}}(10)</th>
+      <th></th><th></th>
+      </tr>
+      </div>
+<template is="dom-repeat" items="{{markarr}}" as="m">
+<tr>
+<template is="dom-repeat" items="{{m}}" as="mark">
+<td>{{mark}}</td>
+</template>
+</tr>
+</template>
+<template is="dom-repeat" items="{{importarr}}" as="m">
+<tr>
+<template is="dom-repeat" items="{{m}}" as="mark1">
+<td><paper-item value="{{mark1.serialno}}" id="p2">{{mark1.serialno}}</paper-item></td>
+<td><paper-item value="{{mark1.name}}" id="p2">{{mark1.name}}</paper-item></td>
+<template is="dom-repeat" items="{{mark1.marks}}" as="mm">
+<td><bindmarks-card hidepaperitem="{{hidepaperitem}}" hidepaperinput="{{hidepaperinput}}" mark="{{mm.mark}}" category="{{mm.category}}" subcategory="{{mm.sub_category}}" name="{{mm.name}}"></bindmarks-card></td>
+</template>
+</template>
+<!-- <td><paper-checkbox disabled checked id="{{studid}}" on-change="FnChange"></paper-checkbox></td>         -->
+<td><paper-icon-button id="ps" icon="icons:save" on-click="FnSave" ></paper-icon-button>
+<paper-tooltip for="ps" offset="0">update</paper-tooltip></td>
+<template is="dom-repeat" items="{{m}}" as="m1">
+<td><deleteicon-card studentid="{{m1.studentid}}"></deleteicon-card></td>
+</template>
+</tr>
+</template>
+
+      <template is="dom-repeat" items="{{studarr}}">
+      <tr>
+        <!-- <td><paper-checkbox checked id="{{item.id}}" on-change="FnChange"></paper-checkbox></td> -->
+        <td>{{item.serialno}}</td><td>{{item.student_name}}</td>
+        <td colspan="66"><cc-maths-onetofour-item-card  flag="{{flag}}" serialno="{{item.serialno}}" studid="{{item.id}}" studname="{{item.student_name}}"></cc-maths-onetofour-item-card></td>
+      </tr>
+      </template>
+     </table> 
+     <!-- <paper-button class="button" id="save" on-click="FnSave">Save</paper-button> -->
+     <paper-button disabled="{{disableflag}}" hidden$="{{hideapprovalbtn}}" class="button" id="submit" on-click="importmark">{{importlabel}}</paper-button>
+     <input type="button" id="btn2" onclick="tableToExcel('MarkTable8', 'Mark Report')" value="Export to Excel">      
+     </center>
+    </div>
+    <term-assesment-service id="assesmentservice"></term-assesment-service>
+    <validationdialog-card id="validatedialog"></validationdialog-card>
+   <!--  <paper-dialog modal id="absentdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <p>It will mark as absent?</p>
+      <paper-button on-click="FnYes">Yes</paper-button>      
+    </paper-dialog> -->
+  </template>
+   <script type="text/javascript">
+   var tableToExcel = (function() {
+   var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+  <script>
+  (function() {
+    'use strict';
+    var id;
+    Polymer({
+      is: 'cc-maths-onetofour-card',
+      ready:function(){
+        this.$.btn2.hidden=true;
+        this.$.submit.hidden=true;
+        this.disableflag=false;
+        // this.$.save.hidden=true;
+      },
+       FnResetFlag:function(){
+        // var flag=1;
+        this.flag=1;
+        // document.querySelector('cc-eng-onetofour-item-card').FnResetFlag(flag);
+      },
+      // FnAbsentDialog:function(){        
+      //     this.$.absentdialog.toggle();  
+      // },
+      FnToggleDialog:function(value){
+        this.$.validatedialog.FnSetMessage1(value);
+      } , 
+      setDefaultHeaders:function(){  
+      this.disableflag=false;      
+        this.$.hidetop.hidden=false;
+        this.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+        this.academicyear=localStorage.getItem("curr_sess_academicyear");
+        this.grade=localStorage.getItem("curr_sess_grade");
+        this.section=localStorage.getItem("curr_sess_section");
+        this.subject=localStorage.getItem("curr_sess_subject");
+        this.term=localStorage.getItem("curr_sess_termname");
+        this.assesmentname=localStorage.getItem("curr_sess_assesment");
+        // alert(this.schoolname+' '+this.academicyear);
+        if(localStorage.getItem("curr_sess_assesment")=="Assesment1")
+        this.assesment="A1";
+        if(localStorage.getItem("curr_sess_assesment")=="Assesment2")
+        this.assesment="A2";
+        if(localStorage.getItem("curr_sess_assesment")=="Assesment3")
+        this.assesment="A3";
+      // alert(sessionStorage.getItem("curr_sess_loggedrole"));
+
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=="co-ordinator")
+      {
+        this.importlabel='Approve';
+      }
+      else if(sessionStorage.getItem("curr_sess_loggedroleid")=="class-teacher"||sessionStorage.getItem("curr_sess_loggedroleid")=="subject-teacher"){
+        this.importlabel='Submit for approval';
+      }
+
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"){        
+        this.hidepaperitem=false;
+        this.hidepaperinput=true;
+        // document.querySelector('bindmarks-card').FnHide(); 
+        // alert(localStorage.getItem('curr_sess_report'));
+        this.$.submit.hidden=true;
+        if(localStorage.getItem('curr_sess_report')=='1'){
+        this.$.submit.hidden=true; 
+        // this.$.save.hidden=true;
+        this.$.btn2.hidden=false;
+        }
+        // this.$.btn2.hidden=false;
+        // this.$.save.hidden=true;
+      }
+      else{
+        this.hidepaperitem=true;
+        this.hidepaperinput=false;
+        // document.querySelector('bindmarks-card').FnHide();        
+        if(localStorage.getItem('curr_sess_report')=='1'){
+        this.$.submit.hidden=true; 
+        // this.$.save.hidden=true;
+        this.$.btn2.hidden=false;
+        }
+        if(localStorage.getItem('curr_sess_report')=='0')
+        {
+        this.$.submit.hidden=false; 
+        // this.$.save.hidden=false;
+        this.$.btn2.hidden=true;
+        }
+        if(localStorage.getItem('curr_sess_report')=='2')
+        {
+        this.$.submit.hidden=false; 
+        // this.$.save.hidden=true;
+        this.$.btn2.hidden=true;
+        }
+      }
+
+      },
+      hiddenbutton:function()
+      {
+        this.$.btn2.hidden=true;
+      },
+      FnSave:function(e){
+          this.$.assesmentservice.Fnupdatemark();
+        // if(this.markupdateflag>0)
+        // alert('Marks updated!');
+        // else
+        // alert('Marks not updated!');
+      },
+      importmark:function()      
+      { 
+      this.disableflag=true;       
+        // this.$.assesmentservice.Fnimportmark();
+        this.$.assesmentservice.Fnauditterm();
+      },
+     
+        FnRefresh:function()
+      {
+        this.markarr=[];
+        this.importarr=[];
+        this.studarr=[];
+        this.schoolname="";
+        this.academicyear="";
+        this.grade="";
+        this.section="";
+        this.subject="";
+        this.$.hidetop.hidden=true;
+        this.disableflag=false;
+      },
+      FnSpinnerrActive:function(flag){
+        if(flag==true)
+        this.$.spinner.opened=true;
+        if(flag==false)
+        this.$.spinner.opened=false;
+      },
+      FnEnableFlag:function(flag){
+        if(flag==false)
+        this.disableflag=false;
+        if(flag==true)
+        this.disableflag=true;
+      },
+      FnHideApprovebtnFlag:function(flag){
+        // alert(flag);
+        if(flag==false)
+        this.hideapprovalbtn=false;
+        if(flag==true)
+        this.hideapprovalbtn=true;
+      }
+    });
+  })();
+  </script>
+</dom-module>

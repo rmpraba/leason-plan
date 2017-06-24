@@ -1,0 +1,165 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   <link rel="import" href="..\..\bower_components/polymer/polymer.html"> -->
+   <link rel="import" href="../demosumbit-card/demosumbit-card.html">
+  
+<dom-module id="master-school_type-creation">
+  <template>
+    <style>
+      :host 
+      {  
+        display: block;
+      }
+     /*.outercard
+      {
+        border-radius: 10px;
+        border: 1px solid #6699ff;
+        padding: 5px;
+        min-height: 760px;
+        margin-top: 6%;
+        width: 50%;  
+        margin-left: 25%;
+        }
+*/      .cbutton
+      {
+        background-color: #363636;
+        color: #ffffff;
+        width: 20%;
+        margin-left: 78%;
+        margin-top: 3%;
+
+      }
+       .innercard
+       {     
+        @apply(--layout-horizontal);
+        width:100%
+        margin-left:2.5em;
+       }
+     
+      .outcard
+      {
+      width:25% 
+      margin-left:5.0em;
+      }
+      
+      .school
+      {
+        margin-top: 2%;
+      }
+      .button1 paper-button
+      {
+        background-color: #363636;
+        color: #ffffff;
+        width: 7%;
+        margin-left: 140%;
+        margin-top: 5%;
+      }
+       paper-button
+      {
+        background-color: #363636;
+        color: #ffffff;
+        width: 10%;
+        margin-left: 170%;
+        /*margin-top: -50%; */
+      }
+      /*.newbuttons
+      {
+        @apply(--layout-horizontal);
+      }*/
+    </style>
+
+    <div class="title"> 
+      <CENTER>
+        <h3><b>SCHOOL TO SCHOOL TYPE</b></h3>
+      </CENTER>
+    </div>
+
+  <div class="outercard">
+     <div id="tbz1">
+    <div class="list-group col-sm-12 panel-body form-category">
+      <table class="table table-bordered">
+      <!-- <table border="1" class="tt"> -->
+        <tbody>
+          <tr>
+            <td class="outcard" style="width: 27%;"></td>
+            <td class="innercard">
+              <template is="dom-repeat" items="{{setsubjectarr}}" as="view">
+                <h4 style="margin-left:10px;width:100px;">{{view.schooltype}}</h4>   
+              </template>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>   
+            <template is="dom-repeat" items="{{overall}}" as="view">  
+            <tr>
+              <td class="outcard">
+                <h4>{{view.name}}</h4>
+              </td>
+              <td class="innercard">
+                <template is="dom-repeat" items="{{view.subject}}" as="s">
+                  <school-schooltypemapping-card id="{{s.id}}" schoolname="{{view.name}}" schooltypename="{{s.school_type_name}}" schooltypeid="{{s.school_type_id}}" schoolid="{{view.id}}"></school-schooltypemapping-card>
+                </template>
+              </td>
+              <td>
+                <paper-icon-button id="btn1" icon='save' on-click="FnSubmit"></paper-icon-button>
+                <paper-tooltip for="btn1">Save</paper-tooltip>
+              </td>
+              <td>
+                <paper-icon-button id="btn2" icon='close' on-click="Fndelete"></paper-icon-button>
+                <paper-tooltip for="btn2">Delete</paper-tooltip>
+              </td>
+            </tr>
+            </template>
+        </tbody>    
+      </table>  
+    </div>
+    </div>
+  </div>
+
+    <demosumbit-card id="mydialog"></demosumbit-card>
+    <master-ui-service id="service"></master-ui-service>
+  </template>
+
+  <script>
+  (function() {     
+    'use strict';
+   var schooltypesins=[];
+   var schooltypedel=[];
+    Polymer({
+      is: 'master-school_type-creation',
+    FnSubmit:function()
+      {    
+       //alert(JSON.stringify(schooltypesins));
+      this.$.service.insertschoolTypename(schooltypesins);
+      this.$.mydialog.toggleDialog();
+       document.querySelector('school-schooltypemapping-card').Fngradeclean(); 
+        
+
+      },
+       Fndelete:function()
+      {     
+         this.$.service.DelteschoolTypename(schooltypedel); 
+         this.$.mydialog.toggleDialog1(); 
+           document.querySelector('school-schooltypemapping-card').Fngradeclean1(); 
+      
+      },
+     
+      schooltypeinsert:function(arr){
+         schooltypesins=arr;
+       },
+      fnschooltypedeleted:function(arr){
+         schooltypedel=arr;
+      },
+       Fncreate:function()
+        {
+         this.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         this.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+         this.$.schooldialog.open(); 
+        } 
+    
+    });
+  })();
+  </script>
+</dom-module>

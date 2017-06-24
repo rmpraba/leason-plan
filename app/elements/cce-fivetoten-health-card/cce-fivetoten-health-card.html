@@ -1,0 +1,140 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../component-service/component-service.html">
+<link rel="import" href="../cce-fivetoten-health-itemcard/cce-fivetoten-health-itemcard.html">
+
+<dom-module id="cce-fivetoten-health-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        width: 60%;
+        border-collapse: collapse;
+        margin-left: 1%;
+      }
+      .studname{
+        width: 30%;
+      }
+      #tb1{
+        width:6%
+      }
+      #tb2{
+        width:20%
+      }
+      #tb3{
+        width:2%
+      }
+       .button{
+            width: 10%;
+            background: #252626;
+            color: white;
+            margin-top: 2%;
+            text-transform: none;
+            margin-left: 45%;
+          }
+      #btn2{
+            width: 10%;
+            background: #252626;
+            color: white;
+            margin-top: 2%;
+            height: 45px;
+            border-radius: 2px;
+            /*font-weight: bold;*/
+            font-family: Calibri;
+            font-size: 17px;
+          }
+    </style>
+    <div>
+    <!-- <template is="dom-repeat" items="{{label}}"> -->
+     <div class="spinner"><paper-dialog modal id="spinner" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
+      <center><h1>{{schoolname}}</h1>
+      <div id="hidetop">
+      <h3>Continuous Comprehensive Evaluation -AY-{{academicyear}}</h3>  
+      <h4>  &nbsp&nbsp&nbsp {{grade}} - &nbsp&nbsp&nbsp&nbsp&nbsp{{section}} &nbsp&nbsp Subject: {{subject}} </h4> 
+      <table border="1" id="MarkTable">    
+      <tr>
+      <th id="tb3">SNo</th>
+      <th id="tb2">Name</th>
+      <th id="tb1">Height</th>
+      <th id="tb1">Weight</th>
+      <th id="tb1">Blood Group</th>
+      <th id="tb1">Vision Left</th>
+      <th id="tb1">Vision Right</th>
+      <th id="tb1">Dental Hygiene</th>
+      <th id="tb1"></th>
+      </tr>  
+      </div>
+   
+      <template is="dom-repeat" items="{{studarr}}">
+      <tr><td colspan="9">
+      <cce-fivetoten-health-itemcard serialno="{{item.serialno}}" studname="{{item.student_name}}" studid="{{item.id}}" height="{{item.height}}" weight="{{item.weight}}" bloodgroup="{{item.blood_group}}" visionleft="{{item.vision_left}}" visionright="{{item.vision_right}}" dental="{{item.dental}}"></cce-fivetoten-health-itemcard>
+      </td></tr>
+      </template>
+      </table>
+      </center> 
+    <!-- </template>      -->
+    </div>
+    <paper-button class="button" id="save" on-click="FnSave">Save</paper-button>  
+    <!-- <component-service id="componentservice" label="{{label}}"></component-service> -->
+  </template>
+
+   <script type="text/javascript">
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'cce-fivetoten-health-card',
+      ready:function(){      
+      },
+      FnSave:function(){
+        alert("Mark entry for this section completed!");
+      },
+      setDefaultHeaders:function(){
+        // alert('headers');
+         this.$.hidetop.hidden=false;
+        this.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+        // alert(this.schoolname);
+        this.academicyear=localStorage.getItem("curr_sess_academicyear");
+        this.grade=localStorage.getItem("curr_sess_grade");
+        this.section=localStorage.getItem("curr_sess_section");
+        this.subject=localStorage.getItem("curr_sess_subject");
+      },
+        FnRefresh:function()
+      {
+ this.markarr=[];
+ this.importarr=[];
+ this.studarr=[];
+ this.schoolname="";
+        this.academicyear="";
+        this.grade="";
+        this.section="";
+        this.subject="";
+         this.$.hidetop.hidden=true;
+      },
+       FnSpinnerrActive:function(flag){
+        if(flag==true)
+        this.$.spinner.opened=true;
+        if(flag==false)
+        this.$.spinner.opened=false;
+      }
+
+    });
+  })();
+  </script>
+</dom-module>
+

@@ -1,0 +1,209 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+ <dom-module id="new-employee-creation-item-card">
+   <template>
+   <style>
+      :host {
+        display: block;         
+      }
+      .card{  
+        @apply(--layout-horizontal);
+        border-bottom: 1px solid #dedede;   
+      } 
+      
+      .panel-body
+       {
+        padding: 6px;
+       }
+       .subbutton
+       {
+          background-color: #363636;
+          color: #ffffff;                
+          width: 7%;
+          margin-left: 80%;
+          margin-top: 2%;
+       }
+       paper-icon-button
+       {
+        margin-right:-3%;
+       }
+       .clsbutton
+       {
+        margin-left: 20%;
+       }
+
+       paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+      .horizontalframes
+      {
+        @apply(--layout-horizontal);
+      }
+    </style>  
+     <table>
+       <tr>
+          <td>
+              <paper-icon-button id="btn1" icon='create' on-click='FnEdit'></paper-icon-button>
+              <paper-tooltip for="btn1">Edit</paper-tooltip>
+          </td>
+          <td>
+                <paper-icon-button  id="btn2" icon='close' on-click='FnDelete'></paper-icon-button> 
+             <paper-tooltip for="btn2">Delete</paper-tooltip> 
+        </td>
+
+       </tr>
+    </table>
+           <!-- 
+          <paper-icon-button  id="btn2" icon='close' on-click='FnDelete'></paper-icon-button> 
+          <paper-tooltip for="btn2">Delete</paper-tooltip>  -->
+ 
+ <span>
+   <div id="updateempdetails" hidden>
+              
+       <iron-ajax          
+        id="selectschoolrole11ajax"
+        url="{{selectschoolrole11url}}"
+        params="{{selectschoolrole11param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="selectschoolrole11Response"
+        debounce-duration="300"
+      ></iron-ajax>
+
+          
+        <iron-ajax        
+        id="selectschooltypemap11ajax"
+        url="{{selectschooltypemap11url}}"
+        params="{{selectschooltypemap11param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="selectschooltypemap11Response"
+        debounce-duration="300"
+      ></iron-ajax>
+   
+</span>
+        <master-ui-service id="uiservice"></master-ui-service>
+    </template>   
+  <script>
+  (function() {
+    'use strict';
+       var getrolearr=[];
+       var schooltypearr=[];
+       var samearr=[];
+     
+  Polymer({
+      is: 'new-employee-creation-item-card',
+
+      FnDelete:function()
+      {
+        this.$.uiservice.Fnempdeleteinfo(this.employeeid,this.employeename);
+        document.querySelector('new-employee-creation-card').fundelttt();
+        
+     },
+     
+     
+    setschooltype:function(arr){
+       schooltypearr=arr;
+      },
+      setschoolrole:function(arr1){
+         getrolearr=arr1;
+       }, 
+      f1:function(e){     
+       this.$.uiservice.fnschoolemployeeschooltype(this.employeeid,this.employeename); 
+         this.selectschooltypemap11url=sessionStorage.getItem("addrinfo")+"/selectschooltype11-service";
+         var obj={"school_id":""};
+         obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+         this.selectschooltypemap11param=obj;
+         //alert(JSON.stringify(obj));
+         this.$.selectschooltypemap11ajax.generateRequest();
+        // this.$.entetroleset1.open(); 
+     },
+      f2:function(e){  
+       this.$.uiservice.fnschoolemployeerole(this.employeeid,this.employeename);
+       this.selectschoolrole11url=sessionStorage.getItem("addrinfo")+"/selectrolename11-service";
+        this.$.selectschoolrole11ajax.generateRequest();
+      //this.$.entetroleset2.open();  
+   
+      },
+      FnEdit:function()
+      {
+          this.f1();
+          this.f2();
+
+          //document.querySelector('new-employee-creation-card').fnnedit();
+        document.querySelector('new-employee-creation-card').funct1(this.employeeid,this.employeename,this.employeephone,this.employeemobile,this.employeemail,this.employeepassword,this.schoolid);
+   
+     },
+    
+    selectschoolrole11Response:function(e)
+    {
+         var res=e.detail.response.returnval; 
+         //alert('z');
+         //alert(JSON.stringify(res));
+         //alert(JSON.stringify(getrolearr));
+          for(var j=0;j<res.length;j++){
+            var flag=0;
+              for(var i=0;i<getrolearr.length;i++){
+                  
+                  if(res[j].id==getrolearr[i].role_id)
+                  {    
+                   flag=1;
+                   res[j].check=true;   
+                  }
+                 }
+                 if(flag==0){
+                  res[j].check=false;
+                 }
+               }
+             var overall=[];
+        var temp=[];
+        for(var l=0;l<res.length;l++){
+        temp.push(res[l]);
+         if(l!=0&&l%3==0){
+            overall.push(temp);
+            temp=[];
+         }
+        }
+            // alert(JSON.stringify(overall));      
+             document.querySelector('new-employee-creation-card').selectschoolrolearr1=overall  
+            //   document.querySelector('new-employee-creation-card').FnSchoolrole(res);
+        },
+
+        selectschooltypemap11Response:function(e)
+        {
+         var res=e.detail.response.returnval;
+          //alert(JSON.stringify(res));
+          //alert(JSON.stringify(schooltypearr));      
+          for(var j=0;j<res.length;j++){
+            var flag=0;
+              // var getschoolroleid=res[j].role_name;
+              for(var i=0;i<schooltypearr.length;i++){
+                  
+      if(res[j].school_type_id==schooltypearr[i].school_type)
+                  {    
+                   flag=1;
+                   res[j].check=true;   
+                  }
+
+                 }
+                 if(flag==0){   
+                  res[j].check=false;
+                 }
+               }
+               document.querySelector('new-employee-creation-card').FnSchooltypemap(res);
+   
+        }
+    });
+  })();
+  </script>
+</dom-module>

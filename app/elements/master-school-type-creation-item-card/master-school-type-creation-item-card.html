@@ -1,0 +1,279 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+<dom-module id="master-school-type-creation-item-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+      .card
+      {
+        @apply(--layout-horizontal);
+           border-bottom: 1px solid #dedede;
+      }
+      .innercard{
+
+      @apply(--layout-vertical);
+        
+      }   
+       
+       #schtypid
+      {
+           border-radius: 10px;
+           width: 430px;
+           min-height: 450px;
+      }
+     
+       .buttons paper-button
+      {
+        @apply(--layout-left);   
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-left: 10%;
+      margin-top: 10%;
+      }
+      paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+
+    </style>
+    <paper-input hidden>{{schooltypeidzzzz}}</paper-input>
+      <paper-checkbox on-change="fnsetschooltypefun" id="{{id}}">{{schooltypename}}</paper-checkbox>
+  
+      <paper-dialog id="schtypid" modal>  
+            <center><h3>Select the Grade</h3></center>
+             <template is="dom-repeat" items="{{selectschooltypearr}}" as="view">
+               <school-grade-mapping--item-card  schooltype="{{schooltypeidzzzz}}" gradeid="{{view.grade_id}}" gradename="{{view.grade_name}}" check="{{view.check}}"></school-grade-mapping--item-card>
+            </template>
+            <div id="buttonss">
+              <paper-button style="background-color: #363636;color: #ffffff;margin-left: 32%;" on-click="fnsubmit">Submit</paper-button>
+               <paper-button style="background-color: #363636;color: #ffffff;margin-left: 3%;" dialog-confirm autofocus on-click="close">close</paper-button>
+            </div>
+                
+  
+      </paper-dialog>
+      <iron-ajax             
+        id="fnschooltypezajax"
+        url="{{fnschooltypezurl}}"   
+        params="{{fnschooltypezparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnschooltypezResponse"
+        debounce-duration="300">
+     <iron-ajax        
+        id="fnschooltypegradmapzajax"
+        url="{{fnschooltypegradmapzurl}}"
+        params="{{fnschooltypegradmapzparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnschooltypegradmapzResponse"
+        debounce-duration="300">
+        <iron-ajax        
+        id="fnschooltypegradmapz1ajax"
+        url="{{fnschooltypegradmapz1url}}"
+        params="{{fnschooltypegradmapz1param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnschooltypegradmapz1Response"
+        debounce-duration="300">
+     
+      <iron-ajax        
+        id="fnschooltypegradmapzdbajax"
+        url="{{fnschooltypegradmapzdburl}}"
+        params="{{fnschooltypegradmapzdbparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnschooltypegradmapzdbResponse"
+        debounce-duration="300">
+    
+    <demosumbit-card id="mydialog"></demosumbit-card>  
+
+      <master-ui-service id="subservice"></master-ui-service>
+ 
+  </template>
+  <script>
+  (function() 
+  {
+    'use strict';
+     var getarr=[]; 
+    var getarr1=[]; 
+    var styparr=[];  
+    
+        var delschtype=[];
+        var schooltypearrz=[];
+    Polymer({
+      is: 'master-school-type-creation-item-card',
+    fnsetschooltypefun:function()
+    {
+        if(document.querySelector('#'+this.id).checked==true){
+            var obj={"id":""};
+                obj.id=this.id;
+                styparr.push(obj);
+
+        this.fz1();
+        this.fz2();
+        this.$.schtypid.open();
+       }
+       for(var i=0;i<styparr.length;i++)
+        {
+          if(styparr[i].id!=this.id){
+          var subcatt=styparr[i].id;
+          document.querySelector('#'+subcatt).checked=false;
+          styparr.splice(i,1);
+        }
+        }
+      
+      },
+        FnRefresh:function()
+      {
+        if(styparr!=0){
+          for(var i=0;i<styparr.length;i++)
+        {
+               var stype=styparr[i].id;  
+               document.querySelector('#'+stype).checked=false;
+               styparr.splice(i,1);
+  
+        } 
+        }
+      },
+ 
+
+      close:function(e){
+         document.querySelector('school-grade-mapping--item-card').clear();
+         this.FnRefresh();
+      },
+
+      fnsetgrade:function(arr){
+         getarr=arr;
+      },
+       fnsetgrade1:function(arr){
+         getarr1=arr;
+      },   
+       
+       fz1:function(){
+       this.fnschooltypezurl=sessionStorage.getItem("addrinfo")+"/fnschooltypez-service";
+         var obj={"schooltypeid":""};
+        obj.schooltypeid=this.schooltypeidzzzz;   
+        delschtype.push(obj);
+        this.fnschooltypezparam=obj;
+        //alert(JSON.stringify(obj));
+       // alert(JSON.stringify(v));
+        this.$.fnschooltypezajax.generateRequest();
+     },
+      fz2:function(){
+         this.fnschooltypegradmapzdburl=sessionStorage.getItem("addrinfo")+"/fnschooltypegradmapzdb-service";
+        var obj={"schooltypeid":"","schoolid":"","academic_year":""};
+        obj.schooltypeid=this.schooltypeidzzzz;
+        obj.academic_year=this.acadamicyear; 
+         obj.school_id=this.schoolid;
+        this.fnschooltypegradmapzdbparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.fnschooltypegradmapzdbajax.generateRequest();
+    
+       },
+
+      fnsubmit:function(e){
+       for(var i=0;i<getarr.length;i++)
+       {
+          var schooltype=getarr[i].schooltype;
+          var gradename=getarr[i].gradename;
+          var gradeid=getarr[i].gradeid;
+        this.fnschooltypegradmapzurl=sessionStorage.getItem("addrinfo")+"/fnschooltypegradmapz-service";
+         var obj={"school_id":"","schooltype":"","gradename":"","gradeid":"","academic_year":""};
+             obj.school_id=this.schoolid;
+             obj.schooltype=schooltype;
+             obj.gradename=gradename;
+             obj.gradeid=gradeid;
+             obj.academic_year=this.acadamicyear; 
+            this.fnschooltypegradmapzparam=obj;
+          ///    alert(JSON.stringify(obj));
+            this.$.fnschooltypegradmapzajax.generateRequest();
+        }
+        //alert("Inserted Successfully");
+         for(var i=0;i<getarr1.length;i++)
+       {
+          var schooltype=getarr1[i].schooltype;
+          var gradename=getarr1[i].gradename;
+          var gradeid=getarr1[i].gradeid;
+        this.fnschooltypegradmapz1url=sessionStorage.getItem("addrinfo")+"/fnschooltypegradmapz1-service";
+         var obj={"school_id":"","schooltype":"","gradename":"","gradeid":"","academic_year":""};
+             obj.school_id=this.schoolid;
+             obj.schooltype=schooltype;
+             obj.gradename=gradename;
+             obj.gradeid=gradeid;
+             obj.academic_year=this.acadamicyear; 
+            this.fnschooltypegradmapz1param=obj;
+              //alert(JSON.stringify(obj));
+            this.$.fnschooltypegradmapz1ajax.generateRequest();
+        }
+        document.querySelector('school-grade-mapping--item-card').fnnewsubmit();
+
+   },
+      fnschooltypegradmapz1Response(e)
+      {
+        //alert(11);
+        var res=e.detail.response.returnval; 
+          //alert(JSON.stringify(res));
+        // this.fnclean();
+          /*if(res=='Deleted!')
+          {
+            alert("Deleted Successfully");
+          }*/
+      },
+
+      fnschooltypegradmapzResponse(e)
+      {
+        //alert(22);
+        var res=e.detail.response.returnval;
+          /*if(res=='Inserted!')
+          {
+            alert("Inserted Successfully");
+          }*/
+      },  
+      fnschooltypezResponse:function(e){
+        var res=e.detail.response.returnval; 
+         schooltypearrz=res;
+         
+           },
+        fnschooltypegradmapzdbResponse:function(e){
+        var res=e.detail.response.returnval; 
+      //alert(JSON.stringify(res));
+      //alert(JSON.stringify(schooltypearrz));
+       
+      
+         for(var j=0;j<schooltypearrz.length;j++){
+            var flag=0;
+              for(var i=0;i<res.length;i++){
+                  
+                  if(schooltypearrz[j].grade_id==res[i].grade_id)
+                  {    
+                   flag=1;
+                   schooltypearrz[j].check=true;   
+                  }
+
+                 }
+                 if(flag==0){
+                  schooltypearrz[j].check=false;
+                 }
+               }
+              this.selectschooltypearr=schooltypearrz;
+
+           },
+
+     });
+  })();
+  </script>
+</dom-module>

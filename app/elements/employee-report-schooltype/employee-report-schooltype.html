@@ -1,0 +1,164 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="employee-report-schooltype">
+  <template>
+    <style> 
+      :host {
+        display: block;
+      }
+        paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+
+    </style>
+
+    <div>
+      
+      <paper-input hidden>{{schooltypenamezz}}</paper-input>
+       <paper-checkbox on-change="fnschooltype11" id="{{id}}">{{schooltypenamezz}}</paper-checkbox>
+    </div>
+
+     <iron-ajax        
+        id="emplschooltypeajax"
+        url="{{emplschooltypeurl}}"
+        params="{{emplschooltypeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post" 
+        on-response="emplschooltypeResponse"
+        debounce-duration="300">
+     </iron-ajax>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var sclltypearr=[];
+    var temp1=[];
+    var tempallzz=[];
+    var emp1select=[];
+    Polymer({
+      is: 'employee-report-schooltype',
+
+
+       fnrefresh1:function()
+      {
+        if(sclltypearr!=0)
+        {
+          for(var i=0;i<sclltypearr.length;i++)
+          {
+            var sp1=sclltypearr[i].id;
+            document.querySelector('#'+sp1).checked=false;
+            sclltypearr.splice(i,1);
+          }
+        }
+      },
+
+
+     fnschooltype11:function(e)
+     {
+      //alert(5677);
+      //alert(this.id);
+        if(document.querySelector('#'+this.id).checked==true)
+         {  
+
+          sessionStorage.setItem("curr_sess_loggedschooltype_ids",this.schooltypenamezz);
+          this.emplschooltypeurl=sessionStorage.getItem("addrinfo")+"/emplschooltype11-service";
+          var obj={"schooltypeid":"","school_id":"","id":"","academic_year":""};
+          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.schooltypeid=this.schooltypenamezz;
+          obj.id=this.id;
+          obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+          sclltypearr.push(obj);
+          //alert(JSON.stringify(obj));
+          
+          this.emplschooltypeparam=obj;
+
+          this.$.emplschooltypeajax.generateRequest();
+        }
+
+         for(var i=0;i<sclltypearr.length;i++)
+        {   if(sclltypearr[i].id!=this.id)
+             var emptype=sclltypearr[i].id;  
+             document.querySelector('#'+emptype).checked=false;
+            sclltypearr.splice(i,1);
+        }
+
+     },
+
+     emplschooltypeResponse:function(e)
+     {
+        var res=e.detail.response.returnval;
+       // alert(JSON.stringify(res));
+         for(var i=0;i<res.length;i++)
+          {
+            var obj={"id":"","emp_name":"","grade_id":"","grade_name":""};
+            obj.id=res[i].id;
+            obj.emp_name=res[i].emp_name;
+            obj.grade_id=res[i].grade_id;
+            obj.grade_name=res[i].grade_name;
+
+            //obj.subject=temp1;
+                     //alert(JSON.stringify(obj));
+             temp1.push(obj);
+            var obj1={"subject_name":"","subject_id":"","section_id":""};
+            obj1.subject_name=res[i].subject_name;
+            obj1.subject_id=res[i].subject_id;
+            obj1.section_id=res[i].section_id;
+            temp1.push(obj1);
+               
+          // alert(JSON.stringify(temp1));
+            
+            for(var j=i+1;j<res.length;j++)
+            {
+             // alert(res.length);
+            // alert(JSON.stringify(res[i].grade_name));
+             //alert(JSON.stringify(res[j].grade_name));
+                if(res[i].id==res[j].id)
+                {
+                  if(res[i].grade_name==res[j].grade_name)
+                  {
+                 // alert(JSON.stringify(res[i].grade_name)+" "+(res[j].grade_name));
+                 
+                var obj2={"subject_name":"","subject_id":"","section_id":""};
+                obj2.subject_name=res[j].subject_name;
+                obj2.subject_id=res[j].subject_id;
+                obj2.section_id=res[j].section_id;
+                temp1.push(obj2);
+                //alert(1111);
+              //alert(JSON.stringify(temp1));
+                res.splice(j,1);
+               j--;
+             }
+              }
+
+            }
+              obj.subject=temp1;
+              tempallzz.push(obj);
+               temp1=[];
+        }
+       // this.idSsa=tempallzz;
+       //alert(JSON.stringify(this.idSsa));
+        document.querySelector('employee-report-card').emp1select=tempallzz;
+        //alert(JSON.stringify(tempallzz));
+          tempallzz=[];
+       document.querySelector('employee-report-card').fnvisible();
+     }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,294 @@
+<link rel="import" href="..\..\bower_components/paper-tooltip/paper-tooltip.html">
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<dom-module id="cc-eng-onetofour-item-card">
+ <template>
+    <style>
+      :host {
+        display: block;
+      }
+       table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      #p1{
+        width:-12%
+      }
+     
+      paper-input{
+        text-align:center;
+      }
+      paper-icon-button{
+        /*width:3%;*/
+      }
+    </style>
+    <div>
+       <table border="1">
+        <tr>
+           <td hidden><paper-input value="{{studid}}"></paper-input><paper-item value="{{studname}}"></paper-item></td>
+        <td><paper-input disabled="{{read}}" required  allowed-pattern="^[0-9.a,]+$" value="{{Pronunciation}}" id="p1" on-change="FnPronunciation"></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Fluency}}" id="p2" on-change="FnFluency"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Comprehension}}" id="p3" on-change="FnComprehension"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{CreativeWriting}}" id="p4" on-change="FnCreative"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Handwriting}}" id="p5" on-change="FnHandwriting"></paper-input></td>
+        <td><paper-input disabled="{{read}}"  required allowed-pattern="^[0-9.a,]+$" value="{{Grammer}}" id="p6" on-change="FnGrammer"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Spelling}}" id="p7" on-change="FnSpelling"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Vocabulary}}" id="p8" on-change="FnVocabulary"></paper-input></td>
+        <td><paper-input  disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Conversation}}" id="p9" on-change="FnConversation"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Recitation}}" id="p10" on-change="FnRecitation"></paper-input></td>
+        <td><paper-input  disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{LComprehension}}" id="p11" on-change="FnLComprehension"></paper-input></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{Activity}}" id="p12" on-change="FnActivity"></paper-input></td>
+        <!-- <td><paper-checkbox disabled="{{read}}" checked id="{{studid}}" on-change="FnChange"></paper-checkbox></td>  -->
+        <td><paper-icon-button id="ps" icon="icons:save" on-click="FnSave" ></paper-icon-button>
+        <paper-tooltip for="ps" offset="0">save</paper-tooltip></td>  
+        <td><paper-icon-button id="pd" icon="icons:delete" on-click="FnDelete" ></paper-icon-button>
+        <paper-tooltip for="pd" offset="0">Delete</paper-tooltip></td>      
+        </tr>
+      </table>
+    </div>
+     <paper-dialog modal id="adialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <p>Mark as absent?</p>
+      <paper-button on-click="FnYes">Ok</paper-button>  
+      <!-- <paper-button on-click="FnNo">No</paper-button>       -->
+    </paper-dialog>
+    <term-assesment-service id="assesmentservice"></term-assesment-service> 
+    <iron-ajax        
+        method="post"
+        id="fetchgradesajax"
+        url="{{fetchgradesurl}}"
+        params="{{fetchgradesparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradesResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    var pronunciation,fluency,comprehension,handwriting,creativeWriting,grammer,spelling,recitation,grammer,lcomprehension,vocabulary,conversation,activity;
+
+    Polymer({
+      is: 'cc-eng-onetofour-item-card',
+      ready:function(){
+      this.flag=0;
+      },
+      FnChange:function(e){
+         // alert(e.target.checked);
+        if(e.target.checked==false){
+          var id='adialog';          
+          document.getElementById(id).opened=true;          
+          this.read=true;
+          this.Pronunciation=0;
+          this.Fluency=0;
+          this.Comprehension=0;
+          this.CreativeWriting=0;
+          this.Handwriting=0;
+          this.Grammer=0;
+          this.Spelling=0;
+          this.Vocabulary=0;
+          this.Conversation=0;
+          this.Recitation=0;
+          this.LComprehension=0;
+          this.Activity=0;
+          localStorage.setItem("curr_sess_absflag",0);
+          this.callService();
+        }
+
+      },
+     FnPronunciation:function(e)
+     {
+       pronunciation=parseFloat(this.Pronunciation).toFixed(2); 
+       document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Pronunciation);   
+       // if(this.flag==1)
+       //    // this.FnValidateCall();
+       //  this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Pronunciation",this.Pronunciation,1);
+     },
+     FnFluency:function(e)
+     {
+      fluency=parseFloat(this.Fluency).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Fluency);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Fluency",this.Fluency,2);
+     },
+     FnComprehension:function(e)
+     {
+      comprehension=parseFloat(this.Comprehension).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Comprehension);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Comprehension",this.Comprehension,3);
+     },
+     FnCreative:function(e)
+     {
+        creativeWriting=parseFloat(this.CreativeWriting).toFixed(2); 
+        document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.CreativeWriting);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","CreativeWriting",this.CreativeWriting,4);
+     },
+     FnHandwriting:function(e)
+     {
+      handwriting=parseFloat(this.Handwriting).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Handwriting);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Handwriting",this.Handwriting,5);
+     },
+     FnGrammer:function(e)
+     {
+      grammer=parseFloat(this.Grammer).toFixed(2);
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Grammer);        
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Grammer",this.Grammer,6);
+     },
+     FnSpelling:function(e)
+     {
+      spelling=parseFloat(this.Spelling).toFixed(2);        
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Spelling);
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Spelling",this.Spelling,7);
+     },
+     FnVocabulary:function(e)
+     {
+      vocabulary=parseFloat(this.Vocabulary).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Vocabulary);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Vocabulary",this.Vocabulary,8);
+     },
+     FnConversation:function(e)
+     {
+      conversation=parseFloat(this.Conversation).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Conversation);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        //  this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Speaking Skills","Conversation",this.Conversation,9);
+     },
+     
+     FnRecitation:function(e)
+     {
+      recitation=parseFloat(this.Recitation).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Recitation);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Speaking Skills","Recitation",this.Recitation,10);
+       },
+     FnLComprehension:function(e)
+     {
+      lcomprehension=parseFloat(this.LComprehension).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.LComprehension);       
+        // if(this.flag==1)
+        //   // this.FnValidateCall();
+        // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Listening Skills","LComprehension",this.LComprehension,11);
+     },
+     FnActivity:function(e)
+     {
+      // alert(this.flag);
+      activity=parseFloat(this.Activity).toFixed(2); 
+      document.querySelector('cc-eng-onetofour-card').FnToggleDialog(this.Activity); 
+      // if(this.flag==0)
+      
+      // if(this.flag==1)
+      // this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Written Work","Activity",this.Activity,12);
+     },
+      FnSave:function(){
+        this.FnValidateCall();
+      },
+     FnValidateCall:function(){
+      this.flag=1;
+      // alert(this.Pronunciation+" "+this.Fluency+" "+this.Comprehension);
+      // alert(this.CreativeWriting+" "+this.Handwriting+" "+this.Grammer);
+      // alert(this.Spelling+" "+this.Vocabulary+" "+this.Conversation);
+      // alert(this.Recitation+" "+this.LComprehension+" "+this.activity);
+     if(this.Pronunciation==""||this.Pronunciation==null||this.Fluency==""||this.Fluency==null||this.Comprehension==""||this.Comprehension==null||this.CreativeWriting==""||this.CreativeWriting==null||this.Handwriting==""||this.Handwriting==null||this.Grammer==""||this.Grammer==null||this.Spelling==""||this.Spelling==null||this.Vocabulary==""||this.Vocabulary==null||this.Conversation==""||this.Conversation==null||this.Recitation==""||this.Recitation==null||this.LComprehension==""||this.LComprehension==null||this.activity==""||this.activity==null){
+      // alert('empty!');
+        this.$.p1.validate();
+        this.$.p2.validate();
+        this.$.p3.validate();
+        this.$.p4.validate();
+        this.$.p5.validate();
+        this.$.p6.validate();
+        this.$.p7.validate();
+        this.$.p8.validate();
+        this.$.p9.validate();
+        this.$.p10.validate();
+        this.$.p11.validate();
+        this.$.p12.validate();
+        this.callFetchGrade(); 
+      }  
+      else{
+        // alert('filled!');
+        localStorage.setItem("curr_sess_absflag",1);
+             
+        this.readingskills=(parseInt(this.Pronunciation)+parseInt(this.Fluency)+parseInt(this.Comprehension))/3;
+        this.writingskills=(parseInt(this.CreativeWriting)+parseInt(this.Handwriting)+parseInt(this.Grammer)+parseInt(this.Spelling)+parseInt(this.Vocabulary))/5;
+        this.speakingskills=parseFloat((parseInt(this.Conversation)+parseInt(this.Recitation))/2).toFixed(2);
+        this.listeningskills=this.LComprehension;
+        this.writtenwork=this.Activity;
+        this.callFetchGrade(); 
+        } 
+     },
+     callFetchGrade:function(){
+        this.fetchgradesurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradesajax.generateRequest(); 
+     },
+     fetchgradesResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.readinggrade=this.FnFindGrade(this.readingskills);  
+        this.writinggrade=this.FnFindGrade(this.writingskills);  
+        this.speakinggrade=this.FnFindGrade(this.speakingskills);  
+        this.listeninggrade=this.FnFindGrade(this.listeningskills);  
+        this.writtengrade=this.FnFindGrade(this.writtenwork);
+        this.callService();  
+     },
+     FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            this.grade=grade[i];
+          }
+        }
+        return this.grade;        
+     },
+     callService:function(){
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Pronunciation",this.Pronunciation,1,12); 
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Fluency",this.Fluency,2,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Reading Skills","Comprehension",this.Comprehension,3,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","CreativeWriting",this.CreativeWriting,4,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Handwriting",this.Handwriting,5,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Grammer",this.Grammer,6,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Spelling",this.Spelling,7,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Writing Skills","Vocabulary",this.Vocabulary,8,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Speaking Skills","Conversation",this.Conversation,9,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Speaking Skills","Recitation",this.Recitation,10,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Listening Skills","LComprehension",this.LComprehension,11,12);
+       this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"Written Work","Activity",this.Activity,12,12);
+
+        /*this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"Reading Skills",this.readingskills,this.readingskills,this.readinggrade,5);
+        this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"Writing Skills",this.writingskills,this.writingskills,this.writinggrade,5);
+        this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"Speaking Skills",this.speakingskills,this.speakingskills,this.speakinggrade,5);
+        this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"Listening Skills",this.listeningskills,this.listeningskills,this.listeninggrade,5);
+        this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"Written Work",this.writtenwork,this.writtenwork,this.writtengrade,5);*/
+      },
+       FnDelete:function(){
+        var studentid=this.studid;
+        var studentname=this.studname;
+        this.$.assesmentservice.callDeletemarkService(studentid);
+      }  
+  
+
+    });
+  })();
+  </script>
+</dom-module>

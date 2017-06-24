@@ -1,0 +1,245 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="teacher-book-approveal-concept-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .cadcdd1{ top: 200px;
+    right: 90% !important;
+    width: 329px;
+    height: 300px;
+    margin-left: 5%;
+    margin-top: 6%;
+    overflow: auto;
+
+    }
+    paper-fab{
+      background-color: #ff0080;
+      color: white;
+      bottom: 123px;
+      left: 86%;
+    }
+   
+   .selcard
+   {
+    margin-left: 5%;
+    margin-top: 2%;
+   }
+    .selcard1
+   {
+    margin-left:32.9%;
+    margin-top: -32%;
+    width: 67%;
+    height: 418px;
+  }
+   
+   h1
+   {
+
+    font-size: 22px;
+   }
+   /*.tdinvoi{
+   border-bottom: 1px solid #ccc; line-height: 1.8em;
+   }
+*/   .dialog-right-position {
+      position: fixed;
+        height: 23%;
+    top: 15.5%;
+    right: 70.9%;
+    width: 20%;
+    }
+    .dialog-right-position::shadow #scroller {
+      width: 500px;
+      height: 350px;
+    }  
+    .cadcdd11
+    {
+      top: 200px;
+    right: 90% !important;
+    height: 300px;
+    margin-left: 7%;
+    margin-top: 4%;
+    overflow: auto;   
+    }
+   #textarea
+    {
+          position:absolute;
+        overflow-x:hidden;
+        overflow-y:visible;
+        height: 110px;
+        width: 30%;   
+        margin-top: -5%;
+    }
+     #tarea1
+    {
+          position: absolute;
+        overflow-x: hidden;
+        overflow-y: visible;
+        height: 110px;
+        width: 30%;   
+        margin-top: -4%;
+    }
+    </style>
+    <div>
+          <div>
+      <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
+    </div>
+ 
+<paper-card class="selcard">
+   <div style="background-color: #8164f3;
+    padding-top: 21%;height: 75px;">
+  <h1 style="color:white; margin-top: 0%;margin-left: 41%;"><b>{{capthead}}</b></h1>
+  <!--     <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
+   -->  
+   </div>
+    <!--  <div class="card-actions">
+       <div class="cadcdd1">
+        <template is="dom-repeat" items="{{conceptarr}}" as="s">
+          <skill-capturing-card conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"  planneddate="{{s.planned_date}}"></skill-capturing-card>
+        </template>    
+     </div> 
+  </div>  
+   -->
+
+   <div class="card-actions">
+     
+     <div class="cadcdd1">
+     <table style="width: 80%;">
+       <template is="dom-repeat" items="{{conceptarr}}" as="s">
+      <tr>
+       
+           
+      <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+           <skill-capturing-card  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"></skill-capturing-card>  
+        </td>
+        <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;"><h5 style="color:#1B78CF;padding-left: 40px;">{{s.planned_date}}</h5>
+        </td>
+         
+        
+      </tr>  
+       </template>
+        
+     </table>
+          
+     </div> 
+    
+  </div> 
+</paper-card> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="setconcptzzz">     
+  <paper-card hidden$="{{fnsetselcard1vauz}}" class="selcard1">
+     <div style="background-color: #8164f3;
+      padding-top: 10%;height: 1px;">
+      <center style="position: absolute;margin-top: -12%;margin-left: 38%;
+            color: white;">
+        <h1><b>{{conceptnamez}}</b></h1>
+      </center>
+      
+    <paper-input hidden value={{captheadid}}></paper-input>
+    </div>
+     <div class="card-actions">
+  
+     <div class="cadcdd11">
+           <table style="border-collapse: collapse;width: 95%;">
+            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+             <th style="text-align: left;">SKILL NAME</th>
+             <th style="text-align: left;padding-left: 6%;">VALUE</th>
+             <th style="text-align: left;">INNOVATION</th>
+             </tr>
+  
+             <tr>
+               <td>
+                  <paper-textarea id="textarea"   label="Enter  Skill" value="{{skillvalue}}"></paper-textarea>
+                </td>
+             <td>
+                 <template is="dom-repeat" items="{{fullvaluearr}}" as="v">
+                     <master-value-card   innovation="{{innovation}}" valueid="{{v.value_id}}" valuename="{{v.value_name}}" 
+                      skillvalue="{{skillvalue}}" id="{{v.value_id}}" check="{{v.check}}"></master-value-card>
+                 </template>
+               </td>
+                <td>
+                  <paper-textarea id="textarea" label="Enter Innovation" value="{{innovation}}"></paper-textarea>
+                </td>
+             </tr>
+           </table>
+          <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
+      margin-left: 22em;margin-top: 7%;"  on-click="fnsubmit">Submit</paper-button> </div> 
+   </div>
+ </paper-card>
+ </div>
+</div>
+
+<teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+   var skll2=[];
+   var val1=[];
+    Polymer({
+      is: 'teacher-book-approveal-concept-item-card',
+   passset:function(e){
+   document.querySelector('app-card').setPage('homepage','');
+   document.querySelector('home-page').setPage('teacher-book-approve-card','');
+   this.$.setconcptzzz.hidden=true;
+    
+    },
+  fnsubmit:function(e){
+
+    //alert(JSON.stringify(val1));
+    //alert(this.captheadid);
+    //alert(this.innovation+"   "+this.skillvalue);
+  
+    this.$.bookservice.captvalues(val1);
+   // this.$.bookservice.innovationvalues(this.innovation);
+    this.$.bookservice.skillvalues(this.skillvalue,this.innovation);
+    this.innovation="";
+    this.skillvalue="";
+    document.querySelector('master-value-card').fnclear();
+    },
+   fnsetskill:function()
+   {
+   this.fnsetselcard1vauz=true;
+   alert("allready Enter the skill values");
+
+   },
+
+   fnsetvalue:function(vall)
+   {
+    val1=vall;
+   },
+   FnRefresh:function()
+   {
+    this.$.setconcptzzz.hidden=true;
+   },
+   FnViewww:function()
+   {
+    this.$.setconcptzzz.hidden=false;
+   }
+ 
+});
+  })();
+  </script>
+</dom-module>

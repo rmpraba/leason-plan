@@ -1,0 +1,69 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="teacher-book-approveal-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>
+        <paper-input hidden value={{capterid}} ></paper-input>
+ <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
+       </paper-button>
+<iron-ajax
+        method="post"
+        id="fngetconceptvalue11ajax"
+        url="{{fngetconceptvalue11url}}"
+        params="{{fngetconceptvalue11param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptvalue11Response"
+        debounce-duration="300">
+</iron-ajax> 
+
+  <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
+    </div>    
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'teacher-book-approveal-item-card',
+passsetcapter:function(e){
+  document.querySelector('teacher-book-approveal-concept-item-card').capthead=this.capter;
+  document.querySelector('teacher-book-approveal-concept-item-card').captheadid=this.capterid;
+    document.querySelector('app-card').setPage('homepage','');
+  document.querySelector('home-page').setPage('teacher-book-approveal-concept-item-card','');
+
+    localStorage.setItem("curr_sess_capters",this.capterid); 
+    // alert(localStorage.getItem("curr_sess_capters"));
+       this.fngetconceptvalue11url=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+            var obj={"capter_id":""};
+            obj.capter_id=this.capterid;
+         this.fngetconceptvalue11param=obj;
+        // alert(JSON.stringify(obj));
+        this.$.fngetconceptvalue11ajax.generateRequest();
+      
+        },
+      fngetconceptvalue11Response:function(e){
+         var res=e.detail.response.returnval;
+          // alert(JSON.stringify(res));
+  document.querySelector('teacher-book-approveal-concept-item-card').conceptarr=res;
+      },
+    });
+  })();
+  </script>
+</dom-module>

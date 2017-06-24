@@ -1,0 +1,520 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+<dom-module id="new-employee-creation-card">
+  <template>   
+    <style>
+     :host
+     {  
+         margin-left: 10%;
+         display: block;       
+         @apply(--layout-left);
+     }  
+     .card
+      {       
+        @apply(--layout-horizontal);
+        margin-left:30%;
+      } 
+
+       #createemp paper-button
+      {
+      background-color: #363636;
+      color: #ffffff; 
+      width: 7%;
+      margin-left: 20em;
+      margin-top: 3%;
+      }
+
+    
+      .newcardd
+       {
+         overflow-y: scroll;
+         overflow-x: hidden;
+       }
+
+      #createemp
+       {
+          /*position: fixed;*/
+          min-height: 200%;
+          width: 50%;
+          margin-left: -3em;
+          
+       }
+       .title
+       {
+        margin-left: 30%;
+       }
+      
+      #updateempdetails
+       {
+       
+        /*position: fixed;*/
+        min-height: 190%;
+        width: 47%;
+       }
+       
+       .subbutton
+       {
+        
+              position: absolute;
+              background-color: #363636;
+              color: #ffffff;
+              width: 7%;
+              margin-left: 20%;
+              margin-top: 3%;
+       }
+      
+
+       .vertical-row
+       {
+          position: absolute;
+          border: 1px solid grey;
+          margin-left: 35em;
+          min-height: 500px;
+          top: 7em;
+       }
+
+       
+        
+        .newempldiv
+       {
+        position: fixed;
+        margin-left : 41%;
+        margin-top: 2%;
+        
+       }
+       .empinput
+       {
+        @apply(--layout-vertical);
+       }
+       .horizontalframes
+       {
+        @apply(--layout-horizontal);
+        width: 100%;
+        margin-left: 1em;
+       }
+        .horizontalframes1
+       {
+        @apply(--layout-horizontal);
+        width: 50%;
+        margin-left: 20%;
+       }
+    
+        .horizontalframes1
+       {
+        @apply(--layout-horizontal);
+        width: 50%;
+        margin-left: -1%;
+       }
+      
+       .horizontalframes .field paper-input
+       {
+         width: 88%;
+       }
+
+
+    </style>
+
+   
+
+     <div class="tit1" style="margin-left: -9em;">
+      <CENTER>
+        <h3><b>EMPLOYEE CREATION</b></h3>
+      </CENTER>
+    </div>
+   
+    <span>    
+
+    <div class="newempldiv" hidden$="{{hidenewempldiv}}">
+    <div class="tit2" style="margin-top: -3em;margin-left: 9em">
+      <h3><b>Current Employee Details</b></h3>
+    </div>
+
+      <table cellspacing="0" cellpadding="1" border="0" width="540px">
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="1" border="0" width="560px">
+            <tr>
+              <th><h4><label style="margin-left: -16em;">Employee ID</label></h4></th>
+              <th><h4><label style="margin-left: -29em;">Employee Names</label></h4></th>
+              <th><paper-icon-button  style="margin-left: -17em;"  id="btn1" icon="add" on-click="getempdetails"></paper-icon-button>
+               <paper-tooltip for="btn1">Create</paper-tooltip>
+              </th>
+              <th></th>
+            </tr>   
+          </table>
+        </td>
+     </tr>
+
+      <tr>
+        <td>
+          <div class="newcardd" style="width: 550px;height: 350px;">
+            <table cellspacing="0" cellpadding="1" border="0" width="550px">
+              <template is="dom-repeat" items="{{selectschoolpersonalarr}}" as="view">
+                <tr>
+                 <td>{{view.emp_id}}</td>
+                  <td>{{view.emp_name}}</td>
+                  <td>
+                    <new-employee-creation-item-card employeeid="{{view.emp_id}}" employeename="{{view.emp_name}}" employeephone="{{view.emp_phone}}"  employeemail="{{view.emp_mail}}" employeeschool="{{view.school_id}}" employeepassword="{{view.emp_password}}" employeemobile="{{view.emp_mobile}}" hiderolenameinput="true" hiderolenameitem="false"></new-employee-creation-item-card>           
+                  </td>
+          </tr>
+          </template>
+          </table>
+          </div>
+</td>
+</tr> 
+</table>
+</div>
+
+    
+    <!-- <div class="col-sm-6" id="createemp" hidden$="{{hidecreateemp}}"> -->
+    <div id="createemp" hidden$="{{hidecreateemp}}">
+      <div class="titl" style="margin-left: 8em;">
+        <h3><b>Create New Employee</b></h3>
+      </div>
+    
+      <div class="empinput">
+        <div>    
+          <h4>Employee Details</h4>
+        </div>  
+
+          <paper-input value={{empid}} hidden></paper-input>
+      <div class="horizontalframes">
+        <div class="field">
+          <paper-input label="Employee name" id="empname" required error-message="needs employee name!" value="{{name}}"  allowed-pattern="[a-zA-Z ]" ></paper-input>
+        </div>
+
+        <div class="field" style="margin-left: 6%;">
+          <paper-input label="Mobile Number" id="empTelephone" required error-message="needs telepnoneno!" value="{{Telephone}}"  allowed-pattern="[0-9]" maxlength="10"></paper-input>
+        </div>
+      </div>    
+        
+      <div class="horizontalframes">
+        <div class="field">
+          <paper-input label="Secondary Mobile Number" id="empMobile" value="{{MobileNumber}}" allowed-pattern="[0-9]" maxlength="10"></paper-input>
+        </div>
+
+        <div class="field" style="margin-left: 6%;">
+          <gold-email-input label="Email" id="empmailid" required error-message="needs mailid!" value="{{mailid}}"></gold-email-input>
+        </div>
+
+        <div class="field">
+          <paper-input  hidden label="Password" id="emppassword"  value="password"></paper-input>
+        </div>
+      </div>
+        
+            
+      </div>    
+
+      <!-- <table style="border-collapse: collapse; border: "1"> -->
+      <table  border="0" width="100px">
+        <tr>
+          <th>
+            <h4 style="text-align: left;">Employee School Type</h4>
+          </th>    
+        </tr>
+         <tr>
+          <td>
+         <div class="horizontalframes1">
+         <template is="dom-repeat" items="{{selectschooltypearr}}" as="view">
+              <tr>
+                 <td>  
+                  <employe-schooltype-creation-card empschooltype="{{view.school_type_id}}" empschooltypename="{{view.school_type_name}}">
+                  </employe-schooltype-creation-card>
+                </td>
+           </tr>    
+       </template>
+         </div>
+           </td>
+          </tr>
+      
+        <tr>
+          <th>
+            <h4 style="text-align: left;">Employee Role Selection</h4>
+          </th>
+        </tr>
+          <tr>
+          <td>
+       
+      <div class="horizontalframes1">
+      <table>
+        <template is="dom-repeat" items="{{selectrolearr}}" as="view">
+        <tr>
+        <template is="dom-repeat" items="{{view}}" as="v">
+               
+               <td style="padding-left:15px">
+                  <employee-role-item-card
+                  emproleid="{{v.id}}" emprolename="{{v.role_name}}"></employee-role-item-card>
+                </td>
+                
+        </template>
+        </tr>
+       </template>
+       </table>
+          </div>
+           </td>
+      </tr>
+       
+     
+  </table>   
+
+      <div> 
+        <paper-button on-click="FnSubmit">Submit</paper-button>     
+      </div>    
+     </div>
+    </span>
+
+        <div class="vertical-row"></div>
+
+    <div id="updateempdetails" hidden$="{{hideupdateemp}}">
+
+      <div class="titl" style="margin-left: 8em;">
+        <h3><b>Update Employee Details</b></h3>
+      </div>
+     <div class="updateemp">     
+        <div>
+          <h4>Employee Personal  Details</h4>
+        </div>
+
+          <paper-input value={{schoolid}} hidden></paper-input>
+          <div class="horizontalframes">
+            <div class="field">
+              <paper-input label="Employee Name" value="{{employeename}}"></paper-input>
+            </div>
+            <div class="field">
+              <paper-input label="Mobile Number" value="{{employeephone}}"  allowed-pattern="[0-9]"></paper-input>
+            </div>
+          </div>
+           
+          <div class="horizontalframes">
+             <div class="field">
+              <paper-input label=" Secondry Mobile Number" value="{{employeemobile}}" allowed-pattern="[0-9]"></paper-input>
+             </div>
+             <div class="field">
+              <gold-email-input label="Email" value="{{employeemail}}"></gold-email-input>
+             </div>
+          </div> 
+                      
+          <div>
+            <paper-input  hidden label="EmployeePassword"  type="password" value="{{employeepassword}}" readonly></paper-input>
+          </div>
+
+      <table  border="0" width="100px">
+        <tr>
+          <th>
+            <h4 style="text-align: left;">Employee school type Mapping</h4>
+          </th>    
+        </tr>
+        <tr>
+          <td>  
+              <div class="horizontalframes">
+      
+            <template is="dom-repeat" items="{{selectmapschooltypearr1}}" as="view">
+              <tr>  
+                <td>
+                  <new-employee-creation-schooltype-item-card schooltypeidszzzz="{{view.school_type_id}}" id="{{view.school_type_id}}{{employeeid}}" schooltypenames="{{view.school_type_name}}" schoolempschooltypeid="{{employeeid}}" schoolempschooltypename="{{employeename}}"  check="{{view.check}}"></new-employee-creation-schooltype-item-card>
+                </td>
+              </tr>  
+            </template> 
+            </div>
+          </td>
+        </tr>  
+
+        <tr>
+          <th>
+            <h4 style="text-align: left; width: 400px;">Employee Role Mapping</h4>
+          </th>
+        </tr>
+        <tr>
+          <td>
+        <div class="horizontalframes">
+      <table>
+            <template is="dom-repeat" items="{{selectschoolrolearr1}}" as="view" >
+              <tr>
+                 <template is="dom-repeat" items="{{view}}" as="v">
+     
+                <td style="padding-left:15px">     
+                  <new-employee-creation-role-item-card schoolroleids="{{v.role_name}}" schoolroleidxx="{{v.id}}" schoolempgetid="{{employeeid}}" id="{{v.id}}{{employeeid}}" schoolempgetname="{{employeename}}" emppsw="{{employeepassword}}" check="{{v.check}}"></new-employee-creation-role-item-card> 
+                </td>
+                </template>  
+              </tr>  
+            </template>
+            </table>
+            </div>
+          </td>
+        </tr>
+      </table>  
+    </div>   
+
+          <div>
+            <paper-button class="subbutton" on-click="FnpersonalSave">Save</paper-button>
+          </div>               
+    </div>    
+    <demosumbit-card id="mydialog"></demosumbit-card>
+    <master-ui-service id="uiservice"></master-ui-service>
+  </template>
+  <script>
+    'use strict';
+    (function() {
+    'use strict';
+      var setrolearr=[];
+       var empschooltypearr=[];
+       var passschooltypearr=[];
+        var passrolearr=[];
+        var emplyname="";
+    Polymer({
+      is: 'new-employee-creation-card',
+     ready:function()
+     {
+      //alert("hiii");
+     // this.hidecreateemp=false;
+     // this.hideupdateemp=true;
+      //this.$.tit4.hidden=true;
+      //this.$.tit3.hidden=false;
+     },  
+
+     setschoolrolezz:function(arr){
+          setrolearr=arr;   
+          //alert(JSON.stringify(setrolearr));
+         },
+  
+    passetschooltype:function(arr)
+    { 
+       empschooltypearr=arr;
+       //alert(JSON.stringify(empschooltypearr));
+    },
+    FnRefresh:function()
+      {    
+       this.name="";
+       this.Telephone="";
+       this.MobileNumber="";
+       this.password="";
+       this.mailid="";
+      },  
+      FnSubmit:function()
+      { 
+        if(this.name=="")
+        {
+                this.$.empname.validate();
+                // this.$.empTelephone.validate();
+                //this.$.empMobile.validate();  
+                //this.$.emppassword.validate();
+                // this.$.empmailid.validate();
+        }
+        else  
+        {
+
+              emplyname=this.toTitleCase(this.name);
+              // alert(JSON.stringify(empschooltypearr));
+              // alert(JSON.stringify(setrolearr));
+               this.$.uiservice.fninsetschoolemployeeinfo(this.empid,emplyname,this.Telephone,this.MobileNumber,this.password="password",this.mailid,empschooltypearr,setrolearr);
+               this.$.mydialog.toggleDialog();
+               this.FnRefresh();
+               this.$.uiservice.selectschooltype();
+               this.$.uiservice.selectrolename();
+               this.$.uiservice.fnschoolemployeepersonal();
+               document.querySelector('employee-role-item-card').setschoolroleclean();
+               document.querySelector('employe-schooltype-creation-card').empschooltypesplice();
+               this.$.uiservice.fnempgenerateid();
+          }
+      },  
+
+
+          toTitleCase:function(str)
+          {
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+          },
+
+
+      getempdetails:function(e)
+      {
+         //  alert("hii");
+         this.$.uiservice.selectschooltype();
+         this.$.uiservice.selectrolename();
+         this.hidecreateemp=false;
+         this.hideupdateemp=true;
+         //document.getElementById('#hidecreateemp');
+      },
+     passrole:function(arr1){
+       passrolearr=arr1;
+      // alert(JSON.stringify(passrolearr));   
+      },
+      passschooltype:function(arr)   
+      {
+       passschooltypearr=arr;
+       //alert(JSON.stringify(passschooltypearr));
+      },
+   
+      funct1:function(employeeid,employeename,employeephone,employeemobile,employeemail,employeepassword,schoolid)
+      {
+        this.employeeid=employeeid;
+        this.employeename=employeename;   
+        this.employeephone=employeephone;
+        this.employeemobile=employeemobile;
+        this.employeemail=employeemail;
+        this.employeepassword=employeepassword;
+        this.schoolid=schoolid; 
+         this.hidecreateemp=true;
+         this.hideupdateemp=false;     
+
+      },
+      FnSchooltypemap:function(arr)
+      {
+        this.selectmapschooltypearr1=arr;
+        //alert(JSON.stringify(this.selectmapschooltypearr1));
+        this.hidecreateemp=true;
+        this.hideupdateemp=false;   
+      },
+      FnSchoolrole:function(arr){
+        // this.selectschoolrolearr1=[];
+        this.selectschoolrolearr1=overall;
+     /*      var overall=[];
+        var temp=[];
+        for(var l=0;l<arr.length;l++){
+        temp.push(arr[l]);
+         if(l!=0&&l%3==0){
+            overall.push(temp);
+            temp=[];
+         }
+        }
+       this.selectschoolrolearr1=overall;
+       alert(JSON.stringify(this.selectschoolrolearr1));
+        this.hidecreateemp=true;
+        this.hideupdateemp=false;  
+     */ },
+      
+       FnpersonalSave:function(e)
+       {
+
+   
+        this.$.uiservice.Fnpersonalinfo(this.employeeid,this.employeename,this.employeephone,this.employeemobile,this.employeemail,this.employeepassword);
+        this.$.uiservice.fnschooltypesaveinfo(passschooltypearr,this.employeename);
+        this.$.uiservice.fnrolesaveinfo(passrolearr,this.employeename);
+        this.$.mydialog.toggleDialog2();
+        document.querySelector('new-employee-creation-role-item-card').typesplicerole();
+         document.querySelector('new-employee-creation-schooltype-item-card').typesplice();
+         this.$.uiservice.fnschoolemployeepersonal();
+       this.ready();
+       },
+
+      /*fnnedit:function()
+      {
+        this.$.tit4.hidden=false;
+        this.$.tit3.hidden=true;
+      },*/
+
+      undelttt:function()
+      {h
+        this.$.mydialog.toggleDialog1();
+      },
+      fnnewemp:function()
+      {
+        this.hidecreateemp=false;
+        this.hideupdateemp=true;
+      }
+
+});
+  })();
+  </script>
+</dom-module>

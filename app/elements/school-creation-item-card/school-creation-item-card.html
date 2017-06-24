@@ -1,0 +1,183 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+   <link rel="import" href="../delete-dialog-card/delete-dialog-card.html">
+   <link rel="import" href="../update-demo-card/update-demo-card.html">
+
+
+<dom-module id="school-creation-item-card">
+  <template>
+    <style>
+      :host    
+      {
+        display: block;
+      }
+
+      .card
+      {  
+        @apply(--layout-center);
+        @apply(--layout-horizontal);     
+        border-bottom: 1px solid #dedede;
+        /*width: 200%; */
+      }      
+
+       .itemcard
+      {
+      @apply(--layout-horizontal); 
+      }  
+
+       paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+      .sub
+      {
+        width: 50%;
+      }      
+      .clsbutton
+      {
+        margin-left: 10%;
+      }
+      
+      #updatedetails
+       {
+        @apply(--layout-horizontal);
+         margin-left:30%;
+        } 
+      
+      /* paper-item
+       {
+        width: 200%;
+       }
+       */
+
+    </style>       
+      
+    <!-- <div class="itemcard">
+        <paper-item>{{schoolname}}</paper-item>
+    </div> -->
+
+      <table>
+        <tr>
+          <td>
+            <paper-icon-button id="btn1" icon='create' on-click="showupdetails"></paper-icon-button>
+            <paper-tooltip for="btn1">Edit</paper-tooltip> 
+          </td>
+          <td>
+            <paper-icon-button id="btn2" icon='close' on-click="FnDelete"></paper-icon-button>
+            <paper-tooltip for="btn2">Delete</paper-tooltip>
+          </td>
+        </tr>
+      </table>
+
+   
+
+    <div id="updatedetails" style="margin-top:-18%" hidden>
+      <div class="updatediv"> 
+        <div class="form-group-heading">
+          <CENTER><h3>School Details</h3></CENTER>
+          
+        </div>
+        <div class="list-group col-sm-12 panel-body form-category">
+          <paper-input value={{schoolid}} hidden></paper-input>
+          <div class="col-sm-6">
+            <paper-input label="School Name"  value="{{schoolname}}" ></paper-input>
+          </div>
+          <div class="col-sm-6">
+            <paper-input label="Telephone Number" value="{{telnum}}"  allowed-pattern="[0-9]"></paper-input>
+          </div>
+          <div class="col-sm-6">
+            <paper-input label="Mobile Number" value="{{mobile}}" allowed-pattern="[0-9]"></paper-input>
+          </div>
+          <div class="col-sm-6">
+            <gold-email-input label="Emailid" value="{{mailid}}"></gold-email-input>
+          </div>
+          <div class="col-sm-4">
+            <paper-input label="Website" value="{{wesite}}"></paper-input>
+          </div>
+          <div class="col-sm-4">
+            <paper-input label="affiliation" value="{{affiliationno}}"></paper-input>
+          </div>
+          <div class="col-sm-4">
+            <paper-input label="Board Type"  value="{{boardselection}}"></paper-input>
+          </div>              
+        </div>
+        <div>
+          <div class="form-group-heading">
+            <h4> School Address Details</h4>
+          </div>
+          <div class="list-group col-sm-12 panel-body form-category">
+            <div class="col-sm-6">
+              <paper-input label="Village/Town" value="{{addr}}"></paper-input>
+            </div>
+            <div class="col-sm-6">
+              <paper-input label="District"  value="{{addr1}}"></paper-input>
+            </div>
+            <div class="col-sm-6">
+              <paper-input label="State" value="{{addr2}}"></paper-input>
+            </div>
+            <div class="col-sm-6">
+              <paper-input label="Pincode" value="{{addr3}}"></paper-input>
+            </div>
+            <span class="button">
+              <paper-button style="margin-left:77%" on-click='FnSave'>Save</paper-button>
+            </span>
+          </div>
+        </div>
+      </div>         
+    </div>
+    </div>
+
+    <master-ui-service id="uiservice"></master-ui-service>
+  </template>
+  <script>
+  
+  (function() 
+  {
+    'use strict';
+       var getinsertarr=[];
+    Polymer({
+      is: 'school-creation-item-card',
+
+        ready:function()
+        {
+          this.hideupdatediv=true;
+        },
+        FnDelete:function()
+        {
+            this.$.uiservice.Fndeleteinfo(this.schoolid);
+           document.querySelector('school-creation-card').fundeltt();
+
+        },
+        
+        
+        showupdetails:function()
+        {  
+          document.querySelector('school-creation-card').fnnedit();
+          document.querySelector('school-creation-card').fn1(this.schoolid,this.schoolname,this.telnum,this.mobile,this.mailid,this.wesite,this.affiliationno,this.boardselection,this.addr,this.addr1,this.addr2,this.addr3);
+         // document.querySelector('school-creation-card').getfocus();
+        }
+
+       /* FnSave:function()
+        {
+          alert(this.addr);
+          alert(this.addr1);
+          alert(this.addr2);
+          alert(this.addr3);
+
+          this.$.uiservice.Fnsaveschoolinfo(this.schoolname,this.schoolid,this.telnum,this.mobile,this.mailid,
+              this.wesite,this.addr,this.addr1,this.addr2,this.addr3,this.affiliationno,this.boardselection);
+        }*/
+        
+        });
+  })();
+  </script>
+</dom-module>

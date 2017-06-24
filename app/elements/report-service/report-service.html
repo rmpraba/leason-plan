@@ -1,0 +1,874 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="report-service">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+     <iron-ajax
+        method="post"
+        id="fetchstudnameajax"
+        url="{{fetchstudnameurl}}"
+        params="{{fetchstudnameparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchstudnameResponse"
+        debounce-duration="300"
+    > 
+
+    <iron-ajax
+        method="post"
+        id="fetchtermmarkforreportajax"
+        url="{{fetchtermmarkforreporturl}}"
+        params="{{fetchtermmarkforreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchtermmarkforreportResponse"
+        debounce-duration="300"
+    > 
+    <iron-ajax
+        method="post"
+        id="fetchbeginnermarkforreportajax"
+        url="{{fetchbeginnermarkforreporturl}}"
+        params="{{fetchbeginnermarkforreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchbeginnermarkforreportResponse"
+        debounce-duration="300"
+    >
+
+     <iron-ajax
+        method="post"
+        id="assesmentwisereportajax"
+        url="{{assesmentwisereporturl}}"
+        params="{{assesmentwisereportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="assesmentwisereportResponse"
+        debounce-duration="300"
+    > 
+    <iron-ajax
+        method="post"
+        id="termwisereportajax"
+        url="{{termwisereporturl}}"
+        params="{{termwisereportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="termwisereportResponse"
+        debounce-duration="300"
+    >
+     <iron-ajax
+        method="post"
+        id="fetchbeginnermarkajax"
+        url="{{fetchbeginnermarkurl}}"
+        params="{{fetchbeginnermarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchbeginnermarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="subjectwisereportajax"
+        url="{{subjectwisereporturl}}"
+        params="{{subjectwisereportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="subjectwisereportResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="categorywisereportajax"
+        url="{{categorywisereporturl}}"
+        params="{{categorywisereportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="categorywisereportResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchreportsubjectnameajax"
+        url="{{fetchreportsubjectnameurl}}"
+        params="{{fetchreportsubjectnameparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchreportsubjectnameResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchconsolidatedtermwiseajax"
+        url="{{fetchconsolidatedtermwiseurl}}"
+        params="{{fetchconsolidatedtermwiseparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchconsolidatedtermwiseResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="consolidateddatanalysisreportajax"
+        url="{{consolidateddatanalysisreporturl}}"
+        params="{{consolidateddatanalysisreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="consolidateddatanalysisreportResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="categorywisereportfordataanalysisajax"
+        url="{{categorywisereportfordataanalysisurl}}"
+        params="{{categorywisereportfordataanalysisparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="categorywisereportfordataanalysisResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var studarr=[];
+    var term=[];
+    var beginner=[];
+    var overall=[];
+    var arr1=[];
+    Polymer({
+      is: 'report-service',
+      callFetchstudentnameService:function(){
+        this.fetchstudnameurl=sessionStorage.getItem("addrinfo")+"/fetchstudname-service";
+        var obj={"scoolid":"","roleid":"","grade":"","section":""};
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        this.fetchstudnameparam=obj;
+        this.$.fetchstudnameajax.generateRequest();
+      },
+      fetchstudnameResponse:function(e){
+        studarr=e.detail.response.returnval;
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Consolidatedreport") {
+        if(localStorage.getItem("curr_sess_reporttype")=="Assesmentwise"){
+          document.querySelector('consolidated-report-card').FnHide();
+          this.callassesmentwisereportService();
+        } 
+        else if(localStorage.getItem("curr_sess_reporttype")=="Termwise"){
+          document.querySelector('consolidated-report-card').FnHide();
+          this.calltermwisereportService();
+        }
+        else if(localStorage.getItem("curr_sess_reporttype")=="Subjectwise"){
+          document.querySelector('consolidated-report-card').FnHide();
+          this.callsubjectwisereportService();
+        }
+        else if(localStorage.getItem("curr_sess_reporttype")=="Categorywise"){
+          document.querySelector('consolidated-report-card').FnHide();
+          this.callcategorywisereportService();
+        } 
+        else if(localStorage.getItem("curr_sess_reporttype")=="ConsolidatedTerm"){
+          document.querySelector('consolidated-report-card').FnHide();
+          this.callconsolidatedtermwisereportService();
+        }
+        }
+        else if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Analysis") {    
+        document.querySelector('beginner-term-analysis-card').FnHide();  
+        this.callfetchtermmarkforreportService(); 
+        } 
+        else if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Consolidateddataanalysis") {    
+        document.querySelector('consolidated-data-analysis').FnHide();  
+        this.callconsolidateddatanalysisreportService();
+        }      
+      },
+
+      callfetchsubjectnameService:function(){
+        // alert('coming....');
+        this.fetchreportsubjectnameurl=sessionStorage.getItem("addrinfo")+"/fetchreportsubjectname-service";
+        var obj={"scoolid":"","grade":"","subject":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        this.fetchreportsubjectnameparam=obj;
+        this.$.fetchreportsubjectnameajax.generateRequest();
+      },
+      fetchreportsubjectnameResponse:function(e){
+        var subjectarr=e.detail.response.returnval;
+        // alert(JSON.stringify(subjectarr));
+        document.querySelector('consolidated-report-card').subjectarr=subjectarr;
+      },
+      callfetchtermmarkforreportService:function(){
+        // alert('yes');
+        this.fetchtermmarkforreporturl=sessionStorage.getItem("addrinfo")+"/fetchtermmarkforreport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","subject":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.fetchtermmarkforreportparam=obj;
+        this.$.fetchtermmarkforreportajax.generateRequest();
+      },
+      fetchtermmarkforreportResponse:function(e){      
+       
+       arr1=e.detail.response.returnval;
+       this.callfetchbeginnermarkService();
+    },
+    callfetchbeginnermarkService:function(){
+       this.fetchbeginnermarkurl=sessionStorage.getItem("addrinfo")+"/fetchbeginnermark-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","subject":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.fetchbeginnermarkparam=obj;
+        this.$.fetchbeginnermarkajax.generateRequest();
+    },
+    fetchbeginnermarkResponse:function(e){
+      var barr=e.detail.response.returnval;
+      // alert(JSON.stringify(barr));
+      // for(var i=0;i<barr.length;i++){
+      //   for(var j=0;j<arr1.length;j++){
+      //     if(barr[i].student_id==arr1[j].student_id){
+      //       arr1[j].beginner_grade=barr[i].grade;
+      //     }
+      //   }
+      // }
+      // for(var x=0;x<studarr.length;x++){
+      //   for(var y=0;y<arr1.length;y++)
+      //   {
+      //     if(studarr[x].id==arr1[y].student_id)
+      //       arr1[y].student_name=studarr[x].student_name;          
+      //   }
+      //  }
+      //  if(arr1.length>0){      
+      //  for(var i=0;i<arr1.length;i++)
+      //  {
+      //   var markarr=[];
+      //   markarr.push(i+1);
+      //   markarr.push(arr1[i].student_name);
+      //   markarr.push(arr1[i].beginner_grade);
+      //   markarr.push(arr1[i].term_grade);
+      //   for(var j=i+1;j<arr1.length;j++)
+      //   {
+      //      if(arr1[i].student_id==arr1[j].student_id)
+      //      {
+      //       markarr.push(arr1[j].term_grade);
+      //       arr1.splice(j,1);
+      //       j--;
+      //      }
+      //   }
+      //  overall.push(markarr);
+      //  }
+      //  }
+
+       for(var x=0;x<barr.length;x++){
+        for(var y=0;y<studarr.length;y++)
+        {
+          if(barr[x].student_id==studarr[y].id)
+            barr[x].student_name=studarr[y].student_name;          
+        }
+       }
+       for(var i=0;i<barr.length;i++){
+        barr[i].sno=i+1;
+        barr[i].score=parseFloat((barr[i].score)/10).toFixed(2);
+       }
+       // document.querySelector("beginner-term-analysis-card").itemarr=overall;
+       document.querySelector("beginner-term-analysis-card").itemarr=barr;
+       arr1=[];
+       overall=[];
+      // alert(JSON.stringify(overall));
+    },
+    callassesmentwisereportService:function(){
+       this.assesmentwisereporturl=sessionStorage.getItem("addrinfo")+"/assesmentwisereport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","assesment":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.assesment=localStorage.getItem("curr_sess_assesment");
+        this.assesmentwisereportparam=obj;
+        this.$.assesmentwisereportajax.generateRequest();
+    },
+    assesmentwisereportResponse:function(e){
+      var overall=[];
+      var subarr=[];
+      var subfinal=[];
+       var arr1=e.detail.response.returnval;
+       // alert(JSON.stringify(arr1));
+       for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+       }
+       if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        markarr.push((i+1));
+        markarr.push(arr1[i].student_name);
+        subarr.push(arr1[i].subject_id);
+        markarr.push(arr1[i].mark);        
+        markarr.push(arr1[i].grade);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[i].mark); 
+            markarr.push(arr1[j].grade);
+            subarr.push(arr1[j].subject_id);
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+       overall.push(markarr);
+       }
+
+        var subfinal=this.eliminateDuplicates(subarr);  
+        var titlearr=[];              
+        // alert(subfinal.length);
+        subfinal.splice(0,2);
+        for(var i=0;i<subfinal.length;i++){
+          if(subfinal[i]!="Sno"||subfinal[i]!="Student Name"){
+            titlearr.push("Total");
+            titlearr.push("Grade");
+          }
+        }
+        document.querySelector("assesmentwise-report-card").subjectarr=subfinal;
+        document.querySelector("assesmentwise-report-card").titlearr=titlearr;
+        document.querySelector("assesmentwise-report-card").itemarr=overall;
+        subjectarr=[];
+        titlearr=[];
+        itemarr=[];
+        }
+    },
+    eliminateDuplicates:function(arr) {
+var i;
+  var len=arr.length;
+  var out=[];
+  var obj={};
+  out.push("Sno");
+  out.push("Student Name");
+
+ for (i=0;i<len;i++) {
+ obj[arr[i]]=0;
+ }
+ for (i in obj) {
+ out.push(i);
+ }
+ return out;
+},
+ eliminateDuplicates1:function(arr) {
+var i;
+  var len=arr.length;
+  var out=[];
+  var obj={};
+
+
+ for (i=0;i<len;i++) {
+ obj[arr[i]]=0;
+ }
+ for (i in obj) {
+ out.push(i);
+ }
+ return out;
+},
+    calltermwisereportService:function(){
+       this.termwisereporturl=sessionStorage.getItem("addrinfo")+"/termwisereport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        // obj.assesment=localStorage.getItem("curr_sess_assesment");
+        this.termwisereportparam=obj;
+        this.$.termwisereportajax.generateRequest();
+    },
+    termwisereportResponse:function(e){
+      var overall=[];
+      var assesmentarr=[];
+      var subarr=[];
+      var subcount=1;
+      var asses1=0;
+      var asses2=0;
+      var asses3=0;
+       var arr1=e.detail.response.returnval;
+       // alert(JSON.stringify(arr1));
+       for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+       }
+       if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        assesmentarr.push(arr1[i].assesment_id);
+       // alert(i+''+arr1.length);
+       if(subcount==1)
+       {
+        if(arr1[i].assesment_id=="Assesment1")
+        {
+          asses1++;
+        }
+        if(arr1[i].assesment_id=="Assesment2")
+        {
+          asses2++;
+        }
+        if(arr1[i].assesment_id=="Assesment3")
+        {
+          asses3++;
+        }
+        subarr.push(arr1[i].subject_id);
+      }
+       
+        markarr.push(arr1[i].grade);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[j].grade);
+            assesmentarr.push(arr1[j].assesment_id);
+            if(subcount==1)
+           {
+             if(arr1[j].assesment_id=="Assesment1")
+        {
+          asses1++;
+        }
+        if(arr1[j].assesment_id=="Assesment2")
+        {
+          asses2++;
+        }
+        if(arr1[j].assesment_id=="Assesment3")
+        {
+          asses3++;
+        }
+          subarr.push(arr1[j].subject_id);
+           }
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+        subcount++;
+
+       // subarr.push(arr1[i].subject_id);
+       overall.push(markarr);
+       }
+       // alert(JSON.stringify(subarr));
+       // alert(JSON.stringify(assesmentarr));
+       var assfinal=this.eliminateDuplicates1(assesmentarr);
+       var subfinal=this.eliminateDuplicates(subarr);
+       var subjectarr=[];
+       subjectarr.push(subfinal[0]);
+       subjectarr.push(subfinal[1]);
+       for(var i=0;i<subarr.length;i++)
+        {
+          subjectarr.push(subarr[i]);
+        }
+       // alert(asses1+''+asses2+''+asses3);
+       //alert(JSON.stringify(subarr));
+       //alert(JSON.stringify(subjectarr));
+        document.querySelector("termwise-report-card").assesmentarr=assfinal;
+        document.querySelector("termwise-report-card").subjectarr=subjectarr;
+        document.querySelector("termwise-report-card").itemarr=overall;
+        document.querySelector("termwise-report-card").assesmentlen(asses1,asses2,asses3);
+        assesmentarr=[];
+        subjectarr=[];
+        itemarr=[];
+      }
+    },
+
+    callsubjectwisereportService:function(){
+       this.subjectwisereporturl=sessionStorage.getItem("addrinfo")+"/subjectwisereport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.assesment=localStorage.getItem("curr_sess_assesment");
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.subjectwisereportparam=obj;
+        this.$.subjectwisereportajax.generateRequest();
+    },
+    subjectwisereportResponse:function(e){
+      // alert(JSON.stringify(e.detail.response.returnval));
+      var overall=[];
+      var subarr=[];
+      var subfinal=[];
+      var arr1=e.detail.response.returnval;
+
+      for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+      }
+
+      if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        subarr.push(arr1[i].assesment_id);
+        markarr.push(arr1[i].total);
+        markarr.push(arr1[i].grade);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[j].total);
+            markarr.push(arr1[j].grade);
+            subarr.push(arr1[j].assesment_id);
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+        overall.push(markarr);
+        }      
+        // alert(JSON.stringify(subfinal));  
+        // alert(JSON.stringify(overall));              
+        var subfinal=this.eliminateDuplicates(subarr);      
+        document.querySelector("subjectwise-report-card").subjectarr=subfinal;
+        document.querySelector("subjectwise-report-card").itemarr=overall;
+        subfinal=[];
+        overall=[];
+      }
+    },
+    callcategorywisereportService:function(){
+       this.categorywisereporturl=sessionStorage.getItem("addrinfo")+"/categorywisereport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.assesment=localStorage.getItem("curr_sess_assesment");
+        // alert(JSON.stringify(localStorage.getItem("curr_sess_assesment")));
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.categorywisereportparam=obj;
+        this.$.categorywisereportajax.generateRequest();
+    },
+    categorywisereportResponse:function(e){
+      // alert(JSON.stringify(e.detail.response.returnval));
+      var overall=[];
+      var subarr=[];
+      var subfinal=[];
+      var catarr=[];
+      var catfinal=[];
+      var arr1=e.detail.response.returnval;
+
+      for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+      }
+
+      if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        subarr.push(arr1[i].sub_category);
+        catarr.push(arr1[i].category);
+        markarr.push(arr1[i].total);
+        markarr.push(arr1[i].grade);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[j].total);
+            markarr.push(arr1[j].grade);
+            subarr.push(arr1[j].sub_category);
+            catarr.push(arr1[j].category);
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+        overall.push(markarr);
+        }      
+        // alert(JSON.stringify(subfinal));  
+        // alert(JSON.stringify(overall));              
+        var subfinal=this.eliminateDuplicates(subarr); 
+        var catfinal=this.eliminateDuplicates(catarr); 
+        // alert(JSON.stringify(catfinal));
+        var titlearr=[]; 
+        
+        subfinal.splice(0,2); 
+        for(var i=0;i<subfinal.length;i++){
+          if(subfinal[i]!="Sno"||subfinal[i]!="Student Name"){
+            titlearr.push("Total");
+            titlearr.push("Grade");
+          }
+        }   
+        // document.querySelector("categorywise-report").categoryarr=catfinal;
+        document.querySelector("categorywise-report").FnHideView();
+        document.querySelector("categorywise-report").subjectarr=subfinal;
+        document.querySelector("categorywise-report").titlearr=titlearr;
+        document.querySelector("categorywise-report").itemarr=overall;
+        subfinal=[];
+        titlearr=[];
+        overall=[];
+        
+      }
+    },
+    callconsolidatedtermwisereportService:function(){
+        this.fetchconsolidatedtermwiseurl=sessionStorage.getItem("addrinfo")+"/fetchconsolidatedtermwise-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        this.fetchconsolidatedtermwiseparam=obj;
+        this.$.fetchconsolidatedtermwiseajax.generateRequest();
+    },
+    fetchconsolidatedtermwiseResponse:function(e){
+      var overall=[];
+      var assesmentarr=[];
+      var subarr=[];
+      var titlearr=[];
+
+       var arr1=e.detail.response.returnval;
+       // alert(JSON.stringify(arr1));
+       for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+       }
+       if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        markarr.push(arr1[i].total);
+        markarr.push(arr1[i].grade);
+        subarr.push(arr1[i].subject_id);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[j].total);
+            markarr.push(arr1[j].grade); 
+            subarr.push(arr1[j].subject_id);           
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+       overall.push(markarr);
+       }
+       var subfinal=this.eliminateDuplicates(subarr);
+       subfinal.splice(0,2); 
+        for(var i=0;i<subfinal.length;i++){
+          if(subfinal[i]!="Sno"||subfinal[i]!="Student Name"){
+            titlearr.push("Total");
+            titlearr.push("Grade");
+          }
+        }    
+       // alert(JSON.stringify(subfinal));
+       // alert(JSON.stringify(overall));
+        document.querySelector("consolidatedtermwise-report-card").subjectarr=subfinal;
+        document.querySelector("consolidatedtermwise-report-card").titlearr=titlearr;
+        document.querySelector("consolidatedtermwise-report-card").itemarr=overall;
+        subfinal=[];
+        overall=[];
+        titlearr=[];
+      }
+    },
+    callconsolidateddatanalysisreportService:function(){
+
+      this.consolidateddatanalysisreporturl=sessionStorage.getItem("addrinfo")+"/consolidateddatanalysisreport-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        this.consolidateddatanalysisreportparam=obj;
+        this.$.consolidateddatanalysisreportajax.generateRequest();
+    },
+    consolidateddatanalysisreportResponse:function(e){
+      var overall=[];
+      var assesmentarr=[];
+      var subarr=[];
+      var titlearr=[];
+      var arr1=e.detail.response.returnval;
+       for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+       }
+       // alert(JSON.stringify(arr1));
+       if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        var obj={};
+        var t1=[];
+        markarr.push({"sno":i+1});
+        markarr.push({"studentname":arr1[i].student_name});
+        // obj.sno=i+1;
+        // obj.studentname=arr1[i].student_name;
+        obj.studentid=arr1[i].student_id;
+        obj.subject=arr1[i].subject_id;
+        obj.term=localStorage.getItem("curr_sess_termname");
+        obj.grade=localStorage.getItem("curr_sess_grade");
+        obj.section=localStorage.getItem("curr_sess_section");
+        obj.mark=(arr1[i].total);
+        // markarr.push(arr1[i].grade);
+        t1.push(obj);
+        // markarr.push(obj);
+        subarr.push(arr1[i].subject_id);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            var obj1={};
+            // obj1.sno=i+1;
+            // obj1.studentname=arr1[i].student_name;
+            obj1.studentid=arr1[j].student_id;
+            obj1.subject=arr1[j].subject_id;
+            obj1.mark=(arr1[j].total);
+            obj1.term=localStorage.getItem("curr_sess_termname");
+            obj1.grade=localStorage.getItem("curr_sess_grade");
+            obj1.section=localStorage.getItem("curr_sess_section");
+            t1.push(obj1);
+            // markarr.push(arr1[j].total);
+            // markarr.push(arr1[j].grade); 
+            subarr.push(arr1[j].subject_id);           
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+        markarr.push({"mark":t1});
+        overall.push(markarr);
+       }
+       var subfinal=this.eliminateDuplicates(subarr);
+       subfinal.splice(0,2); 
+        for(var i=0;i<subfinal.length;i++){
+          if(subfinal[i]!="Sno"||subfinal[i]!="Student Name"){
+            titlearr.push("Total");
+            // titlearr.push("Grade");
+          }
+        }    
+       // alert(JSON.stringify(subfinal));
+        // alert(JSON.stringify(overall));
+        document.querySelector("consolidated-data-analysis-report").subjectarrr=subfinal;
+        // document.querySelector("consolidated-data-analysis-report").titlearr=titlearr;
+        document.querySelector("consolidated-data-analysis-report").itemarrr=overall;
+        subfinal=[];
+        overall=[];
+        titlearr=[];
+      }
+    },
+    callcategorywisereportfordataanalysisService:function(){
+       // document.querySelector('consolidated-data-analysis-report').FnSpinnerrActive(true);
+       this.categorywisereportfordataanalysisurl=sessionStorage.getItem("addrinfo")+"/categorywisereportfordataanalysis-service";
+        var obj={"schoolid":"","academicyear":"","grade":"","section":"","termname":""};
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.grade=localStorage.getItem("curr_sess_grade");;
+        obj.section=localStorage.getItem("curr_sess_section");
+        // obj.assesment=localStorage.getItem("curr_sess_assesment");
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.categorywisereportfordataanalysisparam=obj;
+        this.$.categorywisereportfordataanalysisajax.generateRequest();
+    },
+    categorywisereportfordataanalysisResponse:function(e){
+      // alert(JSON.stringify(e.detail.response.returnval));
+      var overall=[];
+      var subarr=[];
+      var subfinal=[];
+      var catarr=[];
+      var catfinal=[];
+      var arr1=e.detail.response.returnval;
+
+      for(var x=0;x<studarr.length;x++){
+        for(var y=0;y<arr1.length;y++)
+        {
+          if(studarr[x].id==arr1[y].student_id)
+            arr1[y].student_name=studarr[x].student_name;          
+        }
+      }
+
+      if(arr1.length>0){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        subarr.push(arr1[i].sub_category);
+        catarr.push(arr1[i].category);
+        markarr.push(arr1[i].total);
+        markarr.push(arr1[i].grade);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+            markarr.push(arr1[j].total);
+            markarr.push(arr1[j].grade);
+            subarr.push(arr1[j].sub_category);
+            catarr.push(arr1[j].category);
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+        overall.push(markarr);
+        }      
+        // alert(JSON.stringify(subfinal));  
+        // alert(JSON.stringify(overall));              
+        var subfinal=this.eliminateDuplicates(subarr); 
+        var catfinal=this.eliminateDuplicates(catarr); 
+        // alert(JSON.stringify(catfinal));
+        var titlearr=[]; 
+        
+        subfinal.splice(0,2); 
+        for(var i=0;i<subfinal.length;i++){
+          if(subfinal[i]!="Sno"||subfinal[i]!="Student Name"){
+            titlearr.push("Total");
+            titlearr.push("Grade");
+          }
+        }   
+        // document.querySelector("categorywise-report").categoryarr=catfinal;
+        document.querySelector("consolidated-data-analysis-report").setDefaultHeaders1();
+        document.querySelector("consolidated-data-analysis-report").FnHideView();
+        document.querySelector("consolidated-data-analysis-report").subjectarr=subfinal;
+        document.querySelector("consolidated-data-analysis-report").titlearr=titlearr;
+        document.querySelector("consolidated-data-analysis-report").itemarr=overall;
+        // document.querySelector('consolidated-data-analysis-report').FnSpinnerrActive(false);
+        document.querySelector("consolidated-data-analysis-report").tiggerDialog();
+        subfinal=[];
+        titlearr=[];
+        overall=[];        
+      }
+    }
+    });
+  })();
+  </script>
+</dom-module>

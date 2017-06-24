@@ -1,0 +1,104 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-button/paper-button.html">
+<dom-module id="term-scholastic-category">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+      }
+      .outcard{
+        margin-top: 10%;
+         @apply(--layout-center-justified);
+        @apply(--layout-horizontal);
+         font-weight:bold;
+      }
+    </style>
+    <div class="outcard">
+      <div class="card" hidden$="{{scholastic}}">    
+       <paper-button  on-click="FnScholastic" no ink><img src="../../images/school1.jpg" height="180px" width="180px">
+       </paper-button>
+        <center><h4>Scholastic</h4></center>
+      </div>
+      <div class="card" hidden$="{{coscholastic}}">
+       <paper-button   on-click="FnCoScholastic" no ink><img src="../../images/act1.jpg" height="180px" width="180px">
+        </paper-button>
+         <center><h4>CoScholastic</h4></center>
+      </div>      
+      <div class="card" hidden$="{{coactivity}}">
+       <paper-button   on-click="FnCoActivity" no ink><img src="../../images/active2.jpg" height="180px" width="180px"></paper-button>
+        <center><h4>Activity</h4></center>
+      </div>
+      <div class="card" hidden$="{{general}}">
+       <paper-button  on-click="FnGeneral" no ink><img src="../../images/heal1.jpg" height="180px" width="180px">
+       </paper-button>
+        <center><h4>General</h4></center>
+      </div>
+      <div class="card" hidden$="{{talent}}">
+       <paper-button  on-click="FnTalent" no ink><img src="../../images/talent.jpg" height="180px" width="180px">
+       </paper-button>
+        <center><h4>Talent Identification</h4></center>
+      </div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'term-scholastic-category',
+      ready:function(){
+        this.scholastic=true;
+        this.coscholastic=true;
+        this.coactivity=true;
+        this.general=true;
+        this.talent=true;
+      },
+      FnHideView:function(){ 
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){  
+          this.scholastic=false;
+        }
+        else{
+          this.scholastic=false;
+          this.coscholastic=false;
+          this.coactivity=false;
+          this.general=false;
+          this.talent=false;
+        }
+      },
+      FnScholastic:function(){
+        localStorage.setItem("curr_sess_subjectcategory","category1");
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('termassesment','');
+        document.querySelector('term-assesment-card').FnHideView();
+      },
+      FnCoScholastic:function(){
+        localStorage.setItem("curr_sess_subjectcategory","category2");
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        document.querySelector('coscholastic-assesment-card').callDefaultService();
+      },
+      FnCoActivity:function(){
+        localStorage.setItem("curr_sess_subjectcategory","category3");
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        document.querySelector('coscholastic-assesment-card').callDefaultService();
+      },
+      FnGeneral:function(){
+        localStorage.setItem("curr_sess_subjectcategory","category4");
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        document.querySelector('coscholastic-assesment-card').callDefaultService();
+      },
+      FnTalent:function(){
+        localStorage.setItem("curr_sess_subjectcategory","category5");
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        document.querySelector('coscholastic-assesment-card').callDefaultService();
+      }
+      
+    });
+  })();
+  </script>
+</dom-module>

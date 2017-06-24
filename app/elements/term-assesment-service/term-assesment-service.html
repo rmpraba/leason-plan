@@ -1,0 +1,2419 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="term-assesment-service">
+  <template>
+  <iron-ajax           
+        id="academicajax"
+        url="../../configfile/academicconfig.json"
+        params="{{academicparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="academicResponse"
+        debounce-duration="300"
+        >
+  <iron-ajax
+        method="post"
+        id="assesmentajax"
+        url="{{assesmenturl}}"
+        params="{{assesmentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="assesmentResponse"
+        debounce-duration="300"
+    >
+  <iron-ajax
+        method="post"
+        id="termajax"
+        url="{{termurl}}"
+        params="{{termparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="termResponse"
+        debounce-duration="300"
+    >
+  <iron-ajax
+        method="post"
+        id="termcycleajax"
+        url="{{termcycleurl}}"
+        params="{{termcycleparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="termcycleResponse"
+        debounce-duration="300"
+    >
+  <iron-ajax
+        method="post"
+        id="gradeajax"
+        url="{{gradeurl}}"
+        params="{{gradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="gradeResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="sectionajax"
+        url="{{sectionurl}}"
+        params="{{sectionparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="sectionResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="subjectajax"
+        url="{{subjecturl}}"
+        params="{{subjectparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="subjectResponse"
+        debounce-duration="300"
+    >
+
+    <iron-ajax
+        method="post"
+        id="categoryajax"
+        url="{{categoryurl}}"
+        params="{{categoryparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="categoryResponse"
+        debounce-duration="300"
+    >
+
+    <iron-ajax
+        method="post"
+        id="subcategoryajax"
+        url="{{subcategoryurl}}"
+        params="{{subcategoryparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="subcategoryResponse"
+        debounce-duration="300"
+    >
+
+    <iron-ajax
+        method="post"
+        id="assesmentajax"
+        url="{{assesmenturl}}"
+        params="{{assesmentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="assesmentResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchstudentajax"
+        url="{{fetchstudenturl}}"
+        params="{{fetchstudentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchstudentResponse"
+        debounce-duration="300"
+    >
+
+     <iron-ajax
+        method="post"
+        id="fetchfastudentajax"
+        url="{{fetchfastudenturl}}"
+        params="{{fetchfastudentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchfastudentResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="insertassesmentmarkajax"
+        url="{{insertassesmentmarkurl}}"
+        params="{{insertassesmentmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="insertassesmentmarkResponse"
+        debounce-duration="300"
+    >
+     <iron-ajax
+        method="post"
+        id="insertfaassesmentmarkajax"
+        url="{{insertfaassesmentmarkurl}}"
+        params="{{insertfaassesmentmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="insertfaassesmentmarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="overalltermmarkinsertajax"
+        url="{{overalltermmarkinserturl}}"
+        params="{{overalltermmarkinsertparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="overalltermmarkinsertResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="termattendanceajax"
+        url="{{termattendanceurl}}"
+        params="{{termattendanceparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="termattendanceResponse"
+        debounce-duration="300"
+    >
+      <iron-ajax
+        method="post"
+        id="nameforperformancereportajax"
+        url="{{nameforperformancereporturl}}"
+        params="{{nameforperformancereportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="nameforperformancereportResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="onetofourreportajax"
+        url="{{onetofourreporturl}}"
+        params="{{onetofourreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="onetofourreportResponse"
+        debounce-duration="300"
+    >
+
+     <iron-ajax    
+     auto    
+        method="post"
+        id="fetchgradeforscoreajax"
+        url="{{fetchgradeforscoreurl}}"
+        params="{{fetchgradeforscoreparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeforscoreResponse"
+        debounce-duration="300"
+    >
+     
+
+       <iron-ajax    
+     auto    
+        method="post"
+        id="fetchfagradeforscoreajax"
+        url="{{fetchfagradeforscoreurl}}"
+        params="{{fetchfagradeforscoreparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchfagradeforscoreResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="fetchstudentreportajax"
+        url="{{fetchstudentreporturl}}"
+        params="{{fetchstudentreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchstudentreportResponse"
+        debounce-duration="300"
+    > 
+
+    <iron-ajax
+        method="post"
+        id="fetchfareportajax"
+        url="{{fetchfareporturl}}"
+        params="{{fetchfareportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchfareportResponse"
+        debounce-duration="300"
+    > 
+
+    <iron-ajax
+        method="post"
+        id="fetchfastudentreportajax"
+        url="{{fetchfastudentreporturl}}"
+        params="{{fetchfastudentreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchfastudentreportResponse"
+        debounce-duration="300"
+    >       
+    <iron-ajax
+        method="post"
+        id="overalltermassesmentinsertajax"
+        url="{{overalltermassesmentinserturl}}"
+        params="{{overalltermassesmentinsertparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="overalltermassesmentinsertResponse"
+        debounce-duration="300"
+    >
+     <iron-ajax
+        method="post"
+        id="importmarkajax"
+        url="{{importmarkurl}}"
+        params="{{importmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="importmarkResponse"
+        debounce-duration="300"
+    >    
+      <iron-ajax
+        method="post"
+        id="updateimportmarkajax"
+        url="{{updateimportmarkurl}}"
+        params="{{updateimportmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updateimportmarkResponse"
+        debounce-duration="300"
+    >   
+
+     <iron-ajax
+        method="post"
+        id="updatefaimportmarkajax"
+        url="{{updatefaimportmarkurl}}"
+        params="{{updatefaimportmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatefaimportmarkResponse"
+        debounce-duration="300"
+    >   
+
+      <iron-ajax
+        method="post"
+        id="approvemarkajax"
+        url="{{approvemarkurl}}"
+        params="{{approvemarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="approvemarkResponse"
+        debounce-duration="300"
+    >  
+    <iron-ajax
+        method="post"
+        id="fetchimportmarkajax"
+        url="{{fetchimportmarkurl}}"
+        params="{{fetchimportmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchimportmarkResponse"
+        debounce-duration="300"
+    >  
+    <iron-ajax
+        method="post"
+        id="updatemarkajax"
+        url="{{updatemarkurl}}"
+        params="{{updatemarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatemarkResponse"
+        debounce-duration="300"
+    >   
+      <iron-ajax
+        method="post"
+        id="updateflagajax"
+        url="{{updateflagurl}}"
+        params="{{updateflagparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updateflagResponse"
+        debounce-duration="300"
+    > 
+
+
+    <iron-ajax
+        method="post"
+        id="updatefaflagajax"
+        url="{{updatefaflagurl}}"
+        params="{{updatefaflagparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatefaflagResponse"
+        debounce-duration="300"
+    > 
+    <iron-ajax
+        method="post"
+        id="updateimportmarkcheckajax"
+        url="{{updateimportmarkcheckurl}}"
+        params="{{updateimportmarkcheckparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updateimportmarkcheckResponse"
+        debounce-duration="300"
+    >
+
+
+     <iron-ajax
+        method="post"
+        id="updatefaimportmarkcheckajax"
+        url="{{updatefaimportmarkcheckurl}}"
+        params="{{updatefaimportmarkcheckparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatefaimportmarkcheckResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="audittermajax"
+        url="{{audittermurl}}"
+        params="{{audittermparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="audittermResponse"
+        debounce-duration="300"
+    >
+
+     <iron-ajax
+        method="post"
+        id="updateattendanceflagajax"
+        url="{{updateattendanceflagurl}}"
+        params="{{updateattendanceflagparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updateattendanceflagResponse"
+        debounce-duration="300"
+    > 
+
+     <iron-ajax
+        method="post"
+        id="fetchapprovalstatusajax"
+        url="{{fetchapprovalstatusurl}}"
+        params="{{fetchapprovalstatusparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchapprovalstatusResponse"
+        debounce-duration="300"
+    > 
+
+    <iron-ajax
+        method="post"
+        id="updatestudentinfoajax"
+        url="{{updatestudentinfourl}}"
+        params="{{updatestudentinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="updatestudentinfoResponse"
+        debounce-duration="300"
+    > 
+
+    <iron-ajax
+        method="post"
+        id="studentinfoajax"
+        url="{{studentinfourl}}"
+        params="{{studentinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="studentinfoResponse"
+        debounce-duration="300"
+    > 
+    <iron-ajax
+        method="post"
+        id="studentparentinfoajax"
+        url="{{studentparentinfourl}}"
+        params="{{studentparentinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="studentparentinfoResponse"
+        debounce-duration="300"
+    > 
+    <iron-ajax
+        method="post"
+        id="insertoverallfagradeajax"
+        url="{{insertoverallfagradeurl}}"
+        params="{{insertoverallfagradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="insertoverallfagradeResponse"
+        debounce-duration="300"
+    >
+     <iron-ajax
+        method="post"
+        id="deletemarkajax"
+        url="{{deletemarkurl}}"
+        params="{{deletemarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="deletemarkResponse"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="revertsubmittedmarkajax"
+        url="{{revertsubmittedmarkurl}}"
+        params="{{revertsubmittedmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="revertsubmittedmarkResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    var fa_lower=[];
+    var fa_higher=[];
+    var fa_grade=[];
+    var name;
+    var arr=[];
+    var overall=[];
+    var sarr1=[];
+    var n1=0,n2=0;
+    var tempcnt1=0,tempcnt2=0;
+    var updatecount=0,updatereqcount=0,updatefailcount=0;
+
+    var insertflag=0,insertcheckflag=0;
+
+    var updatemarkarray=[];
+
+    var overallfetchimportarr=[];
+    var overallcount=0;
+    
+    Polymer({
+      is: 'term-assesment-service',
+      ready:function(){ 
+        this.studarrlength=0;  
+        // localStorage.setItem("curr_sess_fetchstudent",'0');       
+      },
+      callAcademicService:function(){
+        this.$.academicajax.generateRequest();
+      },
+      academicResponse:function(e){
+        document.querySelector('teacherhome-card').academicarr=e.detail.response; 
+        document.querySelector('teacherhome-card').FnYearToggle();
+      },
+      callTermService:function(termtype){
+         this.termurl=sessionStorage.getItem("addrinfo")+"/term-service";
+         var obj={"schoolid":"","termtype":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termtype=termtype;
+         this.termparam= obj;
+         this.$.termajax.generateRequest();
+      },
+      termResponse:function(e){         
+         document.querySelector('teacherhome-card').termarr=e.detail.response.returnval;
+         document.querySelector('teacherhome-card').FnToggle();
+      },
+      callGradeService:function(){
+         this.gradeurl=sessionStorage.getItem("addrinfo")+"/grade-service";
+         var obj={"schoolid":"","loggedid":"","roleid":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+         this.gradeparam= obj;
+         this.$.gradeajax.generateRequest();
+         this.callFetchGrade();
+      },
+      gradeResponse:function(e){
+         document.querySelector('term-assesment-card').gradearr=e.detail.response.returnval;
+      },
+      callSectionService:function(gradename){        
+         this.sectionurl=sessionStorage.getItem("addrinfo")+"/section-service";
+         var obj={"schoolid":"","loggedid":"","gradename":"","roleid":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+         obj.gradename=gradename;
+         this.sectionparam= obj;
+         this.$.sectionajax.generateRequest();
+      },
+      sectionResponse:function(e){        
+         document.querySelector('term-assesment-card').sectionarr=e.detail.response.returnval; 
+      },
+      callSubjectService:function(gradename,section){
+         this.subjecturl=sessionStorage.getItem("addrinfo")+"/subject-service";
+         var obj={"schoolid":"","loggedid":"","roleid":"","gradename":"","section":"","subjectcategory":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+         obj.gradename=gradename;
+         obj.section=section;
+         obj.subjectcategory=localStorage.getItem("curr_sess_subjectcategory");
+         this.subjectparam= obj;
+         this.$.subjectajax.generateRequest();
+      },
+      subjectResponse:function(e){ 
+          // if(localStorage.getItem("curr_sess_subjectcategory")=="category1")        
+          document.querySelector('term-assesment-card').subjectarr=e.detail.response.returnval;
+          // if(localStorage.getItem("curr_sess_subjectcategory")=="category2"||localStorage.getItem("curr_sess_subjectcategory")=="category3"||localStorage.getItem("curr_sess_subjectcategory")=="category4")  
+          document.querySelector('coscholastic-assesment-card').subjectarr=e.detail.response.returnval;  
+      },
+      callAssesmentService:function(termtype,termname,gradename){
+         this.assesmenturl=sessionStorage.getItem("addrinfo")+"/assesment-service";
+         var obj={"schoolid":"","termtype":"","termname":"","gradename":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termtype=termtype;
+         obj.termname=termname;         
+         this.assesmentparam= obj;
+         this.$.assesmentajax.generateRequest();
+      },
+      assesmentResponse:function(e){         
+         document.querySelector('term-assesment-card').assesmentarr=e.detail.response.returnval;
+      },
+      callFetchStudentInfo:function(grade,section){       
+        // alert(localStorage.getItem("curr_sess_termname"));
+        if(localStorage.getItem('curr_sess_report')=="1")
+         {
+         this.fetchstudentreportService();
+         }
+        else
+        {            
+            if(localStorage.getItem("curr_sess_subject")=='music'||localStorage.getItem("curr_sess_subject")=='dance'||localStorage.getItem("curr_sess_subject")=='Art&Craft'||localStorage.getItem("curr_sess_subject")=='Games'||localStorage.getItem("curr_sess_subject")=='Personality Development'){
+                // alert('yes');
+                this.fetchimportmark(localStorage.getItem("curr_sess_academicyear"),localStorage.getItem("curr_sess_termname"),"Assesment3",localStorage.getItem("curr_sess_grade"),localStorage.getItem("curr_sess_section"),localStorage.getItem("curr_sess_subject")); 
+            }
+            else
+            this.fetchimportmark(localStorage.getItem("curr_sess_academicyear"),localStorage.getItem("curr_sess_termname"),localStorage.getItem("curr_sess_assesment"),localStorage.getItem("curr_sess_grade"),localStorage.getItem("curr_sess_section"),localStorage.getItem("curr_sess_subject")); 
+        }
+      },
+      callFetchFaStudentInfo:function()
+      {
+       // alert("f");
+        // alert(localStorage.getItem('curr_sess_report'));
+         if(localStorage.getItem('curr_sess_report')=="1")
+         {
+          // alert('1');
+         this.fetchfareportService();
+         }
+
+       else if(localStorage.getItem('curr_sess_report')=='2'||localStorage.getItem('curr_sess_report')=='4')  
+        { 
+            this.callFetchGrade();
+            //alert('2');
+            document.querySelector('home-page').setPage('termassesment','');
+        document.querySelector('term-assesment').hiddenpage();
+        this.fetchfastudentreporturl=sessionStorage.getItem("addrinfo")+"/fetchfastudentreport-service";
+         var obj={"schoolid":"","gradename":"","section":"","subject":"","assesment":"","termname":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         obj.assesment= localStorage.getItem("curr_sess_assesment");
+         obj.assesmenttype=localStorage.getItem("curr_sess_assesmenttype");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        this.fetchfastudentreportparam= obj;         
+        this.$.fetchfastudentreportajax.generateRequest();
+           document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+
+    }
+
+else
+{
+    //alert('3');
+this.fetchfastudentreporturl=sessionStorage.getItem("addrinfo")+"/fetchfastudentreport-service";
+         var obj={"schoolid":"","gradename":"","section":"","subject":"","assesment":"","termname":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         obj.assesment= localStorage.getItem("curr_sess_assesment");
+         obj.assesmenttype=localStorage.getItem("curr_sess_assesmenttype");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        // alert(JSON.stringify(obj));
+           this.fetchfastudentreportparam= obj;         
+           this.$.fetchfastudentreportajax.generateRequest();
+
+
+}
+  
+      },
+ fetchfastudentreportResponse:function(e)
+      {
+        
+        overall=[];
+         sarr1=e.detail.response.returnval;
+         // alert("fetch fa student..............."+JSON.stringify(sarr1));
+          
+          for(var i=0;i<sarr1.length;i++)
+          {
+           // alert(JSON.stringify(sarr1[i]));
+          }
+        if(sarr1=="imported"){
+        this.FnSpinnerDeactive();
+
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='co-ordinator'){        
+        alert('Marks already submitted!');
+        // this.FnHideApprovalBtn();
+        }
+       }
+      
+      else if(sarr1!='invalid')
+       {      
+       for(var i=0;i<sarr1.length;i++)
+       {
+        var obj={};
+        var k=1;
+        var sum=0
+        var markarr=[];
+       // markarr.push(i+1);
+       obj.id=sarr1[i].student_id;
+        obj.student_name=sarr1[i].student_name;
+        obj.mark1=sarr1[i].mark;
+        sum=parseFloat(sum)+parseFloat(sarr1[i].mark);
+       
+        for(var j=i+1;j<sarr1.length;j++)
+        {
+           if(sarr1[i].student_id==sarr1[j].student_id)
+           {      
+           sum=parseFloat(sum)+parseFloat(sarr1[j].mark);
+          obj['mark'+(k+1)]=sarr1[j].mark;             
+            sarr1.splice(j,1);
+            j--;
+            k++;
+           }
+        }
+        var rtotal,fasum;
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2")
+        {
+        if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){            
+            // alert('hi in');
+         fasum=parseFloat(((parseFloat(obj.mark1)+parseFloat(obj.mark2)+parseFloat(obj.mark3))/90)*100).toFixed(2);
+        obj.sum=parseFloat(((parseFloat(obj.mark1)+parseFloat(obj.mark2)+parseFloat(obj.mark3))/90)*100).toFixed(2);
+         rtotal=parseFloat(fasum/10).toFixed(2); 
+        obj.reducetotal=parseFloat(fasum/10).toFixed(2); 
+        
+        }
+        else{
+        obj.sum=parseFloat((parseFloat(sum)/90)*100).toFixed(2);
+        fasum=parseFloat((parseFloat(sum)/90)*100).toFixed(2);
+        rtotal=parseFloat(parseFloat((parseFloat(sum)/90)*100)/10).toFixed(2);  
+        obj.reducetotal=parseFloat(parseFloat((parseFloat(sum)/90)*100)/10).toFixed(2); 
+        }
+        }
+        else
+        {
+          fasum=parseFloat(((parseFloat(Math.max(parseFloat(obj.mark1),parseFloat(obj.mark2)))+parseFloat(obj.mark3))/2)*10).toFixed(2);
+        obj.sum=parseFloat(((parseFloat(Math.max(parseFloat(obj.mark1),parseFloat(obj.mark2)))+parseFloat(obj.mark3))/2)*10).toFixed(2);
+         rtotal=parseFloat(fasum/10).toFixed(2); 
+        obj.reducetotal=parseFloat(fasum/10).toFixed(2);
+         }
+        obj.grade=this.FnFindFaGrade((parseInt(fasum)));
+        obj.serialno=i+1;
+        overall.push(obj);
+       }
+       
+        if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4")
+        {
+        //document.querySelector('cc-fa-fivetoten-card').markarr=overall; 
+        } 
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2")
+        {
+       //document.querySelector('cc-sa-fivetoten-card').markarr=overall;        
+        }
+      
+
+      this.fetchfastudenturl=sessionStorage.getItem("addrinfo")+"/fetchfastudent-service";
+         var obj={"academicyear":"","schoolid":"","gradename":"","section":"","subject":"","termname":"","assesment":""};
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+          obj.assesment= localStorage.getItem("curr_sess_assesment");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         this.fetchfastudentparam= obj;         
+         this.$.fetchfastudentajax.generateRequest();
+      this.len=overall.length;
+      }
+      else
+      {
+        this.len=0;
+      this.fetchfastudenturl=sessionStorage.getItem("addrinfo")+"/fetchfastudent-service";
+         var obj={"academicyear":"","schoolid":"","gradename":"","section":"","subject":"","termname":"","assesment":""};
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+          obj.assesment= localStorage.getItem("curr_sess_assesment");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         this.fetchfastudentparam= obj;         
+         this.$.fetchfastudentajax.generateRequest();
+         } 
+    },
+
+       fetchfastudentResponse:function(e)
+       { 
+    var arr=e.detail.response.returnval;
+    // alert(JSON.stringify(arr));
+   for(var j=0;j<sarr1.length;j++)
+    {
+     for(var i=0;i<arr.length;i++)
+      {
+        //alert(arr[i].student_name+' '+sarr1[j].student_name);
+        if(arr[i].id==sarr1[j].student_id)
+        {
+          arr.splice(i,1);
+           i--;
+        }
+      }
+    }
+
+        for(var i=0;i<arr.length;i++)
+        {
+        arr[i].serialno=parseInt(this.len)+(i+1);
+        overall.push(arr[i]);  
+        }
+       
+      if(localStorage.getItem('curr_sess_report')=='4'){
+        this.calloverallfainsertservice();
+      }
+      else
+      {
+        if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4"){
+         document.querySelector('term-assesment-sheet-card').setPage('cc-fa-fivetoten-card');
+         document.querySelector('cc-fa-fivetoten-card').setDefaultHeaders(); 
+         document.querySelector('cc-fa-fivetoten-card').studarr=overall; 
+         document.querySelector('cc-fa-fivetoten-card').FnSpinnerrActive(false); 
+        } 
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2"){
+         // alert(localStorage.getItem("curr_sess_grade"));
+           if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+            // alert('nine ten eng');
+         document.querySelector('term-assesment-sheet-card').setPage('cc-sa-ninetoten-english');
+         document.querySelector('cc-sa-ninetoten-english').setDefaultHeaders();
+         document.querySelector('cc-sa-ninetoten-english').studarr=overall;
+         document.querySelector('cc-sa-ninetoten-english').FnSpinnerrActive(false);  
+         
+         }
+         else{
+            // alert('nine ten no eng');
+         document.querySelector('term-assesment-sheet-card').setPage('cc-sa-fivetoten-card');
+         document.querySelector('cc-sa-fivetoten-card').setDefaultHeaders(); 
+         document.querySelector('cc-sa-fivetoten-card').studarr=overall; 
+         document.querySelector('cc-sa-fivetoten-card').FnSpinnerrActive(false); 
+         }       
+        }
+      }
+       },
+      fetchstudentService:function(){
+        // alert('fetch student.............');
+         this.fetchstudenturl=sessionStorage.getItem("addrinfo")+"/fetchstudent-service";
+         var obj={"academicyear":"","schoolid":"","gradename":"","section":"","subject":"","termname":"","assesment":""};
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+          obj.assesment= "Assesment3";
+         else
+         obj.assesment= localStorage.getItem("curr_sess_assesment");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         this.fetchstudentparam= obj;         
+         this.$.fetchstudentajax.generateRequest(); 
+      },
+      fetchstudentreportService:function(){
+        // alert(localStorage.getItem("curr_sess_termname"));
+         this.fetchstudentreporturl=sessionStorage.getItem("addrinfo")+"/fetchstudentreport-service";
+         var obj={"schoolid":"","gradename":"","section":"","subject":"","assesment":"","termname":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+           obj.assesment= "Assesment3";
+         else
+           obj.assesment= localStorage.getItem("curr_sess_assesment");
+           this.fetchstudentreportparam= obj;         
+           this.$.fetchstudentreportajax.generateRequest();
+      },
+
+
+      fetchfareportService:function(){
+        // alert(localStorage.getItem("curr_sess_termname"));
+         this.fetchfareporturl=sessionStorage.getItem("addrinfo")+"/fetchfareport-service";
+         var obj={"schoolid":"","gradename":"","section":"","subject":"","assesment":"","termname":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.termname= localStorage.getItem("curr_sess_termname");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject= localStorage.getItem("curr_sess_subject");
+           obj.assesment= localStorage.getItem("curr_sess_assesment");
+           obj.assesmenttype=localStorage.getItem("curr_sess_assesmenttype");
+           this.fetchfareportparam= obj;         
+           this.$.fetchfareportajax.generateRequest();
+      },
+       fetchfareportResponse:function(e)
+      {
+
+          var faoverall=[];
+        var faarr=e.detail.response.returnval;
+        // alert("fetch fa report....."+JSON.stringify(faarr));
+        if(faarr!='invalid')
+       {      
+       for(var i=0;i<faarr.length;i++)
+       {
+        var obj={};
+        var k=1;
+        var sum=0
+        var markarr=[];
+       // markarr.push(i+1);
+       obj.id=faarr[i].student_id;
+        obj.student_name=faarr[i].student_name;
+        obj.mark1=faarr[i].mark;
+        sum=parseInt(sum)+parseInt(faarr[i].mark);
+       
+        for(var j=i+1;j<faarr.length;j++)
+        {
+           if(faarr[i].student_id==faarr[j].student_id)
+           {      
+           sum=parseInt(sum)+parseInt(faarr[j].mark);
+          obj['mark'+(k+1)]=faarr[j].mark;     
+            //markarr.push(obj.mark1);
+            faarr.splice(j,1);
+            j--;
+            k++;
+           }
+           
+
+        }
+
+
+        var rtotal,fsum;
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2")
+        {
+        // obj.sum=parseFloat((parseInt(sum)/90)*100).toFixed(2);
+        // rtotal=parseInt((parseInt(sum)/90)*100)/10;  
+        // obj.reducetotal=parseInt((parseInt(sum)/90)*100)/10; 
+        if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+            
+            fsum=parseFloat(((parseFloat(obj.mark1)+parseFloat(obj.mark2)+parseFloat(obj.mark3))/90)*100).toFixed(2);
+        
+        obj.sum=parseFloat(((parseFloat(obj.mark1)+parseFloat(obj.mark2)+parseFloat(obj.mark3))/90)*100).toFixed(2);
+         rtotal=parseFloat(fsum/10).toFixed(2); 
+        obj.reducetotal=parseFloat(fsum/10).toFixed(2); 
+        
+        }
+        else{
+
+        fsum=parseFloat((parseFloat(sum)/90)*100).toFixed(2);
+        obj.sum=parseFloat((parseFloat(sum)/90)*100).toFixed(2);
+        rtotal=parseFloat(parseFloat((parseFloat(sum)/90)*100)/10).toFixed(2);  
+        obj.reducetotal=parseFloat(parseFloat((parseFloat(sum)/90)*100)/10).toFixed(2);
+        }
+        }
+        else
+        {
+         fsum=parseFloat(((parseFloat(Math.max(parseFloat(obj.mark1),parseFloat(obj.mark2)))+parseFloat(obj.mark3))/2)*10).toFixed(2);
+        obj.sum=parseFloat(((parseFloat(Math.max(parseFloat(obj.mark1),parseFloat(obj.mark2)))+parseFloat(obj.mark3))/2)*10).toFixed(2);
+         rtotal=parseFloat(fsum/10).toFixed(2); 
+        obj.reducetotal=parseFloat(fsum/10).toFixed(2);
+         }
+        obj.grade=this.FnFindFaGrade((parseInt(fsum)));
+        obj.serialno=i+1;
+        faoverall.push(obj);
+       }
+       
+      }
+       if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4"){
+        document.querySelector('cc-fa-fivetoten-card').markarr=faoverall;
+         document.querySelector('cc-fa-fivetoten-card').FnSpinnerrActive(false);         
+        } 
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2"){
+          if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+            
+                document.querySelector('cc-sa-ninetoten-english').markarr=faoverall; 
+         document.querySelector('cc-sa-ninetoten-english').FnSpinnerrActive(false); 
+            
+        }
+        else
+        {
+        document.querySelector('cc-sa-fivetoten-card').markarr=faoverall; 
+         document.querySelector('cc-sa-fivetoten-card').FnSpinnerrActive(false); 
+         }      
+        }
+
+      },
+
+      fetchstudentreportResponse:function(e)
+      {
+       var overall=[];
+       var arr1=e.detail.response.returnval;
+       // alert(JSON.stringify(arr1));
+       if(arr1!='invalid'){      
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        markarr.push(i+1);
+        markarr.push(arr1[i].student_name);
+        markarr.push(arr1[i].mark);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {            
+            markarr.push(arr1[j].mark);
+            arr1.splice(j,1);
+            j--;
+           }
+        }
+       overall.push(markarr);
+       }
+       // alert(JSON.stringify(overall));
+       if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        if(localStorage.getItem("curr_sess_subject")=="Mathematics"){
+        document.querySelector('cc-maths-onetofour-card').markarr=overall;  
+        document.querySelector('cc-maths-onetofour-card').FnSpinnerrActive(false);       
+        }
+        if(localStorage.getItem("curr_sess_subject")=="EVS")
+        {        
+        document.querySelector('cc-evs-onetofour-card').markarr=overall;
+        document.querySelector('cc-evs-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="English"||localStorage.getItem("curr_sess_subject")=="Hindi"||localStorage.getItem("curr_sess_subject")=="Kannada"){        
+        document.querySelector('cc-eng-onetofour-card').markarr=overall;
+        document.querySelector('cc-eng-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="GK"){        
+        document.querySelector('cc-gk-onetofour-card').markarr=overall;
+        document.querySelector('cc-gk-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Computer"){   
+         
+        document.querySelector('cc-computer-onetofour-card').markarr=overall;
+        document.querySelector('cc-computer-onetofour-card').FnSpinnerrActive(false); 
+        }      
+
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"){        
+       
+        document.querySelector('cc-art-craft-onetofour-card').markarr=overall;
+        document.querySelector('cc-art-craft-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="dance"){        
+        document.querySelector('cc-dance-onetofour-card').markarr=overall;
+        document.querySelector('cc-dance-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="music"){        
+        document.querySelector('cc-music-onetofour-card').markarr=overall;
+        document.querySelector('cc-music-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Games"){        
+        document.querySelector('cs-games-card').markarr=overall;
+        document.querySelector('cs-games-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){        
+        document.querySelector('cs-personalitydevelopment-card').markarr=overall;
+        document.querySelector('cs-personalitydevelopment-card').FnSpinnerrActive(false); 
+        }  
+        
+        }
+        else
+        {
+          // alert(localStorage.getItem("curr_sess_subject"));
+         if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4"){
+        document.querySelector('cc-fa-fivetoten-card').markarr=overall; 
+        } 
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2"){
+              if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+                document.querySelector('cc-sa-ninetoten-english').markarr=overall;  
+              }
+              else
+        document.querySelector('cc-sa-fivetoten-card').markarr=overall;  
+
+        }
+        
+        }       
+      }
+      else{
+        this.FnSpinnerDeactive();
+      }
+      },
+      fetchstudentResponse:function(e){ 
+      // alert(JSON.stringify(e.detail.response.returnval)) ;  
+      // alert(localStorage.getItem("curr_sess_subject")); 
+
+        var temparr=[]; 
+        var flag=0;   
+        var arr=e.detail.response.returnval;
+        if(arr=='imported'){
+           this.FnSpinnerDeactive();
+           if(sessionStorage.getItem("curr_sess_loggedroleid")!="co-ordinator"){           
+           alert('Marks already submitted!');
+           localStorage.getItem("curr_sess_importflag",1);
+           // this.FnHideApprovalBtn();
+           }
+        }
+        // localStorage.setItem('curr_sess_fetchstudent','1');
+        // alert(arr);
+        else{
+        if(arr!='invalid'){ 
+        // alert(overallfetchimportarr.length);
+        // alert(arr.length);
+
+        if(overallfetchimportarr.length>0){
+        localStorage.setItem("curr_sess_importflag",0);          
+
+        for(var i=0;i<arr.length;i++){
+          flag=0;
+          for(var j=0;j<overallfetchimportarr.length;j++){  
+          // alert(overallfetchimportarr[j].overall[0].marks[0].name);          
+            if(overallfetchimportarr[j].overall[0].marks[0].name==arr[i].id)
+              {
+                // alert(overallfetchimportarr[j].overall[0].marks[0].name+"  "+arr[i].id);
+                flag=1;
+              }
+            
+          }
+          if(flag==0){ 
+          // alert(JSON.stringify(arr[i]));           
+            temparr.push(arr[i]);
+            // break;
+          }
+            
+        }
+
+        arr=temparr;
+        }
+        if(overallfetchimportarr.length==0)
+         arr=e.detail.response.returnval; 
+        overallfetchimportarr=[];
+        for(var i=0;i<arr.length;i++){
+          arr[i].serialno=parseInt(this.studarrlength)+(i+1);
+        }
+        
+        if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        if(localStorage.getItem("curr_sess_subject")=="Mathematics"){
+        document.querySelector('cc-maths-onetofour-card').studarr=arr; 
+        document.querySelector('cc-maths-onetofour-card').FnSpinnerrActive(false); 
+              // document.querySelector('cc-maths-onetofour-card').hiddenbutton();
+        }
+        if(localStorage.getItem("curr_sess_subject")=="EVS")
+        {        
+        document.querySelector('cc-evs-onetofour-card').studarr=arr;
+        document.querySelector('cc-evs-onetofour-card').FnSpinnerrActive(false); 
+        // document.querySelector('cc-evs-onetofour-card').hiddenbutton();
+        }
+        if(localStorage.getItem("curr_sess_subject")=="English"||localStorage.getItem("curr_sess_subject")=="Hindi"||localStorage.getItem("curr_sess_subject")=="Kannada"){        
+        document.querySelector('cc-eng-onetofour-card').studarr=arr;
+        document.querySelector('cc-eng-onetofour-card').FnSpinnerrActive(false); 
+        // document.querySelector('cc-eng-onetofour-card').hiddenbutton();
+        }
+        if(localStorage.getItem("curr_sess_subject")=="GK"){   
+        // document.querySelector('cc-gk-onetofour-card').hiddenbutton();     
+        document.querySelector('cc-gk-onetofour-card').studarr=arr;
+        document.querySelector('cc-gk-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Computer"){   
+        // document.querySelector('cc-computer-onetofour-card').hiddenbutton();
+        document.querySelector('cc-computer-onetofour-card').studarr=arr;
+        document.querySelector('cc-computer-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"){        
+        // document.querySelector('cc-art-craft-onetofour-card').hiddenbutton();
+        document.querySelector('cc-art-craft-onetofour-card').studarr=arr;
+        document.querySelector('cc-art-craft-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="dance"){  
+        // document.querySelector('cc-dance-onetofour-card').hiddenbutton();      
+        document.querySelector('cc-dance-onetofour-card').studarr=arr;
+        document.querySelector('cc-dance-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="music"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('cc-music-onetofour-card').studarr=arr;
+        document.querySelector('cc-music-onetofour-card').FnSpinnerrActive(false);
+        } 
+        if(localStorage.getItem("curr_sess_subject")=="Games"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('cs-games-card').studarr=arr;
+        document.querySelector('cs-games-card').FnSpinnerrActive(false);
+        }  
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('cs-personalitydevelopment-card').studarr=arr;
+        document.querySelector('cs-personalitydevelopment-card').FnSpinnerrActive(false);
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Attendance"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('attendance-card').studarr=arr;
+        document.querySelector('attendance-card').FnSpinnerrActive(false);
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Health"){ 
+          //alert('dd');
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('cce-fivetoten-health-card').studarr=arr;
+        document.querySelector('cce-fivetoten-health-card').FnSpinnerrActive(false);
+        } 
+        if(localStorage.getItem("curr_sess_subject")=="Art Verticals"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('talentidentification-card').studarr=arr;
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Physical Education"){ 
+        // document.querySelector('cc-music-onetofour-card').hiddenbutton();       
+        document.querySelector('talentidentification-card').studarr=arr;
+        }  
+       
+        }
+        else
+        {
+        if(localStorage.getItem("curr_sess_subject")=="Life Skills"){
+        if(localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")
+        document.querySelector('cs-life-skill-card').studarr=arr;
+        else
+        document.querySelector('cs-life-skill-card').studarr=arr;    
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Work Education"){
+        document.querySelector('cs-education-card').studarr=arr;        
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Visual & Performing Arts"){
+        document.querySelector('cs-visual-performing-card').studarr=arr;       
+        // document.querySelector('cs-visualerforming-card').studarr=arr;   
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Attitudes And values"){
+        document.querySelector('cs-attitudes-card').studarr=arr;        
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Co-Curricular Activities"){
+        document.querySelector('cs-co-curricular-card').studarr=arr;        
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Health and Physical Education"){
+        document.querySelector('cs-health-physical-education-card').studarr=arr;         
+        }
+        if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4"){
+        document.querySelector('cc-fa-fivetoten-card').studarr=arr;         
+        } 
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"||localStorage.getItem("curr_sess_assesmenttype")=="SA2"){
+          if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+
+        document.querySelector('cc-sa-ninetoten-english').studarr=arr;  
+        }
+        else
+            document.querySelector('cc-sa-fivetoten-card').studarr=arr;    
+        }
+        } 
+        if(localStorage.getItem("curr_sess_importflag")=="1")
+          this.FnHideApprovalBtn();
+        }
+        else{
+          // alert('hi');
+        this.FnSpinnerDeactive();
+        }
+         
+        }
+      },
+      callinsertassesmentmarkService:function(studid,studname,category,subcategory,mark,seqno,catcount){ 
+         insertcheckflag=catcount;       
+         this.insertassesmentmarkurl=sessionStorage.getItem("addrinfo")+"/insertassesmentmark-service";
+         var obj={"schoolid":"","academicyear":"","assesmentid":"","classid":"","studentid":"","studentname":"","termname":"","grade":"","section":"","subject":"","category":"","subcategory":"","mark":"","total":"","assesmentflag":"","absflag":"","subcatseq":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+         obj.assesmentid= "Assesment3";
+         else
+         obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.classid=sessionStorage.getItem("curr_sess_classid");
+         obj.studentid=studid;
+         obj.studentname=studname;        
+         obj.grade=localStorage.getItem("curr_sess_grade");;
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject=localStorage.getItem("curr_sess_subject");
+         obj.category=category;
+         obj.subcategory=subcategory;
+         obj.mark=mark;  
+         obj.absflag=localStorage.getItem("curr_sess_absflag"); 
+         obj.subcatseq=seqno;        
+         this.insertassesmentmarkparam= obj;  
+         this.$.insertassesmentmarkajax.generateRequest();
+      },
+
+       callinsertfaassesmentmarkService:function(studid,studname,category,subcategory,mark,seqno,catcount){ 
+         insertcheckflag=catcount;       
+         this.insertfaassesmentmarkurl=sessionStorage.getItem("addrinfo")+"/insertfaassesmentmark-service";
+         var obj={"schoolid":"","academicyear":"","assesmentid":"","classid":"","studentid":"","studentname":"","termname":"","grade":"","section":"","subject":"","category":"","subcategory":"","mark":"","total":"","assesmentflag":"","absflag":"","subcatseq":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.classid=sessionStorage.getItem("curr_sess_classid");
+         obj.studentid=studid;
+         obj.studentname=studname;        
+         obj.grade=localStorage.getItem("curr_sess_grade");;
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject=localStorage.getItem("curr_sess_subject");
+         obj.category=category;
+         obj.subcategory=subcategory;
+         obj.mark=mark;  
+         obj.absflag=localStorage.getItem("curr_sess_absflag"); 
+         obj.subcatseq=seqno;        
+         this.insertfaassesmentmarkparam= obj;  
+         this.$.insertfaassesmentmarkajax.generateRequest();
+      },
+      insertfaassesmentmarkResponse:function(e){
+        if(e.detail.response.returnval=='succ')
+        insertflag++;
+        if(insertflag==insertcheckflag){
+          alert('Marks saved!');
+          insertflag=0;
+        }
+      }, 
+      insertassesmentmarkResponse:function(e){
+        if(e.detail.response.returnval=='succ')
+        insertflag++;
+        if(insertflag==insertcheckflag){
+          alert('Marks saved!');
+          insertflag=0;
+        }
+      },      
+      callinsertattendanceinfo:function(studid,studname,attendance,workingdays){
+         this.termattendanceurl=sessionStorage.getItem("addrinfo")+"/termattendance-service";
+         var obj={"schoolid":"","academicyear":"","termname":"","studentid":"","studentname":"","classid":"",
+            "attendance":"","workingdays":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");         
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.classid=sessionStorage.getItem("curr_sess_classid");
+         obj.studentid=studid;
+         obj.studentname=studname; 
+         obj.attendance=attendance; 
+         obj.workingdays=workingdays; 
+         this.termattendanceparam= obj;
+         this.$.termattendanceajax.generateRequest();
+      },
+      termattendanceResponse:function(e){
+        alert("Inserted!");
+         // alert(JSON.stringify(e.detail.response.returnval))
+      },
+      selectnameforperformance:function()
+      {
+         this.nameforperformancereporturl=sessionStorage.getItem("addrinfo")+"/nameforonetofourreport-service";
+         var obj={"schoolid":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+          this.nameforperformancereportparam= obj;
+          this.$.nameforperformancereportajax.generateRequest();
+
+      },
+      nameforperformancereportResponse:function(e)
+      {
+      var nameitem=e.detail.response.returnval;
+      document.querySelector('cce-performance-name-card').autocompletename(nameitem);
+      this.callFetchGrade();
+    },
+    onetofourscore:function(stdid)
+    {
+        this.onetofourreporturl=sessionStorage.getItem("addrinfo")+"/onetofourreport-service";
+         var obj={"schoolid":"","student_id":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.student_id=stdid;
+          this.onetofourreportparam= obj;
+          this.$.onetofourreportajax.generateRequest();
+          
+    },
+     callFetchGrade:function()
+       {
+        this.fetchgradeforscoreurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradeforscoreajax.generateRequest(); 
+        this.fetchfagradeforscoreurl=sessionStorage.getItem("addrinfo")+"/fetchfagrade-service"; 
+        this.$.fetchfagradeforscoreajax.generateRequest(); 
+
+      },
+       fetchgradeforscoreResponse:function(e)
+       {
+        var returnval=e.detail.response.returnval; 
+       // alert('1to4'+JSON.stringify(returnval));      
+        for(var i=0;i<returnval.length;i++)
+        {
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        } 
+      },
+      fetchfagradeforscoreResponse:function(e)
+       {
+        var returnval=e.detail.response.returnval; 
+        // alert('5 to 10'+JSON.stringify(returnval));      
+        for(var i=0;i<returnval.length;i++)
+        {
+          fa_lower.push(returnval[i].lower_limit);
+          fa_higher.push(returnval[i].higher_limit);
+          fa_grade.push(returnval[i].grade);
+        } 
+      },
+      FnFindGrade:function(mark)
+      {        
+        for(var i=0;i<lower.length;i++)
+        {         
+          if(mark>=lower[i]&&mark<=higher[i])
+          {            
+            this.grade=grade[i];
+          }
+        }
+        return this.grade;        
+     },
+      FnFindFaGrade:function(mark)
+      {        
+        for(var i=0;i<fa_lower.length;i++)
+        {         
+          if(mark>=fa_lower[i]&&mark<=fa_higher[i])
+          {            
+            this.grade=fa_grade[i];
+          }
+        }
+        return this.grade;        
+     },
+     Fnauditterm:function(){
+       var obj={"checkflag":"","updateflag":"","schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.subject=localStorage.getItem("curr_sess_subject");
+         obj.gradename=localStorage.getItem("curr_sess_grade");
+         obj.sectionname=localStorage.getItem("curr_sess_section");
+         if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator"){
+            // if(localStorage.getItem("curr_sess_grade")=='Grade-1'||localStorage.getItem("curr_sess_grade")=='Grade-2'||localStorage.getItem("curr_sess_grade")=='Grade-3'||localStorage.getItem("curr_sess_grade")=='Grade-4'){
+            this.audittermurl=sessionStorage.getItem("addrinfo")+"/auditterm-service";
+            this.audittermparam=obj;
+            this.$.audittermajax.generateRequest();
+            // }
+         }
+         if(sessionStorage.getItem("curr_sess_loggedrole")=="Class-Teacher"||sessionStorage.getItem("curr_sess_loggedrole")=="Subject-Teacher")
+         {
+          this.Fnimportmark();
+         }
+
+     },
+     audittermResponse:function(e)
+     {
+      if(e.detail.response.returnval=='exist'){        
+        alert('Assesment already approved!');
+      }
+      else if(e.detail.response.returnval=='not exist'){        
+        alert('Please approve the previous assesment of this term!');
+      }
+      else
+      {
+        if(e.detail.response.returnval=='updated')
+          this.Fnimportmark();
+        if(e.detail.response.returnval=='not updated')
+          alert('Unable to approve!!');
+      }
+     },
+
+ Fnfaimportmark:function()
+ {
+      var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj1.termname=localStorage.getItem("curr_sess_termname");
+         obj1.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj1.subject=localStorage.getItem("curr_sess_subject");
+         obj1.gradename=localStorage.getItem("curr_sess_grade");
+         obj1.sectionname=localStorage.getItem("curr_sess_section");
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+      {
+        this.faapproveService();
+        // obj1.flag=1;
+        // this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
+        // this.updatefaflagparam=obj1;
+        // this.$.updatefaflagajax.generateRequest();
+            
+      }
+       else if(sessionStorage.getItem("curr_sess_loggedrole")=="HeadMistress")
+      {
+        obj1.flag=2;
+        this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
+        this.updatefaflagparam=obj1;
+        this.$.updatefaflagajax.generateRequest();
+         
+      }
+       else if(sessionStorage.getItem("curr_sess_loggedrole")=="Principal")
+      {
+        obj1.flag=3;
+        this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
+        this.updatefaflagparam=obj1;
+        this.$.updatefaflagajax.generateRequest();
+          
+      }
+
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Class-Teacher"||sessionStorage.getItem("curr_sess_loggedrole")=="Subject-Teacher")
+      {
+        this.updatefaimportmarkcheckService();
+      }
+
+     },
+    updatefaflagResponse:function(e)
+    {
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=='exist')
+      alert("Already Approved!");
+      if(e.detail.response.returnval=='updated'){
+        alert('Approved!');
+      //this.callOveralltermmarkinsertService();   
+      }
+      if(e.detail.response.returnval=='not updated')
+      alert("Unable to approve!");
+    },
+
+
+
+    Fnimportmark:function()
+    {   
+      var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj1.termname=localStorage.getItem("curr_sess_termname");
+         obj1.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj1.subject=localStorage.getItem("curr_sess_subject");
+         obj1.gradename=localStorage.getItem("curr_sess_grade");
+         obj1.sectionname=localStorage.getItem("curr_sess_section");
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+      {
+        obj1.flag=1;
+        this.updateflagurl=sessionStorage.getItem("addrinfo")+"/updateflag-service";
+        this.updateflagparam=obj1;
+        this.$.updateflagajax.generateRequest();
+            
+      }
+       else if(sessionStorage.getItem("curr_sess_loggedrole")=="HeadMistress")
+      {
+        obj1.flag=2;
+        this.updateflagurl=sessionStorage.getItem("addrinfo")+"/updateflag-service";
+        this.updateflagparam=obj1;
+        this.$.updateflagajax.generateRequest();
+         
+      }
+       else if(sessionStorage.getItem("curr_sess_loggedrole")=="Principal")
+      {
+        obj1.flag=3;
+        this.updateflagurl=sessionStorage.getItem("addrinfo")+"/updateflag-service";
+        this.updateflagparam=obj1;
+        this.$.updateflagajax.generateRequest();
+          
+      }
+
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Class-Teacher"||sessionStorage.getItem("curr_sess_loggedrole")=="Subject-Teacher")
+      {
+        this.updateimportmarkcheckService();
+      }
+      
+    },
+    updateimportmarkcheckService:function(){
+      var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+        obj.assesmentid= "Assesment3";
+        else
+        obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updateimportmarkcheckurl=sessionStorage.getItem("addrinfo")+"/updateimportmarkcheck-service";
+        this.updateimportmarkcheckparam=obj;
+        this.$.updateimportmarkcheckajax.generateRequest();
+    },
+    updateimportmarkcheckResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+        var arr=e.detail.response.returnval;
+        if(arr[0].result=='match')
+          this.updateimportmarkService();
+        else{
+          alert("Please make sure all the students entry!");
+          this.FnEnableordisablebtns();
+        }
+    },
+
+     updatefaimportmarkcheckService:function(){
+      var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");    
+        obj.assesmentid=localStorage.getItem("curr_sess_assesmenttype");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updatefaimportmarkcheckurl=sessionStorage.getItem("addrinfo")+"/updatefaimportmarkcheck-service";
+        this.updatefaimportmarkcheckparam=obj;
+        this.$.updatefaimportmarkcheckajax.generateRequest();
+    },
+    updatefaimportmarkcheckResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+        var arr=e.detail.response.returnval;
+        if(arr[0].result=='match')
+          this.updatefaimportmarkService();
+        else
+          alert("Please make sure all the students entry!");
+    },
+    updateimportmarkService:function(){
+      // alert(localStorage.getItem("curr_sess_termname"));
+        var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+         obj.assesmentid= "Assesment3";
+         else
+        obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updateimportmarkurl=sessionStorage.getItem("addrinfo")+"/updateimportmark-service";
+        this.updateimportmarkparam=obj;
+        this.$.updateimportmarkajax.generateRequest();
+    },    
+    updateimportmarkResponse:function(e){
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=="exist")
+        alert('Already Submitted');
+      if(e.detail.response.returnval=="succ")
+        alert("Submitted!");
+    },
+
+
+    updatefaimportmarkService:function(){
+      // alert(localStorage.getItem("curr_sess_termname"));
+        var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         
+        obj.assesmentid=localStorage.getItem("curr_sess_assesmenttype");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updatefaimportmarkurl=sessionStorage.getItem("addrinfo")+"/updatefaimportmark-service";
+        this.updatefaimportmarkparam=obj;
+        this.$.updatefaimportmarkajax.generateRequest();
+    },    
+    updatefaimportmarkResponse:function(e){
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=="exist")
+        alert('Already Submitted');
+      if(e.detail.response.returnval=="succ")
+        alert("Submitted!");
+    },
+    updateflagResponse:function(e){
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=='exist')
+      alert("Already Approved!");
+      if(e.detail.response.returnval=='updated'){
+      this.callOveralltermmarkinsertService();   
+      }
+      if(e.detail.response.returnval=='not updated')
+      alert("Unable to approve!");
+    },
+    callOveralltermmarkinsertService:function(){ 
+        // alert('calling....');       
+         this.overalltermmarkinserturl=sessionStorage.getItem("addrinfo")+"/overalltermmarkinsert-service";
+         var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","grade":"","section":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.grade= localStorage.getItem("curr_sess_grade"); 
+         obj.section=localStorage.getItem("curr_sess_section");       
+         obj.subject=localStorage.getItem("curr_sess_subject");     
+         this.overalltermmarkinsertparam= obj;
+         // alert(obj);
+         this.$.overalltermmarkinsertajax.generateRequest();
+      },
+      overalltermmarkinsertResponse:function(e){        
+        // alert("Inserted!");
+        if(e.detail.response.returnval=="succ")
+          alert('Approved!');
+        if(localStorage.getItem("curr_sess_assesment")=="Assesment3"||localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development")
+          this.calloveralltermassesmentinsertService();
+        // n1++;
+        // if(localStorage.getItem("curr_sess_assesment")=="Assesment3"&&(n1==this.count)){
+        // this.calloveralltermassesmentinsertService();
+        // }
+      },
+      calloveralltermassesmentinsertService:function(){        
+         this.overalltermassesmentinserturl=sessionStorage.getItem("addrinfo")+"/overalltermassesmentinsert-service";
+         var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","studentid":"","studentname":"","subject":"","type":"","category":"","total":"","rtotal":"","grade":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");         
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.grade=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");                
+         obj.subject=localStorage.getItem("curr_sess_subject");                          
+         this.overalltermassesmentinsertparam= obj;
+         this.$.overalltermassesmentinsertajax.generateRequest();
+      },
+      overalltermassesmentinsertResponse:function(e){    
+        // alert(e.detail.response.returnval);
+        if(e.detail.response.returnval=="succ")
+          alert("All assesments are approved in this term!");
+      },
+    callApproveService:function()
+    {
+      var obj1={"schoolid":"","flag":"","loggedid":""}
+      obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj1.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+      {
+
+       obj1.flag=0;
+     }
+      else if(sessionStorage.getItem("curr_sess_loggedrole")=="HeadMistress")
+      {
+        obj1.flag=1;
+      }
+      else if(sessionStorage.getItem("curr_sess_loggedrole")=="Principal")
+      {
+        obj1.flag=1;
+      }
+      
+       this.approvemarkurl=sessionStorage.getItem("addrinfo")+"/approvemark-service";
+        this.approvemarkparam=obj1;
+        this.$.approvemarkajax.generateRequest();  
+
+    },
+    approvemarkResponse:function(e)
+    {
+      var approvearr=e.detail.response.returnval;
+      // alert(JSON.stringify(approvearr));
+      if(approvearr!='invalid')
+      document.querySelector('approve-one-to-four-card').approvearr=approvearr;
+
+    },
+    fetchimportmark:function(academic,term,assesment,grade,section,subject)
+    {
+      localStorage.setItem("curr_sess_importsubject",subject);      
+      this.fetchimportmarkurl=sessionStorage.getItem("addrinfo")+"/fetchimportmark-service";
+         var obj={"roleid":"","academicyear":"","schoolid":"","gradename":"","section":"","subject":"","assesment":"","term":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");         
+         obj.gradename=grade;
+         obj.section=section;
+         obj.subject=subject;
+         obj.assesment=assesment;
+         obj.term=term;
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+         this.fetchimportmarkparam= obj;          
+         this.$.fetchimportmarkajax.generateRequest();
+    },
+    fetchimportmarkResponse:function(e)
+    {       
+       var overall=[];
+       var a=[];
+       var arr1=e.detail.response.returnval;
+       // alert(JSON.stringify(arr1));
+       if(arr1=="imported"){
+        this.FnSpinnerDeactive();
+
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='co-ordinator'){        
+        alert('Marks already submitted!'); 
+        localStorage.setItem("curr_sess_importflag",1);
+        // this.FnHideApprovalBtn();       
+        }
+       }
+       else{
+       if(arr1!="invalid")
+       {
+       localStorage.setItem("curr_sess_importflag",0);
+       for(var i=0;i<arr1.length;i++)
+       {
+        var markarr=[];
+        var nameobj={"serialno":"","name":"","marks":""};
+        nameobj.name=arr1[i].student_name; 
+        nameobj.studentid=arr1[i].student_id; 
+        nameobj.serialno=i+1; 
+        var obj={"mark":"","category":"","sub_category":"","name":"","subseq":""};
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){
+          if(arr1[i].mark=='10')
+            obj.mark="A+";
+          if(arr1[i].mark=='8')
+            obj.mark="A";
+          if(arr1[i].mark=='7')
+            obj.mark="B";
+          if(arr1[i].mark=='5')
+            obj.mark="C";
+          if(arr1[i].mark=='3')
+            obj.mark="D";
+        }
+        else
+        obj.mark=arr1[i].mark;
+        obj.sub_category=arr1[i].sub_category;
+        obj.category=arr1[i].category;
+        obj.name=arr1[i].student_id;
+        obj.subseq=arr1[i].sub_cat_sequence;
+        a.push(obj);
+        for(var j=i+1;j<arr1.length;j++)
+        {
+           if(arr1[i].student_id==arr1[j].student_id)
+           {
+             var obj1={"mark":"","category":"","sub_category":"","name":"","subseq":""}
+             // alert(arr1[j].mark);
+            if(localStorage.getItem("curr_sess_subject")=="Personality Development"){
+              if(arr1[j].mark=='10')
+                obj1.mark="A+";
+              if(arr1[j].mark=='8')
+                obj1.mark="A";
+              if(arr1[j].mark=='7')
+                obj1.mark="B";
+              if(arr1[j].mark=='5')
+                obj1.mark="C";
+              if(arr1[j].mark=='3')
+                obj1.mark="D";
+            }
+            else
+             obj1.mark=arr1[j].mark;
+             obj1.category=arr1[j].category;
+             obj1.sub_category=arr1[j].sub_category;
+             obj1.name=arr1[j].student_id;
+             obj1.subseq=arr1[j].sub_cat_sequence;
+             a.push(obj1);
+             arr1.splice(j,1);
+             j--;
+           }
+        }
+        nameobj.marks=a;
+        markarr.push(nameobj);
+        a=[];
+        overall.push(markarr);
+        overallfetchimportarr.push({"overall":markarr});
+        markarr=[];
+       }
+       
+       //alert('c');
+       // alert(JSON.stringify(overall));
+        this.studarrlength=(overall.length);       
+        if(localStorage.getItem("curr_sess_importsubject")=="Art&Craft"||localStorage.getItem("curr_sess_importsubject")=="dance"||localStorage.getItem("curr_sess_importsubject")=="music"||localStorage.getItem("curr_sess_importsubject")=="Games"||localStorage.getItem("curr_sess_importsubject")=="Personality Development")
+        {
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        
+        if(localStorage.getItem('curr_sess_report')=='2')  
+        document.querySelector('coscholastic-assesment').hiddenpage(); 
+        }
+        else
+        {
+        document.querySelector('home-page').setPage('termassesment','');
+        if(localStorage.getItem('curr_sess_report')=='2')   
+        document.querySelector('term-assesment').hiddenpage();   
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="Mathematics"){          
+        document.querySelector('term-assesment-sheet-card').setPage('cc-maths-onetofour-card');
+        document.querySelector('cc-maths-onetofour-card').setDefaultHeaders();   
+        document.querySelector('cc-maths-onetofour-card').importarr=overall;
+        document.querySelector('cc-maths-onetofour-card').FnResetFlag(); 
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false);         
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="EVS")
+        {           
+        document.querySelector('term-assesment-sheet-card').setPage('cc-evs-onetofour-card');
+        document.querySelector('cc-evs-onetofour-card').setDefaultHeaders();
+        document.querySelector('cc-evs-onetofour-card').importarr=overall;
+        document.querySelector('cc-evs-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="English"||localStorage.getItem("curr_sess_importsubject")=="Hindi"||localStorage.getItem("curr_sess_importsubject")=="Kannada"){   
+
+        document.querySelector('term-assesment-sheet-card').setPage('cc-eng-onetofour-card'); 
+        document.querySelector('cc-eng-onetofour-card').setDefaultHeaders();         
+        document.querySelector('cc-eng-onetofour-card').importarr=overall;
+        document.querySelector('cc-eng-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="GK"){ 
+             // alert("s");
+        document.querySelector('term-assesment-sheet-card').setPage('cc-gk-onetofour-card');  
+        document.querySelector('cc-gk-onetofour-card').setDefaultHeaders();    
+        document.querySelector('cc-gk-onetofour-card').importarr=overall;
+        document.querySelector('cc-gk-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="Computer"){
+                
+        document.querySelector('term-assesment-sheet-card').setPage('cc-computer-onetofour-card');
+        document.querySelector('cc-computer-onetofour-card').setDefaultHeaders();
+        document.querySelector('cc-computer-onetofour-card').importarr=overall;
+        document.querySelector('cc-computer-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }      
+        if(localStorage.getItem("curr_sess_importsubject")=="Art&Craft"){   
+               
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cc-art-craft-onetofour-card');
+        document.querySelector('cc-art-craft-onetofour-card').setDefaultHeaders();
+        document.querySelector('cc-art-craft-onetofour-card').importarr=overall;
+        document.querySelector('cc-art-craft-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="dance"){    
+        
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cc-dance-onetofour-card'); 
+        document.querySelector('cc-dance-onetofour-card').setDefaultHeaders();  
+        document.querySelector('cc-dance-onetofour-card').importarr=overall;
+        document.querySelector('cc-dance-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_importsubject")=="music"){   
+            
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cc-music-onetofour-card'); 
+        document.querySelector('cc-music-onetofour-card').setDefaultHeaders();    
+        document.querySelector('cc-music-onetofour-card').importarr=overall;
+        document.querySelector('cc-music-onetofour-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }     
+        if(localStorage.getItem("curr_sess_importsubject")=="Games"){   
+            
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cs-games-card'); 
+        document.querySelector('cs-games-card').setDefaultHeaders();    
+        document.querySelector('cs-games-card').importarr=overall;
+        document.querySelector('cs-games-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        } 
+        if(localStorage.getItem("curr_sess_importsubject")=="Personality Development"){            
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cs-personalitydevelopment-card'); 
+        document.querySelector('cs-personalitydevelopment-card').setDefaultHeaders();    
+        document.querySelector('cs-personalitydevelopment-card').importarr=overall;
+        document.querySelector('cs-personalitydevelopment-card').FnResetFlag();
+        document.querySelector('approve-one-to-four-card').FnSpinnerrActive(false); 
+        }
+         if(localStorage.getItem("curr_sess_importsubject")=="Physical Education"){
+         // alert('come');           
+        //document.querySelector('coscholastic-assesment-sheet-card').setPage('talentidentification-card'); 
+        //document.querySelector('talentidentification-card').setDefaultHeaders();    
+        document.querySelector('talentidentification-card').importarr=overall;
+       // document.querySelector('talentidentification-card').FnResetFlag();
+        }
+       
+        /*if(localStorage.getItem("curr_sess_subject")=="Attendance"){ 
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('attendance-card'); 
+        document.querySelector('attendance-card').setDefaultHeaders();    
+        document.querySelector('attendance-card').importarr=overall;
+        document.querySelector('attendance-card').FnResetFlag();
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Health"){ 
+        document.querySelector('coscholastic-assesment-sheet-card').setPage('cce-fivetoten-health-card'); 
+        document.querySelector('cce-fivetoten-health-card').setDefaultHeaders();    
+        document.querySelector('cce-fivetoten-health-card').importarr=overall;
+        document.querySelector('cce-fivetoten-health-card').FnResetFlag();
+        }*/ 
+        if(localStorage.getItem("curr_sess_importflag")=="1")
+        this.FnHideApprovalBtn(); 
+        }        
+        else
+        this.studarrlength=0;
+        this.fetchstudentService(); 
+        }  
+        // overall=[];
+    },
+    Fnupdatemark:function()
+    {
+         this.updatemarkurl=sessionStorage.getItem("addrinfo")+"/updatemark-service";
+         var obj={"grade":"","section":"","schoolid":"","academic":"","term":"","assesment":"","subject":"","category":"","sub_category":"","mark":"","studid":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academic=localStorage.getItem("curr_sess_academicyear");
+         obj.term=localStorage.getItem("curr_sess_termname");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+         obj.assesment= "Assesment3";
+         else
+         // obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.assesment=localStorage.getItem("curr_sess_assesment");
+         obj.subject=localStorage.getItem("curr_sess_subject");
+         obj.grade=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section");
+         // alert(updatecount+" "+updatereqcount+" "+updatemarkarray.length);
+         if(updatemarkarray.length>0){
+         for(var i=0;i<updatemarkarray.length;i++){
+         obj.category=updatemarkarray[i].category;
+         obj.sub_category=updatemarkarray[i].subcategory;
+         if(localStorage.getItem("curr_sess_subject")=="Personality Development")
+         {
+           if(updatemarkarray[i].mark=='A+')
+            obj.mark="10";
+          if(updatemarkarray[i].mark=='A')
+            obj.mark="8";
+          if(updatemarkarray[i].mark=='B')
+            obj.mark="7";
+          if(updatemarkarray[i].mark=='C')
+            obj.mark="5";
+          if(updatemarkarray[i].mark=='D')
+            obj.mark="3";
+         }
+         else
+         obj.mark=updatemarkarray[i].mark;
+         obj.studid=updatemarkarray[i].name;
+         this.updatemarkparam= obj;                
+         this.$.updatemarkajax.generateRequest();
+         }
+         }
+         else
+          alert('No Changes to update!');
+    },
+    updatemarkResponse:function(e){         
+      if(e.detail.response=='succ'){         
+         updatecount++;         
+      }
+      if(e.detail.response=='fail'){         
+         updatefailcount=-1;         
+      }
+      if(updatecount==updatereqcount){
+        alert('Marks updated!'); 
+        updatecount=0;
+        updatereqcount=0;
+        updatemarkarray=[]; 
+        // alert(updatemarkarray.length);    
+      }
+      if(updatefailcount==-1)
+        alert('Marks not updated!');
+    
+    },
+    Fnprepareupdatemark:function(updatemarkarr){
+        updatereqcount++;
+        updatemarkarray.push(updatemarkarr);
+    },
+    FnSpinnerDeactive:function(){
+       // alert(localStorage.getItem("curr_sess_subject"));
+       overallfetchimportarr=[];
+       if(localStorage.getItem("curr_sess_subject")=="Mathematics"){
+        // document.querySelector('cc-maths-onetofour-card').markarr=overall;  
+        document.querySelector('cc-maths-onetofour-card').FnSpinnerrActive(false);       
+        }
+        if(localStorage.getItem("curr_sess_subject")=="EVS")
+        {        
+        // document.querySelector('cc-evs-onetofour-card').markarr=overall;
+        document.querySelector('cc-evs-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="English"||localStorage.getItem("curr_sess_subject")=="Hindi"||localStorage.getItem("curr_sess_subject")=="Kannada"){        
+        // document.querySelector('cc-eng-onetofour-card').markarr=overall;
+        document.querySelector('cc-eng-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="GK"){        
+        // document.querySelector('cc-gk-onetofour-card').markarr=overall;
+        document.querySelector('cc-gk-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Computer"){   
+         
+        // document.querySelector('cc-computer-onetofour-card').markarr=overall;
+        document.querySelector('cc-computer-onetofour-card').FnSpinnerrActive(false); 
+        }      
+
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"){        
+       
+        // document.querySelector('cc-art-craft-onetofour-card').markarr=overall;
+        document.querySelector('cc-art-craft-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="dance"){        
+        // document.querySelector('cc-dance-onetofour-card').markarr=overall;
+        document.querySelector('cc-dance-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="music"){        
+        // document.querySelector('cc-music-onetofour-card').markarr=overall;
+        document.querySelector('cc-music-onetofour-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Games"){        
+        // document.querySelector('cs-games-card').markarr=overall;
+        document.querySelector('cs-games-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){        
+        // document.querySelector('cs-personalitydevelopment-card').markarr=overall;
+        document.querySelector('cs-personalitydevelopment-card').FnSpinnerrActive(false); 
+        }
+        if(localStorage.getItem("curr_sess_assesmenttype")=="FA1"||localStorage.getItem("curr_sess_assesmenttype")=="FA2"||localStorage.getItem("curr_sess_assesmenttype")=="FA3"||localStorage.getItem("curr_sess_assesmenttype")=="FA4"){
+        // document.querySelector('cc-maths-onetofour-card').markarr=overall;  
+        document.querySelector('cc-fa-fivetoten-card').FnSpinnerrActive(false);       
+        }
+        if(localStorage.getItem("curr_sess_assesmenttype")=="SA1"){
+        // document.querySelector('cc-maths-onetofour-card').markarr=overall;
+        if((localStorage.getItem("curr_sess_grade")=="Grade-9"||localStorage.getItem("curr_sess_grade")=="Grade-10")&&localStorage.getItem("curr_sess_subject")=="English"){
+        
+     
+        document.querySelector('cc-sa-ninetoten-english').FnSpinnerrActive(false); 
+        } 
+        else
+        document.querySelector('cc-sa-fivetoten-card').FnSpinnerrActive(false);       
+        }
+    },
+    Fnimportattendancemark:function()
+    {   
+      var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj1.termname=localStorage.getItem("curr_sess_termname");
+         obj1.assesmentid='Assesment3';
+         obj1.subject=localStorage.getItem("curr_sess_subject");
+         obj1.gradename=localStorage.getItem("curr_sess_grade");
+         obj1.sectionname=localStorage.getItem("curr_sess_section");
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+      {
+        obj1.flag=1;
+        this.updateattendanceflagurl=sessionStorage.getItem("addrinfo")+"/updateattendanceflag-service";
+        this.updateattendanceflagparam=obj1;
+        this.$.updateattendanceflagajax.generateRequest();            
+      }     
+    
+      if(sessionStorage.getItem("curr_sess_loggedrole")=="Class-Teacher"||sessionStorage.getItem("curr_sess_loggedrole")=="Subject-Teacher")
+      {
+        this.updateattendanceimportmarkcheckService();
+      }      
+    },
+     updateattendanceflagResponse:function(e){
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=='exist')
+      alert("Already Approved!");
+      if(e.detail.response.returnval=='updated'){
+      alert("Approved!");
+      // this.callOveralltermmarkinsertService();   
+      }
+      if(e.detail.response.returnval=='not updated')
+      alert("Unable to approve!");
+    },
+    updateattendanceimportmarkcheckService:function(){
+      var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+        obj.assesmentid= "Assesment3";
+        else
+        obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updateimportmarkcheckurl=sessionStorage.getItem("addrinfo")+"/updateattendanceimportmarkcheck-service";
+        this.updateimportmarkcheckparam=obj;
+        this.$.updateimportmarkcheckajax.generateRequest();
+    },
+    updateattendanceimportmarkcheckResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.returnval));
+        var arr=e.detail.response.returnval;
+        if(arr[0].result=='match')
+          this.updateimportmarkService();
+        else
+          alert("Please make sure all the students entry!");
+    },
+    updateattendanceimportmarkService:function(){
+      // alert(localStorage.getItem("curr_sess_termname"));
+        var obj={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+         obj.assesmentid= "Assesment3";
+         else
+        obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        obj.gradename= localStorage.getItem("curr_sess_grade"); 
+        obj.sectionname=localStorage.getItem("curr_sess_section");    
+        obj.subject=localStorage.getItem("curr_sess_subject");
+        this.updateimportmarkurl=sessionStorage.getItem("addrinfo")+"/updateattendanceimportmark-service";
+        this.updateimportmarkparam=obj;
+        this.$.updateimportmarkajax.generateRequest();
+    },    
+    updateattendanceimportmarkResponse:function(e){
+      // alert(e.detail.response.returnval);
+      if(e.detail.response.returnval=="exist")
+        alert('Already Submitted');
+      if(e.detail.response.returnval=="succ")
+        alert("Submitted!");
+    },
+    FnFetchApprovalStatus:function(){
+      var obj={"schoolid":"","academicyear":"","termname":"","loggedid":"","roleid":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");      
+        obj.termname=localStorage.getItem("curr_sess_termname");
+        this.fetchapprovalstatusurl=sessionStorage.getItem("addrinfo")+"/fetchapprovalstatus-service";
+        obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        this.fetchapprovalstatusparam=obj;
+        this.$.fetchapprovalstatusajax.generateRequest();
+    },
+    fetchapprovalstatusResponse:function(e){
+      // alert(JSON.stringify(e.detail.response.returnval));
+      var arr=e.detail.response.returnval;
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].flag=="0")
+          arr[i].flag="Pending for approval";
+        if(arr[i].flag=="1")
+          arr[i].flag="Approved";
+      }
+      document.querySelector('approvalstatus-card').approvalarr=e.detail.response.returnval;
+    },
+    callUpdateStudentInfo:function(id,name,pname,pmail,alternatemail,mothername,address){
+      var obj={"schoolid":"","academicyear":"","enrno":"","name":"","pname":"","pmail":"","grade":"","section":""};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.grade=localStorage.getItem("curr_sess_grade");
+         obj.section=localStorage.getItem("curr_sess_section"); 
+         obj.enrno=id;
+         obj.name=name;    
+         obj.pname=pname;
+         obj.pmail=pmail;
+         obj.mothername=mothername;
+         obj.address=address;
+         obj.alternatemail=alternatemail;
+        // obj.termname=localStorage.getItem("curr_sess_termname");
+        this.updatestudentinfourl=sessionStorage.getItem("addrinfo")+"/updatestudentinfo-service";
+        this.updatestudentinfoparam=obj;
+        this.$.updatestudentinfoajax.generateRequest();
+
+    },
+    updatestudentinfoResponse:function(e){
+      alert(e.detail.response.returnval);
+    },
+    callstudentinfo:function(studid){
+      var obj={"schoolid":"","academicyear":"","enrno":"","name":"","pname":"","pmail":"","grade":"","section":""};
+      obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+ 
+         obj.enrno=studid;
+   
+        // obj.termname=localStorage.getItem("curr_sess_termname");
+        this.studentinfourl=sessionStorage.getItem("addrinfo")+"/studentinfo-service";
+        this.studentinfoparam=obj;
+        this.$.studentinfoajax.generateRequest();
+    },
+    studentinfoResponse:function(e){
+      document.querySelector('studentinfoedit-card').studentname=e.detail.response.returnval[0].student_name;
+    },
+    callstudentparentinfo:function(studid){
+      var obj={"schoolid":"","academicyear":"","enrno":"","name":"","pname":"","pmail":"","grade":"","section":""};
+      obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+
+         obj.enrno=studid;
+
+        // obj.termname=localStorage.getItem("curr_sess_termname");
+        this.studentparentinfourl=sessionStorage.getItem("addrinfo")+"/studentparentinfo-service";
+        this.studentparentinfoparam=obj;
+        this.$.studentparentinfoajax.generateRequest();
+    },
+    studentparentinfoResponse:function(e){
+      if(e.detail.response.returnval!="invalid"){
+      document.querySelector('studentinfoedit-card').parentname=e.detail.response.returnval[0].parent_name;
+      document.querySelector('studentinfoedit-card').mothername=e.detail.response.returnval[0].mother_name;
+      document.querySelector('studentinfoedit-card').address=e.detail.response.returnval[0].address1;
+      document.querySelector('studentinfoedit-card').parentmail=e.detail.response.returnval[0].email;
+      document.querySelector('studentinfoedit-card').alternatemail=e.detail.response.returnval[0].alternate_mail;
+      }
+    },
+    faapproveService:function(){  
+     localStorage.setItem('curr_sess_report',4);
+    if(localStorage.getItem("curr_sess_subject")=="Work Education"||localStorage.getItem("curr_sess_subject")=="Life Skills"||localStorage.getItem("curr_sess_subject")=="Visual & Performing Arts"||localStorage.getItem("curr_sess_subject")=="Attitudes And values"||localStorage.getItem("curr_sess_subject")=="Co-Curricular Activities"||localStorage.getItem("curr_sess_subject")=="Health and Physical Education")
+     {
+       
+       var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj1.termname=localStorage.getItem("curr_sess_termname");
+         obj1.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj1.subject=localStorage.getItem("curr_sess_subject");
+         obj1.gradename=localStorage.getItem("curr_sess_grade");
+         obj1.sectionname=localStorage.getItem("curr_sess_section");
+       if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+       {
+        // this.faapproveService();
+        obj1.flag=1;
+        this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
+        this.updatefaflagparam=obj1;
+        this.$.updatefaflagajax.generateRequest();
+        }
+
+
+     }  
+     else
+     {  
+        this.callFetchFaStudentInfo();
+     }
+    },
+    calloverallfainsertservice:function(){
+
+        for(var i=0;i<overall.length;i++){
+            var obj={"schoolid":"","academicyear":"","termname":"","studentid":"","studentname":"","grade":"","section":"","subject":"","category":"","total":"","catgrade":""}
+
+            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+            obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+            obj.termname=localStorage.getItem("curr_sess_termname");
+            obj.grade=localStorage.getItem("curr_sess_grade");
+            obj.section=localStorage.getItem("curr_sess_section"); 
+            obj.subject=localStorage.getItem("curr_sess_subject");
+            obj.category=localStorage.getItem("curr_sess_assesment");
+            obj.studentid=overall[i].id;
+            obj.studentname=overall[i].student_name;
+            obj.total=overall[i].reducetotal;
+            obj.catgrade=overall[i].grade;
+            this.insertoverallfagradeurl=sessionStorage.getItem("addrinfo")+"/insertoverallfagrade-service";
+            this.insertoverallfagradeparam=obj;
+            this.$.insertoverallfagradeajax.generateRequest();            
+        }
+    },
+    insertoverallfagradeResponse:function(){
+        overallcount++;
+        if(overall.length==overallcount){
+             var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+         obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj1.termname=localStorage.getItem("curr_sess_termname");
+         obj1.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj1.subject=localStorage.getItem("curr_sess_subject");
+         obj1.gradename=localStorage.getItem("curr_sess_grade");
+         obj1.sectionname=localStorage.getItem("curr_sess_section");
+       if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
+       {
+        // this.faapproveService();
+        obj1.flag=1;
+        this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
+        this.updatefaflagparam=obj1;
+        this.$.updatefaflagajax.generateRequest();
+        overallcount=0;
+        }
+        }
+    },
+    callDeletemarkService:function(studid){
+         this.deletemarkurl=sessionStorage.getItem("addrinfo")+"/deletemarks-service";
+         // alert(JSON.stringify(this.deletemarkurl));
+         var obj={"schoolid":"","academicyear":"","assesmentid":"","classid":"","studentid":"","studentname":"","termname":"","grade":"","section":"","subject":"","category":"","subcategory":"","mark":"","total":"","assesmentflag":"","absflag":"","subcatseq":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         if(localStorage.getItem("curr_sess_subject")=="Art&Craft"||localStorage.getItem("curr_sess_subject")=="music"||localStorage.getItem("curr_sess_subject")=="dance"||localStorage.getItem("curr_sess_subject")=="Games"||localStorage.getItem("curr_sess_subject")=="Personality Development"||localStorage.getItem("curr_sess_subject")=="Attendance"||localStorage.getItem("curr_sess_subject")=="Health")
+         obj.assesmentid= "Assesment3";
+         else
+         obj.assesmentid=localStorage.getItem("curr_sess_assesment");
+         obj.termname=localStorage.getItem("curr_sess_termname");
+         obj.classid=sessionStorage.getItem("curr_sess_classid");
+         obj.studentid=studid;
+         // obj.studentname=studname;        
+         obj.grade=localStorage.getItem("curr_sess_grade");;
+         obj.section=localStorage.getItem("curr_sess_section");
+         obj.subject=localStorage.getItem("curr_sess_subject");
+         this.deletemarkparam=obj;  
+         // alert(JSON.stringify(obj));
+         this.$.deletemarkajax.generateRequest();
+    },
+    deletemarkResponse:function(e){
+        alert(e.detail.response.returnval);
+        var sub=localStorage.getItem("curr_sess_subject");
+        if(sub=="English"||sub=="Mathematics"||sub=="Computer"||sub=="EVS"||sub=="Hindi"||sub=="Kannada"||sub=="GK")
+        document.querySelector('term-assesment-card').callService();
+        else
+        document.querySelector('coscholastic-assesment-card').callService();
+    },
+    revertsubmittedmarkService:function(academic,term,assesment,grade,section,subject){
+        this.revertsubmittedmarkurl=sessionStorage.getItem("addrinfo")+"/revertsubmittedmark-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=academic;
+         obj.termname=term;
+         obj.assesmentid=assesment;
+         obj.grade=grade;
+         obj.section=section;
+         obj.subject=subject;
+         this.revertsubmittedmarkparam=obj;  
+         // alert(JSON.stringify(obj));
+         this.$.revertsubmittedmarkajax.generateRequest();
+    },
+    revertsubmittedmarkResponse:function(e){
+        alert(e.detail.response.returnval);
+        this.callApproveService();   
+    },
+    FnEnableordisablebtns:function(){
+      
+       if(localStorage.getItem("curr_sess_subject")=="Mathematics"){
+        // document.querySelector('cc-maths-onetofour-card').markarr=overall;  
+        document.querySelector('cc-maths-onetofour-card').FnEnableFlag(false);       
+        }
+        if(localStorage.getItem("curr_sess_subject")=="EVS")
+        {        
+        // document.querySelector('cc-evs-onetofour-card').markarr=overall;
+        document.querySelector('cc-evs-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="English"||localStorage.getItem("curr_sess_subject")=="Hindi"||localStorage.getItem("curr_sess_subject")=="Kannada"){        
+        // document.querySelector('cc-eng-onetofour-card').markarr=overall;
+        document.querySelector('cc-eng-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="GK"){        
+        // document.querySelector('cc-gk-onetofour-card').markarr=overall;
+        document.querySelector('cc-gk-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Computer"){   
+         
+        // document.querySelector('cc-computer-onetofour-card').markarr=overall;
+        document.querySelector('cc-computer-onetofour-card').FnEnableFlag(false); 
+        }      
+
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"){        
+       
+        // document.querySelector('cc-art-craft-onetofour-card').markarr=overall;
+        document.querySelector('cc-art-craft-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="dance"){        
+        // document.querySelector('cc-dance-onetofour-card').markarr=overall;
+        document.querySelector('cc-dance-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="music"){        
+        // document.querySelector('cc-music-onetofour-card').markarr=overall;
+        document.querySelector('cc-music-onetofour-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Games"){        
+        // document.querySelector('cs-games-card').markarr=overall;
+        document.querySelector('cs-games-card').FnEnableFlag(false); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){        
+        // document.querySelector('cs-personalitydevelopment-card').markarr=overall;
+        document.querySelector('cs-personalitydevelopment-card').FnEnableFlag(false); 
+        }
+       
+    },
+    FnHideApprovalBtn:function(){
+      
+       if(localStorage.getItem("curr_sess_subject")=="Mathematics"){
+        // document.querySelector('cc-maths-onetofour-card').markarr=overall;  
+        document.querySelector('cc-maths-onetofour-card').FnHideApprovebtnFlag(true);       
+        }
+        if(localStorage.getItem("curr_sess_subject")=="EVS")
+        {        
+        // document.querySelector('cc-evs-onetofour-card').markarr=overall;
+        document.querySelector('cc-evs-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="English"||localStorage.getItem("curr_sess_subject")=="Hindi"||localStorage.getItem("curr_sess_subject")=="Kannada"){        
+        // document.querySelector('cc-eng-onetofour-card').markarr=overall;
+        document.querySelector('cc-eng-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="GK"){        
+        // document.querySelector('cc-gk-onetofour-card').markarr=overall;
+        document.querySelector('cc-gk-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Computer"){   
+         
+        // document.querySelector('cc-computer-onetofour-card').markarr=overall;
+        document.querySelector('cc-computer-onetofour-card').FnHideApprovebtnFlag(true); 
+        }      
+
+        if(localStorage.getItem("curr_sess_subject")=="Art&Craft"){        
+       
+        // document.querySelector('cc-art-craft-onetofour-card').markarr=overall;
+        document.querySelector('cc-art-craft-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="dance"){        
+        // document.querySelector('cc-dance-onetofour-card').markarr=overall;
+        document.querySelector('cc-dance-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="music"){        
+        // document.querySelector('cc-music-onetofour-card').markarr=overall;
+        document.querySelector('cc-music-onetofour-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Games"){        
+        // document.querySelector('cs-games-card').markarr=overall;
+        document.querySelector('cs-games-card').FnHideApprovebtnFlag(true); 
+        }
+        if(localStorage.getItem("curr_sess_subject")=="Personality Development"){        
+        // document.querySelector('cs-personalitydevelopment-card').markarr=overall;
+        document.querySelector('cs-personalitydevelopment-card').FnHideApprovebtnFlag(true); 
+        }
+       
+    }
+    });
+  })();
+  </script>
+</dom-module>

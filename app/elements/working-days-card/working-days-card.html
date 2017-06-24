@@ -1,0 +1,207 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+<dom-module id="working-days-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+
+     table{
+        width: 60%;  
+        border-collapse: collapse;                          
+        margin-left: 1%;
+      }              
+      .studname{
+        width: 30%;
+      }
+      #tb1{
+          width:23.6%
+        }
+        .newdropzzz
+        {
+          margin-left: 10em;
+          margin-top: 1em;
+        }
+        .newdivzzz
+        {  
+          @apply(--layout-horizontal);    
+          border-radius: 10px;
+          border: 1px solid #6699ff;
+          padding: 15px; 
+          width: 41%;
+          margin-left: 30%;
+          margin-top: 5% !important;
+          min-height: 100px; 
+        }
+
+        .workscl
+      {
+        @apply(--layout-vertical);
+      }
+    
+    </style>  
+
+    <div>
+      <CENTER>
+        <h3><b>WORKING DAYS</b></h3>   
+      </CENTER>
+    </div>
+    
+    <div class="newdivzzz">
+          <div class="workscl">
+            <div>
+              <label><b>School Type</b></label>
+            </div>  
+            <div>
+              <template is="dom-repeat" items="{{Sectiongradearrr}}" as="view">
+                <workingday-creation-item-card schooltypename="{{view.school_type_name}}" schootypeid="{{view.school_type_id}}" id="WDAYPH{{view.school_type_id}}">
+                </workingday-creation-item-card>  
+              </template>
+            </div> 
+          </div>  
+   
+        <div class="newdropzzz">
+          <paper-dropdown-menu id="term" label="Select Acadamic year">
+              <paper-menu id="rtermmmzzz" class="dropdown-content"   on-iron-select="fnsetonacadamicsectionzz" attr-for-selected="value" required>
+                <paper-item value="2016-2017">2016-2017</paper-item>
+                <paper-item value="2017-2018">2017-2018</paper-item>
+                <paper-item value="2018-2019">2018-2019</paper-item>
+                <paper-item value="2019-2020">2019-2020</paper-item>
+              </paper-menu>
+          </paper-dropdown-menu>
+        </div>
+   </div> 
+      
+   <div class="newtabgrid" hidden$="{{hidenewtabgrid}}">
+      <table border="1" style="margin-left: 20%;margin-top: 3%;">    
+          <tr>
+          <th id="tb1">Grade</th>
+          <th id="tb1">Term1</th>
+          <th id="tb1">Term2</th>
+          <th id="tb1">Term3</th>
+           <th id="tb1">Save</th> 
+         </tr>      
+          <template is="dom-repeat" items="{{scooltypgrid}}" as ="view">
+          <tr>
+          <td colspan="6">
+        <workingday-terms-card  gradeid="{{view.grade_id}}" gradename="{{view.grade_name}}" acadamicyears="{{acadamicyear}}" schootypids="{{schootypidz}}"  term1="{{view.term1}}" term2="{{view.term2}}" term3="{{view.term3}}"></workingday-terms-card >
+
+
+           </td>   
+           </tr>
+          </template>  
+      </table>
+    </div>  
+
+      <demosumbit-card id="mydialog1"></demosumbit-card>
+      <master-ui-service id="uiservice"></master-ui-service>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    var dbschootypearr=[];
+     var gridschooltypearr=[];
+    Polymer({
+      is: 'working-days-card',
+  
+    
+        ready:function()
+      {
+         this.$.term.hidden=true;
+         this.hidenewtabgrid=true;
+
+      },
+      FnRefresh:function()
+      {
+        document.querySelector('#rtermmmzzz').selected=-1;
+      },
+      showacademicyr:function()
+      {
+        this.$.term.hidden=false;
+      },
+      /*shownewgrid:function()
+      {
+        this.hidenewtabgrid=false;  
+      },*/
+      Setsectionvalue:function(e)
+      {
+
+      this.schootypidz=e;
+     // alert(JSON.stringify(this.schootypidz));
+    // alert(this.schootypidz);
+      },
+      fnsetonacadamicsectionzz:function(e)
+      {
+         this.acadamicyear=e.target.selectedItem.textContent.trim(); 
+         this.hidenewtabgrid=false;
+      //  alert(this.acadamicyear);
+          this.$.uiservice.fnsetpasssectinvalue(this.schootypidz,this.acadamicyear);
+           this.$.uiservice.fngetpasssectinvaluezz(this.schootypidz,this.acadamicyear);
+          document.querySelector('workingday-terms-card').fnsplice();
+   
+  
+      },
+         scooltypgridvalzzz:function(arr){
+        //  alert(JSON.stringify(arr));
+         gridschooltypearr=arr;
+       },   
+   scooltypgridval1:function(arr){
+            dbschootypearr=arr;
+            //alert('2');   
+           //    alert(JSON.stringify(gridschooltypearr));
+             //    alert(JSON.stringify(dbschootypearr));
+      
+              for(var i=0;i<gridschooltypearr.length;i++){
+               // alert(1);
+                for(var j=0;j<dbschootypearr.length;j++){
+                //  alert(2);
+       //            alert(dbschootypearr[j].type+"  "+gridschooltypearr[i].grade_name);
+           if(dbschootypearr[j].type==gridschooltypearr[i].grade_name){
+                 
+                 
+                           if(dbschootypearr[j].term_name=='term1'){
+                                   gridschooltypearr[i].term1=dbschootypearr[j].no_of_days;
+                            
+                             }
+                             else if(dbschootypearr[j].term_name=='term2'){
+                              gridschooltypearr[i].term2=dbschootypearr[j].no_of_days;
+                           
+                             }
+                              else if(dbschootypearr[j].term_name=='term3'){
+                             gridschooltypearr[i].term3=dbschootypearr[j].no_of_days;
+                         }
+                       }
+                      }
+                    }
+              // alert(JSON.stringify(gridschooltypearr));
+               this.scooltypgrid=gridschooltypearr;
+           //   alert(this.scooltypgrid);
+         
+         }
+
+         /*fnwork:function()
+         {
+          this.$.mydialog1.toggleDialog1();
+         }
+         */
+
+ });
+  })();
+  </script>
+</dom-module>
+

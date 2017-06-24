@@ -1,0 +1,306 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu-light/paper-dropdown-menu-light.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../student-report-service/student-report-service.html">
+
+<dom-module id="student-to-section-report">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+       .card{
+      width: 100%;        
+      @apply(--layout-vertical);
+      }
+      .innercard{
+      @apply(--layout-horizontal);
+      margin-left: 33%;
+      }
+      paper-dropdown-menu{
+        margin-left: 5%;
+      }
+      paper-dropdown-menu{
+      width: 20%;
+      /*margin-left: 3%;*/
+      --paper-input-container-label: { color: red };
+      text-align:center;
+      }
+      .sec1
+      {
+        margin-left: 8%;
+        margin-top: 2% !important;
+      }
+      paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+       table   
+       {
+        border-collapse: collapse;
+        margin-top: 7%;
+        /*margin-left: 19%;*/
+        
+      }
+     table   
+       {
+        border-collapse: collapse;
+        margin-top: 3%;
+        /*margin-left: -39%;*/
+        width: 40%;
+      }
+       #btn1
+       {
+        background-color: #363636;
+        color: #ffffff; 
+        /*width: 12%;*/
+        height: 34px;
+        margin-top: 4%;
+        margin-left: 48%;
+      }
+      #btn2
+       {
+        background-color: #363636;
+        color: #ffffff; 
+        /*width: 12%;*/
+        height: 34px;
+        margin-top: 4%;
+        margin-left: 48%;
+      }
+      .newtempl
+      {
+        border: 1px solid #6699ff;
+        padding: 5px;
+        width: 100%;
+        margin-top: 4%;
+        margin-left: -58%;
+      }
+
+    </style>
+    <div>
+      <center>
+        <h3>STUDENT-TO-SECTION-REPORT</h3>
+      </center>     
+    </div>
+    <div class="card">
+      <div class="innercard">
+          <paper-dropdown-menu id="sgrade" label="Select Grade" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="stgrade" 
+            on-iron-select="FnSelectGrade1"  attr-for-selected="value" required>     
+              <template is="dom-repeat" items="{{gradesarr}}">
+                <paper-item value="{{item.grade_id}}">{{item.grade_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+
+          
+          <div class="sec1" hidden$="{{sectionhide}}"> 
+            <div>
+              <label><b>Select Section</b></label>
+            </div>     
+            <div class="allsec" hidden$="{{allsectionhide}}">
+              <paper-checkbox class="chk1"  on-change="selectallfield" id=chk1s>{{sectionname}}</paper-checkbox>
+              <label>All Sections</label>
+            </div>
+             <div class="spsection" hidden$="{{spsectionhide}}">
+               <paper-checkbox class="chk2" on-change="selectspecific" id="chk2zxc">{{sectionname1}}</paper-checkbox>
+               <label>Specific Sections</label>
+             </div>   
+            <div class="newtempl" hidden$="{{spsectionhidecx}}">  
+              <label style="margin-left: 5%;"><b>Section Names</b></label> 
+            <table>
+              <template is="dom-repeat" items="{{sectoinarr}}" as="view">
+                <tr>
+                  <template is="dom-repeat" items="{{view}}" as="v">
+                    <td style="padding-left:12px">
+                      <studentsectionwise-report sectionnames="{{v.section_id}}" classname="{{v.class_id}}" gradeidz="{{gradeid}}">
+                      </studentsectionwise-report>
+                    </td>
+                  </template>
+                </tr>  
+              </template>
+            </table>                  
+          </div>
+        
+             </div> 
+          </div>  
+      </div>
+    </div>
+     <div class="studentreport" hidden$="{{studentallreport1}}">
+       <table id="report1" border="1" style="margin-left: 23%;width: 65%;">
+        <tr style="text-align: left;">
+          <th>SNO</th>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Class</th>
+          <th>Section</th>
+          <th>Student Status</th>
+        </tr>
+        <template  is="dom-repeat" items="{{studentsecctionarr}}" as="view">
+          <tr>
+              <td>{{view.squence}}</td>
+               <td>{{view.id}}</td>
+              <td>{{view.student_name}}</td>
+              <td>{{view.grade_name}}</td>
+              <td>{{view.section}}</td>
+              <td>{{view.admission_status}}</td>
+          </tr>
+        </template>
+      </table>
+
+      <input type="button" id="btn1" onclick="tableToExcel('report1', 'Student Section report')" value="Export to Excel">
+    </div>
+
+    <div class="studentreport" hidden$="{{studentreport1}}">
+       <table id="report1" border="1" style="margin-left: 33%;">
+        <tr style="text-align: left;">
+          <th>SNO</th>
+          <th>Student ID</th>
+          <th>Student Name</th>
+          <th>Student Status</th>
+          <!-- <th>Class</th>
+          <th>Section</th> -->
+        </tr>
+        <template  is="dom-repeat" items="{{studentreportarr}}" as="view">
+          <tr>
+              <td>{{view.squence}}</td>
+              <td>{{view.id}}</td>
+              <td>{{view.student_name}}</td>
+              <td>{{view.admission_status}}</td>
+
+              <!-- <td>{{view.grade_name}}</td>
+              <td>{{view.section}}</td> -->
+          </tr>
+        </template>
+      </table>
+
+      <input type="button" id="btn2" onclick="tableToExcel('report1', 'Student Section report')" value="Export to Excel">
+    </div>
+
+      <student-report-service id="reportservice"></student-report-service>
+  </template>
+
+  <script type="text/javascript">
+    var tableToExcel = (function() {
+      var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+      , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+      , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+      return function(table, name) {
+      if (!table.nodeType) table = document.getElementById(table)
+      var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+      window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+  <script>
+  (function() {
+    'use strict';
+    var selectallarr=[];
+    Polymer({
+      is: 'student-to-section-report',
+
+      ready:function()
+     {
+      this.studentreport1=true;
+      this.studentallreport1=true;
+      this.sectionhide=true;
+     },
+      FnSelectGrade1:function(e)
+      {
+       
+        this.gradename1 =(e.target.selectedItem.textContent).trim();
+        this.gradeid=e.target.selectedItem.value;
+        this.$.reportservice.Fnselectclass(this.gradeid);
+        this.sectionhide=false;
+        this.spsectionhidecx=true;
+        chk2zxc.checked=false;
+        chk1s.checked=false;
+        this.spsectionhide=false;
+        this.allsectionhide=false;
+        this.studentreport1=true;
+        this.studentallreport1=true;
+        document.querySelector('studentsectionwise-report').Fnrefresh();
+      },
+      selectspecific:function(e)
+      {
+        if(chk2zxc.checked==true)
+        {
+          this.allsectionhide=true;
+          chk1s.checked=false;
+          this.spsectionhidecx=false;
+          this.studentreport1=true;
+          this.studentallreport1=true;
+          //this.fnhide();
+        }
+        else
+        {
+          this.allsectionhide=false;
+          this.spsectionhidecx=true;
+          this.studentreport1=true;
+          this.studentallreport1=true;
+        }
+     },
+      Fnrefresh:function()
+      {
+        document.querySelector('#stgrade').selected=-1;
+        this.studentreport1=true;
+        chk1s.checked=false;
+        chk2zxc.checked=false;
+        this.studentallreport1=true;
+      },
+      fnhide:function()
+      {
+        this.studentallreport1=true;
+        this.studentreport1=false;
+      },
+      fnallsection:function(arr)
+      {
+        selectallarr=arr;
+      },
+      selectallfield:function(e)
+      {
+       // alert("Alll");
+           
+        if(chk1s.checked==true)
+        {
+            this.spsectionhide=true;
+            chk2zxc.checked=false;
+            this.spsectionhidecx=true;
+            this.studentreport1=true;
+            sessionStorage.setItem("curr_sess_sectionname",this.sectionname);
+            var obj={"id":""};
+                obj.id=this.id;
+                selectallarr.push(obj);
+            this.$.reportservice.allsections(this.gradeid);
+            this.studentallreport1=false;           
+            //  this.spsectionhide=true;
+          }
+          else
+          {
+            this.spsectionhide=false;
+            this.studentallreport1=true;
+            this.studentreport1=true;
+          }
+      }
+      
+    });
+  })();
+  </script>
+</dom-module>

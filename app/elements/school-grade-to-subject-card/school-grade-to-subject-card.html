@@ -1,0 +1,399 @@
+   <link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+   <link rel="import" href="..\..\bower_components/polymer/polymer.html">
+  <link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+   <dom-module id="school-grade-to-subject-card">
+   <template>
+    <style>  
+      :host {
+        display: block;
+      }   
+      
+      .outcard
+      {
+      width:25% 
+      margin-left:5.0em;
+      }
+      /*.newwwwcardd
+      {
+        overflow-y: scroll;
+         overflow-x: hidden;
+      }*/
+
+       .innercardgrid
+       {     
+        @apply(--layout-horizontal);
+        width:100%;
+        margin-top: 1%;
+        /*-webkit-margin-start: -568px;*/
+
+       }
+        .innercard
+       {     
+        @apply(--layout-horizontal);
+        width:100%;
+       }
+   
+     .tt
+     {      
+      width:70%;
+     }   
+   .outer1
+      {
+         @apply(--layout-horizontal);
+        border-radius: 10px;
+        border: 2px solid #6699ff;
+        padding: 0px;
+        margin-top: 4%;
+        width:65%;
+        margin-left: 19%;
+        min-height: 170px;
+      }
+
+       .subbutton paper-button
+      {
+       /* @apply(--layout-right);*/
+        background-color: #363636;
+        color: #ffffff;                
+         width: 26%;
+         margin-top: 6em;
+         margin-left: 20em;
+     
+      }
+      .sbutton
+      {
+        @apply(--layput-right);
+        background-color: #363636;
+        color: #ffffff;  
+        width: 9%;
+        margin-left: 50%;        
+      }
+      .subbcatt
+      {
+        @apply(--layout-vertical);
+            margin-left: 6em;
+            margin-top: 2em;
+      }
+      
+      #schtypeid
+      { 
+        @apply(--layout-vertical);
+        margin-left: 3em;
+        margin-top: 2em;
+      }
+      .subouter
+      {
+        @apply(--layout-vertical);
+      }
+     
+    .language
+    {
+       margin-left: 30em;
+      margin-top: 4em;
+      position: absolute;
+    }
+
+    #tbz1
+    {
+     margin-top: 5em; 
+     margin-left: 15em;
+    }
+    </style>
+
+
+    <div>
+      <CENTER>
+        <h3><b>GRADE TO SUBJECT MAPPING</b></h3>
+      </CENTER>
+    </div>
+   
+      <div class="outer1">
+        <div  id="schtypeid">
+          <div>
+            <label><b>SCHOOL TYPE</b></label>
+          </div>
+          <div>
+            <template is="dom-repeat" items="{{schooltypegrarr}}" as="view">
+              <school-type-item-card schooltypenamexx="{{view.school_type_name}}" schooltypeidxx="{{view.school_type_id}}" id="GDSUB{{view.school_type_id}}"></school-type-item-card>
+            </template>
+          </div> 
+        </div>         
+        <div class="subbcatt"> 
+          <div >   
+
+            <label><b>SUBJECT CATEGORY</b></label> 
+          </div>  
+          <div>
+         <template is="dom-repeat" items="{{schoolcategoryarr}}" as="view">
+        <schoolcategory-type-item-card schooltypecategoryid="{{view.subject_category_id}}"
+              id="GDCAT{{view.subject_category_id}}" schooltypecategoryname="{{view.subject_category_name}}"  ></schoolcategory-type-item-card>
+            </template>
+          </div>  
+
+        </div>    
+        <div class="language">
+            <paper-dropdown-menu id="empLanguageprefernce1" label="Select The language Type">
+             <paper-menu id="empLanguageprefernce1id" class="dropdown-content" on-iron-select="empfnselectlanprefercence" attr-for-selected="value" required>
+                 <paper-item value="coresub">Core Subject</paper-item>
+                 <paper-item value="2language">Second Language</paper-item>
+                 <paper-item value="3language">Third Language</paper-item>
+             </paper-menu>
+            </paper-dropdown-menu>
+         </div>
+    
+          <div class="subbutton"  hidden$="{{hidegenerate}}">
+            <paper-button on-click="Generate">Generate</paper-button>
+          </div>          
+      </div>   
+       
+
+  <div id="tbz1" hidden$="{{hidenewsubcat}}">
+
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+           <template is="dom-repeat" items="{{bigarr}}" as="view">
+                <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                  <td width="10%"> 
+                    <h4>{{view.subject_name}}</h4>   
+                  </td width="10%">
+                    <template is="dom-repeat" items="{{view.subject}}" as="s">
+                        <td style="margin-left:20%"><center>
+                <school_grade-subject-item-card id="{{s.id}}" getsubjectname="{{view.subject_id}}" getgradename="{{s.grade_id}}" getsgradename="  {{s.Grade_name}}" cattype="{{s.schooltypenamexx}}" getname="{{schooltypesubjectid}}" getschoolcategory="{{schooltypename}}" emplanpreff="{{emplangprefernce}}" hideinput="{{s.hideinput}}" hidecheck="{{s.hidecheck}}"></school_grade-subject-item-card>
+                           </center>
+                        </td>
+                    </template>   
+   
+                  <td hidden$="{{view.hidebtn}}">
+                       <school-grade-subject-baseed-card subjectid="{{view.subject_id}}"></school-grade-subject-baseed-card>      <!--  <paper-icon-button  id="btn1" icon="save" on-click="FnSavez"></paper-icon-button>
+                    <paper-tooltip for="btn1">Save</paper-tooltip>
+                 -->  </td>
+                   <td hidden>
+                    <paper-icon-button  id="btn2" icon="close" on-click="fndelete"></paper-icon-button>
+                    <paper-tooltip for="btn2">Delete</paper-tooltip>
+                  </td>          
+                </tr>    
+              </template>
+          </table>   
+       </div>     
+
+   <demosumbit-card id="mydialog"></demosumbit-card>  
+   <master-ui-service id="uiservice"></master-ui-service>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';   
+    var getgradearr=[];
+    var getcategory=[];  
+    var passservicearr=[];
+    var delpassservicearr=[];
+    var overall1=[];
+    Polymer({
+      is: 'school-grade-to-subject-card',   
+       ready:function()
+       {
+       /*this.$.tbz1.hidden=true;
+       this.$.empLanguageprefernce1.hidden=true;*/
+       /*this.$.hidegenerate.hidden=true;*/
+      },
+     
+       getgrade:function(arr1){
+         getgradearr=arr1;
+       //  alert(JSON.stringify(getgradearr));
+       },
+       getcategory:function(arr){
+       getcategory=arr;
+           //alert(JSON.stringify(getcategory));
+      },
+     
+      fndelapssgradedetails:function(arr){
+         delpassservicearr=arr; 
+      },
+  
+          langprefere:function(e){
+        //   alert('1');
+          if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")=='category1'){
+                  this.$.empLanguageprefernce1.hidden=false;
+                   
+                }
+            else{
+
+              this.$.empLanguageprefernce1.hidden=true;
+              this.hidegenerate=false;
+             
+              var empty='empty';
+              document.querySelector('schoolcategory-type-item-card').fnsetemployeelanprefer(empty);
+
+              document.querySelector('#empLanguageprefernce1id').selected=-1;
+               }   
+             },
+        clean:function(e){
+        this.$.empLanguageprefernce1.hidden=true;
+         this.hidegenerate=true;
+      },
+      empfnselectlanprefercence:function(e){
+        this.emplangprefernce=e.target.selectedItem.textContent.trim();
+        this.hidegenerate=false;
+        document.querySelector('schoolcategory-type-item-card').fnsetemployeelanprefer(this.emplangprefernce);
+         
+      },
+     fndelete:function(e)
+     {
+     
+     },
+  
+       Generate:function(){
+
+         this.schooltypesubjectid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+        this.schooltypename=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+       //alert(this.schooltypesubjectid+this.schooltypename);
+    
+        if(overall1!=0){
+                 document.querySelector('school_grade-subject-item-card').Fngradeclean11(); 
+    
+             }
+              var setarrr=[];
+                 for(var i=0;i<getgradearr.length;i++){
+                          var gradename=getgradearr[i].grade_name;
+                          
+                            var obj={"srtarr":""};
+                                obj.srtarr=gradename;
+                               setarrr.push(obj);
+                              //alert(JSON.stringify(obj));
+                          }
+               //alert(JSON.stringify(setarrr));
+                   this.setsubjectarr=setarrr;
+                var generatearr=[];
+                var subarr=[];
+                for(var j=0;j<getcategory.length;j++){
+                     for(var i=0;i<getgradearr.length;i++){
+                   var subjectname=getcategory[j].subject_name;
+                    var subject_id=getcategory[j].subject_id;
+                         
+                         var obj={"Grade_name":"","subject_name":"","subject_id":"","grade_id":""}; 
+                           var gradename=getgradearr[i].grade_name;
+                          var grade_id=getgradearr[i].grade_id;
+                           obj.Grade_name=gradename;
+                           obj.subject_name=subjectname;
+                           obj.grade_id=grade_id;
+                           obj.subject_id=subject_id;
+                           generatearr.push(obj);
+                        }}
+                       // alert(JSON.stringify(generatearr));
+        var a=[];
+        var overall=[];
+       for(var k=0;k<generatearr.length;k++)
+       {       
+         var nameobj={"subject_name":"","subject_id":""};
+         nameobj.subject_name=generatearr[k].subject_name; 
+         nameobj.subject_id=generatearr[k].subject_id; 
+       
+         var obj={"Grade_name":"","grade_id":""};
+        // obj.Grade_name=generatearr[k].gradename;
+        obj.Grade_name=generatearr[k].Grade_name;
+        obj.grade_id=generatearr[k].grade_id;
+        obj.id=generatearr[k].subject_id+generatearr[k].grade_id;
+        a.push(obj);
+        for(var l=k+1;l<generatearr.length;l++)
+        {
+           if(generatearr[k].subject_name==generatearr[l].subject_name)
+           {
+             var obj1={"Grade_name":"","grade_id":""}
+             //obj1.Grade_name=generatearr[l].gradename;
+             obj1.Grade_name=generatearr[l].Grade_name;
+             obj1.grade_id=generatearr[l].grade_id;
+             obj1.id=generatearr[k].subject_id+generatearr[l].grade_id;
+
+             //alert('1');
+             //alert(JSON.stringify(obj1));
+             a.push(obj1);
+             //alert(JSON.stringify(a));
+             generatearr.splice(l,1);
+             l--;
+           // alert(JSON.stringify(generatearr));
+         }}
+            nameobj.subject=a;
+            overall.push(nameobj);
+            overall1.push(nameobj);
+       
+        // alert(JSON.stringify(overall));
+           a=[];
+   
+       }
+     
+        //alert(JSON.stringify(overall));
+            var temp=[];
+          var subarr=[];
+          var obj={};
+          obj.subject_name="";
+          obj.subject_id="id";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.Grade_name=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.subject=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(overall).length;i++){
+           for(var j=0;j<(overall[i].subject).length;j++){
+            overall[i].subject[j].subject_id=overall[i].subject_id;
+            if(j==0)
+            overall[i].subject[j].subject_name=overall[i].subject_name;
+            else
+            overall[i].subject[j].subject_name="";
+            overall[i].subject[j].hideinput=true;
+            overall[i].subject[j].hidecheck=false;
+          }
+          this.finalarr.push(overall[i]);
+         }
+         for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)  
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+         this.bigarr=this.finalarr;
+        
+           this.schooltypesubjectid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+             this.schooltypename=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+    
+       this.$.uiservice.fngetThefunction(this.schooltypesubjectid,this.schooltypename,this.emplangprefernce);
+         overall.splice();
+         generatearr=[];
+         this.$.tbz1.hidden=false;
+         this.hidegenerate=true;
+    
+        },
+
+        fnngrades:function()
+        {
+           this.$.tbz1.hidden=true;
+           this.$.empLanguageprefernce1.hidden=true;
+           this.hidegenerate=true;
+           if(document.querySelector('#empLanguageprefernce1id').selected!=-1)
+           {
+            document.querySelector('#empLanguageprefernce1id').selected=-1;
+           }
+        },
+        /*saveinputzz:function()
+        {
+          this.$.mydialog.toggleDialog();
+        },
+      noinputmsg:function()
+      {
+        this.$.mydialog.toggleDialog3();
+      }*/
+
+    });
+  })();
+  </script>
+</dom-module>

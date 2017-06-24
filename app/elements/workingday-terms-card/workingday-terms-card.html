@@ -1,0 +1,162 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="workingday-terms-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    
+   table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+      #tb1{
+        width:25%
+      }
+    </style>
+    <div class="card">
+        <table border="1">
+        <tr>
+         <td id="tb1" hidden>{{gradeid}}</td>
+         <td id="tb1" hidden>{{acadamicyears}}</td>
+         <td id="tb1" hidden>{{schootypids}}</td>
+         <td id="tb1">{{gradename}}</td>
+        <td id="tb1"><paper-input value="{{term1}}"  on-change="fntem1" required error-message="needs Term1 Count!"   allowed-pattern="[0-9]" maxlength="2"></paper-input></td>
+        <td id="tb1"><paper-input value="{{term2}}" on-change="fntem2" required error-message="needs Term2 Count!" allowed-pattern="[0-9]" maxlength="2" ></paper-input></td>
+        <td id="tb1"><paper-input value="{{term3}}" on-change="fntem3"  required error-message="needs Term3 Count!" allowed-pattern="[0-9]" maxlength="2" ></paper-input></td>
+      
+          <td id="tb1" ><paper-icon-button id="btt" icon='save' on-click='FnSave'></paper-icon-button>
+          <paper-tooltip for="btt">Save</paper-tooltip>
+          </td>
+       
+        </tr>
+        </table>
+
+        <iron-ajax        
+        id="fnsectiostudentpassvalue1ajax"
+        url="{{fnsectiostudentpassvalue1url}}"
+        params="{{fnsectiostudentpassvalue1param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnsectiostudentpassvalue1Response"
+        debounce-duration="300">
+      </iron-ajax>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+   var term=[];
+    Polymer({
+      is: 'workingday-terms-card',
+
+
+      fntem1:function(e){
+ var obj={"termvalue":"","termid":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":""};
+                 obj.termvalue=this.term1;
+                 obj.termid='term1';
+                 obj.acadamicyears=this.acadamicyears;
+                 obj.gradename=this.gradename;
+                 obj.schootypids=this.schootypids;
+                 obj.gradeid=this.gradeid;
+              //  alert(JSON.stringify(obj));
+            
+                 term.push(obj);
+      },
+       fntem2:function(e){
+  var obj={"termvalue":"","termid":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":""};
+                 obj.termvalue=this.term2;
+                 obj.termid='term2';
+                 obj.acadamicyears=this.acadamicyears;
+                 obj.gradename=this.gradename;
+                 obj.schootypids=this.schootypids;
+                 obj.gradeid=this.gradeid;
+            //          alert(JSON.stringify(obj));
+            
+              term.push(obj);
+   
+      },
+
+     fntem3:function(e){
+   var obj={"termvalue":"","termid":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":""};
+                 obj.termvalue=this.term3;
+                 obj.termid='term3';
+                 obj.acadamicyears=this.acadamicyears;
+                 obj.gradename=this.gradename;
+                 obj.schootypids=this.schootypids;
+                 obj.gradeid=this.gradeid;
+             //   alert(JSON.stringify(obj));
+            
+        term.push(obj);
+      },
+   fnsplice:function(e){
+ var obj={"termvalue":"","termid":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":""};
+                 obj.termvalue=this.term3;
+                 obj.termid='term3';
+                 obj.acadamicyears=this.acadamicyears;
+                 obj.gradename=this.gradename;
+                 obj.schootypids=this.schootypids;
+                 obj.gradeid=this.gradeid;
+                 term.splice(obj);
+   
+   
+   },
+
+       FnSave:function(e)
+       {
+        if(this.term1==""||this.term1==null&&this.term2==""||this.term2==null&&this.term3==""||this.term3==null)
+        {
+           alert("Please insert the value");
+        }   
+      else
+      {
+       // alert(JSON.stringify(term));
+           
+        for(var i=0;i<term.length;i++){
+
+            this.fnsectiostudentpassvalue1url=sessionStorage.getItem("addrinfo")+"/terminsert-service";
+ 
+            var obj={"school_id":"","termvalue":"","termid":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":""};
+
+                 obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                  obj.termvalue=term[i].termvalue;
+                 obj.termid=term[i].termid;
+                 obj.acadamicyears=term[i].acadamicyears;
+                 obj.gradename=term[i].gradename;
+                 obj.schootypids=term[i].schootypids;
+                 obj.gradeid=term[i].gradeid;
+               this.fnsectiostudentpassvalue1param=obj;
+                 //alert(JSON.stringify(obj));
+                 this.$.fnsectiostudentpassvalue1ajax.generateRequest();
+          }
+
+          term.splice(obj);
+          alert('Inserted successfully');
+       }
+
+    },
+    fnsectiostudentpassvalue1Response:function(e){
+         var res=e.detail.response.returnval; 
+        //alert(JSON.stringify(res));
+
+    }
+
+     
+    });
+  })();
+  </script>
+</dom-module>

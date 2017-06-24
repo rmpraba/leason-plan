@@ -1,0 +1,327 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/p/polymer.html">
+<link rel="import" href="../co-scholastic-service/cs-scholastic-service.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+ <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+  <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="cs-life-skill-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+      #tb1{
+        width:6.87%
+      }
+        #tb2{
+        width:13.4%
+      }
+        .submitbutton paper-button{
+    background-color: #363636 !important;
+    color: #ffffff !important;
+    height: 33px !important;
+  }
+    #sub
+{
+  width: 70%;
+}
+#td1
+{
+ 
+}
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td id="tb1"><paper-item>{{serialno}}</paper-item></td>
+        <td id="tb2" ><paper-item>{{studname}}</paper-item></td>
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s1{{studid}}" name="Self Awareness" value="{{score1}}"></paper-input></td>   
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s2{{studid}}" name="Problem Solving" value="{{score2}}"></paper-input></td>  
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s3{{studid}}" name="Decision Making" value="{{score3}}"></paper-input></td>  
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s4{{studid}}" name="Critical Thinking" value="{{score4}}"></paper-input></td>  
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s5{{studid}}" name="Creative Thinking" value="{{score5}}"></paper-input></td> 
+        <td  id="tb1"><paper-input on-focus="FnActivity" id="s6{{studid}}" name="Interpersonal Relationship" value="{{score6}}"></paper-input></td> 
+        <td id="tb1"><paper-input on-focus="FnActivity" id="s7{{studid}}"  name="Effective Communication" value="{{score7}}"></paper-input></td> 
+        <td id="tb1" ><paper-input on-focus="FnActivity" id="s8{{studid}}" name="Empathy" value="{{score8}}"></paper-input></td> 
+        <td  id="tb1"><paper-input on-focus="FnActivity" id="s9{{studid}}" name="Managing Emotions" value="{{score9}}"></paper-input></td> 
+        <td  id="tb1"><paper-input on-focus="FnActivity" id="s10{{studid}}" name="Dealing with Stress" value="{{score10}}"></paper-input></td> 
+      <!--  <td id="tb1"><paper-input  name="total" id="t{{studid}}" value="{{total}}"></paper-input></td>
+        <td id="tb1"><paper-input name="grade" id="g{{studid}}" value="{{grade}}"></paper-input></td>-->
+       <td id="tb1"><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button>
+        <paper-tooltip for="ps" offset="0">save</paper-tooltip></td>
+        </tr>
+        </table>
+    </div>
+     <paper-dialog id="lifeskill" modal style="margin-left: -10%;margin-top: 5%;height:80%;width:50%;">
+     <paper-dialog-scrollable style="height: 80%;">
+<table>
+   <!--  <template is="dom-repeat" items="{{coarr}}">
+     <tr>
+                <td><paper-item value="{{item.sub_metrics}}">{{item.sub_metrics}}</paper-item></td>
+                 <td id="tb1"><paper-input name="grade" id="g{{studid}}" value="{{mark}}" on-change="FnSubcategory"></paper-input></td>
+              <tr>
+              </template>-->
+</table>
+ <template is="dom-repeat" items="{{coarr}}">
+      <cs-sub-metrics-item-card submetric="{{item.sub_metrics}}" score1="{{item.mark}}"></cs-sub-metrics-item-card>
+      </template>
+    <center>  
+    <div class="submitbutton">
+      <paper-button class="button" on-click="click">Submit</paper-button></center>
+      </div>
+      </center>
+      </paper-dialog-scrollable>
+            </paper-dialog>
+    <co-scholastic-service id="coscholasticservice"></co-scholastic-service>
+    
+<term-assesment-service id="assesmentservice"></term-assesment-service>
+     <iron-ajax        
+        method="post"
+        id="fetchgradeforcatajax"
+        url="{{fetchgradeforcaturl}}"
+        params="{{fetchgradeforcatparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeforcatResponse"
+        debounce-duration="300"
+    >
+  </template>
+
+  </table>
+  <script>
+  (function() {
+    'use strict';
+     var lower=[];
+    var higher=[];
+    var grade=[];
+    var name;
+    var subarr=[];
+var arr=[];
+var subcatarr=[];
+var idd,sname,sum1=0,sum2=0,sum3=0,sum4=0,sum5=0,sum6=0,sum7=0,sum8=0,sum9=0,sum10=0,tot,sum=0,t=0;
+var name1,name2,name3,name4,name5,name6,name7,name8,name9,name10;
+var cat1,cat2,cat3,mark1,mark2,mark3,grad1,grad2,grad3;
+    Polymer({
+      is: 'cs-life-skill-item-card',
+      FnActivity:function(e)
+      {
+       idd=this.studid;
+       sname=this.studname;
+        name=e.target.name;
+        this.$.coscholasticservice.fetchlifeskilldata(name,idd);
+         var id = 'lifeskill';
+         sessionStorage.setItem("category",id);
+        var dialog = document.getElementById(id);
+        dialog.open();
+
+      },
+      fnfindsum:function(mark,cat)
+      {
+ var obj1={"studid":"","studname":"","category":"","subcategory":"","mark":"","grade":"","order_seq":""}
+       obj1.studid=idd;
+       obj1.studname=sname;
+       obj1.category=name;
+       obj1.subcategory=cat;
+       obj1.mark=mark;
+       obj1.order_seq=1;
+        subarr.push(obj1);
+        sum=parseFloat(sum)+parseFloat(mark);
+        t++;
+
+      },
+      FnSubcategory:function(subcategoryarr)
+      {
+subcatarr=subcategoryarr;
+      },
+      
+      click:function(e)
+      {
+        var flag=0;
+        
+        if(subcatarr.length>0)
+        {
+          for(var i=0;i<subcatarr.length;i++)
+          {
+            flag=0;
+            for(var j=0;j<subarr.length;j++)
+            {
+            if(subcatarr[i].sub_category==subarr[j].subcategory)
+            {
+               flag=1;
+            }
+          }
+          if(flag==0)
+          {
+            sum=parseFloat(sum)+parseFloat(subcatarr[i].mark);
+            t++;
+          }
+        }
+       }
+        //alert(JSON.stringify(subarr)+'  '+t);
+        var id = 'lifeskill';
+        var dialog = document.getElementById(id);
+        dialog.opened=false;
+        if(name=="Self Awareness")
+        {           
+          sum1=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s1'+idd).value=sum1;
+          name1=name;         
+        }
+        else  if(name=="Problem Solving")
+        {
+          sum2=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s2'+idd).value=sum2;
+          name2=name;
+        }
+        else  if(name=="Decision Making")
+        {
+          sum3=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s3'+idd).value=sum3;
+          name3=name;
+        }
+        else  if(name=="Critical Thinking")
+        {
+          sum4=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s4'+idd).value=sum4;
+          name4=name;       
+        }
+        else  if(name=="Creative Thinking")
+        {
+          sum5=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s5'+idd).value=sum5;
+          name5=name;
+        }
+        else  if(name=="Interpersonal Relationship")
+        {
+          sum6=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s6'+idd).value=sum6;
+          name6=name;     
+        }
+        else  if(name=="Effective Communication")
+        {
+          sum7=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s7'+idd).value=sum7;
+          name7=name;
+        }
+        else  if(name=="Empathy")
+        {
+          sum8=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s8'+idd).value=sum8;
+          name8=name;
+        }
+        else  if(name=="Managing Emotions")
+        {
+          sum9=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s9'+idd).value=sum9;
+          name9=name;    
+        }
+        else  if(name=="Dealing with Stress")
+        {
+          sum10=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('s10'+idd).value=sum10;
+          name10=name;    
+        }
+        sum=0;
+        t=0;
+        document.querySelector('cs-sub-metrics-item-card').clearinputdata();
+      
+      },
+      FnSave:function()
+      {
+        this.$.coscholasticservice.callinsertcoscholasticsubcategorymarkService(subarr);
+        if(name1!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name1,sum1,1);
+        }
+        if(name2!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name2,sum2,2);
+        }
+        if(name3!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name3,sum3,3);
+        }
+         if(name4!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name4,sum4,4);
+        }
+         if(name5!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name5,sum5,5);
+        }
+         if(name6!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name6,sum6,6);
+        }
+         if(name7!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name7,sum7,7);
+        }
+         if(name8!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name8,sum8,8);
+        }
+         if(name9!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name9,sum9,9);
+        }
+         if(name10!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name10,sum10,10);
+        }
+          tot=parseFloat(sum1)+parseFloat(sum2)+parseFloat(sum3)+parseFloat(sum4)+parseFloat(sum5)+parseFloat(sum6)+parseFloat(sum7)+parseFloat(sum8)+parseFloat(sum9)+parseFloat(sum10);
+         // document.getElementById('t'+idd).value=tot;
+          //this.convert=(parseInt(tot)/10)*100;
+          //this.callFetchGrade();
+          subarr=[];
+
+      },
+       callFetchGrade:function()
+       {
+        this.fetchgradeforcaturl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradeforcatajax.generateRequest(); 
+      },
+      fetchgradeforcatResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+         this.reduce=this.convert/10;
+        this.FnFindGrade((parseInt(this.reduce)));   
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            document.getElementById('g'+idd).value=grade[i];
+            //this.$.coscholasticservice.callOverallcotermmarkinsertService(idd,sname,"Life Skills",this.convert,this.reduce,grade[i]);
+          }
+        }
+        //this.callService();
+      }
+
+      
+    });
+  })();
+  </script>
+</dom-module>

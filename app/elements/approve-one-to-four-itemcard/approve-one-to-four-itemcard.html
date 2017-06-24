@@ -1,0 +1,117 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="approve-one-to-four-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .viewdata{
+        margin-top: 5%;
+        /*font-size: 12px;*/
+        cursor: pointer;
+        color:blue;
+      }
+      table{
+        width:100%;
+        border-collapse: collapse;
+      }
+      p{
+        width: 20%;
+        
+      }
+      .card{
+        @apply(--layout-horizontal);
+      }
+      .p2{
+        margin-left: 12%;
+      }
+      .p3{
+        margin-left: 4%;
+        /*margin-left: -2%;*/
+      }
+      .p4{
+        margin-left: 5%;
+      }
+      .p5,.p6{
+        margin-left: 4%;
+      }
+      .p7{
+        margin-left: 7%;
+      }
+    </style>
+    <!-- <table border="1"> -->
+    <!-- <tr> -->
+   <div class='card'>
+   <p class='p1'>{{academic}}</p>
+   <p class='p2'>{{term}}</p>
+   <p class='p3'>{{assesment}}</p>
+   <p class='p4'>{{grade}}</p>
+   <p class='p5'>{{section}}</p>
+   <p class='p6'>{{subject}}</p>
+   <p class='p7'><ahref class="viewdata" on-click="Fnview"><u>View</u></ahref></p>
+   <p class='p8'><ahref class="viewdata" on-click="Fnrevert"><u>Revert</u></ahref></p>
+   </div>
+<!-- </tr> -->
+<!-- </table> -->
+ <term-assesment-service id="assesmentservice"></term-assesment-service>
+ <co-scholastic-service id="coscholasticservice"></co-scholastic-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'approve-one-to-four-itemcard',
+
+     Fnview:function()
+     {
+      localStorage.setItem("curr_sess_academicyear",this.academic);
+      localStorage.setItem("curr_sess_termname",this.term);
+      localStorage.setItem("curr_sess_assesment",this.assesment);
+      localStorage.setItem("curr_sess_assesmenttype",this.assesment);
+      localStorage.setItem("curr_sess_subject",this.subject);
+      localStorage.setItem("curr_sess_grade",this.grade);
+      localStorage.setItem("curr_sess_section",this.section);
+      //alert(localStorage.getItem("curr_sess_assesment"));
+      document.querySelector('approve-one-to-four-card').FnSpinnerrActive(true); 
+      if(this.subject=="Attendance")
+      {
+        // alert('hi');
+        this.$.coscholasticservice.callFetchStudentInfoforattendance();
+        // document.querySelector('coscholastic-assesment-sheet-card').setPage('attendance-card'); 
+        // document.querySelector('attendance-card').setDefaultHeaders(); 
+      }
+      else if(localStorage.getItem("curr_sess_subject")=="Work Education"||localStorage.getItem("curr_sess_subject")=="Life Skills"||localStorage.getItem("curr_sess_subject")=="Visual & Performing Arts"||localStorage.getItem("curr_sess_subject")=="Attitudes And values"||localStorage.getItem("curr_sess_subject")=="Co-Curricular Activities"||localStorage.getItem("curr_sess_subject")=="Health and Physical Education")
+      {
+        document.querySelector('home-page').setPage('coscholasticassesment','');
+        document.querySelector('coscholastic-assesment').hiddenpage();
+        document.querySelector('co-scholastic-service').callFetchStudentInfo();
+      }
+      else if(this.assesment=="FA1"||this.assesment=="FA2"||this.assesment=="SA1"||this.assesment=="FA3"||this.assesment=="FA4"||this.assesment=="SA2")
+      {
+        // alert('yes');
+        // localStorage.setItem('curr_sess_report',1);
+        //localStorage.setItem("curr_sess_assesment","");
+        this.$.assesmentservice.callFetchFaStudentInfo();  
+      }
+      else
+      this.$.assesmentservice.fetchimportmark(this.academic,this.term,this.assesment,this.grade,this.section,this.subject);
+     },
+     Fnrevert:function(){
+      this.$.assesmentservice.revertsubmittedmarkService(this.academic,this.term,this.assesment,this.grade,this.section,this.subject);
+     }
+    });
+  })();
+  </script>
+</dom-module>

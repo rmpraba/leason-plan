@@ -1,0 +1,102 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../submit-demo-card/submit-demo-card.html">
+<link rel="import" href="../update-demo-card/update-demo-card.html">
+
+<dom-module id="grade-display-card">
+  <template>
+    <style>
+      :host 
+      {
+        display: block;
+      }
+      .card
+      {
+        /*margin-top: 4%;*/
+        @apply(--layout-center);
+        @apply(--layout-horizontal);     
+        border-bottom: 1px solid #dedede;
+        width: 200%;
+      }  
+      paper-item,paper-input
+      {
+        width:40%;
+      }
+      paper-icon-button
+      {
+        width:7%;
+      }
+      .itemcard
+      {
+      @apply(--layout-horizontal); 
+      }
+
+      paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+    </style>
+
+
+    <div class='itemcard' col-sm-12>
+          <paper-item hidden$="{{gradeid}}"></paper-item>
+          <paper-item hidden$="{{hidegradenameitem}}">{{gradename}}</paper-item>
+            <paper-input value="{{gradename}}" hidden$="{{hidegradenameinput}}"></paper-input>
+            <paper-icon-button  id="btn1" icon="icons:create" on-click='FnEdit' hidden$="{{hidegradenameitem}}"></paper-icon-button>
+            <paper-tooltip for="btn1">Edit</paper-tooltip>
+            <paper-icon-button  id="btn2" icon="icons:save" on-click='FnSave' hidden$="{{hidegradenameinput}}"></paper-icon-button>
+            <paper-tooltip for="btn2">Save</paper-tooltip>
+            <paper-icon-button id="btn3" icon="icons:close" on-click='FnDelete'></paper-icon-button>
+            <paper-tooltip for="btn3">Delete</paper-tooltip>
+    </div>
+      
+    <master-ui-service id="service"></master-ui-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'grade-display-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'grade-display-card',
+          notify: true
+        }
+      },
+      ready:function()
+      {
+        
+        this.hidegradenameinput=true;
+        this.hidegradenameitem=false;
+      },
+      FnDelete:function()
+      {
+          this.$.service.FnDeleteGrade(this.gradeid);
+          document.querySelector('grade-creation-card').fundel1();
+
+      },
+      
+      
+      FnEdit:function()
+      {
+        this.hidegradenameinput=false;
+        this.hidegradenameitem=true;
+      },
+      FnSave:function()
+      {
+        this.$.service.FnUpdateGrade(this.gradeid,this.gradename);
+          document.querySelector('grade-creation-card').funup1();
+        this.hidegradenameinput=true;
+        this.hidegradenameitem=false;
+      }
+     
+    });
+  })();
+  </script>
+</dom-module>

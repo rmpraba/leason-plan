@@ -1,0 +1,92 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../attendance-card/attendance-card.html">
+<link rel="import" href="../cce-fivetoten-health-card/cce-fivetoten-health-card.html">
+<link rel="import" href="../cs-life-skill-card/cs-life-skill-card.html">
+<link rel="import" href="../cs-education-card/cs-education-card.html">
+<link rel="import" href="../cs-attitudes-card/cs-attitudes-card.html">
+<link rel="import" href="../cs-co-curricular-card/cs-co-curricular-card.html">
+<link rel="import" href="../cs-health-physical-education-card/cs-health-physical-education-card.html">
+<link rel="import" href="../cs-visual-performing-card/cs-visual-performing-card.html">
+<link rel="import" href="../cc-ntlife-skill-card/cc-ntlife-skill-card.html">
+<link rel="import" href="../cc-art-craft-onetofour-card/cc-art-craft-onetofour-card.html">
+<link rel="import" href="../cc-dance-onetofour-card/cc-dance-onetofour-card.html">
+<link rel="import" href="../cc-music-onetofour-card/cc-music-onetofour-card.html">
+<link rel="import" href="../cs-games-card/cs-games-card.html">
+<link rel="import" href="../cs-personalitydevelopment-card/cs-personalitydevelopment-card.html">
+<link rel="import" href="../talentidentification-card/talentidentification-card.html">
+<dom-module id="coscholastic-assesment-sheet-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <iron-pages selected="{{page}}" attr-for-selected="data-category">
+        <section data-category="talentidentification-card">        
+          <talentidentification-card></talentidentification-card>
+        </section> 
+        <section data-category="artverticals-card">        
+          <art-verticals-card></art-verticals-card>
+        </section> 
+        <section data-category="cc-art-craft-onetofour-card">        
+          <cc-art-craft-onetofour-card></cc-art-craft-onetofour-card>
+        </section> 
+        <section data-category="cc-dance-onetofour-card">        
+          <cc-dance-onetofour-card></cc-dance-onetofour-card>
+        </section> 
+        <section data-category="cc-music-onetofour-card">        
+          <cc-music-onetofour-card></cc-music-onetofour-card>
+        </section>
+        <section data-category="cs-games-card">        
+          <cs-games-card></cs-games-card>
+        </section>
+        <section data-category="cs-personalitydevelopment-card">        
+          <cs-personalitydevelopment-card></cs-personalitydevelopment-card>
+        </section> 
+        <section data-category="attendance-card">
+          <attendance-card></attendance-card>
+        </section>
+        <section data-category="cce-fivetoten-health-card">
+          <cce-fivetoten-health-card></cce-fivetoten-health-card>
+        </section>
+        <section data-category="cs-life-skill-card">        
+          <cs-life-skill-card></cs-life-skill-card>
+        </section>
+        <section data-category="cc-ntlife-skill-card">        
+          <cc-ntlife-skill-card></cc-ntlife-skill-card>
+        </section>
+        <section data-category="cs-education-card">        
+          <cs-education-card></cs-education-card>
+        </section>
+        <section data-category="cs-visual-performing-card">        
+          <cs-visual-performing-card></cs-visual-performing-card>
+        </section> 
+        <section data-category="cs-health-physical-education-card">        
+          <cs-health-physical-education-card></cs-health-physical-education-card>
+        </section>
+        <section data-category="cs-co-curricular-card">        
+          <cs-co-curricular-card></cs-co-curricular-card>
+        </section>
+        <section data-category="cs-attitudes-card">        
+          <cs-attitudes-card></cs-attitudes-card>
+        </section>
+    </iron-pages>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'coscholastic-assesment-sheet-card',
+      setPage:function(page){
+        // alert(page);
+        // localStorage.setItem("curr_sess_page","coscholasticassesment");
+        localStorage.setItem("curr_sess_page",page);
+        this.page=page;
+      }
+    });
+  })();
+  </script>
+</dom-module>

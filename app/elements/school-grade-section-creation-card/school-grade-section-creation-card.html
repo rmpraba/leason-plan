@@ -1,0 +1,150 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="school-grade-section-creation-card">
+  <template>
+    <style>
+      :host {
+        display: block;   
+      }  
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+    </style>
+      <div class="newgrade">  
+      <paper-input hidden>{{sectionschooltypeid}}</paper-input>
+          <paper-checkbox on-change="fnsetgrade" id="{{id}}">{{sectionschooltypename}}</paper-checkbox>
+      </div>
+
+      <iron-ajax        
+        id="sectioncreategradeajax"
+        url="{{sectioncreategradeurl}}"
+        params="{{sectioncreategradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="sectioncreategradeResponse"
+        debounce-duration="300">
+      </iron-ajax>
+       <iron-ajax        
+        id="sectioncreategrade1ajax"
+        url="{{sectioncreategrade1url}}"
+        params="{{sectioncreategrade1param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="sectioncreategrade1Response"
+        debounce-duration="300">
+   </iron-ajax>
+ 
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var sectionarr=[];
+    Polymer({
+      is: 'school-grade-section-creation-card',
+     /* fnrefresh:function()
+      {
+        for(var i=0;i<sectionarr.length;i++)
+        {
+          var sectionname=sectionarr[i].sectionschooltypeid;
+          document.querySelector('#'+sectionname).checked=false;
+        }
+      },*/
+    fnsetgrade:function(e){
+     // alert("ss");
+       sessionStorage.setItem("curr_sess_loggedsectionschooltypeid",this.sectionschooltypeid);
+      if(document.querySelector('#'+this.id).checked==true)
+      {
+             var obj={"id":""};
+                 obj.id=this.id;
+                 sectionarr.push(obj);
+          this.f1();
+          this.f2();   
+          document.querySelector('school-section-creation-card').fnnewtitle();
+
+        }
+            for(var i=0;i<sectionarr.length;i++)
+            
+        { 
+          if(sectionarr[i].id!=this.id)
+          {
+             var stype=sectionarr[i].id;  
+             document.querySelector('#'+stype).checked=false;
+            sectionarr.splice(i,1);
+          }
+        }
+     
+    },
+      FnRefresh:function()
+      {
+        if(sectionarr!=0){
+          for(var i=0;i<sectionarr.length;i++)
+        {
+               var stype=sectionarr[i].id;  
+               document.querySelector('#'+stype).checked=false;
+               sectionarr.splice(i,1);
+  
+        } 
+        }
+      },
+    
+    f1:function(e){
+         this.sectioncreategradeurl=sessionStorage.getItem("addrinfo")+"/sectioncreategrade-service";
+          var obj={"sectionschooltypeid":"","school_id":""};
+          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.sectionschooltypeid=sessionStorage.getItem("curr_sess_loggedsectionschooltypeid");
+          obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+      //    sectionarr.push(obj);
+          this.sectioncreategradeparam=obj;
+         // alert(JSON.stringify(obj));
+          this.$.sectioncreategradeajax.generateRequest();
+          //alert(this.sectionschooltypeid+this.sectionschooltypename);
+       },
+     f2:function(e){
+      this.sectioncreategrade1url=sessionStorage.getItem("addrinfo")+"/sectioncreategrade1-service";
+          var obj={"sectionschooltypeid":"","school_id":"","academic_year":""};
+          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.sectionschooltypeid=sessionStorage.getItem("curr_sess_loggedsectionschooltypeid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+     
+          //sectionarr.push(obj);
+          this.sectioncreategrade1param=obj;
+        //  alert(JSON.stringify(obj));
+          this.$.sectioncreategrade1ajax.generateRequest();
+          //alert(this.sectionschooltypeid+this.sectionschooltypename);
+
+    },
+    sectioncreategradeResponse:function(e){
+        var res=e.detail.response.returnval; 
+         //alert(JSON.stringify(res));
+          document.querySelector('school-section-creation-card').setschooltype(res);
+    
+      
+    },
+    sectioncreategrade1Response:function(e){
+        var res=e.detail.response.returnval; 
+         //alert(JSON.stringify(res));
+        document.querySelector('school-section-creation-card').setdbschooltype(res);
+    
+      
+    }
+
+ });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,141 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="../scorecard-service/scorecard-service.html">
+<link rel="import" href="../report-service/report-service.html">
+
+<link rel="import" href="../consolidated-data-analysis-report/consolidated-data-analysis-report.html">
+
+<dom-module id="consolidated-data-analysis">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .card{
+      width: 100%;        
+      @apply(--layout-vertical);
+      }
+      .inner{
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
+      }
+      .list{
+      margin-left: 5%;
+      margin-top: 2%;
+      }
+      paper-dropdown-menu{
+        margin-left: 5%;
+        --paper-input-container-label: { color: red };
+        text-align:center;
+      }
+    </style>
+      <div class="card">
+          <div class="inner">
+          <paper-dropdown-menu hidden$="{{hideschool}}" label="Select School" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="analysisschoolname"  on-iron-select="FnSelectSchool"  attr-for-selected="value" required>     
+              <template is="dom-repeat" items="{{schoolarr}}">
+                <paper-item value="{{item.id}}">{{item.name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+          <paper-dropdown-menu id="grade" label="Select Grade" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="analysisgrade"  on-iron-select="FnSelectGrade"  attr-for-selected="value" required>  
+              <template is="dom-repeat" items="{{gradearr}}">
+                <paper-item value="{{item.grade_name}}">{{item.grade_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+          <paper-dropdown-menu id="section" label="Select Section" disabled="{{read}}" required>
+            <paper-menu class="dropdown-content" id="analysissection"  on-iron-select="FnSelectSection"  attr-for-selected="value" required>
+              <template is="dom-repeat" items="{{sectionarr}}">
+                <paper-item value="{{item.section_name}}">{{item.section_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>         
+          <paper-dropdown-menu hidden$="{{hideterm}}" id="term" label="Select Term" disabled="{{read}}" required>
+           <paper-menu class="dropdown-content" id="analysisterm"  on-iron-select="FnSelectTerm"  attr-for-selected="value" required>
+                <paper-item value="term1">Term1</paper-item>
+                <paper-item value="term2">Term2</paper-item>
+                <paper-item value="term3">Term3</paper-item>
+            </paper-menu>
+          </paper-dropdown-menu>
+    </div>
+    <div class="list" hidden$="{{hideanalysiscard}}">
+    <consolidated-data-analysis-report id="analysis" itemarr="{{itemarr}}"></consolidated-data-analysis-report>
+    </div>
+    </div>
+    <scorecard-service id="scorecardservice"></scorecard-service>
+    <report-service id="reportservice"></report-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var gradename;
+    var section;
+    var subject,type,termname,assesment;
+    var item=[];
+    Polymer({
+      is: 'consolidated-data-analysis',
+      ready:function(){
+        this.flag=0;
+        this.hideanalysiscard=true;  
+      },
+      FnHideSchool:function(){
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='management')
+          this.hideschool=true;
+        else
+          this.hideschool=false;
+      },
+      FnSelectSchool:function(e){
+        var name=e.target.selectedItem.textContent.trim(); 
+        var school=e.target.selectedItem.value.trim(); 
+        sessionStorage.setItem("curr_sess_loggedschoolid",school);
+        sessionStorage.setItem("curr_sess_loggedschoolname",name);
+        this.FnRefresh();
+        this.$.scorecardservice.callGradeService();
+      },
+      FnSelectGrade:function(e){        
+        gradename = e.target.selectedItem.textContent.trim();       
+        localStorage.setItem("curr_sess_grade",gradename);
+        this.$.scorecardservice.callSectionService(gradename);
+        if(this.flag==1)
+          this.callService();
+      },
+      FnSelectSection:function(e){
+        section = e.target.selectedItem.textContent.trim();
+        localStorage.setItem("curr_sess_section",section);
+        if(this.flag==1)                
+        this.callService();
+      },
+      FnSelectTerm:function(e){
+        this.flag=1;
+        termname = e.target.selectedItem.textContent.trim();
+        localStorage.setItem("curr_sess_termname",termname);              
+        this.$.analysis.setDefaultHeaders();
+        this.$.reportservice.callFetchstudentnameService();        
+      },
+      FnRefresh:function()
+      {
+        this.gradearr=[];
+        this.sectionarr=[];
+        document.querySelector('#analysisschoolname').selected=-1;
+        document.querySelector('#analysisgrade').selected=-1;
+        document.querySelector('#analysissection').selected=-1;
+        document.querySelector('#analysisterm').selected=-1;      
+        gradename="";
+        section="";
+        subject="";
+        termname="";
+        item=[];
+        this.itemarr="";
+        this.hideanalysiscard=true;
+      },
+      FnHide:function(){
+        this.hideanalysiscard=false;
+      }
+  });
+  })();
+  </script>
+</dom-module>

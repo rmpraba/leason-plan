@@ -1,0 +1,125 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+<dom-module id="section-allocation-card">
+  <template>
+    <style>
+   
+    /*  .innercard{
+         @apply(--layout-horizontal);    
+      margin-left:4.0em;
+      width:100%
+     }*/
+ :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+      #tb1{
+        width:25%
+      }
+    </style>
+    <div class="card">
+        <table border="1">
+        <tr>
+         <td id="tb1" hidden>{{gradeid}}</td>
+         <td id="tb1" hidden>{{acadamicyears}}</td>
+         <td id="tb1" hidden>{{schootypids}}</td>
+         <td id="tb1">{{gradename}}</td>
+        <td id="tb1"><paper-input value="{{section}}" required error-message="needs Section Count!"   allowed-pattern="[0-9]" maxlength="2" on-change="fnsetvel" id="tw1"></paper-input></td>
+        <td id="tb1"><paper-input value="{{student}}" required error-message="needs Student Count!" value="{{Telephone}}"  allowed-pattern="[0-9]" maxlength="2" on-change="fnsetvel"></paper-input></td>
+            <td id="tb1">{{capacity}}</td>
+      
+          <td id="tb1" ><paper-icon-button id="btn"  icon='save' on-click='FnSave'></paper-icon-button>
+          <paper-tooltip for="btn">Save</paper-tooltip>
+          </td>
+          
+        </tr>
+        </table>
+         <iron-ajax        
+        id="fnsectiostudentpassvalueajax" 
+        url="{{fnsectiostudentpassvalueurl}}"
+        params="{{fnsectiostudentpassvalueparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="fnsectiostudentpassvalueResponse"
+        debounce-duration="300">
+      </iron-ajax>
+    </div>
+    
+  </template>
+  <script>
+  (function() {
+    'use strict';
+   
+    Polymer({ 
+      is: 'section-allocation-card',
+ 
+    fnsetvel:function(e){
+      
+        this.capacity=this.student*this.section;
+    },
+    FnSave:function(e)
+    {
+    if(this.student==""||this.student==null||this.section==""
+      ||this.section==null)
+    {
+     alert("Please insert the value");
+    }   
+    else
+    {
+      this.fnsectiostudentpassvalueurl=sessionStorage.getItem("addrinfo")+"/fnsectiostudentpassvalue-service";
+    var obj={"school_id":"","student":"","section":"","acadamicyears":"","gradename":"","gradeid":"","schootypids":"","capacity":""};
+                 obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                 obj.student=this.student;
+                 obj.section=this.section;
+                 obj.acadamicyears=this.acadamicyears;
+                 obj.gradename=this.gradename;
+                 obj.gradeid=this.gradeid;
+                 obj.schootypids=this.schootypids;
+                 obj.capacity=this.capacity;
+                 this.fnsectiostudentpassvalueparam=obj;
+                 //alert(JSON.stringify(obj));
+                 this.$.fnsectiostudentpassvalueajax.generateRequest();
+      }
+    },
+    fnsectiostudentpassvalueResponse:function(e)
+    {
+      //alert(11);   
+         var res=e.detail.response.returnval;
+         //alert(JSON.stringify(res));
+            if(res=='updated successfully')
+            {
+              //this.$.newid.toggleDialog2();
+              //alert(333);
+              document.querySelector('student-allow-card').fnnewsave(); 
+            } 
+            else if(res=='Inserted!')
+            {
+              document.querySelector('student-allow-card').fnnsubmit();
+            }
+
+                 // alert(JSON.stringify(res));
+
+    }
+
+ });
+  })();
+  </script>
+</dom-module>

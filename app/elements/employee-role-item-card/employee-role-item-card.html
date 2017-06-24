@@ -1,0 +1,69 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+<!-- 
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+
+<dom-module id="employee-role-item-card">
+  <template>
+    <style>     
+      :host {
+        display: block;
+      }    
+      .rolecheck
+      {
+        @apply(--layout-horizontal);
+      }
+    </style>   
+    <div class="rolecheck">
+          <paper-checkbox  on-change="fnsetrole" id="{{emproleid}}">{{emprolename}}</paper-checkbox>
+       <paper-input hidden>{{emproleid}}</paper-input>
+         
+   </div>
+  </template>  
+  <script>   
+  (function() {
+    'use strict';  
+      var setrolearr1=[];  
+       Polymer({   
+      is: 'employee-role-item-card',
+       fnsetrole:function(e){
+         //alert(this.emproleid);
+         if(document.querySelector('#'+this.emproleid).checked==true){
+          // alert(this.emprolename); 
+            var obj={"role_id":""};
+            obj.role_id=this.emproleid;
+            setrolearr1.push(obj);
+              //alert(JSON.stringify(setrolearr));
+       document.querySelector('new-employee-creation-card').setschoolrolezz(setrolearr1);
+           //alert(this.emprolename);
+          }else if(document.querySelector('#'+this.emproleid).checked==false){
+           for(var i=0;i<setrolearr1.length;i++){
+             if(setrolearr1[i].role_id==this.emproleid){
+             /* this.a=arr;
+              alert(this.a);*/
+               setrolearr1.splice(i,1);
+                  }
+               }
+       }},
+      setschoolroleclean:function(e){
+       // alert('1');
+          for(var i=0;i<setrolearr1.length;i++){
+              var mz=setrolearr1[i].role_id;
+              //alert(mz);
+              //alert(document.querySelector('#'+mz).checked);
+              document.querySelector('#'+mz).checked=false;
+             }
+             var obj={"role_id":""};
+                 obj.role_id=this.emprolename;
+                 setrolearr1.splice(obj);    
+           },
+       /* fnspliceemparr:function(e){
+          setrolearr.splice(obj);
+        }*/
+
+  });
+  })();
+  </script>
+</dom-module>

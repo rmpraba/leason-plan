@@ -1,0 +1,350 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="mapping-service">
+  <template>
+    <iron-ajax        
+        id="fetchschooltypesforgradetorolemapajax"
+        url="{{fetchschooltypesforgradetorolemapurl}}"
+        params="{{fetchschooltypesforgradetorolemapparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="fetchschooltypesforgradetorolemapResponse"
+        debounce-duration="300">
+    <iron-ajax        
+        id="fetchgradesforgradetorolemapajax"
+        url="{{fetchgradesforgradetorolemapurl}}"
+        params="{{fetchgradesforgradetorolemapparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="fetchgradesforgradetorolemapResponse"
+        debounce-duration="300">
+    <iron-ajax        
+        id="fetchrolesforgradetorolemapajax"
+        url="{{fetchrolesforgradetorolemapurl}}"
+        params="{{fetchrolesforgradetorolemapparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="fetchrolesforgradetorolemapResponse"
+        debounce-duration="300">
+    <iron-ajax        
+        id="generateroletogrademappinginfoajax"
+        url="{{generateroletogrademappinginfourl}}"
+        params="{{generateroletogrademappinginfoparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="generateroletogrademappinginfoResponse"
+        debounce-duration="300">
+    <iron-ajax        
+        id="generateroletogrademappinginfoajax1"
+        url="{{generateroletogrademappinginfourl1}}"
+        params="{{generateroletogrademappinginfoparam1}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="generateroletogrademappinginfoResponse1"
+        debounce-duration="300">
+    <iron-ajax        
+        id="savegradetorolemappingajax"
+        url="{{savegradetorolemappingurl}}"
+        params="{{savegradetorolemappingparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="savegradetorolemappingResponse"
+        debounce-duration="300">
+    <iron-ajax        
+        id="deletegradetorolemappingajax"
+        url="{{deletegradetorolemappingurl}}"
+        params="{{deletegradetorolemappingparam}}"
+        handle-as="json"   
+        content-type="application/json"
+        method="post"
+        on-response="deletegradetorolemappingResponse"
+        debounce-duration="300">
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var mapping=[];
+    var count1=0;
+    var count2=0;
+    Polymer({
+      is: 'mapping-service',
+      fetchschooltypesforgradetorolemapService:function(){
+        this.fetchschooltypesforgradetorolemapurl=sessionStorage.getItem("addrinfo")+"/fetchschooltypesforgradetorolemap-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid"); 
+        this.fetchschooltypesforgradetorolemapparam=obj;
+        this.$.fetchschooltypesforgradetorolemapajax.generateRequest();
+      },
+      fetchschooltypesforgradetorolemapResponse:function(e){
+        var arr=e.detail.response.returnval;
+        if(arr!='no rows')
+        document.querySelector('school-grade-to-role-mapping').schooltypearr=arr;
+      },
+      fetchgradesforgradetorolemapService:function(type){
+        this.fetchgradesforgradetorolemapurl=sessionStorage.getItem("addrinfo")+"/fetchgradesforgradetorolemap-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid"); 
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.type=type;
+        this.fetchgradesforgradetorolemapparam=obj;
+        this.$.fetchgradesforgradetorolemapajax.generateRequest();
+      },
+      fetchgradesforgradetorolemapResponse:function(e){
+        var arr=e.detail.response.returnval;
+        if(arr!='no rows')
+        document.querySelector('school-grade-to-role-mapping').gradearr=arr;
+      },
+      fetchrolesforgradetorolemapService:function(){
+        this.fetchrolesforgradetorolemapurl=sessionStorage.getItem("addrinfo")+"/fetchrolesforgradetorolemap-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid"); 
+        this.fetchrolesforgradetorolemapparam=obj;
+        this.$.fetchrolesforgradetorolemapajax.generateRequest();
+      },
+      fetchrolesforgradetorolemapResponse:function(e){
+        var arr=e.detail.response.returnval;
+        if(arr!='no rows')
+        document.querySelector('school-grade-to-role-mapping').rolesarr=arr;
+      },
+      FnGenerateMappingInfo:function(type,gradeid,gradename,roleid){
+        this.generateroletogrademappinginfourl=sessionStorage.getItem("addrinfo")+"/generateroletogrademappinginfo-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.type=type;
+        obj.gradeid=gradeid;
+        obj.gradename=gradename;
+        obj.roleid=roleid;
+        this.generateroletogrademappinginfoparam=obj;
+        this.$.generateroletogrademappinginfoajax.generateRequest();
+      },
+      generateroletogrademappinginfoResponse:function(e){
+        var maparr=e.detail.response.maparr;
+        var secarr=e.detail.response.secarr;
+        var emparr=e.detail.response.emparr;
+        // alert(JSON.stringify(maparr));
+        // alert(JSON.stringify(secarr));
+        // alert(JSON.stringify(emparr));
+        var final=[];
+        var temp=[];
+        var obj={"section":"","flag":""};
+        obj.compid="";
+        obj.flag=false;
+        obj.flagg=true;
+        obj.checked=false;
+        temp.push(obj);
+        for(var i=0;i<secarr.length;i++){
+          var obj={"section":"","flag":""};
+          obj.compid=secarr[i].section;
+          obj.flag=false;
+          obj.flagg=true;
+          obj.checked=false;
+          temp.push(obj);
+        }
+        final.push({"row":temp});
+        var temp=[];
+        for(var i=0;i<emparr.length;i++){
+          var obj={};
+          obj.compid=emparr[i].emp_name;
+          obj.flag=false;
+          obj.flagg=true;
+          obj.checked=false;
+          temp.push(obj);
+          for(var j=0;j<secarr.length;j++){
+          var obj={};
+          obj.compid=emparr[i].id+secarr[j].id;
+          obj.classid=secarr[j].id;
+          obj.class=secarr[j].grade_id;
+          obj.section=secarr[j].section;
+          obj.empid=emparr[i].emp_id;
+          obj.empname=emparr[i].emp_name;
+          obj.flage=emparr[i].flage;
+          obj.academicyear=emparr[i].academic_year;
+          obj.schooltype=emparr[i].school_type;
+          obj.roleid=emparr[i].role_id;
+          obj.flag=true;
+          obj.flagg=false;
+          // obj.checked=false;
+          temp.push(obj);
+          }
+          final.push({"row":temp});
+          temp=[];
+        }
+        // alert(JSON.stringify(final));
+        var x=[];
+        for(var i=0;i<final.length;i++){
+          for(var k=0;k<final[i].row.length;k++){
+          for(var j=0;j<maparr.length;j++){
+          // alert(final[i].row[k].empid+"  "+maparr[j].id+"  "+final[i].row[k].roleid+"  "+maparr[j].role_id+"  "+final[i].row[k].classid+"  "+maparr[j].class_id);
+          if(final[i].row[k].empid==maparr[j].id&&final[i].row[k].roleid==maparr[j].role_id&&final[i].row[k].classid==maparr[j].class_id){
+            final[i].row[k].checked=true;
+            x.push(final[i].row[k]);
+          }
+          }
+        }
+        }
+        // alert(JSON.stringify(final));
+
+        document.querySelector('school-grade-to-role-mapping').hidebtn=false;
+        document.querySelector('school-grade-to-role-mapping').maparr=final;
+        document.querySelector('school-grade-to-role-mapping').FnSetSelectedRole(x);
+
+        // document.querySelector('school-grade-to-role-mapping').emparr=emparr;
+        // document.querySelector('school-grade-to-role-mapping').secarr=secarr;
+      },
+      FnDeleteMappingService:function(arr){
+        mapping=arr;
+        this.deletegradetorolemappingurl=sessionStorage.getItem("addrinfo")+"/deletegraddeleteetorolemapping-service";
+          // for(var i=0;i<arr.length;i++){
+          if(arr.length>0){
+            // alert('coming...'+arr[0].class);
+          var obj={};
+          obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.academicyear=localStorage.getItem("curr_sess_academicyear");  
+          // obj.compid=arr[i].compid;
+          obj.class=arr[0].class;
+          // obj.classid=arr[i].classid;
+          // obj.section=arr[i].section;
+          // obj.empid=arr[i].empid;
+          obj.academicyear=arr[0].academicyear;
+          obj.schooltype=arr[0].schooltype;
+          obj.roleid=arr[0].roleid;
+          this.deletegradetorolemappingparam=obj;
+          this.$.deletegradetorolemappingajax.generateRequest();
+        // }  
+          }
+          else{
+            alert('Select anything to update!');
+          }      
+      },
+      deletegradetorolemappingResponse:function(e){
+        // alert(e.detail.response.returnval);
+        if(e.detail.response.returnval=="Deleted!")
+        this.FnSaveMappingService(mapping);
+      },
+      FnSaveMappingService:function(arr){
+        this.savegradetorolemappingurl=sessionStorage.getItem("addrinfo")+"/savegradetorolemapping-service";
+        count1=arr.length;
+        for(var i=0;i<arr.length;i++){
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");    
+        obj.compid=arr[i].compid;
+          obj.class=arr[i].class;
+          obj.classid=arr[i].classid;
+          obj.section=arr[i].section;
+          obj.empid=arr[i].empid;
+          obj.empname=arr[i].empname;
+          obj.flage=arr[i].flage;
+          obj.academicyear=arr[i].academicyear;
+          obj.schooltype=arr[i].schooltype;
+          obj.roleid=arr[i].roleid;
+        this.savegradetorolemappingparam=obj;
+        this.$.savegradetorolemappingajax.generateRequest();
+        }        
+      },
+      savegradetorolemappingResponse:function(e){
+        count2++;
+        if(count1==count2){
+        alert('Done!');
+        mapping=[];
+        count1=0;
+        count2=0;
+        }
+      },
+      FnGenerateMappingInfo1:function(type,roleid){
+        this.generateroletogrademappinginfourl1=sessionStorage.getItem("addrinfo")+"/generateroletogrademappinginfo-service1";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.type=type;
+        // obj.gradeid=gradeid;
+        // obj.gradename=gradename;
+        obj.roleid=roleid;
+        this.generateroletogrademappinginfoparam1=obj;
+        this.$.generateroletogrademappinginfoajax1.generateRequest();
+      },
+      generateroletogrademappinginfoResponse1:function(e){
+        var maparr=e.detail.response.maparr;
+        var secarr=e.detail.response.secarr;
+        var emparr=e.detail.response.emparr;
+        // alert(JSON.stringify(maparr));
+        // alert(JSON.stringify(secarr));
+        // alert(JSON.stringify(emparr));
+        var final=[];
+        var temp=[];
+        var obj={"section":"","flag":""};
+        obj.compid="";
+        obj.flag=false;
+        obj.flagg=true;
+        obj.checked=false;
+        temp.push(obj);
+        for(var i=0;i<secarr.length;i++){
+          var obj={"section":"","flag":""};
+          obj.compid=secarr[i].grade_name;
+          obj.flag=false;
+          obj.flagg=true;
+          obj.checked=false;
+          temp.push(obj);
+        }
+        final.push({"row":temp});
+        var temp=[];
+        for(var i=0;i<emparr.length;i++){
+          var obj={};
+          obj.compid=emparr[i].emp_name;
+          obj.flag=false;
+          obj.flagg=true;
+          obj.checked=false;
+          temp.push(obj);
+          for(var j=0;j<secarr.length;j++){
+          var obj={};
+          obj.compid=emparr[i].id+secarr[j].grade_id;
+          // obj.classid=secarr[j].id;
+          obj.class=secarr[j].grade_id;
+          // obj.section=secarr[j].section;
+          obj.empid=emparr[i].emp_id;
+          obj.empname=emparr[i].emp_name;
+          obj.flage=emparr[i].flage;
+          obj.academicyear=emparr[i].academic_year;
+          obj.schooltype=emparr[i].school_type;
+          obj.roleid=emparr[i].role_id;
+          obj.flag=true;
+          obj.flagg=false;
+          // obj.checked=false;
+          temp.push(obj);
+          }
+          final.push({"row":temp});
+          temp=[];
+        }
+        // alert(JSON.stringify(final));
+        var x=[];
+        for(var i=0;i<final.length;i++){
+          for(var k=0;k<final[i].row.length;k++){
+          for(var j=0;j<maparr.length;j++){
+          // alert(final[i].row[k].empid+"  "+maparr[j].id+"  "+final[i].row[k].roleid+"  "+maparr[j].role_id+"  "+final[i].row[k].classid+"  "+maparr[j].class_id);
+          if(final[i].row[k].empid==maparr[j].id&&final[i].row[k].roleid==maparr[j].role_id&&final[i].row[k].class==maparr[j].grade_id){
+            final[i].row[k].checked=true;
+            x.push(final[i].row[k]);
+          }
+          }
+        }
+        }
+        // alert(JSON.stringify(final));
+
+        document.querySelector('school-grade-to-role-mapping').hidebtn=false;
+        document.querySelector('school-grade-to-role-mapping').maparr=final;
+        document.querySelector('school-grade-to-role-mapping').FnSetSelectedRole(x);
+
+        // document.querySelector('school-grade-to-role-mapping').emparr=emparr;
+        // document.querySelector('school-grade-to-role-mapping').secarr=secarr;
+      }
+    });
+  })();
+  </script>
+</dom-module>

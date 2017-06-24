@@ -1,0 +1,124 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="schoolcategory-type-item-card">
+  <template>
+    <style>
+      :host {  
+        display: block;
+      }
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+    </style>
+    <div>
+    <paper-input hidden>{{schooltypecategoryid}}</paper-input>
+    <paper-checkbox  on-change="FnsetGradename" id="{{id}}">{{schooltypecategoryname}}</paper-checkbox>
+    </div>
+    <iron-ajax        
+        id="schooltypegetcategoryajax"
+        url="{{schooltypegetcategoryurl}}"
+        params="{{schooltypegetcategoryparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="schooltypegetcategoryResponse"
+        debounce-duration="300">
+     </iron-ajax>
+       <iron-ajax        
+        id="schooltypegetcategory1ajax"
+        url="{{schooltypegetcategory1url}}"
+        params="{{schooltypegetcategory1param}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="schooltypegetcategory1Response"
+        debounce-duration="300">
+     </iron-ajax>
+  </template>
+<script>
+  (function() { 
+    'use strict';   
+    var sclcatarr1=[];  
+     Polymer({
+      is: 'schoolcategory-type-item-card',
+
+     FnsetGradename:function( e){
+      if(document.querySelector('#'+this.id).checked==true){
+        sessionStorage.setItem("curr_sess_loggedschoolcategory_id",this.schooltypecategoryid);
+                var obj={"id":""};
+                  obj.id=this.id;
+                 sclcatarr1.push(obj);
+             document.querySelector('school-grade-to-subject-card').langprefere();
+         }
+           else if(document.querySelector('#'+this.id).checked==false){
+                 document.querySelector('school-grade-to-subject-card').clean();
+           }
+            
+      for(var i=0;i<sclcatarr1.length;i++)
+        {
+          if(sclcatarr1[i].id!=this.id){
+          var subcatt=sclcatarr1[i].id;
+          document.querySelector('#'+subcatt).checked=false;
+          sclcatarr1.splice(i,1);
+        }
+        }
+      },
+     FnRefresh:function()
+      {
+        if(sclcatarr1!=0){
+          for(var i=0;i<sclcatarr1.length;i++)
+        {
+               var stype=sclcatarr1[i].id;  
+               document.querySelector('#'+stype).checked=false;
+               sclcatarr1.splice(i,1);
+  
+        } 
+        }
+      },
+ 
+
+
+        fnsetemployeelanprefer:function(emplangprefernce){
+      var e=emplangprefernce;
+      //alert(e);
+ if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")=='category1'){
+          this.schooltypegetcategoryurl=sessionStorage.getItem("addrinfo")+"/emplangschooltypegetcategorywwws-service";
+           var obj={"schoolcategoryid":"","langugage_pref":""};
+               obj.schoolcategoryid=this.schooltypecategoryid;
+               obj.langugage_pref=emplangprefernce;
+                this.schooltypegetcategoryparam=obj;
+          this.$.schooltypegetcategoryajax.generateRequest();
+        
+                   // alert(JSON.stringify(obj)); 
+       }
+         else if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")!='category1'){
+       this.schooltypegetcategory1url=sessionStorage.getItem("addrinfo")+"/schooltypegetcategorywww-service";
+               var obj={"schoolcategoryid":""};
+               obj.schoolcategoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+               this.schooltypegetcategory1param=obj;
+               this.$.schooltypegetcategory1ajax.generateRequest();
+      }
+    
+
+    },
+      schooltypegetcategoryResponse:function(e){
+        var res=e.detail.response.returnval;
+       // alert(JSON.stringify(res));
+        document.querySelector('school-grade-to-subject-card').getcategory(res);
+      },
+      schooltypegetcategory1Response:function(e){
+       var res=e.detail.response.returnval;
+       // alert(JSON.stringify(res));
+        document.querySelector('school-grade-to-subject-card').getcategory(res);
+    
+      },
+         
+    });
+  })();
+  </script>
+</dom-module>

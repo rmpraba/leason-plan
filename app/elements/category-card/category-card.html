@@ -1,0 +1,243 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu-light/paper-dropdown-menu-light.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+<dom-module id="category-card">
+  <template>
+    <style>    
+      :host  
+      {
+         margin-left: 10%;
+        display: block;      
+         @apply(--layout-center);
+        /*width: 40%;*/
+      }
+      .card             
+      {
+         @apply(--layout-center);
+        width: 55%;
+        margin-left: 10%;
+      }
+      .title
+      {
+        @apply(--layout-center);
+        width: 255%;
+        margin-left: 33%; 
+      }
+       .creatediv paper-button
+      {
+      background-color: #363636;
+      color: #ffffff;
+      width: 7%;
+      margin-left: 42%;
+      margin-top: 3%;
+      }
+
+      .buttons paper-button
+      {
+        @apply(--layout-right);
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-top: 6%;
+      }
+     
+      .popup-btn
+      {
+        /*margin: 0 auto;*/
+        @apply(--layout-right);
+        margin-left: 30%;
+      }
+
+      
+      .newcatcardddd
+      {
+        margin-left: -2%;
+      }
+
+      .creatediv
+      {
+         position: fixed;
+          width: 28%;
+          margin-left: 3%;
+          top: 23% !important;
+          min-height: 266px;
+      }
+      
+       .vertical-row 
+      {
+            position: fixed;
+            border: 1px  solid grey;
+            height: 100px;
+            margin-left: 32%;
+            min-height: 830px;
+            top:13% !important;
+      } 
+      .newcard
+       {
+        overflow-y: scroll;
+        overflow-x: hidden;
+       }
+         .outcard
+       {
+        position: fixed;
+        margin-left : 38%;
+        margin-top: 5%;
+        
+       }
+       
+
+    </style>
+     
+  
+      <div class="titlediv" style="position: fixed;margin-top: -2%;">
+        <div class="tit1" style="margin-left:27em;"> 
+          <h3><b>CATEGORY</b></h3>
+        </div>
+        <div class="tit2" style="margin-left: 48em;margin-top: 4%;width: 100%;"> 
+          <h4><b>Current Category</b></h4>
+        </div>
+        <div class="tit3" style="margin-left: 10%;margin-top: -4%;"> 
+          <h4><b>Create New Category</b></h4>
+        </div>
+      </div>
+
+
+     <div class="outcard" hidden$="{{hideoutcard}}">
+      <table cellspacing="0" cellpadding="1" border="0" width="700px">
+        <tr>
+          <td>
+            <table cellspacing="0" cellpadding="1" border="0" width="680px">
+              <tr>
+                <th><h4><label style="margin-left:-37em">Category Types</label></h4></th>
+                <th><paper-icon-button id="btn1" style="margin-left: -35em;" icon="icons:add" on-click="getcattype"></paper-icon-button>
+                <paper-tooltip for="btn1">Create</paper-tooltip>
+                </th>
+                <th></th>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <div  class="newcard col-sm-12" style="width:600px; height:280px;">
+              <table cellspacing="0" cellpadding="1" border="0" width="700px">
+                <template is="dom-repeat" items="{{catarr}}" as="ca">
+                <tr>
+                  <td colspan="3">
+                    <category-display-card  categoryname="{{ca.category_name}}" categoryid="{{ca.category_id}}"  categorytype="{{ca.category_type}}" hidecategoryinput="true" hidecategoryitem="false">  </category-display-card>
+                  </td>
+                </tr>
+                </template> 
+              </table>
+            </div>
+          </td>
+        </tr>    
+      </table>
+    </div>
+
+
+    <div hidden>{{temphidden}}</div>
+
+    <div class="vertical-row"></div>
+    
+    <div class="creatediv" hidden$="{{hidecategorytype}}">
+        <div class="card">
+              <paper-input readonly  hidden value="{{categorytype}}" label="Category Type"></paper-input>
+              <paper-input label="Category Name" id="categoryname" required error-message="needs Category name!" value="{{categoryname}}"  allowed-pattern="[a-zA-Z ]" ></paper-input>
+
+        </div>  
+
+        <div class="buttons">
+              <paper-button  class="popup-btn" on-click="FnSubmit">Submit </paper-button>    
+        </div>
+    </div>
+  </div>
+
+   
+    <demosumbit-card id="mydialog"></demosumbit-card>
+    <master-ui-service id="uiservice"></master-ui-service>
+
+  </template>
+
+    <script>
+    (function() {
+    'use strict';
+       var cname="";
+    Polymer({
+      is: 'category-card',
+
+      ready:function()
+      {
+       //alert("hiiiiii");   
+       this.$.uiservice.FnFetchCategorySeq();
+       this.$.uiservice.FnFetchCategoryname();
+       this.$.hidenewcategorycard=true;
+       //this.hidecategorytype=true;
+      },
+      getcattype:function()
+      {
+        this.hidecategorytype=false;
+      },
+      FnRefresh:function()
+      {
+         this.categoryname=""; 
+      },
+      fnseq:function(){
+         this.$.uiservice.FnFetchCategorySeq();
+       },
+      FnSubmit:function()
+      {
+        if(this.categoryname== null|| this.categoryname=="")
+        {
+          this.$.categoryname.validate();
+          //alert("Please enter categoryname before submit"); 
+        }
+        else if(this.categoryname!=null)
+        {
+        //alert("test");
+          cname=this.toTitleCase(this.categoryname);
+          var categoryid=((cname).toLowerCase()).replace(' ','');
+          this.$.uiservice.FnSetCategoryInfo(this.categorytype,cname,categoryid,this.temphidden);
+          this.$.mydialog.toggleDialog();
+         document.querySelector('category-card').FnRefresh(); 
+        }
+        
+      },
+
+
+      toTitleCase:function(str)
+      {
+         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      },
+
+      categoryyhide:function()
+      {
+        this.hidenewcatcard=true;   
+      },
+      categoryyview:function()
+      {
+        this.hidenewcatcard=false;
+      },
+      f12p:function(e)
+      {
+          this.$.mydialog.toggleDialog1();    
+      },
+          
+      upfunct:function(e)
+      {
+        this.$.mydialog.toggleDialog2();
+      },
+          
+            
+    });
+  })();
+  </script>
+</dom-module>

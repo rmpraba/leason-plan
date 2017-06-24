@@ -1,0 +1,200 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="school-grade-to-role-mapping">
+  <template>
+    <style>
+    paper-button
+    {
+      @apply(--layout-left);
+      background-color: #363636;
+      color: #ffffff;
+      /*width: 12%;*/
+      margin-left: 5%;
+      margin-top: 2%;
+    }
+    tr{
+      height: 40px;
+    }
+    .outer1 
+      {
+        @apply(--layout-horizontal);
+        border-radius: 10px;
+        border: 1px solid #6699ff;
+        padding: 0px;
+        margin-top: 4%;
+        width: 63%;
+        margin-left: 20em;
+        min-height: 190px;
+      }
+      .rolemap
+      {
+        @apply(--layout-vertical);
+        margin-left: 2em;
+        margin-top: 2em;
+      }
+      .roletype
+      {
+        margin-left: 6em;
+        margin-top: 3em;
+      }
+      .gradeselect
+      {
+        margin-left: 4em;
+        margin-top: 3em;
+      }
+      .genbutton
+      {
+        margin-top: 4em;
+        margin-left: 4em;
+      }
+    </style>
+    <div>
+      <CENTER>
+        <h3><b>ROLE TO GRADE MAPPING</b></h3>
+      </CENTER>
+    </div>
+
+    <div class="outer1">
+      <div class="rolemap">
+        <div style="width: 140%;">
+          <label><b>Select Role To Map</b></label>
+        </div>
+        <div>
+          <template is="dom-repeat" items="{{rolesarr}}">
+            <role-to-grade-roles-card id="{{item.id}}" name="{{item.role_name}}"></role-to-grade-roles-card>
+          </template>
+        </div>
+      </div>
+
+      <div class="roletype">
+        <paper-dropdown-menu  label="Select Type">
+            <paper-menu id="gradetoroleschooltype" class="dropdown-content"   on-iron-select="FnSelectType">
+              <template is="dom-repeat" items="{{schooltypearr}}">
+                <paper-item value="{{item.school_type_id}}">{{item.school_type_name}}</paper-item>
+              </template>    
+            </paper-menu>
+        </paper-dropdown-menu>
+      </div>
+
+      <div class="gradeselect" hidden$="{{hidegradeselection}}">
+        <paper-dropdown-menu  label="Select Grade">
+            <paper-menu id="gradetorolegrade" class="dropdown-content"   on-iron-select="FnSelectGrade">
+              <template is="dom-repeat" items="{{gradearr}}">
+                <paper-item value="{{item.grade_id}}">{{item.grade_name}}
+                </paper-item>
+              </template>    
+            </paper-menu>
+        </paper-dropdown-menu>
+      </div>
+
+      <div class="genbutton" hidden$="{{hidegeneratebtn}}">
+        <paper-button on-click="FnGenerate">Generate</paper-button>
+      </div>
+    </div>
+    
+    <br><br>
+    <div>
+    <table width="60%" style="margin-left: 20%;">
+    <!-- <template is="dom-repeat" items="{{emparr}}">
+    <tr>
+    <template is="dom-repeat" items="{{secarr}}">
+    <td>
+    <school-grade-to-role-mapping-item></school-grade-to-role-mapping-item>
+    </td>
+    </template>
+    </tr>
+    </template> -->
+    <template is="dom-repeat" items="{{maparr}}">
+    <tr>
+    <template is="dom-repeat" items="{{item.row}}" as="i">
+    <td><school-grade-to-role-mapping-item compid="{{i.compid}}" flag="{{i.flag}}" flagg="{{i.flagg}}" check="{{i.checked}}" class="{{i.class}}" section="{{i.section}}" empid="{{i.empid}}" empname="{{i.empname}}" flage="{{i.flage}}" schooltype="{{i.schooltype}}" academicyear="{{i.academicyear}}" roleid="{{i.roleid}}" classid="{{i.classid}}"></school-grade-to-role-mapping-item></td>
+    </template>
+    </tr>
+    </template>
+    </table>
+    <div hidden$="{{hidebtn}}" style="margin-left: 40%;">
+    <paper-button on-click="FnSave">Save</paper-button>
+    <paper-button on-click="FnCancel">Cancel</paper-button>
+    </div>
+    </div>
+    <div hidden><school-grade-to-role-mapping-item id="sgtrmi"></school-grade-to-role-mapping-item></div>
+    <mapping-service id="mappingservice"></mapping-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var gradeid,type,roleid,gradename;    
+    var mappingarr=[];
+    Polymer({
+      is: 'school-grade-to-role-mapping',
+      ready:function(){
+        this.hidebtn=true;
+        this.hidegradeselection=true;
+        this.hidegeneratebtn=true;
+      },
+      FnSelectType:function(e){
+        type=e.target.selectedItem.value;
+        this.$.mappingservice.fetchgradesforgradetorolemapService(type);
+      },
+      FnSelectGrade:function(e){
+        gradeid=e.target.selectedItem.value;
+        gradename=(e.target.selectedItem.textContent).trim();
+      },
+      FnSetRole:function(selectedrole){
+        this.FnCancel();
+        roleid=selectedrole;
+        if(roleid=='class-teacher'){
+        this.hidegradeselection=false;
+        this.hidegeneratebtn=false;
+        }
+        else if(roleid=='co-ordinator'||roleid=='headmistress'){
+        this.hidegeneratebtn=false;
+        // this.$.mappingservice.fetchgradesforgradetorolemapService(type);
+        }
+        this.hidegeneratebtn=false;
+      },
+      FnGenerate:function(){
+        if(roleid=='class-teacher')
+        this.$.mappingservice.FnGenerateMappingInfo(type,gradeid,gradename,roleid);
+        else
+        this.$.mappingservice.FnGenerateMappingInfo1(type,roleid);
+      },
+      FnSetMappingarr:function(arr){
+        mappingarr=arr;
+      },
+      FnSave:function(){
+        // alert(mappingarr.length);
+        // alert(JSON.stringify(mappingarr));
+        this.$.mappingservice.FnDeleteMappingService(mappingarr);
+      },
+      FnCancel:function(){
+        mappingarr=[];
+        // this.rolesarr=[];
+        this.maparr=[];
+        this.hidebtn=true;
+        this.hidegradeselection=true;
+        this.hidegeneratebtn=false;
+        document.querySelector('#gradetoroleschooltype').selected=-1;
+        document.querySelector('#gradetorolegrade').selected=-1;
+      },
+      FnSetSelectedRole:function(rolearr){
+        // alert(document.querySelector('school-grade-to-role-mapping-item'));
+        this.$.sgtrmi.FnSetSelectedRole(rolearr);
+        // arr=rolearr;
+        // alert(JSON.stringify(arr));
+      },
+      FnRefresh:function(){
+        mappingarr=[];
+        this.rolesarr=[];
+        this.maparr=[];
+        this.hidebtn=true;
+        this.hidegradeselection=true;
+        this.hidegeneratebtn=true;
+        document.querySelector('#gradetoroleschooltype').selected=-1;
+        document.querySelector('#gradetorolegrade').selected=-1;
+      }
+    });
+  })();
+  </script>
+</dom-module>

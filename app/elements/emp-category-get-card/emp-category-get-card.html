@@ -1,0 +1,139 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="emp-category-get-card">
+  <template>
+    <style>    
+      :host {  
+        display: block;
+      }   
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+    </style>   
+    <div>
+    <paper-input hidden>{{empschoolnames}}</paper-input>
+       <paper-checkbox  on-change="fnschoolgrade" id="{{id}}">{{empschooltypeids}}</paper-checkbox>
+    </div>
+  <iron-ajax        
+        id="empschoolgradezajax"
+        url="{{empschoolgradezurl}}"
+        params="{{empschoolgradezparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="empschoolgradezResponse"
+        debounce-duration="300">
+    </iron-ajax>   
+    <iron-ajax        
+        id="empgetnameajax"
+        url="{{empgetnameurl}}"
+        params="{{empgetnameparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="empgetnameResponse"
+        debounce-duration="300">
+   </iron-ajax>
+ 
+ </template>
+  <script>
+  (function() {
+    'use strict';
+    var sclltypearr=[];
+   Polymer({
+      is: 'emp-category-get-card',
+      FnRefresh:function()
+      {
+        if(sclltypearr!=0){
+          for(var i=0;i<sclltypearr.length;i++)
+        {
+               var stype=sclltypearr[i].id;  
+               document.querySelector('#'+stype).checked=false;
+               sclltypearr.splice(i,1);
+  
+        } 
+        }
+      },
+      fnschoolgrade:function(e)
+      {
+    if(document.querySelector('#'+this.id).checked==true)
+       {
+        sessionStorage.setItem("curr_sess_loggedschooltupes",this.empschoolnames);
+            var obj={"id":""};
+                obj.id=this.id;
+                sclltypearr.push(obj);
+     
+        this.f1();
+        this.f2();
+        }
+         for(var i=0;i<sclltypearr.length;i++)
+            
+        { 
+          if(sclltypearr[i].id!=this.id)
+          {
+             var stype=sclltypearr[i].id;  
+             document.querySelector('#'+stype).checked=false;
+            sclltypearr.splice(i,1);
+          }
+        }
+       },
+        f1:function(e){
+          this.empschoolgradezurl=sessionStorage.getItem("addrinfo")+"/getschooltypeas-service";
+          var obj={"schooltypeid":"","school_id":"","academic_year":""};
+          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltupes");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+          this.empschoolgradezparam=obj;
+       // alert(JSON.stringify(obj));
+
+        this.$.empschoolgradezajax.generateRequest();
+   
+        },
+        f2:function(e)
+        {
+     
+        this.empgetnameurl=sessionStorage.getItem("addrinfo")+"/empgetschooltype111-service";
+          var obj={"schooltypeid":"","school_id":"","academic_year":""};
+          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltupes");
+          obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+          this.empgetnameparam=obj;
+       // alert(JSON.stringify(obj));
+          this.$.empgetnameajax.generateRequest();
+   
+        },
+        empgetnameResponse:function(e){
+           var res=e.detail.response.returnval;
+            //  alert(JSON.stringify(res));
+
+        document.querySelector('employe-category-creation-card').fnschoolempnames(res);
+        document.querySelector('employe-category-creation-card').fnempnamesarr(res);
+      },
+      empschoolgradezResponse:function(e)
+      {
+       var res=e.detail.response.returnval;
+      //  alert(JSON.stringify(res));
+     
+        document.querySelector('employe-category-creation-card').fnschoolempgrade(res);
+        
+
+      }
+    });
+ 
+  })();
+  </script>
+</dom-module>

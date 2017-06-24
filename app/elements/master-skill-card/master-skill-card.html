@@ -1,0 +1,62 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="master-skill-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+
+    </style>
+   
+   <div><paper-input hidden>{{captheadid}}</paper-input>
+          <paper-input hidden>{{skillid}}</paper-input> 
+     
+        <paper-checkbox id="{{id}}" on-change="fnskil">{{skillname}}</paper-checkbox>
+   </div>
+
+   
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var skill1=[];
+    Polymer({
+      is: 'master-skill-card',
+              fnskil:function(e)
+              {
+                if(document.querySelector('#'+this.id).checked==true)
+                {
+                   var obj={"skill_id":"","skill_name":"","capter_id":""};
+                   obj.skill_id=this.skillid;
+                   obj.skill_name=this.skillname;
+                   obj.capter_id=this.captheadid;
+                  skill1.push(obj);
+               document.querySelector('teacher-book-chapter-refernce-card').fnsetskill(skill1);
+              
+              }
+              }
+      
+      
+    });
+  })();
+  </script>
+</dom-module>

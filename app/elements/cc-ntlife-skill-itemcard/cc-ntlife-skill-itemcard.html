@@ -1,0 +1,224 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<link rel="import" href="../co-scholastic-service/cs-scholastic-service.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+ <link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
+  <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<dom-module id="cc-ntlife-skill-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+        .submitbutton paper-button{
+    background-color: #363636 !important;
+    color: #ffffff !important;
+    height: 33px !important;
+  }
+    #sub
+{
+  width: 70%;
+}
+#td1
+{
+  padding: 5px;
+}
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td style="width: 5%;"><paper-item>{{serialno}}</paper-item></td>
+        <td style="width: 45%;"><paper-item>{{studname}}</paper-item></td>
+        <td style="width: 10%;"><paper-input on-focus="FnActivity" id="l1{{studid}}" name="Thinking Skills" value="{{score1}}"></paper-input></td>   
+        <td style="width: 10%;"><paper-input on-focus="FnActivity" id="l2{{studid}}" name="Social Skills" value="{{score2}}"></paper-input></td>  
+        <td style="width: 10%;"><paper-input on-focus="FnActivity"  id="l3{{studid}}" name="Emotional Skills" value="{{score3}}"></paper-input></td>  
+       
+        <!-- <td style="width: 10%;"><paper-input id="t{{studid}}" name="total" value="{{total}}"></paper-input></td> -->
+        <!-- <td style="width: 10%;"><paper-input id="g{{studid}}" name="grade" value="{{grade}}"></paper-input></td>-->
+         <td id="tb1"><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button>
+        <paper-tooltip for="ps" offset="0">save</paper-tooltip></td>
+        </tr>
+        </table>
+    </div>
+     <paper-dialog id="ntlifeskill" modal style="margin-left: -10%;margin-top: 5%;height:80%;width:50%;">
+   <paper-dialog-scrollable style="height: 80%;">
+ <template is="dom-repeat" items="{{coarr}}">
+      <cs-sub-metrics-item-card submetric="{{item.sub_metrics}}" score1="{{item.mark}}"></cs-sub-metrics-item-card>
+      </template>
+    <center>  
+    <div class="submitbutton">
+      <paper-button class="button" on-click="click">Submit</paper-button></center>
+      </div>
+      </paper-dialog-scrollable>
+            </paper-dialog>
+      <co-scholastic-service id="coscholasticservice"></co-scholastic-service>    
+      <term-assesment-service id="assesmentservice"></term-assesment-service>
+     <iron-ajax        
+        method="post"
+        id="fetchgradeforcatajax"
+        url="{{fetchgradeforcaturl}}"
+        params="{{fetchgradeforcatparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeforcatResponse"
+        debounce-duration="300"
+    >
+  </template>
+
+  </table>
+  <script>
+  (function() {
+    'use strict';
+     var lower=[];
+    var higher=[];
+    var grade=[];
+    var name;
+    var subarr=[];
+    var idd;
+    var sname,name1,name2,name3,sum=0,sum1,sum2,sum3;
+    var tot=0,t=0;
+    var subcatarr=[];
+    Polymer({
+      is: 'cc-ntlife-skill-itemcard',
+      FnActivity:function(e)
+      {
+        idd=this.studid;
+        sname=this.studname;
+        name=e.target.name;
+        this.$.coscholasticservice.fetchlifeskilldata(name,idd);
+        var id = 'ntlifeskill';
+        sessionStorage.setItem("category","lifeskill");
+        var dialog = document.getElementById(id);
+        dialog.open();
+      },
+      fnfindsum:function(mark,cat)
+      {
+ var obj1={"studid":"","studname":"","category":"","subcategory":"","mark":"","grade":"","order_seq":""}
+       obj1.studid=idd;
+       obj1.studname=sname;
+       obj1.category=name;
+       obj1.subcategory=cat;
+       obj1.mark=mark;
+       obj1.order_seq=1;
+        subarr.push(obj1);
+        sum=parseFloat(sum)+parseFloat(mark);
+        t++;
+
+      },
+      
+      FnSubcategory:function(subcategoryarr)
+      {
+subcatarr=subcategoryarr;
+      }, 
+      click:function(e)
+      {
+        var flag=0;
+        
+        if(subcatarr.length>0)
+        {
+          for(var i=0;i<subcatarr.length;i++)
+          {
+            flag=0;
+            for(var j=0;j<subarr.length;j++)
+            {
+            if(subcatarr[i].sub_category==subarr[j].subcategory)
+            {
+               flag=1;
+            }
+          }
+          if(flag==0)
+          {
+            sum=parseFloat(sum)+parseFloat(subcatarr[i].mark);
+            t++;
+          }
+        }
+       }
+       
+        var id = 'ntlifeskill';
+        var dialog = document.getElementById(id);
+        dialog.opened=false;
+        if(name=="Thinking Skills")
+        {    
+          sum1=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('l1'+idd).value=sum1;
+          name1=name;    
+         
+        }
+        else  if(name=="Social Skills")
+        {
+          sum2=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('l2'+idd).value=sum2;
+          name2=name; 
+          
+        }
+        else  if(name=="Emotional Skills")
+        {
+         sum3=(parseFloat((parseFloat(sum))/parseFloat(t))).toFixed(2);
+          document.getElementById('l3'+idd).value=sum3;
+          name3=name; 
+         
+        } 
+          sum=0;
+        t=0;
+        document.querySelector('cs-sub-metrics-item-card').clearinputdata();     
+        
+      },
+
+       FnSave:function()
+       {
+        this.$.coscholasticservice.callinsertcoscholasticsubcategorymarkService(subarr);
+        if(name1!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name1,sum1,1);
+        }
+        if(name2!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name2,sum2,2);
+        }
+         if(name3!=null)
+        {
+        this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(idd,sname,"Life Skills",name2,sum3,3);
+        }
+             tot=parseInt(sum1)+parseInt(sum2)+parseInt(sum3);
+            //document.getElementById('t'+idd).value=tot;
+            //this.convert=(parseInt(tot)/20)*100;
+           //this.callFetchGrade();
+           subarr=[];
+
+        },
+      callFetchGrade:function()
+      {
+        this.fetchgradeforcaturl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradeforcatajax.generateRequest(); 
+      },
+      fetchgradeforcatResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+         this.reduce=this.convert/10;
+         this.FnFindGrade((parseInt(this.reduce)));   
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){ 
+           document.getElementById('g'+idd).value=grade[i];           
+            this.$.coscholasticservice.callOverallcotermmarkinsertService(idd,sname,"Life Skills",this.convert,this.reduce,grade[i]);
+          }
+        }       
+      }  
+    });
+  })();
+  </script>
+</dom-module>

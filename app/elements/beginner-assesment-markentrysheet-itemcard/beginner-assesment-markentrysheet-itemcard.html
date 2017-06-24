@@ -1,0 +1,96 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../beginner-assesment-service/beginner-assesment-service.html">
+<dom-module id="beginner-assesment-markentrysheet-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .card{
+        height: 2%;
+      }
+      #tb1{
+        width:16.67%
+      }
+    </style>
+    <div class="card">
+        <table border="1"><tr>
+        <td hidden><paper-input hidden value="{{studid}}"></paper-input></td>
+        <td id="tb1"><paper-item>{{serialno}}</paper-item></td>
+        <td id="tb1"><paper-item>{{studname}}</paper-item></td>
+        <td id="tb1"><paper-input required allowed-pattern="^[0-9.a,]+$" on-change="FnReading" value="{{readingscore}}"></paper-input></td>
+        <td id="tb1"><paper-input required allowed-pattern="^[0-9.a,]+$" on-change="FnActivity" value="{{activity}}"></paper-input></td>
+        <td id="tb1"><paper-item value="{{score}}">{{score}}</paper-item></td>
+        <td id="tb1"><paper-item>{{grade}}</paper-item></td>
+        </tr></table>
+    </div>
+    <beginner-assesment-service id="bassesmentservice"></beginner-assesment-service>
+    <iron-ajax        
+        method="post"
+        id="fetchgradeajax"
+        url="{{fetchgradeurl}}"
+        params="{{fetchgradeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradeResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    Polymer({
+      is: 'beginner-assesment-markentrysheet-itemcard',
+      ready:function(){
+
+      },
+      FnReading:function(){
+        
+      },
+      FnActivity:function(){
+        this.score=((parseInt(this.readingscore)/4)+parseInt(this.activity))*2;
+        this.callFetchGrade(); 
+      },
+      FnScore:function(){               
+        this.mark=this.score;        
+      },
+      callService:function(){
+        this.$.bassesmentservice.callbamarkinsertService(this.studid,"ReadingScore",this.readingscore,this.score,this.grade);
+        this.$.bassesmentservice.callbamarkinsertService(this.studid,"Activity",this.activity,this.score,this.grade);
+      },
+      callFetchGrade:function(){
+        this.fetchgradeurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradeajax.generateRequest(); 
+      },
+      fetchgradeResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.FnFindGrade(((this.score))/10);   
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            this.grade=grade[i];
+          }
+        }
+        this.callService();
+      }
+    });
+  })();
+  </script>
+</dom-module>

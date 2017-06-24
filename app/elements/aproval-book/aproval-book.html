@@ -1,0 +1,126 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/value-card/value-card.html">
+
+<dom-module id="aproval-book">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+        <paper-input value={{valueid}} hidden></paper-input>
+          <paper-input value={{valuename}} hidden></paper-input>
+        <paper-input value={{conceptid}} hidden></paper-input>
+         <paper-input value={{capterid}} hidden></paper-input>
+    <paper-checkbox on-change="fnsezzt" id={{id}}>{{valuename}}</paper-checkbox></div>
+    <iron-ajax
+        method="post"
+        id="bookvaldelajax"
+        url="{{bookvaldelurl}}"
+        params="{{bookvaldelparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="bookvaldelResponse"
+        debounce-duration="300">
+</iron-ajax> 
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+ var temparr=[];
+ var temparr1=[];
+ 
+    Polymer({
+      is: 'aproval-book',
+
+  fnsezzt:function(e){ 
+  //alert(this.id);
+  alert(document.querySelector('#'+this.id).checked);
+
+   if(document.querySelector('#'+this.id).checked==true){
+          var obj={};
+           obj.id=this.id;
+           obj.valueid=this.valueid;
+           obj.valuename=this.valuename;
+           temparr.push(obj);
+           temparr1.push(obj);
+  document.querySelector('aproval-book-innovatiosn-item-card').fnsetpassvalz(temparr1)
+    }
+    else if(document.querySelector('#'+this.id).checked==false){
+     this.bookvaldelurl=sessionStorage.getItem("addrinfo")+"/bookvaldel-service";
+      
+      var obj={"capterid":"","conceptid":"","valueid":"","emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":""};
+      obj.valueid=this.valueid;
+      obj.conceptid=this.conceptid;
+      obj.capterid=this.capterid;
+      obj.emp_id=sessionStorage.getItem("empidz");           
+      obj.grade_id=sessionStorage.getItem("grdeidz");
+      obj.subject_id=sessionStorage.getItem("subjectidz");
+      obj.section_id=sessionStorage.getItem("sectoinidz");
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+      this.bookvaldelparam=obj;
+      alert(JSON.stringify(obj));
+      this.$.bookvaldelajax.generateRequest();
+
+         for(var i=0;i<temparr.length;i++){
+                 if(temparr[i].id==this.id){
+                  temparr.splice(i,1);
+
+                 }          
+         
+         }
+     
+    }   
+     
+  },
+  fnsetapproveclear:function(e){
+  
+       for(var i=0;i<temparr.length;i++) {
+          var wz=temparr[i].id;
+       document.querySelector('#'+wz).checked=false;
+         }  
+        temparr.splice(obj);
+        temparr1.splice(obj);
+
+
+  },
+  smallclean:function(e){
+     var obj={};
+           temparr1.splice(obj);
+      
+  },
+  bookvaldelResponse:function(e){
+       var res=e.detail.response.returnval;
+         alert(JSON.stringify(res));
+     
+       },
+  fnselbookvalue:function(arr){
+    //   alert(JSON.stringify(arr));
+  for(var i=0;i<arr.length;i++){
+      var idz=arr[i].value_id+arr[i].emp_id+arr[i].grade_id+arr[i].section_id+arr[i].subject_id+arr[i].capter_id+arr[i].concept_id;
+        var obj={};
+          obj.id=idz;
+          obj.valueid=arr[i].value_id;
+        temparr.push(obj);
+       // alert(JSON.stringify(temparr));
+        document.querySelector('#'+idz).checked=true;
+      }
+     }
+   }); 
+  })();
+  </script>
+</dom-module>

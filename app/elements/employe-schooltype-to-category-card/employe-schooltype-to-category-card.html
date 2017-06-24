@@ -1,0 +1,757 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+<link rel="import" href="../employee-schooltype-to-category-basecard/employee-schooltype-to-category-basecard.html">
+
+
+<dom-module id="employe-schooltype-to-category-card">
+  <template>
+    <style>   
+      :host {  
+        display: block;   
+      }
+    
+      .outcard
+      {
+      width:25% 
+      margin-left:2.0em;
+      }
+       .innercard
+       {     
+        @apply(--layout-horizontal);
+        width:100%
+        margin-left:5.5em;
+       }
+    
+     .tt{
+      width:70%;
+     }
+     .newempsubject
+      {
+        @apply(--layout-horizontal);
+        border-radius: 10px;
+        border: 1px solid #6699ff;
+        padding: 0px;
+        width: 64%;
+        margin-top: 3%;
+        margin-left: 19em;
+        min-height: 218px;
+      }
+       .subbutton 
+
+      {
+        background-color: #363636;
+        color: #ffffff;               
+        height: 3em;
+        margin-left: 20em;
+        margin-top: 5em;
+      }
+      
+    .language
+    {
+          margin-left: 28em;
+          position: absolute;
+
+          margin-top: 4em;
+
+    }
+    .newscrolzz
+    {
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+    #talhidn
+    {
+          margin-top: 7%;
+         margin-left: 3em;
+
+    }
+    table
+    {
+      width: 70%;
+      margin-left: 9%;
+    }
+    #btn1
+    {
+      margin-left: 50px;
+
+    }
+  
+    .scltype1
+    {
+        @apply(--layout-vertical);
+        margin-left: 2em;
+    }
+       #z11
+      {
+           position: absolute;
+           /*color:  #0000ff;*/
+           color: #6699ff;
+          margin-left: 15%;
+          margin-top: 4% !important;
+      }
+        #subzz1 paper-button
+      {
+         color:white;
+         background-color:black;
+         width:6%;
+         margin-left:46%;
+         margin-top:2%; 
+      }
+    
+      #z22
+      {
+        position: absolute;
+        /*color:  #0000ff;*/
+        color: #6699ff;
+        margin-left: 77%;
+        margin-top: 4% !important;
+      }
+
+
+      #previousid1,#Nextid1
+      {
+         border-radius: 10px;
+           width: 350px;
+           height: 150px;
+      }
+   
+    .subcat1
+    {
+      @apply(--layout-vertical);
+      margin-left: 6em;
+    }
+    </style>
+   
+      <div>
+        <CENTER>
+          <h3><b>EMPLOYEE TO SUBJECT MAPPING</b></h3>
+        </CENTER>  
+      </div>        
+        
+ 
+   <div class="newempsubject">
+     <div class="scltype1">
+        <div>
+          <h4>SCHOOL TYPE</h4>    
+        </div>
+        <div>
+          <template is="dom-repeat" items="{{getschooltypearr}}" as="view">
+            <employe-schooltype-to-category-item-card schooltypenamexx="{{view.school_type_name}}" schooltypeidxx="{{view.school_type_id}}" id="EM0S{{view.school_type_id}}"></employe-schooltype-to-category-item-card>
+          </template>
+        </div>
+      </div> 
+
+      <div class="subcat1">  
+        <div>  
+          <h4>SUBJECT CATEGORY</h4>  
+        </div>
+        <div>
+          <template is="dom-repeat" items="{{getempcategoryarr}}" as="view">
+            <employee-category-item-card schooltypecategoryid="{{view.subject_category_id}}" schooltypecategoryname="{{view.subject_category_name}}" id="EM0CAT{{view.subject_category_id}}"></employee-category-item-card>
+          </template>
+        </div>      
+      </div>
+
+      <div class="language">
+          <paper-dropdown-menu id="empLanguageprefernce" label="Select The language Type">
+            <paper-menu id="empLanguageprefernceid" class="dropdown-content" on-iron-select="empfnselectlanprefercence" attr-for-selected="value" required>
+                <paper-item value="coresub">Core Subject</paper-item>
+                <paper-item value="2language">Second Language</paper-item>
+                <paper-item value="3language">Third Language</paper-item>
+            </paper-menu>
+          </paper-dropdown-menu>
+      </div>
+
+      <div class="subbutton" hidden$="{{hidegenerate}}">
+        <paper-button on-click="grnerate">Generate</paper-button>
+      </div>
+   </div>
+
+
+    <div id="z11">
+             <paper-buuton   on-click="fnpriver">
+             <a href="#"  style="font-size: 19px;font-style: oblique;"><b>Previous</b></a>
+             </paper-buuton>
+      </div>
+      <div id="z22">
+           <paper-buuton   on-click="fnnext">
+             <a href="#" style="font-size: 19px;font-style: oblique;"><b>Next</b></a>
+             </paper-buuton>
+      </div>
+
+
+
+     <div id="talhidn" hidden$="{{hidenewgridd}}">
+        <!-- <div class="list-group col-sm-12 panel-body form-category"> -->  
+          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+            <!-- <div class="container"> -->
+              <!-- <tr>
+                <th class="innercard" style=" width: 400px; margin-left:4em;margin-top: -38em">
+                  <template is="dom-repeat" items="{{setsubjectarr}}" as="view">
+                    <h4 style="padding-left: 50px" >{{view.srtarr}}</h4>
+                  </template>
+                </th>
+                  
+              </tr> -->
+            <!-- <div class="newscrolzz"> -->
+              <template is="dom-repeat" items="{{subjectbigarr}}" as="view">
+                <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                  <td>   
+                    <h4>{{view.emp_name}}</h4>   
+                  </td>
+
+                     <template is="dom-repeat" items="{{view.employee}}" as="s">
+                        <td><center>
+                        <employe-creation-card hideinput="{{s.hideinput}}" hidecheck="{{s.hidecheck}}" employeesetidz="{{view.emp_id}}" id="{{s.id}}" subjectname="{{s.subject_name}}" empsubjectname="{{s.subject_id}}"  empnames="{{view.emp_name}}"  check="{{s.check}}" emplanpreff="{{emplangprefernce}}"></employe-creation-card>   
+                        </center> 
+                        </td>
+                    </template>
+                 <!--    $="{{view.hidebtn}}" -->     
+                  <td hidden$="{{view.hidebtn}}">
+                  <student-to-subject-mapping-based-card empid="{{view.emp_id}}"></student-to-subject-mapping-based-card>
+                  </td>   
+                  <td hidden>    
+                    <paper-icon-button  id="btn2" icon="close" on-click="Fndelte"></paper-icon-button>
+                    <paper-tooltip for="btn2">Delete</paper-tooltip>
+                  </td>          
+                </tr>     
+                <!-- <tr><hr/></tr> -->
+              </template>
+            <!-- </div> -->   
+          </table>   
+        </div>  
+
+
+
+
+
+        <div hidden>
+           <paper-button on-click="FnSavez">Submit</paper-button>  
+        </div>
+   
+     <paper-dialog id="previousid1" modal>
+      <center>
+         <label  id="labelid"><b>Please Click Previous Button</b></label> 
+      </center>
+       <div class="buttons">
+        </div> 
+       <center>
+         <paper-button  style="color:white;background-color:black;"  dialog-confirm autofocus>close</paper-button>
+       </center>
+    </paper-dialog>
+           
+     <paper-dialog id="Nextid1" modal>
+      <center>
+        <label  id="labelid"><b>Please Click Next Button</b></label>
+      </center>
+        
+        <div class="buttons">
+        </div>  
+        <center>
+          <paper-button style="color:white;background-color:black;" dialog-confirm autofocus> close</paper-button>
+        </center>    
+     </paper-dialog>
+     
+    
+
+    <demosumbit-card id="mydialog"></demosumbit-card>
+    
+  <master-ui-service id="uiservice"></master-ui-service>      
+</template>
+          <script>
+  (function() {
+    'use strict';
+     var empteacharr=[];
+     var getcategory=[];
+     var namearr=[];
+     var setspecificarr=[];
+     var bigarrz=[];
+     var deldbarrs=[];
+     var overall1=[];
+       var overall=[];
+   
+     var kn=[];
+     var g=[];
+     var dbsetsubjectarr=[];
+         
+   
+    Polymer({
+      is: 'employe-schooltype-to-category-card',
+      fnempsubject:function(){
+        this.$.empLanguageprefernce.hidden=true;
+        this.hidegenerate=true;
+        this.$.z11.hidden=true;
+        this.$.z22.hidden=true;
+        this.hidenewgridd=true;
+  
+    },
+    FnRefresh:function()
+    {
+      this.$.empLanguageprefernce.hidden=true;
+     // this.$.basecard.FnClear();
+      if(document.querySelector('#empLanguageprefernceid').selected!=-1)
+
+      {
+        document.querySelector('#empLanguageprefernceid').selected=-1;
+      }
+    },
+    getgrade:function(arr){
+        empteacharr=arr;
+     },
+  langprefere:function(e)
+       {
+        //   alert('1');
+          if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")=='category1')
+          {
+                  this.$.empLanguageprefernce.hidden=false;
+                  //this.hidegenerate=false;
+                  
+          }
+          else
+          {
+
+              this.$.empLanguageprefernce.hidden=true;
+              this.hidegenerate=false;
+              var empty='empty';
+              document.querySelector('employee-category-item-card').fnsetemployeelanprefer(empty);
+              document.querySelector('#empLanguageprefernceid').selected=-1;
+          }   
+        },
+        clean:function(e){
+        this.$.empLanguageprefernce.hidden=true;
+        this.hidegenerate=true;
+      },
+       getcategory:function(arr){
+
+       getcategory=arr;
+       },
+       getemployeegrade:function(arr){
+        empgradearr=arr;
+      },
+      // passempgrade:function(arr){
+      //  getgradenames=arr;
+      //  this.$.basecard.passempgrade(arr);
+      // },
+      autocompletename:function(nameitem){
+          namearr=nameitem;
+      },
+      empfnselectlanprefercence:function(e)
+      {
+        this.emplangprefernce=e.target.selectedItem.textContent.trim();
+        this.hidegenerate=false;
+        document.querySelector('employee-category-item-card').fnsetemployeelanprefer(this.emplangprefernce);
+         overall=[];
+         g=[];
+      },
+     
+    deldbarr:function(arr){  
+       deldbarrs=arr;  
+    },
+   
+       Fndelte:function(e){
+      // alert(JSON.stringify(deldbarrs));
+        this.$.uiservice.fnemployeeedelfn(deldbarrs);  
+        this.$.mydialog.toggleDialog1();
+       document.querySelector('employe-creation-card').Fnsubjectdelclean();        
+       
+       },  
+      
+ /*stupersonalinfo12:function(){
+     document.querySelector('employe-creation-card').stupersonalinfo11(kn); 
+    
+    },
+  */
+  grnerate:function(e)
+        {
+
+  this.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+  this.categoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+  this.$.uiservice.fngetempsubject(this.schooltypeid,this.categoryid,this.emplangprefernce);
+   //alert(JSON.stringify(overall1));
+     overall=[];
+         g=[];
+    document.querySelector('employe-creation-card').Fnsubjectclean();
+ 
+          },
+      setempsubject11:function(e){
+        dbsetsubjectarr=e;    
+          },
+      setempsubject1:function(arr){
+        dbsetsubjectarr=arr;
+        this.hidegenerate=true;
+        this.$.z11.hidden=true;
+        this.$.z22.hidden=false;
+        this.hidenewgridd=false;
+ 
+
+ if(overall1!=0){ 
+    // alert('asc');
+         document.querySelector('employe-creation-card').stupersonalinfo13(kn); 
+         kn.splice(obj);     
+        }
+            var setarrr=[];
+           for(var i=0;i<getcategory.length;i++)
+                 {
+                          var subject_name=getcategory[i].subject_name;
+                          
+                            var obj={"srtarr":""};
+                                obj.srtarr=subject_name;
+                               setarrr.push(obj);
+                           }
+
+                  var generatearr=[];
+                for(var j=0;j<empteacharr.length;j++)
+                {
+                     for(var i=0;i<getcategory.length;i++)
+                     {
+                        var emp_name=empteacharr[j].emp_name;
+                        var emp_id=empteacharr[j].emp_id;
+                         
+                         var obj={"emp_name":"","subject_name":"","subject_id":"","emp_id":""}; 
+                           var subjectname=getcategory[i].subject_name;
+                           var subject_id=getcategory[i].subject_id;
+                           obj.emp_id=emp_id;
+                           obj.subject_name=subjectname;
+                           obj.emp_name=emp_name;
+                           obj.subject_id=subject_id;
+                           generatearr.push(obj);
+                      }
+                }
+                  var a=[];
+               for(var k=0;k<generatearr.length;k++)
+               {       
+                 var nameobj={"emp_name":"","emp_id":""};
+                 nameobj.emp_name=generatearr[k].emp_name; 
+                 nameobj.emp_id=generatearr[k].emp_id; 
+               
+                     var obj={"subject_name":"","subject_id":""};
+                    obj.subject_name=generatearr[k].subject_name;
+                    obj.subject_id=generatearr[k].subject_id;
+                    obj.id=generatearr[k].subject_id+generatearr[k].emp_id;
+                    a.push(obj);
+                    for(var l=k+1;l<generatearr.length;l++)
+                    {
+                       if(generatearr[k].emp_id==generatearr[l].emp_id)
+                       {
+                         var obj1={"subject_name":"","subject_id":""}
+                         obj1.subject_name=generatearr[l].subject_name;
+                         obj1.subject_id=generatearr[l].subject_id;
+                         obj1.id=generatearr[l].subject_id+generatearr[k].emp_id;
+                         a.push(obj1);
+                         generatearr.splice(l,1);
+                         l--;
+                        }
+                    }
+                   nameobj.employee=a;
+                   overall.push(nameobj);
+                   overall1.push(nameobj);
+                   a=[];
+                }
+ var k=[];
+   for(var j=0;j<overall.length;j++){
+         if(j<=7){
+             var obj={"emp_name":"","emp_id":"","employee":""};
+                    var emp_name=overall[j].emp_name;
+                    var emp_id=overall[j].emp_id;
+                    var employee=overall[j].employee;
+                           obj.emp_name=emp_name;
+                           obj.emp_id=emp_id;
+                           obj.employee=employee;
+                            k.push(obj);
+                            g.push(obj);
+      }}
+for(var j=0;j<k.length;j++){
+       var flag=0;
+  for(var q=0;q<dbsetsubjectarr.length;q++){
+      if(k[j].emp_id==dbsetsubjectarr[q].emp_id){
+             flag=1;
+             var ddd=k[j].emp_id;
+              var sss=dbsetsubjectarr[q].subjectid;
+             // alert(sss);
+         for(var t=0;t<k[j].employee.length;t++){
+              
+           if(k[j].employee[t].subject_id==sss){
+                      var rrn=k[j].employee[t].id;
+                      var admno=k[j].emp_id;
+                      k[j].employee[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+                      }
+                  
+                     }}}}
+            for(var i=0;i<overall.length;i++){
+       for(var s=0;s<k.length;s++){
+                if(overall[i].emp_id==k[s].emp_id){
+           overall.splice(i,1);
+         }}}
+         var temp=[];
+          var subarr=[];
+         var obj={};
+          obj.emp_id="";
+          obj.emp_name="";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.subject_name=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.employee=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(k).length;i++){
+          for(var j=0;j<(k[i].employee).length;j++){
+            k[i].employee[j].hideinput=true;
+            k[i].employee[j].hidecheck=false;
+          }
+          this.finalarr.push(k[i]);
+         }
+        for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+         this.subjectbigarr=this.finalarr;
+        
+       if(k.length!=0){
+        this.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+      this.categoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+     this.$.uiservice.fngetempsubject1(this.schooltypeid,this.categoryid,this.emplangprefernce);
+   }},
+fnnext:function(e){
+                 var setarrr=[];
+                  for(var i=0;i<getcategory.length;i++){
+                          var subject_name=getcategory[i].subject_name;
+                          var obj={"srtarr":""};
+                          obj.srtarr=subject_name;
+                         setarrr.push(obj);
+                           }
+           var k=[];
+            document.querySelector('employe-creation-card').stupersonalinfo13(kn); 
+            document.querySelector('employe-creation-card').f11(); 
+      kn.splice(obj);
+        for(var j=0;j<overall.length;j++){
+         if(j<=7){
+             var obj={"emp_name":"","emp_id":"","employee":""};
+                    var emp_name=overall[j].emp_name;
+                    var emp_id=overall[j].emp_id;
+                    var employee=overall[j].employee;
+                           obj.emp_name=emp_name;
+                           obj.emp_id=emp_id;
+                           obj.employee=employee;
+                            k.push(obj);
+                            g.push(obj);
+      }}
+for(var j=0;j<k.length;j++){
+       var flag=0;
+  for(var q=0;q<dbsetsubjectarr.length;q++){
+      if(k[j].emp_id==dbsetsubjectarr[q].emp_id){
+             flag=1;
+             var ddd=k[j].emp_id;
+              var sss=dbsetsubjectarr[q].subjectid;
+             // alert(sss);
+         for(var t=0;t<k[j].employee.length;t++){
+              
+           if(k[j].employee[t].subject_id==sss){
+                      var rrn=k[j].employee[t].id;
+                      var admno=k[j].emp_id;
+                      k[j].employee[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+                       }
+                  
+
+                     }}}}
+            for(var i=0;i<overall.length;i++){
+       for(var s=0;s<k.length;s++){
+                if(overall[i].emp_id==k[s].emp_id){
+           overall.splice(i,1);
+         }}}
+        if(k.length!=0){
+          var temp=[];
+          var subarr=[];
+          var obj={};
+          obj.emp_id="";
+          obj.emp_name="";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.subject_name=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);}
+          obj.employee=subarr;
+          temp.push(obj);
+          this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(k).length;i++){
+          for(var j=0;j<(k[i].employee).length;j++){
+            k[i].employee[j].hideinput=true;
+             k[i].employee[j].hidecheck=false;
+          }this.finalarr.push(k[i]);
+
+         }
+ for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+         this.subjectbigarr=this.finalarr;
+       
+      //   alert(JSON.stringify(this.subjectbigarr));
+   this.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+  this.categoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+  this.$.uiservice.fngetempsubject1(this.schooltypeid,this.categoryid,this.emplangprefernce);
+    document.querySelector('employe-creation-card').stupersonalinfo13(kn); 
+    document.querySelector('employe-creation-card').f11(); 
+    setarrr=[];
+  }
+      else{
+           //   alert('1');
+              this.$.previousid1.open();
+              this.$.z11.hidden=false;
+              this.$.z22.hidden=true;
+          document.querySelector('student-list-pass-section-card').f11(); 
+           kn.splice(obj);
+         
+         
+      }
+
+   },
+mappingstudent1:function(e){
+
+},
+    fnpriver:function(e){
+            
+     var setarrr=[];
+       
+                 for(var i=0;i<getcategory.length;i++)
+                 {
+                          var subject_name=getcategory[i].subject_name;
+                          
+                            var obj={"srtarr":""};
+                                obj.srtarr=subject_name;
+                               setarrr.push(obj);
+                           }
+
+    
+              document.querySelector('employe-creation-card').stupersonalinfo13(kn); 
+          kn.splice(obj);
+          document.querySelector('employe-creation-card').f11();
+
+          var l=[];
+   for(var j=0;j<g.length;j++){
+         if(j<=7){
+             var obj={"emp_name":"","emp_id":"","employee":""};
+                    var emp_name=g[j].emp_name;
+                    var emp_id=g[j].emp_id;
+                    var employee=g[j].employee;
+                           obj.emp_name=emp_name;
+                           obj.emp_id=emp_id;
+                           obj.employee=employee;
+                            l.push(obj);
+                            overall.push(obj);
+      }}
+for(var j=0;j<l.length;j++){
+       var flag=0;
+  for(var q=0;q<dbsetsubjectarr.length;q++){
+      if(l[j].emp_id==dbsetsubjectarr[q].emp_id){
+             flag=1;
+             var ddd=l[j].emp_id;
+              var sss=dbsetsubjectarr[q].subjectid;
+             // alert(sss);
+         for(var t=0;t<l[j].employee.length;t++){
+              
+           if(l[j].employee[t].subject_id==sss){
+                      var rrn=l[j].employee[t].id;
+                      var admno=l[j].emp_id;
+                      l[j].employee[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+                       }
+                     
+                     }}}}
+       for(var i=0;i<g.length;i++){
+
+            for(var m=0;m<l.length;m++){
+                if(g[i].emp_id==l[m].emp_id){
+           g.splice(i,1);
+
+             }
+            }
+          }
+           if(l.length!=0){
+    
+  var temp=[];
+          var subarr=[];
+         var obj={};
+          obj.emp_id="";
+          obj.emp_name="";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.subject_name=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.employee=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(l).length;i++){
+          for(var j=0;j<(l[i].employee).length;j++){
+            l[i].employee[j].hideinput=true;
+             l[i].employee[j].hidecheck=false;
+          }
+          this.finalarr.push(l[i]);
+         }
+
+       for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+         this.subjectbigarr=this.finalarr;
+   //       alert(JSON.stringify(this.subjectbigarr));
+         this.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltype_ids");
+         this.categoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+          this.$.uiservice.fngetempsubject1(this.schooltypeid,this.categoryid,this.emplangprefernce);
+  
+        document.querySelector('employe-creation-card').f11(); 
+         document.querySelector('employe-creation-card').stupersonalinfo13(kn); 
+         kn.splice(obj);
+     
+       }else{
+              this.$.Nextid1.open();
+              this.$.z11.hidden=true;
+              this.$.z22.hidden=false;
+              document.querySelector('employe-creation-card').f11(); 
+              kn.splice(obj);
+             }
+      
+ },
+   
+    
+
+     });
+  })();
+  </script>
+</dom-module>

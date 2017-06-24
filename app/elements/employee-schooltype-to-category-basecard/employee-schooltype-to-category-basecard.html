@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-icon-button/paper-icon-button.html">
+<dom-module id="employee-schooltype-to-category-basecard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>
+    <paper-input hidden value="{{stuid}}"></paper-input>
+    <paper-input hidden value="{{stugradeid}}"></paper-input>
+    <paper-icon-button  id="btn1" icon="save" on-click="fnsetsave"></paper-icon-button>
+    <paper-tooltip for="btn1">Save</paper-tooltip>
+    </div>
+
+    <demosumbit-card id="mydialog"></demosumbit-card>
+    <master-ui-service id="uiservice"></master-ui-service> 
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var getgradenames=[];  
+    var schooltype;
+    Polymer({
+      is: 'employee-schooltype-to-category-basecard',
+       stupersonalinfo:function(arr){
+        getgradenames=arr;
+        },
+    fnsetsave:function(e){
+    var temparr=[];
+     for(var i=0;i<getgradenames.length;i++){
+      if(getgradenames[i].id==this.stuid){ 
+         temparr.push(getgradenames[i]);
+       }
+     }
+       schooltype=sessionStorage.getItem("curr_sess_loggedschooltupes");
+       this.$.uiservice.fnsetstudentinfo(temparr,this.stugradeid,schooltype);
+       this.$.mydialog.toggleDialog();
+  
+     },
+     });
+  })();
+  </script>
+</dom-module>

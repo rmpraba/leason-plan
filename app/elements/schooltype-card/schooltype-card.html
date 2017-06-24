@@ -1,0 +1,248 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu-light/paper-dropdown-menu-light.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+<dom-module id="schooltype-card">
+  <template>
+    <style>
+      :host  
+      {
+         margin-left: 10%;
+         display: block;
+         @apply(--layout-center);  
+         /*width: 30%;*/
+      }
+      .card   
+      {
+         @apply(--layout-center);
+        width: 60%;
+        margin-top: 3%;
+        margin-left: 8%;
+      } 
+      .headdiv
+      {
+        margin-left: -5%;
+        width: 200%;
+      }   
+
+      .title
+      {
+        @apply(--layout-center);
+         
+          width: 200%;
+          margin-left: 33%;
+      }
+
+      /* .creatediv paper-button
+      {
+      background-color: #363636;
+      color: #ffffff;
+      width: 7%;
+      margin-left: 43%;
+      margin-top: 5%;
+      }*/
+      
+      .buttons paper-button
+      {
+        @apply(--layout-right);
+      background-color: #363636;    
+      color: #ffffff;
+      width: 10%;
+      margin-left: 45%;
+      margin-top: 9%;
+      }
+
+       .school
+      {
+        margin-top: 3%;
+        margin-left:27%;
+        width: 50%;
+      }
+
+    
+   
+      .creatediv
+      {
+       
+        margin-left: 4%;
+        top: 23% !important;
+        width: 27%;
+      }
+     
+      .vertical-row 
+      {
+            border: 1px  solid grey;
+            height: 100px;
+            margin-left: 32em;
+            min-height: 830px;
+            top: 12.6% !important;
+      } 
+
+      .newcard
+       {
+        overflow-y: scroll;
+        overflow-x: hidden;
+       }
+       .outcardzzzzzzzz
+       {
+        position: fixed;
+        margin-left : 40%;
+        margin-top: 6%;
+       }
+      
+
+      </style>
+
+    
+    <div class="titlediv" style="position: fixed;margin-top: -1em;">
+      <div class="tit1" style="margin-left: 28em;"> 
+        <h3><b>SCHOOL TYPE</b></h3>        
+      </div>
+      <div class="tit2" style="position: absolute;margin-left: 45em;width: 100%;"> 
+        <h4><b>Current School Types</b></h4>        
+      </div>
+      <div class="tit3" style="margin-left: 13%;margin-top: 4%;"> 
+        <h4><b>Create New School Type</b></h4>        
+      </div>
+    </div>
+
+    <div class="outcardzzzzzzzz" hidden$="{{hideoutnewcard}}">
+      <table cellspacing="0" cellpadding="1" border="0" width="630px">
+        <tr>
+          <td>
+            <table cellspacing="0" cellpadding="1" border="0" width="600px">
+              <tr>
+                <th><h4><label style="margin-left:8%">School Type</label></h4></th>
+                <th><paper-icon-button id="btn1" icon="icons:add" on-click="getschoolname"></paper-icon-button>
+                <paper-tooltip for="btn1">Create</paper-tooltip>
+                </th>
+                <th></th>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <div  class="newcard col-sm-12" style="width:590px; height:260px;">
+              <table cellspacing="0" cellpadding="1" border="0" width="730px">
+                <template is="dom-repeat" items="{{schoolarr}}" as="s">
+                  <tr>
+                    <td>
+                      <schooltype-display-card   schooltypename="{{s.school_type_name}}" schooltypeid="{{s.school_type_id}}" hideschooltypenameinput="true" hideschooltypenameitem="false"> 
+                      </schooltype-display-card>
+                    </td>
+                  </tr>
+                </template>
+              </table>
+            </div>
+          </td>
+        </tr>    
+      </table>
+    </div>
+
+
+        <div class="vertical-row" style="position:fixed;"></div>
+
+      <div class="creatediv" style="position:fixed;" hidden$="{{hideschooltype}}">
+        <div class="card">
+           <paper-input label="School Type Name" id="schooltypename" required error-message="needs School Type name!" value="{{schooltypename}}"  allowed-pattern="[a-zA-Z ]" ></paper-input>
+        </div>
+
+        <div class="buttons">
+          <paper-button class="popup-btn" on-click="FnSubmit">Submit </paper-button>
+        </div>     
+      </div>
+
+            
+      <demosumbit-card id="mydialog"></demosumbit-card>
+    <master-ui-service id="service"></master-ui-service>    
+
+  </template>
+
+  <script>
+  (function() 
+  {
+    'use strict';
+     var stypename="";
+      Polymer({
+      is: 'schooltype-card',
+      ready:function()
+      {
+      
+      //  document.GetElementbyId('#')
+        //alert("test");
+        this.$.service.FnFetchSchooltypename();
+        this.$.hidenewschooltypecard=true;
+        this.FnRefresh();
+        //this.hideoutnewcard=true;
+
+      }, 
+     
+       FnRefresh:function()
+      {
+         this.schooltypename="";        
+      },
+     
+      schooltypehide:function()
+      {
+        this.hideoutnewcard=true;
+  
+      },
+      schooltypeview:function()
+      {
+          this.hideoutnewcard=false;
+      },
+
+      getschoolname:function()
+      {
+        this.hideschooltype=false;
+      },
+
+      FnSubmit:function()
+      {
+        if(this.schooltypename==null || this.schooltypename=="")
+        {   
+          this.$.schooltypename.validate();       
+          //alert("Please enter School Type Name before submit");
+        }
+        else if(this.schooltypename!=null)
+        {
+          stypename=this.toTitleCase(this.schooltypename);
+          var schooltypeid = ((stypename).toLowerCase()).replace(' ','',' ');   
+          //alert(schooltypeid);   
+          //alert(stypename);
+          this.$.service.FnSetSchooltypeInfo(stypename,schooltypeid); 
+           this.$.mydialog.toggleDialog();
+          document.querySelector('schooltype-card').FnRefresh();
+        }
+       
+      },
+      
+
+      toTitleCase:function(str)
+      {
+        
+        return str.replace(/\w\S*/g, 
+        function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      },
+      fnndel:function()
+      {
+        this.$.mydialog.toggleDialog1();
+      },
+       fnnup1:function()
+      {
+        this.$.mydialog.toggleDialog2();
+      }
+
+
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,48 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="role-to-grade-roles-card">
+  <template>
+    <style>
+      paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+    </style>
+    <div>
+       <paper-input hidden>{{name}}</paper-input>
+       <paper-checkbox  on-change="FnSelectRole" id="gtor{{id}}">{{name}}</paper-checkbox>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var selected="";
+    Polymer({
+      is: 'role-to-grade-roles-card',
+      ready:function(){
+      },
+      FnSelectRole:function(e){
+        if(selected==""){          
+        if(document.querySelector('#gtor'+(this.id).replace(' ','')).checked==true){
+          selected=this.id;
+        }
+        }
+        else{
+          if(selected!=this.id){
+            document.querySelector('#gtor'+(selected).replace(' ','')).checked=false;
+            selected=this.id;
+          }
+          else{
+            selected="";
+          }
+        } 
+        document.querySelector('school-grade-to-role-mapping').FnSetRole(selected);
+      }
+    });
+  })();
+  </script>
+</dom-module>

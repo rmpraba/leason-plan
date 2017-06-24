@@ -1,0 +1,89 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="class-teacher-book-approve-pdf-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      #prnt
+      {
+        background-color: #363636;
+        color: #ffffff; 
+        /*width: 12%;*/
+        height: 34px;
+        margin-top: 4%;
+        margin-left: 45%;
+      }
+      table
+      {
+        border-collapse: collapse;
+        width: 70%;
+        margin-left: 15%;
+        margin-top: 3%;
+      }
+    </style>
+    <div>
+      <center>
+        <h3>CLASS TEACHER LESSON PLAN</h3>
+      </center>
+    </div>
+    <div>
+       <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
+       </div>
+          <table border="1">
+            <tr>
+            <th>Chapter Name</th>
+            <th>Concept Name</th>
+            <th>Skill</th>
+            <th>Innovation</th>
+            <th>Value</th>
+        
+            </tr>
+              <template  is="dom-repeat" items="{{finalarr}}" as="view">
+         
+            <tr>
+             <td>{{view.chaptername}}</td>
+             <td>{{view.conceptname}}</td>
+             <td>{{view.skill}}</td>
+             <td>{{view.innovation}}</td>
+             <td>
+               <template  is="dom-repeat" items="{{view.valuearrr}}" as="e">
+                  {{e.value_name}}
+                </template>
+              </td>
+            
+            </tr>
+           </template>
+         </table>
+
+         <div>
+           <paper-button id="prnt" on-click="print">Print</paper-button>
+         </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'class-teacher-book-approve-pdf-card',
+
+    passset:function(e){
+     document.querySelector('app-card').setPage('homepage','');
+     document.querySelector('home-page').setPage('class-teacher-book-approve-card','');
+    },
+ print:function()
+    {
+      if(!window.print)
+      {
+        alert("You need NS4.x to use this print button");
+        return
+      }
+      window.print()
+    }
+    });
+  })();
+  </script>
+</dom-module>

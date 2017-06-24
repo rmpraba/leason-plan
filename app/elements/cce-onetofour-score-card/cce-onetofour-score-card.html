@@ -1,0 +1,514 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-button/paper-button.html">
+<link rel="import" href="..\..\bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../onetofour-scorecard-service/onetofour-scorecard-service.html">
+<dom-module id="cce-onetofour-score-card">
+<style>
+  .buttoncard{
+    @apply(--layout-horizontal);
+    margin-left: 20%;
+  }
+  .card{
+    width: 800px;
+    border: 1px solid black;
+    margin-left: 1%;
+    margin-top: 2%;
+  }
+  .logo{
+    width:100%;
+    height: 15%; 
+    margin-top: 4%;   
+  }
+  .studentinfo{
+    width:95%;
+    height: 10%;
+    margin-left: 3%;
+    margin-top: 5%;
+  }
+  .attendance{
+    width:95%;
+    height: 15%; 
+    margin-left: 3%;
+    margin-top: 5%;
+  }
+  .general{
+    width: 95%;
+    margin-left: 3%;
+  }
+  .signature{
+    width: 95%;
+    margin-left: 3%;
+  }
+  .subject{
+    width: 95%;
+    margin-left: 3%;
+  }
+  .health{
+    width: 95%;
+    margin-left: 3%;
+  }
+  .button{
+    width: 10%;
+    background: #252626;
+    color: white;
+    margin-top: 2%;
+    text-transform: none;
+    margin-left: 2%;
+  }
+  @media print {
+    footer {page-break-after: always;}
+  }
+ .health:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .health:nth-child(even) {
+    background-color: #d98cd9;
+  }
+ .pd:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .pd:nth-child(even) {
+    background-color: #dfff80;
+  }
+ .game:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .game:nth-child(even) {
+    background-color: #b3d1ff;
+  }
+ .eng:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .eng:nth-child(even) {
+    background-color: #b3d1ff;
+  }
+ .math:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .math:nth-child(even) {
+    background-color: #dfff80;
+  }
+ .evs:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .evs:nth-child(even) {
+    background-color: #ffd699;
+  }
+ .hin:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .hin:nth-child(even) {
+    background-color: #d98cd9;
+  }
+ .comp:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .comp:nth-child(even) {
+    background-color: #b3d1ff;
+  }
+ .gk:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .gk:nth-child(even) {
+    background-color: #ffd699;
+  }
+ .art:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .art:nth-child(even) {
+    background-color: #dfff80;
+  }
+ .music:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .music:nth-child(even) {
+    background-color: #d98cd9;
+  }
+ .dance:nth-child(odd) {
+    background-color: #f1f1f1;
+  }
+ .dance:nth-child(even) {
+    background-color: #ffd699;;
+  }
+  .saph{
+    margin-left: 3%;
+  }
+  .circle
+  {
+    width:40px;
+    height:40px;
+    border-radius:50px;
+    font-size:15px;
+    /*color:#fff;*/
+    line-height:40px;
+    text-align:center;
+    background:#d6d6c2;
+  }
+  .fab{
+    width:70px;
+    height:45px;
+    border-radius:95px;
+    font-size:15px;
+    /*color:#fff;*/
+    line-height:50px;
+    text-align:center;
+    background:#f5f5ef; 
+  }
+  @media print {
+    #footer {page-break-after: auto;}
+  }
+   #close{
+    /*margin-left: 80%;*/
+    text-transform: none;
+    /*width: 10%;*/
+    height: 35px;
+    background: #252626;
+    color: white;
+    margin-top: 2%;            
+  }
+   paper-dialog{
+      margin-top: -10%;
+      background-color: #f3f3f3;
+      border: 1px solid #dedede;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      font-size: 16px;
+      padding: 5px 5px;
+      font-family: verdana;
+      width: 40%;      
+    }
+    .dialogbtncard{
+      margin-left: 40%;
+      @apply(--layout-horizontal);
+    }
+</style>
+<template>
+<div class="card">
+  <table class="logo">
+      <tr><th><img src="../../images/zeesouth.png" height="100px" width="100px"></img></th>
+      <th>
+        <!--<h1 id="pr">MountLitera</h1>
+        <h1 id="pr"> Zee School</h1>
+        <h4>Great School.Great Future</h4>-->
+        <img src="../../images/mount.png"></img>
+        <p>{{schoolname}}</p>
+        <h1>ACHIEVEMENT RECORD({{academicyear}})</h1>
+      </th>
+      <th><img src="../../images/zee.gif" height="100px" width="100px"></img></th></tr>
+  </table>
+  <br>
+  <div class="saph">
+    <img src="../../images/saph.jpg" height="160px" width="760px"></img>
+  </div>
+  <table class="studentinfo" style="border-collapse: collapse;">
+      <tr>
+      <th align="left">Student's Name: </th>
+      <th align="left" colspan="3" style="background-color: white;">{{studentname}}</th>
+      </tr>
+      <tr style="height: 10px;"><th colspan="4"></th></tr>
+      <tr>
+      <th align="left">Parent's Name: </th>
+      <th align="left" colspan="3" style="background-color: white;">{{parentname}}</paper-input></th>
+      </tr>
+      <tr style="height: 10px;"><th colspan="4"></th></tr>
+      <tr>
+      <th align="left">Class: </th>
+      <th align="left" style="background-color: white;">{{grade}}&nbsp;&nbsp;{{section}}</th>
+      <th align="left">Admission No: </th>
+      <th align="left" style="background-color: white;">{{enrno}}</th>
+      </tr>      
+  </table>
+
+  <br><br>
+
+  <table style="border-collapse: collapse;" class="attendance">
+      <tr><th style="width: 25%;">Attendance</th><th colspan="2" style="width: 25%;">Term1</th><th colspan="2" style="width: 25%;">Term2</th><th colspan="2" style="width: 25%;">Term3</th></tr>
+      <tr style="height: 10px;"><th colspan="7"></th></tr>
+      <tr><td style="width: 25%;">Total Attended Days</td><td align="right" style="width: 13%;">{{adterm1}}</td>
+      <td rowspan="2" align="right"><div class="fab">{{pterm1}}</div></td><td align="right" style="width: 13%;">{{adterm2}}</td>
+      <td rowspan="2" align="right"><div class="fab">{{pterm2}}</div></td><td align="right" style="width: 13%;">{{adterm3}}</td>
+      <td rowspan="2" align="right"><div class="fab">{{pterm3}}</div></td></tr>
+      <tr style="height: 10px;"><th colspan="7"></th></tr>
+      <tr><td style="width: 25%;">Total Working Days</td><td align="right" style="width: 13%;">{{wdterm1}}</td>
+      <td colspan="2" align="right" style="width: 13%;">{{wdterm2}}</td><td align="right" colspan="2" style="width: 13%;">{{wdterm3}}</td></tr>
+  </table>
+  <br><br><br>
+  <table  class="general">
+      <tr><th style="width: 25%;">General Feedback: </th><td style="background-color: white;text-align: left;">{{generalfeedback}}</td></tr>
+      <tr style="height:20px;"></tr>
+      <tr><th style="width: 25%;">Specific Feedback: </th><td style="background-color: white;text-align: left;">{{specificfeedback}}</td></tr>
+  </table>
+
+  <br><br><br><br><br><br>
+
+  <table  class="signature">
+    <tr><th><img id='pimg1' width="100px;height:30px;"></th><th></th><th><img id='pimg2' width="130px;height:40px;"></th><th></th><th></th><th></th></tr>
+    <tr><th>--------------------------</th><th></th><th>---------------------------</th><th></th>
+    <th>--------------------------</th><th></th></tr>
+    <tr><th>Class Teacher</th><th></th><th>Principal</th><th></th><th>Parent</th><th></th></tr>
+  </table>
+
+  <br><br><br><br><br><br>
+  <div id="footer"></div>
+
+  <table class="subject">    
+    <tr style="background: #4d94ff;"><th style="width: 35%;">ENGLISH</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+    <tr style="background: #4d94ff;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{et1}}</div></th><th style="width: 5%;"><div class='circle'>{{et2}}</div></th><th style="width: 5%;"><div class='circle'>{{et3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{engArray}}" as="item">
+     <tr class="eng"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;">
+     <div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background: #86b300;"><th style="width: 35%;" >MATHEMATICS</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #86b300;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{mt1}}</div></th><th style="width: 5%;"><div class='circle'>{{mt2}}</div></th><th style="width: 5%;"><div class='circle'>{{mt3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{mathArray}}" as="item">
+    <tr class="math"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <div id="footer"></div>
+  <table class="subject">    
+    <tr style="background: #ffad33;"><th style="width: 35%;">EVS</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #ffad33;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{evt1}}</div></th><th style="width: 5%;"><div class='circle'>{{evt2}}</div></th><th style="width: 5%;"><div class='circle'>{{evt3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{evsArray}}" as="item">
+    <tr class="evs"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background: #ac39ac;"><th style="width: 35%;">HINDI/KANNADA(II Language)</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #ac39ac;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{ht1}}</div></th><th style="width: 5%;"><div class='circle'>{{ht2}}</div></th><th style="width: 5%;"><div class='circle'>{{ht3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{secArray}}" as="item">
+    <tr class="hin"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <div id="footer"></div>
+  <table class="subject">    
+    <tr style="background: #4d94ff;"><th style="width: 35%;">COMPUTER SCIENCE</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #4d94ff;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{ct1}}</div></th><th style="width: 5%;"><div class='circle'>{{ct2}}</div></th><th style="width: 5%;"><div class='circle'>{{ct3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{csArray}}" as="item">
+    <tr class="comp"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background: #ac39ac;"><th style="width: 35%;">GENERAL KNOWLEDGE</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #ac39ac;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{gt1}}</div></th><th style="width: 5%;"><div class='circle'>{{gt2}}</div></th><th style="width: 5%;"><div class='circle'>{{gt3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{gkArray}}" as="item">
+    <tr class="gk"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table> 
+
+  <table class="subject">    
+    <tr style="background: #86b300;"><th style="width: 35%;">ART/CRAFT</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #86b300;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{at1}}</div></th><th style="width: 5%;"><div class='circle'>{{at2}}</div></th><th style="width: 5%;"><div class='circle'>{{at3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{acArray}}" as="item">
+    <tr class="art"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background:  #ac39ac;"><th style="width: 35%;">MUSIC</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background:  #ac39ac;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{mdt1}}</div></th><th style="width: 5%;"><div class='circle'>{{mdt2}}</div></th><th style="width: 5%;"><div class='circle'>{{mdt3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{mdArray}}" as="item">
+    <tr class="music"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background:  #ffad33;"><th style="width: 35%;">DANCE</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background:  #ffad33;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{dant1}}</div></th><th style="width: 5%;"><div class='circle'>{{dant2}}</div></th><th style="width: 5%;"><div class='circle'>{{dant3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{danceArray}}" as="item">
+    <tr class="dance"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <table class="subject">    
+    <tr style="background: #4d94ff;"><th style="width: 35%;">GAMES</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background: #4d94ff;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{gat1}}</div></th><th style="width: 5%;"><div class='circle'>{{gat2}}</div></th><th style="width: 5%;"><div class='circle'>{{gat3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{gamesArray}}" as="item">
+    <tr class="game"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+  </table>
+  <div id="footer"></div>
+   <table class="subject">    
+    <tr style="background:  #86b300;"><th style="width: 35%;">PERSONALITY DEVELOPMENT</th><th style="width: 5%;">T1</th><th style="width: 5%;">T2</th><th style="width: 5%;">T3</th><th style="width: 50%;">Comments</th></tr>
+     <tr style="background:  #86b300;"><th></th><th style="width: 5%;">
+     <div class='circle'>{{pdt1}}</div></th><th style="width: 5%;"><div class='circle'>{{pdt2}}</div></th><th style="width: 5%;"><div class='circle'>{{pdt3}}</div></th><th></th></tr>
+    <template is="dom-repeat" items="{{personalityArray}}" as="item">
+    <tr class="pd"><th style="width: 35%;text-align: left;">{{item.category}}</th><th style="width: 5%;"><div class='circle'>{{item.t1grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t2grade}}</div></th><th style="width: 5%;"><div class='circle'>{{item.t3grade}}</div></th><th style="width: 50%;text-align: left;">{{item.comment}}</th></tr>
+    </template>    
+   </table>
+   <br><br><br>
+
+   <table class="health" border="1" style="border-collapse: collapse;;">  
+   <tr style="background: #ac39ac;"><th>Health</th><th>T1</th><th>T2</th><th>T3</th></tr>
+   <tr class="health"><th>Height</th><th>{{t1height}}</th><th>{{t2height}}</th><th>{{t3height}}</th></tr>
+   <tr class="health"><th>Weight</th><th>{{t1weight}}</th><th>{{t2weight}}</th><th>{{t3weight}}</th></tr>
+   </table>
+   <br><br>
+   <div id="footer"></div>
+</div>
+
+<div class="buttoncard">
+<paper-button  id='print' class="button" on-click='print'>Print</paper-button>
+<paper-button  id='email' class="button" on-click='email'>Email</paper-button>
+</div>
+
+<div>
+  <paper-dialog id="showpopup" modal>
+    <div>
+      <paper-input readonly label="Student Name" value="{{studentname}}"></paper-input>
+      <paper-input label="Parent Email" value="{{parentemail}}"></paper-input>
+      <paper-input label="Secondary Email" value="{{secemail}}"></paper-input>
+    </div>
+    <div class='dialogbtncard'>
+    <paper-button id="close" on-click="FnCancel">Cancel</paper-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <paper-button id="close" on-click="FnSendEmail">Send</paper-button>
+    </div>
+  </paper-dialog>
+</div>
+
+<div class="spinner"><paper-dialog modal id="spinner" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
+<div>
+
+<onetofour-scorecard-service id="ss"></onetofour-scorecard-service>
+</template>
+<script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'cce-onetofour-score-card',
+      setDefaultHeaders:function(){
+        this.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+        this.academicyear=localStorage.getItem("curr_sess_academicyear");
+        this.grade=localStorage.getItem("curr_sess_grade");
+        this.section=localStorage.getItem("curr_sess_section");
+        this.subject=localStorage.getItem("curr_sess_subject");
+        document.querySelector('#pimg1').src="../../images/"+sessionStorage.getItem("curr_sess_loggedid")+sessionStorage.getItem("curr_sess_loggedschoolid")+".jpg";
+        // if(sessionStorage.getItem("curr_sess_loggedschoolid")=="SCH003")
+        //   document.querySelector('#pimg2').src="../../images/Principal"+sessionStorage.getItem("curr_sess_loggedschoolid")+".jpg";
+        // else
+        document.querySelector('#pimg2').src="../../images/principal"+sessionStorage.getItem("curr_sess_loggedschoolid")+".jpg";
+      },
+       print:function(){
+
+              document.querySelector('home-page').FnHideView(true);
+              this.$.email.hidden=true;
+              this.$.print.hidden=true;
+
+
+            if (!window.print){
+            alert("You need NS4.x to use this print button!")
+            return
+            }
+            window.print()
+
+
+              document.querySelector('home-page').FnHideView(false);
+              this.$.email.hidden=false;
+              this.$.print.hidden=false;
+      },
+      email:function(){
+        this.$.showpopup.toggle();
+      },
+      FnSendEmail:function(){
+        this.$.showpopup.toggle();
+        this.$.spinner.active=true;
+        localStorage.setItem("curr_sess_parentmail",this.parentemail);
+        localStorage.setItem("curr_sess_secmail",this.secemail);
+        this.$.ss.mailReportcardService(this.parentname);
+      },
+      FnSetArray:function(eng){
+        // alert(JSON.stringify(eng));
+        this.engArray=eng;
+      },
+      FnCloseSpinner:function(){
+        this.$.spinner.active=false;
+      },
+      FnCancel:function(){
+        this.$.showpopup.toggle();
+      },
+      FnRefresh:function(){
+        localStorage.setItem("curr_sess_parentmail","");
+        localStorage.setItem("curr_sess_secmail","");
+        this.parentemail="";
+        this.secemail="";
+        this.studentname="";
+        this.grade="";
+        this.section="";
+        this.enrno="";
+        this.parentname="";
+        this.adterm1="";
+        this.adterm2="";
+        this.adterm3="";
+        this.wdterm1="";
+        this.wdterm2="";
+        this.wdterm3="";
+        this.pterm1="";
+        this.pterm2="";
+        this.pterm3="";
+        this.t1height="";
+        this.t2height="";
+        this.t3height="";
+        this.t1weight="";
+        this.t2weight="";
+        this.t3weight="";
+        this.generalfeedback="";
+        this.specificfeedback="";
+        this.et1="";
+       this.et2="";
+       this.et3="";
+       this.mt1="";
+       this.mt2="";
+       this.mt3="";
+       this.evt1="";
+       this.evt2="";
+       this.evt3="";
+       this.ht1="";
+       this.ht2="";
+       this.ht3="";
+       this.ct1="";
+       this.ct2="";
+       this.ct3="";
+       this.gt1="";
+       this.gt2="";
+       this.gt3="";
+       this.at1="";
+       this.at2="";
+       this.at3="";
+       this.mdt1="";
+       this.mdt2="";
+       this.mdt3="";
+       this.gat1="";
+       this.gat2="";
+       this.gat3="";
+       this.pdt1="";
+       this.pdt2="";
+       this.pdt3="";
+       this.dant1="";
+       this.dant2="";
+       this.dant3="";
+        this.engArray=[];
+        this.mathArray=[];
+        this.eArrayrray=[];
+        this.hinArray=[];
+        this.comArray=[];
+        this.gkArray=[];
+        this.acArray=[];
+        this.mdArray=[];
+        this.danceArray=[];
+        this.gamesArray=[];
+        this.personalityArray=[];
+        
+      }
+    });
+  })();
+</script>
+</dom-module>

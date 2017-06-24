@@ -1,0 +1,244 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu-light/paper-dropdown-menu-light.html">
+<link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+<dom-module id="grade-creation-card">
+  <template>
+    <style>
+      :host
+      {
+         margin-left: 10%;
+        display: block;
+         @apply(--layout-center);
+        /*width: 40%;*/
+      }
+
+      .card
+      {
+         @apply(--layout-center);
+        width: 55%;
+        margin-left: 10%;
+      }
+
+      .title
+      {
+        @apply(--layout-center);
+        width: 255%;
+        margin-left: 38%; 
+      }
+
+      .creatediv paper-button
+      {
+      background-color: #363636;
+      color: #ffffff;
+      width: 7%;
+      margin-left: 42%;
+      margin-top: 3%;
+      }
+
+      .buttons paper-button
+      {
+        @apply(--layout-center);
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-top: 6%;
+      }
+
+      
+      .popup-btn
+      {
+        margin: 0 auto;
+      }
+
+     
+     
+      .creatediv
+      { 
+           position: fixed; 
+            width: 28%;
+            margin-left: 6%;
+            top: 21%;
+            min-height: 200px;
+      }
+      
+      
+       .vertical-row 
+      {
+        border: 1px solid grey;
+        position: fixed;
+        height: 100px;
+        margin-left: 36%;
+        min-height: 900px;
+        top: 13% !important;
+      } 
+      .titlesdiv
+      {
+        position: fixed;
+      }
+      h3
+      {
+        text-align: center;
+      }
+      .newgradediv
+      {   
+        
+        position: fixed;
+        margin-left: 41%;
+        margin-top: 6%;
+      }
+      .newcard
+       {
+        overflow-y: scroll;
+        overflow-x: hidden;
+       }
+      
+    </style>
+
+
+    
+    <div class="titlesdiv" style="margin-top: -2%;">
+      <div class="tit1" style="text-align: center;margin-left: 14em">  
+        <h3><b>GRADE</b></h3>
+      </div>     
+      <div id="tit2" style="width: 100%; margin-left: 47em;margin-top: 3%;">
+        <h4><b>Current Grades</b></h4>
+      </div>    
+      <div id="tit3" style="margin-left: 22%;margin-top: -4%;">
+        <h4><b>Create New Grade</b></h4>
+      </div>
+    </div>
+
+
+    <div class="newgradediv" hidden$="{{newgradediv}}">
+      <table cellspacing="0" cellpadding="1" border="0" width="780px">
+        <tr>
+          <td>
+            <table cellspacing="0" cellpadding="1" border="0" width="750px">
+              <tr>
+                <th><h4><label style="margin-left: -85%;">Grade Names</label></h4></th>
+                <th><paper-icon-button id="btn1" style="margin-left:-45em;" icon="icons:add" on-click="getgradename"></paper-icon-button>
+                <paper-tooltip for="btn1">Create</paper-tooltip>
+                </th>
+                <th></th>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <div  class="newcard col-sm-12" style="width:510px; height:390px;">
+              <table cellspacing="0" cellpadding="1" border="0" width="500px">
+                <template is="dom-repeat" items="{{gradearr}}" as="g">
+                  <tr>
+                    <td colspan="2">
+                      <grade-display-card gradeid="{{g.grade_id}}" gradename="{{g.grade_name}}" hidegradenameinput="true" hidegradenameitem="false"> </grade-display-card>
+                    </td>
+                  </tr>
+                </template>
+              </table>
+            </div>
+          </td>
+        </tr>    
+      </table>
+    </div>
+    
+
+    <div class="vertical-row"></div>
+
+    <div class="creatediv" hidden$="{{hidegradename}}">
+        <div class="card">       
+            <paper-input hidden value="{{gradeid}}" label="Grade ID"></paper-input>
+             <paper-input label="Grade Name" id="gradename" required error-message="needs Grade name!" value="{{gradename}}"></paper-input>
+        </div>
+
+        <div class="buttons">
+            <paper-button class="popup-btn" on-click="FnSubmit">Submit </paper-button>
+        </div>
+    </div>
+  </div> 
+
+        <demosumbit-card id="mydialog"></demosumbit-card>
+        <master-ui-service id="uiservice"></master-ui-service>
+     
+   </template>
+   <script>
+   (function() {
+    'use strict';
+      var gradname;
+
+     Polymer({
+      is: 'grade-creation-card',
+      
+
+      ready:function()
+      {
+        //alert("hii");        
+        /*this.gradename="Grade-";*/
+        this.$.uiservice.FnFetchGrade();
+        this.$.uiservice.FnFetchGradeSeq();
+        this.$.hidenewgradecreationcard=true;  
+        //this.FnRefresh();
+      },
+      FnRefresh:function()
+      {
+        this.gradename="";
+      },
+
+      getgradename:function()
+      {
+        this.hidegradename=false;
+      },
+      FnSubmit:function()
+      {
+        if(this.gradename==null || this.gradename=="")
+        {
+          this.$.gradename.validate();
+         // alert("please enter Grade name before save");
+        }
+        else if(this.gradename!=null)
+        {  
+        gradname= this.toTitleCase(this.gradename);
+        this.$.uiservice.FnSetGradeCreationInfo(this.gradeid,gradname);
+        this.$.mydialog.toggleDialog();
+        this.ready();
+        document.querySelector('grade-creation-card').FnRefresh();
+        }
+        
+      },
+
+      toTitleCase:function(str)
+     {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+     },
+
+      gradeeview:function()
+      {
+        this.newgradediv=false;
+      },
+      gradeehide:function()
+      {
+        this.newgradediv=true;
+      },
+      fundel1:function()
+      {
+        this.$.mydialog.toggleDialog1();
+      },
+      funup1:function()
+      {
+        this.$.mydialog.toggleDialog2();
+      }
+     
+    });
+  })();
+
+  </script>
+</dom-module>
+

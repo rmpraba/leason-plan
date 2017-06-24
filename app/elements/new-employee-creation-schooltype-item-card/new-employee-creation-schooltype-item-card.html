@@ -1,0 +1,99 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+ <dom-module id="new-employee-creation-schooltype-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    .card{
+        @apply(--layout-horizontal);
+        border-bottom: 1px solid #dedede;      
+      }     
+    </style>
+    <div>
+        <paper-input hidden value={{schoolempschooltypeid}}></paper-input>
+         <paper-input hidden value={{schoolempschooltypename}}></paper-input>
+               <paper-input hidden value={{schooltypeidszzzz}}></paper-input>
+   
+      <paper-checkbox class="col-md-4" on-change="fnschooltypename" id="{{id}}" id checked="{{check}}">{{schooltypenames}}</paper-checkbox>
+  </div>
+  <iron-ajax        
+        id="getempschooltypeajax"
+        url="{{getempschooltypeurl}}"
+        params="{{getempschooltypeparam}}"
+        handle-as="json"    
+        content-type="application/json"
+        method="post"   
+        on-response="getempschooltypeResponse"
+        debounce-duration="300">
+        </iron-ajax>
+ </template>
+  <script>        
+  (function() {
+    'use strict';
+    var getschooltypearr=[];
+   // var getscooltypdelarr=[];
+    Polymer({
+      is: 'new-employee-creation-schooltype-item-card',
+     fnschooltypename:function(e){
+      //alert(this.schoolempschooltypeid);
+      //alert("hhh");
+      //alert(this.schooltypeidszzzz);
+      //alert(document.querySelector('#'+this.schooltypeidszzzz).checked);
+       //alert(this.schoolempschooltypeid+this.schoolempschooltypename+this.schooltypeidszzzz);
+
+    //alert(document.querySelector('#'+this.schooltypeids).checked);
+     if(document.querySelector('#'+this.id).checked==true)
+     {
+         //alert(JSON.stringify(obj));
+          var obj={"emp_id":"","emp_name":"","emp_schol_type":""};
+                  obj.emp_id=this.schoolempschooltypeid;
+                  obj.emp_name=this.schoolempschooltypename;
+                  obj.emp_schol_type=this.schooltypeidszzzz;
+                  getschooltypearr.push(obj);    
+                  //alert(JSON.stringify(getschooltypearr));
+                  document.querySelector('new-employee-creation-card').passschooltype(getschooltypearr);
+           }
+       else if(document.querySelector('#'+this.id).checked==false){
+                   this.getempschooltypeurl=sessionStorage.getItem("addrinfo")+"/getempschooltype-service";
+                   var obj={"school_id":"","emp_id":"","emp_name":"","emp_schol_type":""};
+                   obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                   obj.emp_id=this.schoolempschooltypeid;
+                   obj.emp_name=this.schoolempschooltypename;
+                   obj.emp_schol_type=this.schooltypeidszzzz;
+                   //alert(JSON.stringify(obj));
+                  this.getempschooltypeparam=obj;
+                   this.$.getempschooltypeajax.generateRequest();
+                 }
+               },
+     getempschooltypeResponse:function(e){
+      var res=e.detail.response.returnval;
+     // alert(JSON.stringify(res));
+
+     },  //document.querySelector('new-employee-creation-role-item-card').typesplicerole();
+      
+
+   typesplice:function(e){
+       for(var i=0;i<getschooltypearr.length;i++){
+         var schooltypexxxxx=getschooltypearr[i].emp_schol_type;
+       //  alert(schooltypexxxxx);
+         //alert(document.querySelector('#'+schooltypexxxxx).checked);
+       document.querySelector('#'+schooltypexxxxx).checked=false; 
+    //   alert("hi2");
+     }        
+       var obj={"emp_id":"","emp_name":"","emp_schol_type":""};
+                  obj.emp_id=this.schoolempschooltypeid;
+                  obj.emp_name=this.schoolempschooltypename;
+                  obj.emp_schol_type=this.schooltypeidszzzz;
+           getschooltypearr.splice(obj);
+   },   
+
+    
+     });
+  })();
+  </script>
+</dom-module>

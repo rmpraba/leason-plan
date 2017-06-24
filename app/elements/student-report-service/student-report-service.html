@@ -1,0 +1,173 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="student-report-service">
+  <template>
+    <iron-ajax
+        method="post"
+        id="grade1ajax"
+        url="{{grade1url}}"
+        params="{{grade1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="grade1Response"
+        debounce-duration="300"
+    >
+    <iron-ajax
+        method="post"
+        id="schooltypeajax"
+        url="{{schooltypeurl}}"
+        params="{{schooltypeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="schooltypeResponse"
+        debounce-duration="300"
+    >
+
+    <iron-ajax
+        method="post"
+        id="selectclassajax"
+        url="{{selectclassurl}}"
+        params="{{selectclassparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="selectclassResponse"
+        debounce-duration="300"
+    >
+    
+    <iron-ajax
+        method="post"
+        id="getstudentinfoajax"
+        url="{{getstudentinfourl}}"
+        params="{{getstudentinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getstudentinfoResponse"
+        debounce-duration="300"
+    >
+    
+    <iron-ajax
+        method="post"
+        id="allsectionsajax"
+        url="{{allsectionsurl}}"
+        params="{{allsectionsparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="allsectionsResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'student-report-service',
+
+      gradeService:function()
+      {
+        //alert('calling');
+         this.grade1url=sessionStorage.getItem("addrinfo")+"/studentgrade-service";
+         var obj={"schoolid":"","academic_year":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academic_year=localStorage.getItem("curr_sess_academicyear");  
+         this.grade1param= obj;
+         //alert(JSON.stringify(obj));
+         this.$.grade1ajax.generateRequest();      
+      },
+      grade1Response:function(e)
+      {
+        var res=e.detail.response.returnval;
+        //alert(JSON.stringify(res)); 
+        document.querySelector('student-to-section-report').gradesarr=res;
+      },
+
+      Fnselectclass:function(gradeid)
+      {
+        this.selectclassurl=sessionStorage.getItem("addrinfo")+"/selectclass-service";
+        var obj={"schlid":"","academic_year":"","gradeid":""}
+        obj.schlid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.gradeid=gradeid;
+        this.selectclassparam=obj;
+       // alert(JSON.stringify(obj));
+        this.$.selectclassajax.generateRequest();
+
+      },
+      selectclassResponse:function(e)
+      {
+        var res=e.detail.response.returnval;
+        //alert(JSON.stringify(res)); 
+        var overall=[];
+        var temp=[];
+        for(var i=0;i<res.length;i++)
+        {
+          //alert(res[i].id);
+            temp.push(res[i]);
+        
+          if(i!=0&&i%3==0)
+          {
+            //alert(i); 
+            overall.push(temp);           
+            temp=[];
+          }
+         if(i==(res.length)-1)
+           {
+             overall.push(temp); 
+           } 
+          //alert(JSON.stringify(overall));
+        }
+         //alert(JSON.stringify(overall));
+        document.querySelector('student-to-section-report').sectoinarr=overall;
+      },
+      
+      allsections:function(gradeid)
+      {
+        //alert(222);
+        this.allsectionsurl=sessionStorage.getItem("addrinfo")+"/selectallsection-service";
+        var obj={"schlid1":"","gradeid":"","academic_year":""}
+        obj.schlid1=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.gradeid=gradeid;
+        this.allsectionsparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.allsectionsajax.generateRequest();
+
+      },
+
+      allsectionsResponse:function(e)
+      {
+        var res=e.detail.response.returnval; 
+        //alert(JSON.stringify(res)); 
+         var temparr=[];
+         for(var i=0;i<res.length;i++)
+         {
+        var obj={"id":"","student_name":"","grade_name":"","section":"","squence":"","admission_status":""}
+          obj.id=res[i].id;
+          obj.student_name=res[i].student_name;
+          obj.grade_name=res[i].grade_name;
+          obj.section=res[i].section;
+          obj.admission_status=res[i].admission_status;
+            var m=i+1;
+          obj.squence=m;    
+           temparr.push(obj);
+          //alert(JSON.stringify(obj));
+         }
+        //alert(JSON.stringify(temparr));
+     document.querySelector('student-to-section-report').studentsecctionarr=temparr;
+      }
+     
+    });
+  })();
+  </script>
+</dom-module>

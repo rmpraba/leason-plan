@@ -1,0 +1,65 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\student-list-itemcard/student-list-itemcard.html">
+
+<dom-module id="student-list-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        /*width: 60%;*/
+        border-collapse: collapse;
+        width:80%
+      }
+       #tb1{
+         width:15%
+        }
+        #tb2{
+         width:35%
+        }
+        #tb3{
+         width:10%
+        }
+        #itemcard:nth-child(odd) {
+        background-color: white;
+       
+      }
+      #itemcard:nth-child(even) {
+        background-color: #f1f1f1;
+      }
+      #itemcard{
+        width: 80%;
+      }
+</style>
+    <div>
+      <table >
+
+      <tr><th>Student Id</th><th colspan="2">Student Name</th><th>View</th></tr>
+
+      </table>
+
+      <template is="dom-repeat" items="{{studentarr}}">
+      <!-- <tr> -->
+        <!-- <td colspan="3">-->
+        <div id='itemcard'>
+        <student-list-itemcard studentid="{{item.id}}" studentname="{{item.student_name}}" sno="{{item.sno}}" edit="{{item.editable}}"></student-list-itemcard>
+        </div>
+        <!-- </td>  -->
+      <!-- </tr> -->
+      <!-- <tr><th>{{item.id}}</th><th>{{item.student_name}}</th><th><paper-button on-click="FnView">View</paper-button></th></tr> -->
+      </template>
+      <!-- </table> -->
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'student-list-card',
+    });
+  })();
+  </script>
+</dom-module>

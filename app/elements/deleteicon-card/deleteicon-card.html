@@ -1,0 +1,32 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+
+<dom-module id="deleteicon-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>
+      <paper-input hidden value="{{studentid}}"></paper-input>
+      <paper-icon-button id="ps" icon="icons:delete" on-click="FnDelete" ></paper-icon-button>
+      <paper-tooltip for="ps" offset="0">delete</paper-tooltip>
+    </div>
+    <term-assesment-service id="assesmentservice"></term-assesment-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'deleteicon-card',
+      FnDelete:function(){
+        this.$.assesmentservice.callDeletemarkService(this.studentid);
+      }
+    });
+  })();
+  </script>
+</dom-module>

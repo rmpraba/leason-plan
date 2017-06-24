@@ -1,0 +1,1144 @@
+l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-button/paper-button.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="..\..\bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paperday-listbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu-light/paper-dropdown-menu-light.html">
+<link rel="import" href="../beginner-assesment-service/beginner-assesment-service.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+<link rel="import" href="../scorecard-service/scorecard-service.html">
+<link rel="import" href="../student-report-service/student-report-service.html">
+<link rel="import" href="../employee-report-service/employee-report-service.html">
+
+
+<dom-module id="teacherhome-card">
+  <template>
+    <style>
+      :host   
+      {
+        display: block;   
+      } 
+      paper-button{
+        margin-left: 25%;
+        margin-top: 10%;
+      }
+      .container{
+        width: 100%;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+       .container1{
+         width: 100%;
+        @apply(--layout-horizontal);
+        margin-left:-3%
+        @apply(--layout-center-justified);
+      }
+      .card{
+        width: 33.3%;
+      }   
+      .container-full{
+        /*background-color: #fefefe;*/
+      }
+      .subjectteacher,.classteacher,.coordinator,.highlevelcommon{
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
+      }
+      .inner1,.inner2{
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+      }
+    </style>
+    <div class="container-full">
+    <div class="container">
+    <!-- <center> -->
+    <div class="subjectteacher" hidden$="{{subjectteacher}}">
+    <div class="inner1">
+      <div id="entry" class="card" hidden$="{{BA}}">    
+       <paper-button on-click="FnSelectPreEntryType" no ink><img src="../../images/pre-entry.png" height="180px" width="180px"></paper-button>
+      </div>
+      <div  class="card" hidden$="{{TA}}">
+       <paper-button on-click="FnSelectTermType" no ink><img src="../../images/term.png" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{GenerateReport}}">
+       <paper-button on-click="FnGenerateReportcard" no ink><img src="../../images/report-icon.gif" height="180px" width="180px"></paper-button>
+      </div>
+    </div>
+    </div>
+
+
+    <div class="classteacher" hidden$="{{classteacher}}">
+    <div class="inner1">
+      <div id="entry" class="card" hidden$="{{BA}}">    
+       <paper-button on-click="FnSelectPreEntryType" no ink><img src="../../images/pre-entry.png" height="180px" width="180px"></paper-button>
+      </div>
+      <div  class="card" hidden$="{{TA}}">
+       <paper-button on-click="FnSelectTermType" no ink><img src="../../images/term.png" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{GenerateReport}}">
+       <paper-button on-click="FnGenerateReportcard" no ink><img src="../../images/report-icon.gif" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{Report}}">
+       <paper-button on-click="FnGenerateScorecard" no ink><img src="../../images/scorelogo.jpg" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{editinfo}}">
+       <paper-button on-click="FnEditInfo" no ink><img src="../../images/edit.jpg" height="180px" width="180px"></paper-button>
+      </div>  
+    </div>
+    <div class="inner2">
+      <div class="card" hidden$="{{comparison}}">
+       <paper-button on-click="FnComparison" no ink><img src="../../images/portfolio.jpg" height="180px" width="180px"></paper-button>
+     </div>
+
+     <div class="card" hidden$="{{ConsolidatedReport}}">
+       <paper-button on-click="FnConsolidatedReport" no ink><img src="../../images/consolidation.jpg" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{dataanalysis}}">
+       <paper-button on-click="FnConsolidatedDataAnalysis" no ink><img src="../../images/dataanalysis.jpg" height="180px" width="180px"></paper-button>
+    </div> 
+     <div class="card" hidden$="{{subjecttostudentt}}">
+          <paper-button on-click="SubjectToStudent" no ink><img src="../../images/language.jpg" height="180px" width="180px">
+           <h4>Language Preferences</h4>
+          </paper-button>
+      </div>
+      <div class="card" hidden$="{{emptocategoryy}}">
+          <paper-button on-click="EmptoCategory" no ink><img src="../../images/emptocategory.jpg" height="180px" width="180px">
+              <h4>STUDENTS TRANSFER</h4>
+          </paper-button>
+      </div>
+    </div>
+    </div>
+
+    <div class="coordinator" hidden$="{{coordinator}}">
+    <div class="inner1">
+      <div class="card" hidden$="{{GenerateReport}}">
+       <paper-button on-click="FnGenerateReportcard" no ink><img src="../../images/report-icon.gif" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{Approve}}">
+       <paper-button on-click="FnApprovecard" no ink><img src="../../images/approve.jpg" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{Approvalstatus}}">
+       <paper-button on-click="FnApprovalStatus" no ink><img src="../../images/approvalstatus.jpg" height="180px" width="180px"></paper-button>
+      </div>       
+      <div class="card" hidden$="{{Analysis}}">
+       <paper-button on-click="FnAnalysiscard" no ink><img src="../../images/analysis.jpg" height="180px" width="180px"></paper-button>
+      </div>
+    </div>
+    <div class="inner2">
+      <div class="card" hidden$="{{feecollection}}">
+       <paper-button on-click="FnFeeCollection" no ink><img src="../../images/feecollection.jpg" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{dataanalysis}}">
+       <paper-button on-click="FnConsolidatedDataAnalysis" no ink><img src="../../images/dataanalysis.jpg" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{teach_obser}}">
+       <paper-button on-click="FnTeacherbserver" no ink><img src="../../images/teacherobservation.png" height="180px" width="180px"></paper-button>
+       </div>
+      <div class="card" hidden$="{{subjecttostudentt}}">
+          <paper-button on-click="SubjectToStudent" no ink><img src="../../images/language.jpg" height="180px" width="180px">
+           <h4>Language Preferences</h4>
+          </paper-button>
+      </div>
+    </div>
+    <div class="inner1">
+      <div class="card" hidden$="{{studentfixedd}}">
+            <paper-button on-click="StudentFixed" no ink><img src="../../images/studentfixed.jpg" height="180px" width="180px">
+               <h4>Capacity Allocation</h4>
+            </paper-button>
+       </div>  
+
+        <div class="card" hidden$="{{sectioncreationn}}">
+            <paper-button on-click="SectionCreation" no ink><img src="../../images/sectioncreation.jpg" height="180px" width="180px">
+               <h4>Section Creation</h4>
+            </paper-button>
+       </div>
+       <div class="card" hidden$="{{gradetosectionn}}">
+            <paper-button on-click="GradeToSection" no ink><img src="../../images/gradetosection.jpg" height="180px" width="180px">
+               <h4>Student to Section mapping</h4>
+            </paper-button>
+       </div> 
+       <div class="card" hidden$="{{emptocategoryy}}">
+          <paper-button on-click="EmptoCategory" no ink><img src="../../images/emptocategory.jpg" height="180px" width="180px">
+              <h4>STUDENTS TRANSFER</h4>
+          </paper-button>
+      </div>
+    </div>
+    <div class="inner1">
+      <div class="card" hidden$="{{roletogrademappingg}}">
+            <paper-button on-click="FnRoleToGradeMapping" no ink><img src="../../images/rolemap.png" height="180px" width="180px">
+               <h4>Role To Grade Mapping</h4>
+            </paper-button>
+      </div> 
+      <div class="card" hidden$="{{categorytoschooltypee}}">
+          <paper-button on-click="CategorytoSchooltype" no ink><img src="../../images/categorytoschooltype.jpg" height="180px" width="180px">
+              <h4>EMPLOYEE TO SUBJECT MAPPING</h4>
+          </paper-button>
+      </div>
+      <div class="card" hidden$="{{employeetogradee}}">
+            <paper-button on-click="EmployeeToGrade" no ink><img src="../../images/emptograde.jpg" height="180px" width="180px">
+               <h4>Employee To Grade Section Mapping</h4>
+            </paper-button>
+      </div>
+      <div class="card" hidden$="{{workingdatss}}">
+         <paper-button on-click="Workingdays" no ink><img src="../../images/workingdays.jpg" height="180px" width="180px">
+              <h4>Working Days</h4>
+        </paper-button>
+        </div>
+    </div>
+    </div>
+
+    <div class="highlevelcommon" hidden$="{{highlevelcommon}}">
+    <div class="inner1">
+    <div class="card" hidden$="{{ConsolidatedReport}}">
+       <paper-button on-click="FnConsolidatedReport" no ink><img src="../../images/consolidation.jpg" height="180px" width="180px"></paper-button>
+    </div>
+    <div class="card" hidden$="{{Report}}">
+       <paper-button on-click="FnGenerateScorecard" no ink><img src="../../images/scorelogo.jpg" height="180px" width="180px"></paper-button>
+      </div>  
+      <div class="card" hidden$="{{GenerateReport}}">
+       <paper-button on-click="FnGenerateReportcard" no ink><img src="../../images/report-icon.gif" height="180px" width="180px"></paper-button>
+      </div>
+      <div class="card" hidden$="{{Analysis}}">
+       <paper-button on-click="FnAnalysiscard" no ink><img src="../../images/analysis.jpg" height="180px" width="180px"></paper-button>
+      </div>
+        <div class="card" hidden$="{{comparison}}">
+       <paper-button on-click="FnComparison" no ink><img src="../../images/portfolio.jpg" height="180px" width="180px"></paper-button>
+     </div>
+
+    </div>
+    <div class="inner2">
+     <div class="card" hidden$="{{Approvalstatus}}">
+       <paper-button on-click="FnApprovalStatus" no ink><img src="../../images/approvalstatus.jpg" height="180px" width="180px"></paper-button>
+      </div>
+     <div class="card" hidden$="{{teach_obser}}">
+       <paper-button on-click="FnTeacherbserver" no ink><img src="../../images/teacherobservation.png" height="180px" width="180px"></paper-button>
+     </div> 
+     <div class="card" hidden$="{{feecollection}}">
+       <paper-button on-click="FnFeeCollection" no ink><img src="../../images/feecollection.jpg" height="180px" width="180px"></paper-button>
+      </div>
+    <div class="card" hidden$="{{dataanalysis}}">
+       <paper-button on-click="FnConsolidatedDataAnalysis" no ink><img src="../../images/dataanalysis.jpg" height="180px" width="180px"></paper-button>
+    </div> 
+  </div>
+  <div class="inner1">
+     <div class="card" hidden$="{{createemployeee}}">
+        <paper-button on-click="FnCreateEmployee" no ink><img src="../../images/employee.jpg" height="180px" width="180px">
+             <h4> Employee</h4>
+        </paper-button>
+      </div>
+      <div class="card" hidden$="{{categorytoschooltypee}}">
+          <paper-button on-click="CategorytoSchooltype" no ink><img src="../../images/categorytoschooltype.jpg" height="180px" width="180px">
+              <h4>EMPLOYEE TO SUBJECT MAPPING</h4>
+          </paper-button>
+      </div>
+      <div class="card" hidden$="{{employeetogradee}}">
+            <paper-button on-click="EmployeeToGrade" no ink><img src="../../images/emptograde.jpg" height="180px" width="180px">
+               <h4>Employee To Grade Section Mapping</h4>
+            </paper-button>
+      </div> 
+      <div class="card" hidden$="{{roletogrademappingg}}">
+            <paper-button on-click="FnRoleToGradeMapping" no ink><img src="../../images/rolemap.png" height="180px" width="180px">
+               <h4>Role To Grade Mapping</h4>
+            </paper-button>
+       </div>
+       <div class="card" hidden$="{{gradetosubjectt}}">
+          <paper-button on-click="GradeToSubject" no ink><img src="../../images/gadetosubject.jpg" height="180px" width="180px">
+            <h4>Grade To Subject Mapping</h4>
+          </paper-button>
+      </div>
+
+  </div>
+  <div class="inner1">
+      <div class="card" hidden$="{{studentfixedd}}">
+            <paper-button on-click="StudentFixed" no ink><img src="../../images/studentfixed.jpg" height="180px" width="180px">
+               <h4>Capacity Allocation</h4>
+            </paper-button>
+       </div> 
+       <div class="card" hidden$="{{sectioncreationn}}">
+            <paper-button on-click="SectionCreation" no ink><img src="../../images/sectioncreation.jpg" height="180px" width="180px">
+               <h4>Section Creation</h4>
+            </paper-button>
+       </div> 
+       <div class="card" hidden$="{{gradetosectionn}}">
+            <paper-button on-click="GradeToSection" no ink><img src="../../images/gradetosection.jpg" height="180px" width="180px">
+               <h4>Student to Section mapping</h4>
+            </paper-button>
+       </div>
+       <div class="card" hidden$="{{workingdatss}}">
+         <paper-button on-click="Workingdays" no ink><img src="../../images/workingdays.jpg" height="180px" width="180px">
+              <h4>Working Days</h4>
+        </paper-button>
+      </div>
+
+  </div>
+ </div>
+   
+  
+  <div class="managementreport" hidden$="{{managementreport}}">
+    <div class="inner1">
+    <div class="card" hidden$="{{GeneratemgmtReport}}" style="width: 60%;">
+       <paper-button on-click="FnGeneratemgmtReportcard" no ink><img src="../../images/report-icon.gif" height="180px" width="180px"></paper-button>
+    </div>
+
+    <div class="card" hidden$="{{ConsolidatedReport}}">
+       <paper-button on-click="FnConsolidatedReport" no ink><img src="../../images/consolidation.jpg" height="180px" width="180px"></paper-button>
+    </div>
+
+    <div class="card" hidden$="{{dataanalysis}}">
+       <paper-button on-click="FnConsolidatedDataAnalysis" no ink><img src="../../images/dataanalysis.jpg" height="180px" width="180px"></paper-button>
+    </div> 
+
+    <div class="card" hidden$="{{Analysis}}">
+       <paper-button on-click="FnAnalysiscard" no ink><img src="../../images/analysis.jpg" height="180px" width="180px"></paper-button>
+      </div>
+    </div>
+    </div>
+
+   </div>
+
+     <div class="container1">
+  
+      <div  class="card" hidden$="{{createschoolz}}">
+        <paper-button on-click="FnCreateschool" no ink><img src="../../images/school.jpg" height="180px" width="180px">
+          <h4>School Creation</h4>
+        </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{createschooltype}}">
+        <paper-button on-click="FnCreateSchooltype" no ink><img src="../../images/schooltype.jpg" height="180px" width="180px">
+          <h4>School Type</h4>
+        </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{createcategory}}">
+        <paper-button on-click="FnCreateCategory" no ink><img src="../../images/category.jpg" height="180px" width="180px">
+          <h4>Category</h4>
+        </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{creategrade}}">
+        <paper-button on-click="FnCreategrade" no ink><img src="../../images/grade.jpg" height="180px" width="180px">
+          <h4>Grade</h4>
+        </paper-button>
+      </div>
+    </div>
+
+
+    <div class="container1">
+
+      <div class="card" hidden$="{{createrole}}">
+        <paper-button on-click="FnCreateRole" no ink><img src="../../images/role.png" height="180px" width="180px">
+          <h4>Role</h4>
+        </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{createsubject}}">
+        <paper-button on-click="FnCreatesubject" no ink><img src="../../images/subject.jpg" height="180px" width="180px">
+          <h4>Subjects</h4>
+        </paper-button>
+      </div> 
+
+      <div class="card" hidden$="{{SchooltypettoGrade}}">
+        <paper-button on-click="SchoolTypeToGrade" no ink><img src="../../images/schooltoschoolType.jpg" height="180px" width="180px">  <h4>School to School Type</h4>
+        </paper-button>
+      </div>
+
+       <div class="card" hidden$="{{schooltyptograde}}">
+            <paper-button on-click="SchooltypToGrade" no ink><img src="../../images/schooltyptograde.jpg" height="180px" width="180px">
+               <h4>School type to Grade</h4>
+            </paper-button>
+       </div>
+
+       <div class="card" hidden$="{{SectionPreiods}}">
+        <paper-button on-click="SectionPreiodss" no ink><img src="../../images/sectionperiod.png" height="180px" width="180px">  <h4>Section Periods</h4>
+        </paper-button>
+      </div>
+    </div>
+
+     <div class="container1">       
+      <div class="card" hidden$="{{createemployee}}">
+        <paper-button on-click="FnCreateEmployee" no ink><img src="../../images/employee.jpg" height="180px" width="180px">
+             <h4> Employee</h4>
+        </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{categorytoschooltype}}">
+          <paper-button on-click="CategorytoSchooltype" no ink><img src="../../images/categorytoschooltype.jpg" height="180px" width="180px">
+              <h4>EMPLOYEE TO SUBJECT MAPPING</h4>
+          </paper-button>
+      </div>
+
+      <div class="card" hidden$="{{studentfixed}}">
+            <paper-button on-click="StudentFixed" no ink><img src="../../images/studentfixed.jpg" height="180px" width="180px">
+               <h4>Capacity Allocation</h4>
+            </paper-button>
+       </div>  
+
+        <div class="card" hidden$="{{sectioncreation}}">
+            <paper-button on-click="SectionCreation" no ink><img src="../../images/sectioncreation.jpg" height="180px" width="180px">
+               <h4>Section Creation</h4>
+            </paper-button>
+       </div>   
+
+       <div class="card" hidden$="{{employeetograde}}">
+            <paper-button on-click="EmployeeToGrade" no ink><img src="../../images/emptograde.jpg" height="180px" width="180px">
+               <h4>Employee To Grade Section Mapping</h4>
+            </paper-button>
+      </div> 
+    </div>
+
+    <div class="container1">
+       
+       <div class="card" hidden$="{{gradetosubject}}">
+          <paper-button on-click="GradeToSubject" no ink><img src="../../images/gadetosubject.jpg" height="180px" width="180px">
+            <h4>Grade To Subject Mapping</h4>
+          </paper-button>
+      </div>
+
+
+      <div class="card" hidden$="{{subjecttostudent}}">
+          <paper-button on-click="SubjectToStudent" no ink><img src="../../images/language.jpg" height="180px" width="180px">
+           <h4>Language Preferences</h4>
+          </paper-button>
+      </div>
+      
+
+       <div class="card" hidden$="{{emptocategory}}">
+          <paper-button on-click="EmptoCategory" no ink><img src="../../images/emptocategory.jpg" height="180px" width="180px">
+              <h4>STUDENTS TRANSFER</h4>
+          </paper-button>
+      </div>
+
+      
+      
+      <div class="card" hidden$="{{gradetosection}}">
+            <paper-button on-click="GradeToSection" no ink><img src="../../images/gradetosection.jpg" height="180px" width="180px">
+               <h4>Student to Section mapping</h4>
+            </paper-button>
+       </div> 
+
+        <div class="card" hidden$="{{workingdats}}">
+         <paper-button on-click="Workingdays" no ink><img src="../../images/workingdays.jpg" height="180px" width="180px">
+              <h4>Working Days</h4>
+        </paper-button>
+      </div>   
+    </div>
+
+    
+    <div class="container1">     
+        <div class="card" hidden$="{{roletogrademapping}}">
+            <paper-button on-click="FnRoleToGradeMapping" no ink><img src="../../images/rolemap.png" height="180px" width="180px">
+               <h4>Role To Grade Mapping</h4>
+            </paper-button>
+       </div> 
+       <div class="card" hidden$="{{empreportdetails}}">
+            <paper-button on-click="FnEmpreportdetails" no ink><img src="../../images/empexcelimg.jpg" height="180px" width="180px">
+               <h4>Employee Report</h4>
+            </paper-button>
+       </div> 
+      
+    
+      <div class="card" hidden$="{{studentsectionreport}}">
+            <paper-button on-click="Fnstudentreport" no ink><img src="../../images/studentreport.jpg" height="180px" width="180px">
+               <h4>Student To Section Report</h4>
+            </paper-button>
+       </div>
+
+        <!-- <div class="container1"> -->
+        <div class="card" hidden$="{{captureReport}}">
+          <paper-button on-click="CaptureReportads" no ink><img src="../../images/active1.jpg" height="180px" width="180px">
+            <h4>Books</h4>
+          </paper-button>
+        </div>
+
+       
+         <div class="card" hidden$="{{bookaprval}}">
+          <paper-button on-click="fnbookapruval" no ink><img src="../../images/appruval.jpg" height="180px" width="180px">
+            <h4>Book Apruval Date</h4>
+          </paper-button>
+        </div>
+        <div class="card" hidden$="{{bookclassplan}}">
+          <paper-button on-click="fnbookclassplan" no ink><img src="../../images/classplan.gif" height="180px" width="180px">
+            <h4>class teacher book chapter</h4>
+          </paper-button>
+        </div>
+<!-- </div> -->
+     
+ 
+
+    <div class="cdialog">      
+      <paper-dialog id="cdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal>
+         <paper-dropdown-menu id="academicyear" label="Select Academic Year" disabled="{{read}}" required>
+            <paper-menu id="academicyr" class="dropdown-content"  on-iron-select="FnSelectacademicyear"  attr-for-selected="value" required>  
+              <template is="dom-repeat" items="{{academicarr}}">
+                <paper-item value="{{item.year}}">{{item.year}}</paper-item>                               
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+      </paper-dialog>
+    </div>
+    <div class="dialog">      
+      <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+          <paper-dropdown-menu id="term" label="Select Term" disabled="{{read}}" required>
+            <paper-menu id="termtype" class="dropdown-content" on-iron-select="FnSelectTerm" attr-for-selected="value" selected="{{selectterm}}">
+              <template is="dom-repeat" items="{{termarr}}">
+                <paper-item value="{{item.term_name}}">{{item.term_name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+      </paper-dialog>
+    </div>
+    
+    <div class="dialog">      
+      <paper-dialog id="schooldialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+          <paper-dropdown-menu id="term" label="Select School" disabled="{{read}}" required>
+            <paper-menu id="schoolname" class="dropdown-content" on-iron-select="FnSelectSchool" attr-for-selected="value" selected="{{selectschool}}">
+              <template is="dom-repeat" items="{{schoolarr}}">
+                <paper-item value="{{item.id}}">{{item.name}}</paper-item>
+              </template>
+            </paper-menu>
+          </paper-dropdown-menu>
+      </paper-dialog>
+    </div>
+   
+
+    </div>
+    <term-assesment-service id="assesmentservice"></term-assesment-service>
+    <beginner-assesment-service id="bassesmentservice"></beginner-assesment-service>
+    <scorecard-service id="scorecardservice"></scorecard-service>
+    <teacher-observation_service id="observerservice"></teacher-observation_service>
+    <master-ui-service id="uiservice"></master-ui-service> 
+    <mapping-service id="mappingservice"></mapping-service>
+    <employee-report-service id="empservice"></employee-report-service>
+    <student-report-service id="reportservice"></student-report-service>
+    <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var academicyear;
+    Polymer({
+      is: 'teacherhome-card',
+      ready:function(){
+        this.subjectteacher=true;
+        this.classteacher=true;
+        this.coordinator=true;
+        this.highlevelcommon=true;
+        this.createschooltype=true;
+        this.createsubject=true;
+        this.createrole=true;
+        this.managementreport=true;
+        this.SectionPreiods=true;
+        this.GeneratemgmtReport=true;
+         this.studentfixed=true;
+        this.schooltyptograde=true;
+        this.createschoolz=true; 
+        this.createcategory=true;
+        this.createemployee=true;
+        this.creategrade=true;
+        this.workingdats=true;
+        this.SchooltypettoGrade=true;
+        this.employeetograde=true;
+        this.emptocategory=true;
+        this.categorytoschooltype=true;
+        this.gradetosubject=true;
+        this.subjecttostudent=true;
+        this.sectioncreation=true;
+        this.gradetosection=true;
+        this.roletogrademapping=true;
+        this.empreportdetails=true;
+        this.studentsectionreport=true;
+        this.captureReport=true;
+        this.bookaprval=true;
+        this.bookclassplan=true;
+       }, 
+
+      FnSelectacademicyear:function(e)
+      {  
+        academicyear = e.target.selectedItem.value.trim();
+        // alert(localStorage.getItem('curr_sess_loggedassesmenttype'));
+        localStorage.setItem("curr_sess_academicyear",academicyear); 
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="CategorytoSchooltype")
+          {
+           document.querySelector('app-card').setPage('homepage','');
+           document.querySelector('home-page').setPage('employe-schooltype-to-category-card','');
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="EmployeeToGrade"){
+              document.querySelector('app-card').setPage('homepage','');
+              document.querySelector('home-page').setPage('employe-category-creation-card',''); 
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="GradeToSubject"){
+            document.querySelector('app-card').setPage('homepage','');
+             document.querySelector('home-page').setPage('school-grade-to-subject-card',''); 
+             document.querySelector('school-grade-to-subject-card').fnngrades(); 
+           }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="StudentTranfer"){
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('student-transfer-grade','');
+           }  
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=='SectionCreation'){
+               document.querySelector('app-card').setPage('homepage','');
+               document.querySelector('home-page').setPage('school-section-creation-card','');
+               document.querySelector('school-section-creation-card').fnnsection();  
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="StudentToSection"){
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('Student-to-section-mapping-card','');
+          document.querySelector('Student-to-section-mapping-card').funnstudent(); 
+
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="employeecreation")
+          {
+              document.querySelector('app-card').setPage('homepage','');
+              document.querySelector('home-page').setPage('new-employee-creation-card','');
+              document.querySelector('new-employee-creation-card').fnnewemp();
+              this.$.uiservice.fnschoolemployeepersonal();
+              //alert('2');
+   
+        }
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Term")
+        {   
+            this.$.assesmentservice.callTermService("Term");
+          }
+          if(localStorage.getItem('curr_sess_loggedassesmenttype')=="feecollectionupdate") 
+         {
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('studentlistcard','');
+         } 
+        if(localStorage.getItem('curr_sess_loggedassesmenttype').trim()=="Scorecard") 
+         {
+          // alert('in');
+          document.querySelector('home-page').setPage('scorecard','');
+          document.querySelector('app-card').setPage('homepage','');
+         }  
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="PreEntry") 
+         {
+          this.$.bassesmentservice.callAssesmentService("Beginner Level"); 
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('beginnerassesment','');
+         }
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Analysis") 
+         {
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('beginnertermanalysis','');
+         } 
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Consolidatedreport") 
+         {
+          // alert('consolidated');
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('consolidatedreport','');
+         } 
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport") 
+         {          
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('scorecard','');
+         }
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Approvalstatus") 
+         {     
+          this.$.assesmentservice.callTermService("Term");
+         }
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Editinfo") 
+         {          
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('scorecard','');
+         }
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Consolidateddataanalysis") 
+         {          
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('consolidateddataanalysis','');
+         }
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="roletogrademapping") 
+         {          
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('school-grade-to-role-mapping','');
+          this.$.mappingservice.fetchschooltypesforgradetorolemapService();
+          this.$.mappingservice.fetchrolesforgradetorolemapService();
+         }  
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="empreportdetails") 
+         {          
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('employee-report-card','');
+          this.$.empservice.FnSelectemp();
+          this.$.empservice.Selectempschooltype();
+          
+         }  
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="studentsectionreport")
+         {
+           document.querySelector('app-card').setPage('homepage','');
+            document.querySelector('home-page').setPage('student-to-section-report',''); 
+            this.$.reportservice.gradeService();
+         } 
+
+         if(localStorage.getItem('curr_sess_loggedassesmenttype')=="captureReport") 
+         {
+        //   alert('1'); 
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('teacher-book-refernce-card','');
+          this.$.bookservice.capterseq();
+         // this.$.bookservice.conceptseq();
+        //  this.$.bookservice.getcaptervalue();
+         } 
+     if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookapruval")
+         {
+            document.querySelector('teacher-book-approve-card').fnsetval();
+
+            document.querySelector('teacher-book-approve-card').fnRefresh();
+
+       document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('teacher-book-approve-card','');
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
+         this.$.bookservice.bookgrade();
+         document.querySelector('teacher-book-approveal-concept-item-card').FnRefresh();
+        }
+      else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+            this.$.bookservice.getappovedcoordinator();
+            this.$.bookservice.masterzskill();
+            
+    
+     }
+     else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+           this.$.bookservice.masterzskill();
+           this.$.bookservice.bookgrade();
+     
+        } 
+     }
+     if(localStorage.getItem('curr_sess_loggedassesmenttype')=="classplan"){
+
+      document.querySelector('app-card').setPage('homepage','');
+document.querySelector('home-page').setPage('class-teacher-book-approve-card','');
+            this.$.bookservice.fnbookplangrade();
+            this.$.bookservice.fnbookplansubject();
+
+   
+     }
+     
+
+    this.$.cdialog.close();
+      },
+      FnSelectPreEntryType:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','PreEntry');
+        this.$.bassesmentservice.callAcademicService(); 
+        this.$.cdialog.toggle();
+      },
+      FnGenerateScorecard:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Scorecard');
+        // this.$.scorecardservice.callFetchstudentnameService();
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();    
+      },
+      FnSelectTermType:function(){
+        localStorage.setItem('curr_sess_report','0');
+        localStorage.setItem('curr_sess_loggedassesmenttype','Term');
+        this.$.assesmentservice.callAcademicService();
+      },
+      FnGenerateReportcard:function()
+       {
+        localStorage.setItem('curr_sess_report','1');
+        localStorage.setItem('curr_sess_loggedassesmenttype','Term');
+        this.$.assesmentservice.callAcademicService();
+        // localStorage.setItem('curr_sess_report','1');
+        // localStorage.setItem('curr_sess_loggedassesmenttype','Term');
+        // this.$.assesmentservice.callAcademicService();
+      },
+      FnGeneratemgmtReportcard:function()
+      {
+        this.$.scorecardservice.callSchoolService();
+        this.$.schooldialog.toggle();        
+        // localStorage.setItem('curr_sess_report','1');
+        // localStorage.setItem('curr_sess_loggedassesmenttype','Term');
+        // this.$.assesmentservice.callAcademicService();
+      },
+      FnSelectSchool:function(e){
+        var schoolid = e.target.selectedItem.value.trim();
+        sessionStorage.setItem("curr_sess_loggedschoolid",schoolid);
+        this.$.schooldialog.toggle();
+        this.FnGenerateReportcard();
+      },
+      FnToggle:function(){
+        this.$.dialog.toggle();
+      },
+      FnSelectTerm:function(e)
+      {
+        var termname = e.target.selectedItem.textContent.trim();  
+        localStorage.setItem('curr_sess_termname',termname);  
+        this.$.assesmentservice.callAssesmentService("Term",termname,"");               
+        this.$.assesmentservice.callGradeService();   
+        
+        if(localStorage.getItem('curr_sess_report')=="1")
+        {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('termscholasticcategory','');
+        document.querySelector('term-scholastic-category').FnHideView();
+        // document.querySelector('home-page').setPage('termassesment','');        
+        }
+        else if(localStorage.getItem('curr_sess_report')=="3"){
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('approvalstatus');
+        this.$.assesmentservice.FnFetchApprovalStatus();
+        }
+        else
+        {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('termscholasticcategory','');
+        document.querySelector('term-scholastic-category').FnHideView();
+        }
+      },
+      FnYearToggle:function(){
+        this.$.cdialog.toggle();
+      },
+      FnApprovecard:function()
+      {        
+        localStorage.setItem('curr_sess_report','2');
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('approveassesment','');  
+        this.$.assesmentservice.callApproveService();   
+      },
+      FnHideView:function(){ 
+
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='management'){
+          this.managementreport=false;
+          this.GeneratemgmtReport=false;
+          }
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='schooladmin')
+          {
+           this.createemployee=false;
+           this.employeetograde=false;
+           this.categorytoschooltype=false;
+           this.gradetosubject=false;
+           this.sectioncreation=false;
+           this.studentfixed=false;
+           this.workingdats=false;
+           this.emptocategory=false;
+           this.gradetosection=false;
+           this.subjecttostudent=false;
+           this.roletogrademapping=false;
+           this.empreportdetails=false;
+           this.studentsectionreport=false;
+           this.captureReport=false;
+           this.capturedate=false;
+           //this.bookaprval=false;
+  
+           }
+       if(sessionStorage.getItem("curr_sess_loggedroleid")=='superadmin')
+          {
+          this.schooltyptograde=false;
+          this.createcategory=false;  
+          this.createschoolz=false; 
+          this.SchooltypettoGrade=false;
+          this.createschooltype=false;
+          this.createsubject=false;
+          this.createrole=false;
+          this.creategrade=false;
+          }
+     
+
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
+          this.subjectteacher=false;
+             this.bookaprval=false;
+     
+           }  
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='class-teacher'){  
+          this.classteacher=false;
+      
+        }
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+          // this.BA=false;
+          // this.TA=false;
+          }
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+              
+            this.highlevelcommon=false;
+               this.bookaprval=false;
+     
+          }
+          if(sessionStorage.getItem("curr_sess_loggedroleid")=="co-ordinator")
+          {
+            this.coordinator=false;
+            this.bookaprval=false;
+            this.bookclassplan=false;
+    
+  
+          }
+        
+      },
+      FnRefresh:function()
+      {
+         document.querySelector('#academicyr').selected=-1;
+         document.querySelector('#termtype').selected=-1;
+
+      },
+      FnAnalysiscard:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Analysis');   
+        document.querySelector('consolidated-report-card').FnHideSchool();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='management')
+        this.$.scorecardservice.callSchoolService();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='management')
+        this.$.scorecardservice.callGradeService();
+        // this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();
+      },
+      FnConsolidatedReport:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Consolidatedreport');
+        document.querySelector('consolidated-report-card').FnHideSchool();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='management')
+        this.$.scorecardservice.callSchoolService();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='management')
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();
+      },
+      FnConsolidatedDataAnalysis:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Consolidateddataanalysis');
+        document.querySelector('consolidated-data-analysis').FnHideSchool();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='management')
+        this.$.scorecardservice.callSchoolService();
+        if(sessionStorage.getItem("curr_sess_loggedroleid")!='management')
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();
+      },
+      FnTeacherbserver:function()
+      {
+        localStorage.setItem('curr_sess_loggedassesmenttype','teach_obser'); 
+        this.$.cdialog.toggle();
+         document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('teacherobservation','Teacher Observation Card'); 
+         this.$.observerservice.fetchobserverdescription();
+        this.$.observerservice.fetchteachersid();
+         document.querySelector('teacher-observation_card').Fnobservername();
+       //this.$.service.uname=sessionStorage.getItem("curr_sess_loggeduname");     
+      },
+      FnComparison:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Comparisonreport');
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();
+      },
+        SchoolTypeToGrade:function(e){
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('master-school_type-creation','');
+       //document.querySelector('schooltype-card').ready();
+        this.$.uiservice.getschoolTypename();
+        this.$.uiservice.SchooltypetoGrademapping();   
+      },    
+      FnApprovalStatus:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Approvalstatus');
+        localStorage.setItem('curr_sess_report','3');
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle(); 
+      },
+      FnEditInfo:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','Editinfo');
+        // this.$.scorecardservice.callFetchstudentnameService();
+        this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle(); 
+      },
+
+    FnCreateCategory:function(e)
+       {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('category-card','');
+        document.querySelector('category-card').ready();
+        document.querySelector('category-card').FnRefresh();
+        },  
+       StudentFixed:function(e){
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('student-allow-card','');
+        this.$.uiservice.fnsetfixdsection();
+        document.querySelector('student-allow-card').fnstudentrefresh();
+       },  
+      FnCreateRole:function(e)
+      {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('rolecard','');
+        document.querySelector('role-card').ready();
+      },
+
+       FnCreategrade:function(e)
+      {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('grade-creation-card','');  
+        document.querySelector('grade-creation-card').ready();  
+      },
+         SectionCreation:function(e)
+        {  
+          localStorage.setItem('curr_sess_loggedassesmenttype','SectionCreation');
+           this.$.uiservice.Generatesectionid();
+           this.$.uiservice.selectsectiongrade();
+           this.$.cdialog.toggle(); 
+        },
+       SectionPreiodss:function(e)
+        {  
+          document.querySelector('app-card').setPage('homepage','');
+          document.querySelector('home-page').setPage('section-period-itme-card',''); 
+          this.$.uiservice.fnsetfixdsection1(); 
+         this.$.uiservice.SchoolCategorytype1();
+  
+       },
+      GradeToSection:function(e)
+      { 
+          localStorage.setItem('curr_sess_loggedassesmenttype','StudentToSection');
+          this.$.uiservice.studentsectiontype();
+              this.$.cdialog.toggle(); 
+      },  
+   
+      FnCreatesubject:function(e)   
+      {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('subjectcard','');
+      
+      },
+        GradeToSubject:function(e)
+      {
+       localStorage.setItem('curr_sess_loggedassesmenttype','GradeToSubject');
+        this.$.uiservice.schoolGradetype();
+        this.$.uiservice.SchoolCategorytype();
+        document.querySelector('school-grade-to-subject-card').hidenewsubcat=true;
+         this.$.cdialog.toggle(); 
+          
+
+      },
+      CategorytoSchooltype:function(e)
+      {
+       localStorage.setItem('curr_sess_loggedassesmenttype','CategorytoSchooltype');
+        this.$.uiservice.empsubjectTeacher();
+        this.$.uiservice.empcategorye();
+        this.$.uiservice.empschooltype();
+       document.querySelector('employe-schooltype-to-category-card').FnRefresh(); 
+       //document.querySelector('employe-schooltype-to-category-card').fnsclsubject();
+       document.querySelector('employe-schooltype-to-category-card').fnempsubject();
+          this.$.cdialog.toggle();
+    
+      }, 
+      SubjectToStudent:function(e)
+      {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('student-to-subject-mapping-card','');
+        document.querySelector('student-to-subject-mapping-card').fnlang();
+        
+        //this.$.uiservice.fnreclear();
+        this.$.uiservice.SelectSchoolName();
+        //this.$.uiservice.TeachertoGradeSectionNames();
+        this.$.uiservice.SelectSchoolgrades();
+      },
+        FnCreateEmployee:function(e)
+        {
+        localStorage.setItem('curr_sess_loggedassesmenttype','employeecreation');  
+        this.$.uiservice.fnempgenerateid();
+        this.$.uiservice.selectschooltype();
+        this.$.uiservice.selectrolename();
+        //document.querySelector('new-employee-creation-card').hidecreateemp=false;
+        //document.querySelector('new-employee-creation-card').hideupdateemp=true;
+        this.$.cdialog.toggle();   
+      },
+       Workingdays:function(e)
+      {
+           document.querySelector('app-card').setPage('homepage','');
+           document.querySelector('home-page').setPage('working-days-card','');
+         //  this.$.uiservice.fnsetgrademapping();
+           this.$.uiservice.fnsetfixdsection();
+      },
+      EmptoCategory:function(e){
+        localStorage.setItem('curr_sess_loggedassesmenttype','StudentTranfer');
+              this.$.uiservice.tranfergradeinfo();
+          document.querySelector('student-transfer-grade').fnrefresh();
+             this.$.cdialog.toggle();
+
+   
+    },
+    EmployeeToGrade:function(e)
+      {
+        localStorage.setItem('curr_sess_loggedassesmenttype','EmployeeToGrade');
+        this.$.uiservice.schoolemployeegrademapping();   
+      //document.querySelector('employe-category-creation-card').fncleanbutton(); 
+        document.querySelector('employe-category-creation-card').fnnempgrade();
+        document.querySelector('employe-category-creation-card').fnemp();
+              this.$.cdialog.toggle();
+     
+      },
+     FnCreateschool:function(e)
+      {    
+      document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('school-creation-card','');
+        document.querySelector('school-creation-card').fnnrefresh();
+        document.querySelector('school-creation-card').newrefresh();
+         this.$.uiservice.FnSchoolidseq();
+     
+        
+     },
+     FnCreatesubject:function(e)
+      {
+        document.querySelector('app-card').setPage('homepage','');
+
+        document.querySelector('home-page').setPage('subjectcard','');  
+        document.querySelector('subject-card').ready();  
+      },
+      FnCreateSchooltype:function(e)
+      {
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('schooltypecard','');
+      //  document.querySelector('schooltype-card').ready();
+      
+   
+      },
+       SchooltypToGrade:function(e)
+       {
+              document.querySelector('app-card').setPage('homepage','');
+              document.querySelector('home-page').setPage('schooltype-to-grade-card','');
+             this.$.uiservice.selectschoolnames();
+             document.querySelector('schooltype-to-grade-card').fnschoolgrade();
+      
+       },
+
+      FnFeeCollection:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','feecollectionupdate');
+        // this.$.scorecardservice.callFetchstudentnameService();
+          this.$.scorecardservice.callGradeService();
+          this.$.uiservice.fnschoolcreation();   
+          this.$.uiservice.fnschoolidgenerate();
+          this.$.uiservice.SelectSchoolName();
+          this.$.uiservice.fnsetgrademapping();
+            //this.$.uiservice.fnschoolcreation();
+      },
+      FnRoleToGradeMapping:function(){
+        localStorage.setItem('curr_sess_loggedassesmenttype','roletogrademapping');
+        // this.$.scorecardservice.callGradeService();
+        this.$.cdialog.toggle();
+      },
+      FnEmpreportdetails:function(e){
+         localStorage.setItem('curr_sess_loggedassesmenttype','empreportdetails');
+          document.querySelector('employee-report-card').fnhidden();
+         this.$.cdialog.toggle();
+
+      },
+      Fnstudentreport:function()
+      {
+          //alert("test");
+           localStorage.setItem('curr_sess_loggedassesmenttype','studentsectionreport');
+           document.querySelector('student-to-section-report').Fnrefresh();
+           document.querySelector('student-to-section-report').ready();
+           this.$.cdialog.toggle();
+      },
+       CaptureReportads:function(e){
+       // alert('1');
+           localStorage.setItem('curr_sess_loggedassesmenttype','captureReport');
+           document.querySelector('teacher-book-refernce-card').fnrefresh();
+            this.$.bookservice.teacherbookref1();
+            this.$.cdialog.toggle();   
+          },
+     
+         fnbookapruval:function(e){
+         localStorage.setItem('curr_sess_loggedassesmenttype','bookapruval');
+         this.$.cdialog.toggle();  
+         },
+      fnbookclassplan:function(e){
+          localStorage.setItem('curr_sess_loggedassesmenttype','classplan');
+         this.$.cdialog.toggle();  
+     
+         },
+
+    });
+  })();
+  </script>
+</dom-module>

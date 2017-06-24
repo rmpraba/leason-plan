@@ -1,0 +1,311 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="teacher-book-approve-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+        .collapse-content {
+    padding: 15px;
+    border: 1px solid #dedede;
+  }
+    section{
+    top: 200px;
+    right: 65%;
+    width: 327px;
+    height: 300px;
+   }
+   section p{    
+   
+   }
+   .cadcdd{
+ 
+   }
+   .hs-inner1
+   {
+    padding: 30px 20px 10px 377px;
+    @apply(--layout-horizontal);
+    
+   }
+.hs-inner1 p{
+  font-size: 18px;
+  line-height: 24px;
+  text-align: justify;
+  position: relative;
+  padding: 15px 0px;
+  text-shadow: 1px 0px 1px rgba(255, 255, 255, 0.8);
+}
+/*h2{
+ padding: 30px 20px 10px 350px;
+   
+}*/
+.hs-inner1 p:first-letter{
+  font-size: 28px;
+}
+    .cadcdd1{
+    top: 200px;
+    right: 90% !important;
+    width: 327px;
+    height: 300px;
+    margin-left:40%;
+    margin-top:-16%;
+       /*position: fixed;
+      */overflow: auto;
+   }
+   .position{
+    margin-left: 8%;
+  
+   }
+   .hs-inner1
+   {
+    /*top: 200px;*/
+    width: 324px;
+    height: 278px;
+    margin-top: 4%;
+    overflow-y: visible;
+    overflow-x: hidden;
+   }
+   .report1
+   {
+          table-layout: fixed;
+          border-collapse: collapse;
+          width: 91%;
+          margin-left: 5%;
+          margin-top: 5%;
+   }
+  /* paper-card
+   {
+        left: 23%;
+        margin-top: 6%; 
+   }*/
+
+   #newcardd111
+    {
+        width:55%;
+        height:466px; 
+        margin-top: 4%;
+        margin-left: 20%;
+        border: solid 1px #555; 
+        background-color: white; 
+        box-shadow: inset 10px -10px 25px #77539e(0,0,0,0.6); -moz-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -webkit-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -o-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6)
+    }
+
+    img
+    {
+         margin-top: -18%;
+    height: 163px;
+    width: 721px;
+    }
+  
+   
+    </style>
+    <center><h2 style="color:#00ccff">{{empnamez}}</h2></center>
+     <paper-input hidden value="{{empnamez}}"></paper-input>
+       
+       
+       <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <paper-dropdown-menu  label="Select The Grade">
+                <paper-menu id="teacherrefffff" class="dropdown-content"   on-iron-select="fnsetgrade">
+                  <template is="dom-repeat" items="{{gradearr}}">
+                    <paper-item value="{{item.gradeid}}">{{item.gradename}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+        <span class="position" hidden$="{{hideallvaluesss1}}"> 
+        <paper-dropdown-menu  label="Select Empoyee Name">
+                <paper-menu id="asdadczcsadcdasww" class="dropdown-content"   on-iron-select="fnsetemp">
+                  <template is="dom-repeat" items="{{emparr}}">
+                    <paper-item value="{{item.empid}}">{{item.empname}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+    
+         <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <paper-dropdown-menu  label="Select The Section ">
+                <paper-menu id="teacherrefyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
+                  <template is="dom-repeat" items="{{sectionarr}}">
+                    <paper-item value="{{item.id}}">{{item.section}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+         <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <paper-dropdown-menu  label="Select the subject">
+              <paper-menu id="teacherrefzz" class="dropdown-content"   on-iron-select="fnsetsubject">
+                   <template is="dom-repeat" items="{{subjectarr}}">
+                    <paper-item value="{{item.subjectid}}">{{item.subjectname}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+    <div id="newcardd111">
+         <paper-card>
+          <div style="padding-top: 18%;height: 5px;">
+          <img src="../../images/book6.jpg">
+            <center style="position: absolute;margin-top: -16%;margin-left: 42%;
+            color: rgba(23, 69, 234, 0.85);">
+              <h2>CHAPTER NAME</h2>
+            </center>  
+          </div>
+
+          <div class="hs-inner1">
+            <table style="margin-left: -97%;margin-top: -25%;">
+              <template is="dom-repeat" items="{{capterarr}}" as="view">
+                <tr>
+                  <template is="dom-repeat" items="{{view}}" as="v">
+                    <td style="border-bottom: 1px solid #77539e; line-height: 1.8em;">
+                      <p><teacher-book-approveal-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-approveal-item-card></p>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+            </table>
+          </div>
+        </paper-card>
+      </div>  
+
+    </div>
+     <div id="zdsasddsasfsa" style="width: 101.8%;">
+       <!-- <paper-button on-click="asdadczcsadcdas">reset</paper-button> -->
+     
+      <table  border="1" class="report1" id="reporttabzzzzz">
+        <tr>
+          <th>Chapter Name</th>
+          <th>Concept Name</th>
+          <th>skill name</th>
+          <th>Innovation</th>
+          <th>Value</th>
+          <th>Approve</th>
+          <th>Reject</th>
+          <th>Edit</th>
+           <th>Save</th>
+          </tr>
+            <tr>
+                <template  is="dom-repeat" items="{{overallarr1}}" as="view">
+                <tr>
+                  <aproval-book-innovatiosn-item-card 
+                  idz="ntr{{view.consid}}{{view.capterid}}{{view.emp_id}}{{view.grade_id}}{{view.section_id}}{{view.subject_id}}" innovattion="{{view.innovation}}" skillvalue="{{view.skill}}" captname="{{view.chaptername}}"  consname="{{view.conceptname}}" capterid="{{view.capterid}}" conceptid="{{view.consid}}" valuearr="{{view.skillarr}}" empid="{{view.emp_id}}" gradeid="{{view.grade_id}}" sectionid="{{view.section_id}}" subjectid="{{view.subject_id}}"   id="enr{{view.emp_id}}{{view.grade_id}}{{view.section_id}}{{view.subject_id}}{{view.consid}}{{view.capterid}}" >
+                  </aproval-book-innovatiosn-item-card>
+                </tr> 
+                </template>  
+            </tr>
+      </table>
+    </div>  
+
+       
+
+     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+
+
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'teacher-book-approve-card',
+        
+    
+  fnsetval:function(e){
+   
+    this.empnamez=sessionStorage.getItem("curr_sess_loggeduname");
+
+    if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
+     this.$.newcardd111.hidden=false;
+     this.$.zdsasddsasfsa.hidden=true;
+     this.hideallvaluesss1=true;
+     this.$.reporttabzzzzz.hidden=true;
+    }
+
+    else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+     this.$.newcardd111.hidden=true;
+     this.hideallvaluesss=false;
+     this.hideallvaluesss=false;
+     this.$.zdsasddsasfsa.hidden=true;
+     this.hideallvaluesss1=false;
+
+   }
+
+   else  if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+
+   this.$.newcardd111.hidden=true;
+     this.hideallvaluesss=false;
+     this.hideallvaluesss=false;
+     this.$.zdsasddsasfsa.hidden=true;
+     this.hideallvaluesss1=false;
+
+  }
+   },
+     asdadczcsadcdas:function(e){
+     document.querySelector('#asdadczcsadcdasww').selected=-1;
+ 
+   },
+     fnsetgrade:function(e){
+    this.gradeid=e.target.selectedItem.value;
+      sessionStorage.setItem("grdeidz",this.gradeid);
+     this.gradename=e.target.selectedItem.textContent.trim()
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+       this.$.bookservice.bookrefsection1(this.gradeid,this.gradename);
+       }
+      else  if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+    
+          this.$.bookservice.getbookinteacher(this.gradeid);
+     }
+     this.$.bookservice.bookrefsection(this.gradeid,this.gradename);
+             document.querySelector('#asdadczcsadcdasww').selected=-1;
+        document.querySelector('#teacherrefyyyy').selected=-1;
+        document.querySelector('#teacherrefzz').selected=-1;
+        this.$.newcardd111.hidden=true;
+
+     }, 
+     fnsetsection:function(e){
+       this.sectionid=e.target.selectedItem.value;
+       this.sectionname=e.target.selectedItem.textContent.trim()
+       sessionStorage.setItem("sectoinidz",this.sectionid);
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+           this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
+        }
+        document.querySelector('#teacherrefzz').selected=-1;
+        this.$.newcardd111.hidden=true;
+        },
+    fnsetemp:function(e){
+         this.empid=e.target.selectedItem.value;
+       sessionStorage.setItem("empidz",this.empid);
+       this.empname=e.target.selectedItem.textContent.trim();
+        document.querySelector('#teacherrefyyyy').selected=-1;
+        document.querySelector('#teacherrefzz').selected=-1;
+    },
+     fnsetsubject:function(e){
+       this.subjectid=e.target.selectedItem.value;
+       this.subjectname=e.target.selectedItem.textContent.trim();
+       sessionStorage.setItem("subjectidz",this.subjectid);
+       this.$.reporttabzzzzz.hidden=false;
+       this.$.bookservice.bookreffixcapterdate(this.empid,this.gradeid,this.subjectid,this.sectionid);
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
+          this.$.newcardd111.hidden=false;
+          document.querySelector('aproval-book').fnsetapproveclear();
+        }
+
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'||sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal")
+        {
+          this.$.zdsasddsasfsa.hidden=false;
+        }
+      }, 
+  fnRefresh:function()
+     {
+        document.querySelector('#teacherrefffff').selected=-1;
+        document.querySelector('#asdadczcsadcdasww').selected=-1;
+        document.querySelector('#teacherrefyyyy').selected=-1;
+        document.querySelector('#teacherrefzz').selected=-1;
+        this.$.newcardd111.hidden=true;
+
+     }
+    
+    });
+  })();
+  </script>
+</dom-module>

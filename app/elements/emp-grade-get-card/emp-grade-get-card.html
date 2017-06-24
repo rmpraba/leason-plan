@@ -1,0 +1,171 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="emp-grade-get-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    /*      .innercard{
+         @apply(--layout-horizontal);    
+      margin-left:7.5em;
+      width:100%;   
+     }*/
+     .incard{
+       @apply(--layout-vertical);    
+       margin-top: -2%;
+     }
+  
+    </style>
+    <div>
+          <paper-input value="{{employeeidz}}" hidden></paper-input>
+          <paper-input value="{{empgradeidz}}" hidden></paper-input>
+          <paper-input value="{{empsubjectidz}}" hidden></paper-input>
+          <paper-input value="{{employeesectionidz}}" hidden></paper-input>
+          <paper-input value="{{grasub}}" hidden></paper-input>
+          <div class="incard">
+          <div>{{employeesectionnamez}}</div>
+          <paper-checkbox value="{{employeesectionnamez}}" id="{{id}}" on-change="fnsetsection"></paper-checkbox>
+          </div>
+    </div>
+     <iron-ajax        
+        id="empsectionclassajax"
+        url="{{empsectionclassurl}}"
+        params="{{empsectionclassparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="empsectionclassResponse"
+        debounce-duration="300">
+      </iron-ajax>     
+  </template>
+  <script>
+  (function() {
+    'use strict';
+  var empsectionarr=[];
+ 
+   var empdbsubjectarr=[];
+   var v=[];
+    Polymer({
+      is: 'emp-grade-get-card',
+          fnsetsection:function(e){
+          //  alert(this.id);
+            if(document.querySelector('#'+this.id).checked==true)
+            {
+                var obj={"employeeidz":"","empgradeidz":"","empsubjectidz":"","employeesectionnamez":"","employeesectionidz":"","grasub":""};
+                    obj.employeeidz=this.employeeidz;
+                    obj.empgradeidz=this.empgradeidz;
+                    obj.empsubjectidz=this.empsubjectidz;
+                    obj.employeesectionnamez=this.employeesectionnamez;
+                    obj.employeesectionidz=this.employeesectionidz;
+                    obj.grasub=this.grasub;
+                    empsectionarr.push(obj);
+                    v.push(obj);   
+         document.querySelector('emp-grade-get-based-card').fnsetempsection(empsectionarr);
+               }   
+              else if(document.querySelector('#'+this.id).checked==false){
+
+                 this.empsectionclassurl=sessionStorage.getItem("addrinfo")+"/empsectionclass-service";
+                 var obj={"school_id":"","employeeidz":"","empgradeidz":"","empsubjectidz":"","employeesectionnamez":"","employeesectionidz":"","schooltypeid":""};
+                     obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                     obj.employeeidz=this.employeeidz;;
+                     obj.empgradeidz=this.empgradeidz;
+                     obj.empsubjectidz=this.empsubjectidz;
+                     obj.employeesectionnamez=this.employeesectionnamez;
+                     obj.employeesectionidz=this.employeesectionidz;
+                     obj.schooltypeid=sessionStorage.getItem("curr_sess_loggedschooltupes");
+                     this.empsectionclassparam=obj;
+                     this.$.empsectionclassajax.generateRequest();
+  
+            for(var i=0;i<empsectionarr.length;i++){
+                   empsectionarr.splice(i,1);
+          }
+        }
+      },
+
+    empsectionclassResponse:function(e)
+    {
+         var res=e.detail.response.returnval; 
+   },
+   Fngradecleansection2:function(e){
+
+    for(var j=0;j<v.length;j++)
+      {
+             var empdbsubject=v[j].empsubjectidz+v[j].employeesectionidz;
+            document.querySelector('#'+empdbsubject).checked=false;
+       }
+            var obj={"employeeidz":"","empgradeidz":"","empsubjectidz":"","employeesectionnamez":"","employeesectionidz":""};
+                     obj.employeeidz=this.employeeidz;
+                     obj.empgradeidz=this.empgradeidz;
+                     obj.empsubjectidz=this.empsubjectidz;
+                     obj.employeesectionnamez=this.employeesectionnamez;
+                     obj.employeesectionidz=this.employeesectionidz;
+                     v.splice(obj);
+        },
+    Fngradecleansection:function(e)
+    {
+          if(empsectionarr.length!=0){
+            var obj={"employeeidz":"","empgradeidz":"","empsubjectidz":"","employeesectionnamez":"","employeesectionidz":""};
+                     obj.employeeidz=this.employeeidz;
+                     obj.empgradeidz=this.empgradeidz;
+                     obj.empsubjectidz=this.empsubjectidz;
+                     obj.employeesectionnamez=this.employeesectionnamez;
+                     obj.employeesectionidz=this.employeesectionidz;
+                     empsectionarr.splice(obj);
+               }
+          },
+   
+      empsctionmaping:function(arr)
+      {
+        empdbsubjectarr=arr;
+        // alert(JSON.stringify(empdbsubjectarr));
+        for(var i=0;i<empdbsubjectarr.length;i++)
+        {
+              var employeeidz=empdbsubjectarr[i].id;
+              var empgradeidz=empdbsubjectarr[i].grade_id;
+              var empsubjectidz=empdbsubjectarr[i].subject_id;
+              var employeesectionnamez=empdbsubjectarr[i].section_id;
+          var empdbsubject=empdbsubjectarr[i].subject_id+empdbsubjectarr[i].classid;
+              var cassidz=empdbsubjectarr[i].classid;
+         //    alert(empdbsubject);
+             document.querySelector('#'+empdbsubject).checked=true; 
+           if(document.querySelector('#'+empdbsubject).checked==true)
+           {
+           var obj={"employeeidz":"","empgradeidz":"","empsubjectidz":"","employeesectionnamez":"","employeesectionidz":""};
+              obj.employeeidz=employeeidz;
+             obj.empgradeidz=empgradeidz;
+             obj.empsubjectidz=empsubjectidz;
+             obj.employeesectionnamez=employeesectionnamez;
+             obj.employeesectionidz=cassidz;
+             v.push(obj);
+              //alert(JSON.stringify(empsectionarr));}}
+            }
+          } 
+        },
+
+
+       /* fnnsaveinput:function()
+        {
+          if(empsectionarr.length!=0)
+          {
+            document.querySelector('employe-category-creation-card').fnnsavezz();
+          }
+          else
+          {
+            document.querySelector('employe-category-creation-card').fnninputzz();
+          }
+        }*/   
+     });
+  })();
+  </script>
+</dom-module>

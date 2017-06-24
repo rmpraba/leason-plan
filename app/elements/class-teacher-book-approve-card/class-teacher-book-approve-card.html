@@ -1,0 +1,93 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<dom-module id="class-teacher-book-approve-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .position{
+    margin-left:22%
+   
+   }
+    #tb1{
+         width:15%
+        }
+        #tb2{
+         width:35%
+        }
+        #tb3{
+         width:10%
+        }
+        #itemcard:nth-child(odd) {
+        background-color: white;
+       
+      }
+      #itemcard:nth-child(even) {
+        background-color: #f1f1f1;
+      }
+      #itemcard{
+        width: 80%;
+          margin-left: 11%;
+          
+      }
+
+    
+    </style>
+    <div>
+     <span class="position"> 
+       <paper-dropdown-menu  label="Select the Grade">
+                <paper-menu id="teacherref" class="dropdown-content"   on-iron-select="fnsetgrade">
+                  <template is="dom-repeat" items="{{gradearr}}">
+                    <paper-item value="{{item.gradeid}}">{{item.gradename}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+      
+       <span class="position"> 
+         <paper-dropdown-menu  label="Select Subject">
+                <paper-menu id="teacherrefzzzz" class="dropdown-content"   on-iron-select="fnsubject">
+                  <template is="dom-repeat" items="{{subjectarr}}">
+                    <paper-item value="{{item.subject_id}}">{{item.subject_name}}</paper-item>
+                  </template>    
+                </paper-menu>
+          </paper-dropdown-menu>
+       </span> 
+          
+         
+          <template is="dom-repeat" items="{{emparr}}" as="view">
+          <div id='itemcard'>
+         <class-teacher-book-approve-item-card empid="{{view.empid}}" empname="{{view.emp_name}}" sectionid ="{{view.section_id}}">
+             </class-teacher-book-approve-item-card>
+          </div>
+          </template>
+       </div>
+       <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'class-teacher-book-approve-card',
+
+     fnsetgrade:function(e){
+      this.gradeid=e.target.selectedItem.value;
+      sessionStorage.setItem("grdeidz",this.gradeid);
+      this.gradename=e.target.selectedItem.textContent.trim();
+      document.querySelector('#teacherrefzzzz').selected=-1;
+   
+     },
+    
+     fnsubject:function(e){
+     // alert('1');
+       this.subjectid=e.target.selectedItem.value;
+       sessionStorage.setItem("subjectidz",this.subjectid);
+       this.subjectname=e.target.selectedItem.textContent.trim()
+       this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
+     },
+   
+    });
+  })();
+  </script>
+</dom-module>

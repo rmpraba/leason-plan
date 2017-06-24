@@ -1,0 +1,153 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-input/paper-input.html">
+<link rel="import" href="..\..\bower_components/paper-item/paper-item.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="..\term-assesment-service/term-assesment-service.html">
+
+<dom-module id="cc-gk-onetofour-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+        table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      #p1{
+        width: -5px;
+      }
+      #p2{
+        width: 49px;
+      }
+      #p3{
+        width: 50.5px;
+      }
+      .pi1{
+        width: 57px;
+      }
+      .pi2{
+        width: 72px;
+      }
+      .pi3{
+        width: 11px;
+      }
+      paper-input{
+        text-align: center;
+      }
+    </style>
+    <div>
+      <table border="1">
+        <tr><td hidden><paper-input value="{{studid}}"></paper-item><paper-input value="{{studname}}"></paper-item></td>
+        <td><paper-input disabled="{{read}}" required allowed-pattern="^[0-9.a,]+$" value="{{activity}}" id="p1" on-change="FnActivity"></paper-input></td>
+         <!-- <td><paper-checkbox disabled="{{read}}" checked id="{{studid}}" on-change="FnChange"></paper-checkbox></td> -->
+         <td><paper-icon-button id="ps" icon="icons:save" on-click="FnSave"></paper-icon-button>
+        <paper-tooltip for="ps" offset="0">save</paper-tooltip></td>
+        <td><paper-icon-button id="pd" icon="icons:delete" on-click="FnDelete" ></paper-icon-button>
+        <paper-tooltip for="pd" offset="0">Delete</paper-tooltip></td>  
+        </tr>
+      </table>
+    </div>
+     <paper-dialog modal id="adialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <p>Mark as absent?</p>
+      <paper-button on-click="FnYes">Ok</paper-button>  
+      <!-- <paper-button on-click="FnNo">No</paper-button>       -->
+    </paper-dialog>
+     <term-assesment-service id="assesmentservice"></term-assesment-service>
+     <iron-ajax        
+        method="post"
+        id="fetchgradesajax"
+        url="{{fetchgradesurl}}"
+        params="{{fetchgradesparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchgradesResponse"
+        debounce-duration="300"
+    >
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var activity;
+    var lower=[];
+    var higher=[];
+    var grade=[];
+    Polymer({
+      is: 'cc-gk-onetofour-item-card',
+      ready:function(){
+       this.flag=0;
+      },
+     
+      FnChange:function(e){
+         // alert(e.target.checked);
+        if(e.target.checked==false){
+          var id='adialog';          
+          document.getElementById(id).opened=true;          
+          this.read=true;
+             this.activity=0;
+          localStorage.setItem("curr_sess_absflag",0);
+          this.callService();
+        }
+
+      },
+
+      FnActivity:function()
+      {
+        activity=parseFloat(this.activity).toFixed(2); 
+        document.querySelector('cc-gk-onetofour-card').FnToggleDialog(this.activity);
+        // if(this.flag==0)
+        // this.FnValidateCall();
+        // if(this.flag==1)
+        //  this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"General Knowledge","Activity",this.activity,1);
+      },
+      FnSave:function(){
+        this.FnValidateCall();
+      },
+      FnValidateCall:function(){
+        this.flag=1;
+        if(this.activity==""||this.activity==null){
+        this.$.p1.validate();
+         this.callFetchGrade();
+        }
+        else{
+          localStorage.setItem("curr_sess_absflag",1);
+        this.gk=this.activity;
+        this.callFetchGrade(); 
+        }
+      },
+      callFetchGrade:function(){
+        this.fetchgradesurl=sessionStorage.getItem("addrinfo")+"/fetchgrade-service"; 
+        this.$.fetchgradesajax.generateRequest(); 
+      },
+      fetchgradesResponse:function(e){
+        var returnval=e.detail.response.returnval;       
+        for(var i=0;i<returnval.length;i++){
+          lower.push(returnval[i].lower_limit);
+          higher.push(returnval[i].higher_limit);
+          grade.push(returnval[i].grade);
+        }
+        this.gkgrade=this.FnFindGrade((parseInt(this.gk)));  
+        this.callService();  
+      },
+      FnFindGrade:function(mark){        
+        for(var i=0;i<lower.length;i++){          
+          if(mark>=lower[i]&&mark<=higher[i]){            
+            this.grade=grade[i];
+          }
+        }
+        return this.grade;        
+      },
+      callService:function(){
+        this.$.assesmentservice.callinsertassesmentmarkService(this.studid,this.studname,"General Knowledge","Activity",this.activity,1,1);
+        // this.$.assesmentservice.callOveralltermmarkinsertService(this.studid,this.studname,"General Knowledge",this.gk,this.gk,this.gkgrade,1);  
+      }  ,
+       FnDelete:function(){
+        var studentid=this.studid;
+        var studentname=this.studname;
+        this.$.assesmentservice.callDeletemarkService(studentid);
+      }    
+    });
+  })();
+  </script>
+</dom-module>

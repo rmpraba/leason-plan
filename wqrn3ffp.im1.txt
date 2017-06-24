@@ -1,0 +1,25 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 20 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# Changes to be committed:
+#	modified:   app/elements/student-list-pass-section-card/student-list-pass-section-card.html
+#	modified:   app/elements/teacher-observation_service/teacher-observation_service.html
+#	modified:   app/elements/teacherhome-card/teacherhome-card.html
+#	deleted:    app/images/sreport.png
+#	modified:   app/test/index.html
+#	deleted:    app/test/skill-capturing-card-basic.html
+#	modified:   bower.json
+#	modified:   server.js
+#
+# Changes not staged for commit:
+#	deleted:    app/elements/skill-capturing-card/skill-capturing-card.html
+#	deleted:    app/elements/teacher-book-refernce-card/teacher-book-refernce-card.html
+#	deleted:    app/elements/teacher-book-refernce-item-card/teacher-book-refernce-item-card.html
+#	deleted:    app/elements/teacher-book-service-card/teacher-book-service-card.html
+#
+

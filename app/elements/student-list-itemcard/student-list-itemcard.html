@@ -1,0 +1,137 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-button/paper-button.html">
+<link rel="import" href="../scorecard-service/scorecard-service.html">
+<link rel="import" href="../onetofour-scorecard-service/onetofour-scorecard-service.html">
+<link rel="import" href="../report-service/report-service.html">
+<link rel="import" href="../term-assesment-service/term-assesment-service.html">
+
+<dom-module id="student-list-itemcard">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      table{
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td{
+        width: 41%;        
+      } 
+      .card{
+        @apply(--layout-horizontal);
+      } 
+      p{
+        width: 25%;
+        margin-left: 10%;
+      } 
+      paper-button{
+        text-transform: none;
+        height: 25px;
+      } 
+
+    </style>
+    <div class='card'>
+      <!-- <table border="1"> -->
+        <!-- <tr id="tb1"> -->
+        <!-- <p>{{sno}}</p> -->
+        <p>{{studentid}}</p>
+        <p>{{studentname}}</p>        
+        <p><paper-button  id="tb3" on-click="FnView">View</paper-button></p>
+      <!--     <p><paper-button disabled="{{edit}}" id="tb3" on-click="FnView">View</paper-button></p>
+       -->
+        <!-- </tr> -->
+      <!-- </table>       -->
+    </div>
+    <term-assesment-service id='assesmentservice'></term-assesment-service>
+    <onetofour-scorecard-service id="otfscorecardservice"></onetofour-scorecard-service>
+    <scorecard-service id="scorecardservice"></scorecard-service>
+    <report-service id="reportservice"></report-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'student-list-itemcard',            
+      FnView:function(){
+        localStorage.setItem("curr_sess_viewstudid",this.studentid);
+        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){
+        if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
+        this.$.otfscorecardservice.callFetchstudentinfoService(this.studentid);
+        this.$.otfscorecardservice.callfetchhealthattendanceinfoService(this.studentid);
+        this.$.otfscorecardservice.callFetchsubjectinfoService(this.studentid);
+        this.$.otfscorecardservice.callfetchscholasticmarkService(this.studentid);
+        this.$.otfscorecardservice.fetchoveralltermwisegradeService(this.studentid);
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('cce-onetofour-score-card','');        
+        document.querySelector('cce-onetofour-score-card').setDefaultHeaders();
+        }
+        else
+        {   
+        
+        this.$.scorecardservice.callFetchstudentinfoService(this.studentid);
+        this.$.scorecardservice.callFetchsubjectinfoService(this.studentid);
+        this.$.otfscorecardservice.callfetchhealthattendanceinfoService(this.studentid);
+        //this.$.scorecardservice.callfetchhealthattendanceinfoService(this.studentid);
+        this.$.scorecardservice.callFetchmarkService(this.studentid); 
+         this.$.scorecardservice.callfetchcoscholasticmetricsService(this.studentid);  
+         this.$.scorecardservice.callfetchcoscholasticinfoService(this.studentid);
+        // this.$.scorecardservice.callFetchmarkService(this.studentid);
+        // this.$.otfscorecardservice.FnFetchHealthinfo(this.studentid); 
+        // this.$.otfscorecardservice.FnFetchArtinfo(this.studentid);
+        // this.$.otfscorecardservice.FnFetchPhysicalinfo(this.studentid);
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('ccefivetotenscorecard',''); 
+        document.querySelector('cce-fivetoten-score-card').callImage();
+        }
+      }
+      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Analysis"){
+        this.$.reportservice.callfetchmarkforreportService(this.studentid);
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('languageenrichment','');
+      }
+      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Comparisonreport"){ 
+        if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4")
+        {
+        this.$.otfscorecardservice.callFetchstudentinfoService(this.studentid);
+        this.$.otfscorecardservice.callfetchhealthattendanceinfoService(this.studentid);
+        this.$.otfscorecardservice.callFetchsubjectinfoService(this.studentid);
+        this.$.otfscorecardservice.callfetchscholasticmarkService(this.studentid);
+        this.$.otfscorecardservice.fetchoveralltermwisegradeService(this.studentid); 
+        this.$.otfscorecardservice.FnFetchHealthinfo(this.studentid); 
+        this.$.otfscorecardservice.FnFetchArtinfo(this.studentid);
+        this.$.otfscorecardservice.FnFetchPhysicalinfo(this.studentid);      
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('comparisonreport','');
+        document.querySelector('comparisonreport-card').setStudentId(this.studentid);
+      }
+      else
+      {
+        this.$.otfscorecardservice.callfetchhealthattendanceinfoService(this.studentid);
+          this.$.scorecardservice.callFetchstudentinfoService(this.studentid);
+        this.$.scorecardservice.callFetchsubjectinfoService(this.studentid);
+        this.$.scorecardservice.callFetchmarkService(this.studentid); 
+         this.$.scorecardservice.callfetchcoscholasticmetricsService(this.studentid);  
+         this.$.scorecardservice.callfetchcoscholasticinfoService(this.studentid);
+         this.$.otfscorecardservice.FnFetchfaHealthinfo(this.studentid); 
+        this.$.otfscorecardservice.FnFetchArtinfo(this.studentid);
+        this.$.otfscorecardservice.FnFetchPhysicalinfo(this.studentid); 
+        // this.$.scorecardservice.callFetchmarkService(this.studentid);
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('fivetotencomparisonreport',''); 
+       // document.querySelector('fivetotencomparisonreport-card').setStudentId(this.studentid);
+      }
+      }
+       if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Editinfo"){ 
+       this.$.assesmentservice.callstudentinfo(this.studentid); 
+       this.$.assesmentservice.callstudentparentinfo(this.studentid);            
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('studentinfoedit','');
+        document.querySelector('studentinfoedit-card').FnSetStudentId(this.studentid);       
+      }
+      }
+    });
+  })();
+  </script>
+</dom-module>

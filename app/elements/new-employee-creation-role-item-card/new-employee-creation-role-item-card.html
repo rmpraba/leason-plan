@@ -1,0 +1,121 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/gold-email-input/gold-email-input.html">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+<dom-module id="new-employee-creation-role-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+        .card{     
+        @apply(--layout-horizontal);
+        border-bottom: 1px solid #dedede;   
+      }    
+      paper-button
+      {
+        @apply(--layout-right);
+        background-color: #363636;
+        color: #ffffff;
+        margin-top: 5%;
+      }
+      .roleupdate
+      {
+        @apply(--layout-horizontal);
+        float: left;
+      } 
+    </style>
+    <div>
+        <paper-input hidden value={{schoolempgetid}}></paper-input>
+        <paper-input hidden value={{schoolempgetname}}></paper-input>
+        <paper-input hidden value={{emppsw}}></paper-input>
+        <paper-input hidden value={{schoolroleidxx}}></paper-input>
+    </div>
+    <div class="roleupdate">    
+        <paper-checkbox id="{{id}}" on-change="fnroleset" checked="{{check}}">{{schoolroleids}}</paper-checkbox>
+    </div>
+    <iron-ajax        
+        id="getempschoolroleajax"
+        url="{{getempschoolroleurl}}"
+        params="{{getempschoolroleparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="getempschoolroleResponse"    
+        debounce-duration="300">     
+        </iron-ajax>
+</template>
+  <script>
+  (function() {   
+    'use strict';
+   var getrolearrr=[];
+   Polymer({
+      is: 'new-employee-creation-role-item-card',
+      fnclean:function()
+      {
+        //alert(222);
+        for(var i=0;getrolearrr.length;i++)
+        {
+          var emrole=getrolearrr[i].id;
+          document.querySelector('#'+emrole).checked=false;
+        }
+      },
+      fnroleset:function(e){
+       // alert('1');
+        //alert(this.schoolroleidxx+this.schoolempgetname+this.schoolempgetid+this.emppsw);
+        //alert(document.querySelector('#'+this.schoolroleidxx).checked)
+         if(document.querySelector('#'+this.id).checked==true)
+         {
+              var obj={"emp_id":"","emp_name":"","school_role_id":"","emp_psw":"","id":""};
+                  obj.emp_id=this.schoolempgetid;
+                  obj.emp_name=this.schoolempgetname;
+                  obj.school_role_id=this.schoolroleidxx;
+                  obj.emp_psw=this.emppsw;
+                  obj.id=this.id;
+                  getrolearrr.push(obj);
+               //   alert(JSON.stringify(getrolearrr));
+               document.querySelector('new-employee-creation-card').passrole(getrolearrr);
+           }
+         else if(document.querySelector('#'+this.id).checked==false){
+              this.getempschoolroleurl=sessionStorage.getItem("addrinfo")+"/getempschoolrole-service";
+               var obj={"emp_id":"","emp_name":"","school_role_id":"","emp_psw":"","id":""};
+                   obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                   obj.emp_id=this.schoolempgetid;
+                   obj.emp_name=this.schoolempgetname;
+                   obj.school_role_id=this.schoolroleidxx;
+                   obj.emp_psw=this.emppsw;
+                   obj.id=this.id;
+                   this.getempschoolroleparam=obj;
+                    //alert(JSON.stringify(obj));
+                
+                   this.$.getempschoolroleajax.generateRequest();
+                //   alert(JSON.stringify(getrolearrr));
+                  }
+             },
+            getempschoolroleResponse:function(e){
+                   var res=e.detail.response.returnval;
+                  //alert(JSON.stringify(res));
+                },
+                typesplicerole:function(e){
+                    for(var i=0;i<getrolearrr.length.length;i++){
+                         var m=getrolearrr[i].school_role_id;
+                         //alert(JSON.stringify(m));
+                        // alert("hi");
+                         document.querySelector('#'+m).checked=false;
+ }
+                   var obj={"emp_id":"","emp_name":"","school_role_id":"","emp_psw":"","id":""};
+                   obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+                   obj.emp_id=this.schoolempgetid;
+                   obj.emp_name=this.schoolempgetname;
+                   obj.school_role_id=this.schoolroleidxx;
+                   obj.emp_psw=this.emppsw;
+                   obj.id=this.id;
+                getrolearrr.splice(obj);
+                }
+      
+      
+  });
+  })();
+  </script>
+</dom-module>

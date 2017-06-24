@@ -1,0 +1,88 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="..\..\bower_components/paper-dialog/paper-dialog-transition.html">
+
+
+<dom-module id="teacher-book-refernce-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      } 
+     
+.collapse-content::shadow #scroller  {
+    padding: 15px;
+    border: 1px solid #dedede;
+    width: 500px;
+      height: 350px;
+  }
+ .dialog-right-position {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+    }
+    .dialog-right-position::shadow #scroller {
+      width: 500px;
+      height: 350px;
+    }   </style>
+    <div>
+     <paper-input hidden value={{capterid}} ></paper-input>
+       <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
+       </paper-button>
+
+</div>
+  <iron-ajax
+        method="post"
+        id="fngetconceptvalueajax"
+        url="{{fngetconceptvalueurl}}"
+        params="{{fngetconceptvalueparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptvalueResponse"
+        debounce-duration="300">
+</iron-ajax> 
+
+  <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'teacher-book-refernce-item-card',
+
+  
+   passsetcapter:function(e){
+  document.querySelector('teacher-book-chapter-refernce-card').capthead=this.capter;
+  document.querySelector('teacher-book-chapter-refernce-card').captheadid=this.capterid;
+ 
+     //this.fngetconceptvalue();
+     document.querySelector('app-card').setPage('homepage','');
+         document.querySelector('home-page').setPage('teacher-book-chapter-refernce-card','');
+        // alert(this.capterid);
+        localStorage.setItem("curr_sess_capters",this.capterid); 
+    // alert(localStorage.getItem("curr_sess_capters"));
+       this.fngetconceptvalueurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue-service";
+            var obj={"capter_id":""};
+            obj.capter_id=this.capterid;
+         this.fngetconceptvalueparam=obj;
+        // alert(JSON.stringify(obj));
+        this.$.fngetconceptvalueajax.generateRequest();
+      
+
+      },
+  
+  fngetconceptvalue:function(){
+       },
+     fngetconceptvalueResponse:function(e){
+         var res=e.detail.response.returnval;
+           // alert(JSON.stringify(res));
+         document.querySelector('teacher-book-chapter-refernce-card').conceptarr=res;
+      },
+    });
+  })();
+  </script>
+</dom-module>

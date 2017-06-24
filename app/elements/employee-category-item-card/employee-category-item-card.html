@@ -1,0 +1,123 @@
+    
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<dom-module id="employee-category-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;     
+      }
+       paper-checkbox.paper-checkbox-0
+      {
+      
+         font-family: 'Roboto', 'Noto', sans-serif;
+         -webkit-font-smoothing: antialiased;
+         padding-top: 4px;
+     }
+    </style>
+    <div>
+        <paper-input hidden>{{schooltypecategoryid}}</paper-input>
+      <paper-checkbox  on-change="FnsetGradename" id="{{id}}">{{schooltypecategoryname}}</paper-checkbox>
+    <div>   
+       <iron-ajax        
+        id="empschooltypegetcategoryajax"
+        url="{{empschooltypegetcategoryurl}}"
+        params="{{empschooltypegetcategoryparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="empschooltypegetcategoryResponse"
+        debounce-duration="300">
+       </iron-ajax>
+           <iron-ajax                    
+        id="emplangschooltypegetcategoryajax"
+        url="{{emplangschooltypegetcategoryurl}}"
+        params="{{emplangschooltypegetcategoryparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="emplangschooltypegetcategoryResponse"
+        debounce-duration="300">
+       </iron-ajax>
+        
+  </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var cattypearr=[];   
+    Polymer({
+      is: 'employee-category-item-card',
+  
+    FnsetGradename:function(e){
+       if(document.querySelector('#'+this.id).checked==true){
+               //alert(this.id);
+              sessionStorage.setItem("curr_sess_loggedschoolcategory_id",this.schooltypecategoryid);
+                var obj={"id":""};
+                  obj.id=this.id;
+                cattypearr.push(obj);
+             document.querySelector('employe-schooltype-to-category-card').langprefere();
+             }
+          else if(document.querySelector('#'+this.id).checked==false){
+                 document.querySelector('employe-schooltype-to-category-card').clean();
+           }
+            for(var i=0;i<cattypearr.length;i++)
+          {   
+           if(cattypearr[i].id!=this.id){
+          var catype=cattypearr[i].id;
+          document.querySelector('#'+catype).checked=false;
+          cattypearr.splice(i,1);
+        }
+      }
+  },
+  FnRefresh:function(e){
+   if(cattypearr!=0){
+     for(var i=0;i<cattypearr.length;i++)
+          {   
+          var catype=cattypearr[i].id;
+          document.querySelector('#'+catype).checked=false;
+          cattypearr.splice(i,1);
+       }
+    } 
+  },
+    fnsetemployeelanprefer:function(emplangprefernce){
+      var e=emplangprefernce;
+      //alert(e);
+
+      if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")=='category1'){
+      this.emplangschooltypegetcategoryurl=sessionStorage.getItem("addrinfo")+"/emplangschooltypegetcategorywww-service";
+               var obj={"schoolcategoryid":"","language_pref":""};
+               obj.schoolcategoryid=this.schooltypecategoryid;
+               obj.language_pref=emplangprefernce;
+               //alert(JSON.stringify(obj));
+               this.emplangschooltypegetcategoryparam=obj;
+               this.$.emplangschooltypegetcategoryajax.generateRequest();
+                   // alert(JSON.stringify(obj)); 
+          }
+         else if(sessionStorage.getItem("curr_sess_loggedschoolcategory_id")!='category1'){
+       this.empschooltypegetcategoryurl=sessionStorage.getItem("addrinfo")+"/schooltypegetcategorywww-service";
+               var obj={"schoolcategoryid":""};
+               obj.schoolcategoryid=sessionStorage.getItem("curr_sess_loggedschoolcategory_id");
+               this.empschooltypegetcategoryparam=obj;
+               this.$.empschooltypegetcategoryajax.generateRequest();
+                    // alert(JSON.stringify(obj)); 
+      }
+    
+
+    },
+    empschooltypegetcategoryResponse:function(e){
+        var res=e.detail.response.returnval;
+           // alert(JSON.stringify(res)); 
+          
+         document.querySelector('employe-schooltype-to-category-card').getcategory(res);
+        },
+        emplangschooltypegetcategoryResponse:function(e){
+           var res=e.detail.response.returnval;
+             // alert(JSON.stringify(res)); 
+             document.querySelector('employe-schooltype-to-category-card').getcategory(res);
+    
+        }
+
+    });
+  })();
+  </script>
+</dom-module>

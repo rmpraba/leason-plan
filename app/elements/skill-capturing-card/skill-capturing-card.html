@@ -1,0 +1,53 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="skill-capturing-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    
+
+    </style>
+     <div >
+        <paper-button  on-click="fnset" no ink>
+            {{conceptname}}<!-- <h5 style="color:#1B78CF">{{planneddate}}</h5> -->
+        </paper-button>
+          <tr>
+            <td></td>
+          </tr>
+     </div>
+   
+ <paper-input value="{{conceptid}}" hidden></paper-input>
+     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
+  </template>
+  <script>
+  (function(){
+    'use strict';
+var skillid;
+    Polymer({
+      is: 'skill-capturing-card',
+
+   fnaddskil:function(e){
+     this.$.bookservice.skillseq();
+     this.$.skillposition.open();
+    },
+    fnset:function(e)
+    {
+      document.querySelector('teacher-book-approveal-concept-item-card').FnViewww();
+      localStorage.setItem("curr_sess_conceptid",this.conceptid); 
+      document.querySelector('teacher-book-approveal-concept-item-card').conceptnamez=this.conceptname;
+    alert(2);
+    
+    this.$.bookservice.fnskillccc();
+ 
+    },
+    
+ 
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,904 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+  <link rel="import" href="../demosumbit-card/demosumbit-card.html">
+
+
+<dom-module id="Student-to-section-mapping-card">  
+  <template>
+    <style>  
+      :host {   
+        display: block;
+      }
+      .outcard
+      {   
+        width:25% 
+        margin-left:2.0em;
+      }
+       .innercard{     
+      @apply(--layout-horizontal);
+       width:100%
+         }
+    
+     .tt{
+      width:70%;
+     }
+    .subbutton paper-button  
+      {
+        background-color: #363636;
+        color: #ffffff;                
+        width: 19%;
+        margin-left: 25em;
+        margin-top: 3em;
+      }
+
+      .section1
+      {
+            @apply(--layout-horizontal);
+            border-radius: 10px;
+            border: 1px solid #6699ff;
+            padding: 15px;
+            width: 45%;
+            margin-left: 30%;
+            margin-top: 3% !important;
+            min-height: 100px; 
+      }
+      .newcard
+      {
+        margin-top: 1em;
+        margin-left: 11em;
+      }
+
+      #subzz paper-button
+      {
+         color:white;
+         background-color:black;
+         width:6%;
+         margin-left:46%;
+         margin-top:2%; 
+      }
+      paper-tooltip 
+      {
+        background-color: #12A5F4;
+        color: white;
+        width: 240%;  
+      }
+     
+      #z1
+      {
+           position: absolute;
+           /*color:  #0000ff;*/
+           color: #6699ff;
+          margin-left: 15%;
+          margin-top: 4%;
+      }
+      
+      #z
+      {
+        position: absolute;
+        /*color:  #0000ff;*/
+        color: #6699ff;
+        margin-left: 77%;
+        margin-top: 4%;
+      }
+
+      #previousid,#Nextid
+      {
+         border-radius: 10px;
+           width: 350px;
+           height: 150px;
+      }
+       #labelid
+
+      {
+            font-style: oblique;
+            font-size: 1.3em;
+
+      }
+    .buttons paper-button
+      {
+        @apply(--layout-left);
+      background-color: #363636;
+      color: #ffffff;
+      width: 10%;
+      margin-left: 6%;
+      margin-top: 10%;
+      }
+
+      .newwwtabb
+      {
+        margin-top: 8%;
+      }
+      table
+    {
+      width: 70%;
+      margin-left: 12%;
+    }
+    .createdivv
+    {
+      @apply(--layout-vertical);
+    }
+   
+    </style>    
+    
+    <div>
+      <CENTER>
+        <h3><b>STUDENT TO SECTION MAPPING</b></h3>   
+      </CENTER>
+    </div>
+    <div class="section1">
+        <div class="createdivv">
+          <div>
+            <label><b>School Type</b></label>
+          </div>
+          <div>
+            <template is="dom-repeat" items="{{studentsectionarr}}" as="view">
+              <Student-to-section-mapping-item-card empschooltypeids="{{view.school_type_name}}" empschoolnames="{{view.school_type_id}}" id="STTYP{{view.school_type_id}}">
+                </Student-to-section-mapping-item-card>   
+            </template>  
+          </div>      
+        </div>       
+
+        <div class="newcard" style="position: absolute;">
+          <paper-dropdown-menu  label="Select the Grade">
+            <paper-menu id="empgradeiddd" class="dropdown-content"  on-iron-select="fnselectgrade">
+                <template is="dom-repeat" items="{{setgrade}}">
+                  <paper-item value="{{item.grade_id}}">{{item.grade_name}}</paper-item>
+                </template>       
+            </paper-menu>
+          </paper-dropdown-menu>
+        </div> 
+          <div class="subbutton" hidden$="{{hidegenerateopt}}">
+            <paper-button on-click="Generate">Generate</paper-button>
+        </div>   
+       
+      </div>  
+
+        <div id="z1">
+             <!-- <paper-icon-button  id="prebutton" icon='chevron-left' on-click='fnpriver' ></paper-icon-button>
+              -->
+             <paper-buuton  id="prebutton" on-click="fnpriver">
+             <a href="#"  style="font-size: 19px;font-style: oblique;"><b>Previous</b></a>
+             </paper-buuton>
+      </div>
+      
+      <div id="z">
+          <!-- <paper-icon-button id="nextbutton" icon='chevron-right' on-click='fnnext'></paper-icon-button> -->
+
+           <paper-buuton  id="nextbutton" on-click="fnnext">
+             <a href="#" style="font-size: 19px;font-style: oblique;"><b>Next</b></a>
+             </paper-buuton>
+          
+      </div>
+      
+
+   <div class="newwwtabb" hidden$="{{hidenewtabb}}">
+        <table width="100%"  border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
+              
+                <template is="dom-repeat" items="{{sectionfullarr}}" as="view">
+                  <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                    <td>
+                      <h4>{{view.student_name}}</h4>
+                    </td>
+   
+                      <table border="0">
+                      <template is="dom-repeat" items="{{view.subject}}" as="s">
+                        <td>
+                        <student-list-pass-section-card hideinput="{{s.hideinput}}" hidecheck="{{s.hidecheck}}" studentname="{{view.student_name}}" 
+                        id="{{s.id}}" admissinno="{{view.enquiry_no}}" gender="{{view.gender}}" dob="{{view.dob}}" sectionname="{{s.section_id}}" check="{{s.check}}" classid="{{s.class_id}}" admissinno1="{{view.admission_no}}" noofstudent="{{noofstudent}}" stugradeid="{{stugradeid}}"></student-list-pass-section-card>
+                        </td>
+                      </template>
+                      <!-- " -->
+                      <td hidden$="{{view.hidebtn}}">
+                        <employee-schooltype-to-category-basecard stuid="{{view.enquiry_no}}"  stugradeid="{{stugradeid}}">
+                        </employee-schooltype-to-category-basecard>
+                      </td>
+                      <td hidden> <paper-icon-button  id="btn2" icon="close" on-click="Fndelte"></paper-icon-button>
+                    <paper-tooltip for="btn2">Delete</paper-tooltip></td>
+                     </tr>
+                   </template>
+
+          </table>   
+          </table>   <!-- <re>rww</re> -->
+
+        </div>   
+
+        <div hidden>
+           <paper-button on-click="FnSavez">Submit</paper-button>  
+        </div>
+   
+     <paper-dialog id="previousid" modal>
+      <center>
+         <label  id="labelid"><b>Please Click Previous Button</b></label> 
+      </center>
+       <div class="buttons">
+        </div> 
+       <center>
+         <paper-button  style="color:white;background-color:black;"  dialog-confirm autofocus>close</paper-button>
+       </center>
+    </paper-dialog>
+           
+     <paper-dialog id="Nextid" modal>
+      <center>
+        <label  id="labelid"><b>Please Click Next Button</b></label>
+      </center>
+        
+        <div class="buttons">
+        </div>  
+        <center>
+          <paper-button style="color:white;background-color:black;" dialog-confirm autofocus> close</paper-button>
+        </center>    
+     </paper-dialog>
+     
+      <iron-ajax        
+        id="counttypevalueajax"
+          url="{{counttypevalueurl}}"
+        params="{{counttypevalueparam}}"
+        handle-as="json"
+        content-type="application/json"
+        method="post"
+        on-response="counttypevalueResponse"
+        debounce-duration="300">
+      </iron-ajax>
+     
+     <demosumbit-card id="mydialog"></demosumbit-card>  
+      <master-ui-service id="uiservice"></master-ui-service>
+   </template>
+  <script>
+  (function() {
+    'use strict';
+    var studeninfoarr=[];
+    var studentlistarr=[];   
+    var sectionarr=[];
+    var schooltype;
+    var Current=0;
+    var overall=[];
+    var g=[];
+    var mappingstudentarr=[];
+    var kn=[];
+    var overall12=[];
+    var setarrr=[];
+      
+   Polymer({
+      is: 'Student-to-section-mapping-card',
+      funnstudent:function()
+       {
+        this.$.z.hidden=true;
+        this.$.z1.hidden=true;
+        this.hidenewtabb=true;
+        this.hidegenerateopt=true;
+
+         if(document.querySelector('#empgradeiddd').selected!=-1)
+        {
+         document.querySelector('#empgradeiddd').selected=-1; 
+        }
+       },
+
+        counttypevalue:function(e)
+       {
+         this.counttypevalueurl=sessionStorage.getItem("addrinfo")+"/counttypevalue-service";
+         var obj={"school_id":"","gradeid":"","academic_year":""};
+         obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.gradeid=this.stugradeid;
+         obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+         this.counttypevalueparam=obj;
+         this.$.counttypevalueajax.generateRequest();
+        },
+    counttypevalueResponse:function(e){
+           var res=e.detail.response.returnval; 
+           var m=res[0].no_of_student;
+           this.noofstudent=m;
+    },
+    fnstudentgetgrade:function(arr){
+     this.setgrade=arr;
+    },
+    stupersonalinfo:function(arr){
+       studeninfoarr=arr;
+    },
+    passscholtyp:function(value){
+      schooltype=value;
+    },
+    mappingstudent:function(arr){
+    mappingstudentarr=arr;
+     },
+    Generate:function(e)
+    {
+        this.$.z.hidden=false;   
+        this.$.z1.hidden=true;
+        this.hidenewtabb=false;
+        this.$.nextbutton.hidden=false;
+        this.hidegenerateopt=true;
+if(overall12!=0){
+           document.querySelector('student-list-pass-section-card').overallinfo(); 
+           document.querySelector('student-list-pass-section-card').stupersonalinfo13(kn); 
+              kn.splice(obj);     
+          }          
+      var getgradearr=[];
+          for(var i=0;i<sectionarr.length;i++){
+                          var section_id=sectionarr[i].section_id;
+                          
+                            var obj={"srtarr":""};
+                                obj.srtarr=section_id;
+                               setarrr.push(obj);
+                             // alert(JSON.stringify(obj));
+                          }
+             // alert(JSON.stringify(setarrr));
+                   // this.setsubjectarr=setarrr;
+                var generatearr=[];
+                var subarr=[];
+                for(var j=0;j<studentlistarr.length;j++){
+                     for(var i=0;i<sectionarr.length;i++){
+                   var class_for_admission=studentlistarr[j].class_for_admission;
+                   var enquiry_no=studentlistarr[j].admission_no;
+                   var student_name=studentlistarr[j].student_name;
+                   var gender=studentlistarr[j].gender;
+                   var dob=studentlistarr[j].dob;
+                   var  admission_no=studentlistarr[j].admission_no;
+                        admission_no = admission_no.replace(/[^\w\s]/gi, '');
+
+                  
+ var obj={"class_for_admission":"","admission_no":"","enquiry_no":"","student_name":"","gender":"","dob":"","section_id":"","class_id":""}; 
+                          var section_id=sectionarr[i].section_id;
+                          var class_id=sectionarr[i].class_id;
+                           obj.class_for_admission=class_for_admission;
+                           obj.enquiry_no=enquiry_no;
+                           obj.student_name=student_name;
+                           obj.gender=gender;
+                           obj.dob=dob;
+                           obj.section_id=section_id;
+                           obj.admission_no=admission_no;
+                           obj.class_id=class_id;
+                            generatearr.push(obj);
+                        }
+                        }//alert(JSON.stringify(generatearr));
+        var a=[];
+       for(var k=0;k<generatearr.length;k++)
+       {          var nameobj={"class_for_admission":"","student_name ":"","gender":"","enquiry_no":"","dob":"","admission_no":""};
+         nameobj.class_for_admission=generatearr[k].class_for_admission; 
+         nameobj.student_name=generatearr[k].student_name; 
+         nameobj.enquiry_no=generatearr[k].enquiry_no; 
+         nameobj.dob=generatearr[k].dob; 
+         nameobj.gender=generatearr[k].gender; 
+         nameobj.admission_no=generatearr[k].admission_no;
+         var obj={"section_id":"","class_id":""};
+        obj.section_id=generatearr[k].section_id;
+        obj.class_id=generatearr[k].class_id;
+        obj.id=generatearr[k].class_id+generatearr[k].admission_no;
+        a.push(obj);
+        for(var l=k+1;l<generatearr.length;l++)
+        {
+           if(generatearr[k].enquiry_no==generatearr[l].enquiry_no)
+           {
+             var obj1={"section_id":"","class_id":""}
+             //obj1.Grade_name=generatearr[l].gradename;
+             obj1.section_id=generatearr[l].section_id;
+             obj1.class_id=generatearr[l].class_id; 
+             obj1.id=generatearr[l].class_id+generatearr[l].admission_no;
+             a.push(obj1);
+             generatearr.splice(l,1);
+             l--;
+         }}
+           nameobj.subject=a;
+           overall.push(nameobj);
+            overall12.push(nameobj);
+           a=[];
+         }
+
+  var k=[];
+  var qq=[];
+   for(var j=0;j<overall.length;j++){
+         if(j<=10){
+      var obj={"class_for_admission":"","enquiry_no":"","admission_no":"","student_name":"","gender":"","dob":"","subject":"","admission_no":""}; 
+                   var class_for_admission=overall[j].class_for_admission;
+                   var enquiry_no=overall[j].enquiry_no;
+                   var student_name=overall[j].student_name;
+                   var gender=overall[j].gender;
+                   var dob=overall[j].dob;
+                   var admission_no=overall[j].admission_no;
+                   var subject=overall[j].subject;
+                           obj.class_for_admission=class_for_admission;
+                           obj.enquiry_no=enquiry_no;
+                           obj.student_name=student_name;
+                           obj.gender=gender;
+                           obj.dob=dob;
+                           obj.admission_no=admission_no;
+                           obj.subject=subject;
+                      k.push(obj);
+                      g.push(obj);
+      }
+      }
+       for(var i=0;i<overall.length;i++){
+
+            for(var s=0;s<k.length;s++){
+                if(overall[i].enquiry_no==k[s].enquiry_no){
+         overall.splice(i,1);
+
+                }
+            }   
+       }
+    
+  for(var j=0;j<k.length;j++){
+       var flag=0;
+  for(var q=0;q<mappingstudentarr.length;q++){
+      if(k[j].enquiry_no==mappingstudentarr[q].id){
+             flag=1;
+             var ddd=k[j].enquiry_no;
+              var sss=mappingstudentarr[q].class_id;
+         for(var t=0;t<k[j].subject.length;t++){
+             
+           if(k[j].subject[t].class_id==sss){
+                      var rrn=k[j].subject[t].id;
+                      var admno=k[j].enquiry_no;
+                      k[j].subject[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+            }
+           } 
+        }
+         }
+         if(flag==0){
+          }
+     }
+         
+  
+       // alert(JSON.stringify(k));
+     for(var i=0;i<overall.length;i++){
+
+            for(var s=0;s<k.length;s++){
+                if(overall[i].enquiry_no==k[s].enquiry_no){
+         overall.splice(i,1);
+
+                }
+            }   
+       }
+        // alert(JSON.stringify(k));
+          var temp=[];
+          var subarr=[];
+          var obj={};
+          obj.class_for_admission="class";
+          obj.enquiry_no="enq";
+          obj.admission_no="admn";
+          obj.student_name="";
+          obj.gender="gen";
+          obj.dob="dob";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.section_id=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.subject=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(k).length;i++){
+          for(var j=0;j<(k[i].subject).length;j++){
+             k[i].subject[j].enquiry_no=k[i].enquiry_no;
+             k[i].subject[j].class_for_admission=k[i].class_for_admission;
+             k[i].subject[j].admission_no=k[i].admission_no;
+             k[i].subject[j].subject_id=k[i].subject_id;
+             k[i].subject[j].gender=k[i].gender;
+             k[i].subject[j].dob=k[i].dob;
+         
+            if(j==0)
+            k[i].subject[j].subject_name=k[i].student_name;
+           else
+           
+             k[i].subject[j].student_name="";
+             k[i].subject[j].hideinput=true;
+             k[i].subject[j].hidecheck=false;
+          }
+          this.finalarr.push(k[i]);
+         }
+         for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+        this.sectionfullarr=this.finalarr;
+       
+       if(k.length!=0){
+        
+        this.$.uiservice.fnretrivestudent(this.stugradeid);
+  
+       }
+   
+              },
+    /*  stupersonalinfo14:function(e){
+           document.querySelector('student-list-pass-section-card').fnsplice(); 
+         },
+   */
+   stupersonalinfo12:function(){
+     document.querySelector('student-list-pass-section-card').stupersonalinfo11(kn); 
+    
+    },
+    f33:function(e){
+      for(var j=0;j<g.length;j++){
+       var flag=0;
+     for(var q=0;q<mappingstudentarr.length;q++){
+       if(g[j].enquiry_no==mappingstudentarr[q].id){
+             flag=1;
+              var ddd=g[j].enquiry_no;
+              var sss=mappingstudentarr[q].class_id;
+         for(var t=0;t<g[j].subject.length;t++){
+             
+           if(g[j].subject[t].class_id==sss){
+                      g[j].subject[t].check=false;
+               }
+            } 
+         }
+         }
+         if(flag==0){
+          }
+     }  
+  
+    },
+    fnnext:function(e){
+         document.querySelector('student-list-pass-section-card').stupersonalinfo13(kn); 
+          kn.splice(obj);
+             this.f33();     
+      
+       var k=[];
+   for(var j=0;j<overall.length;j++){
+         if(j<=10){
+    var obj={"class_for_admission":"","enquiry_no":"","admission_no":"","student_name":"","gender":"","dob":"","subject":"",}; 
+                  var class_for_admission=overall[j].class_for_admission;
+                   var enquiry_no=overall[j].enquiry_no;
+                   var student_name=overall[j].student_name;
+                   var gender=overall[j].gender;
+                   var dob=overall[j].dob;
+                   var admission_no=overall[j].admission_no;
+          
+                    var subject=overall[j].subject;
+                           obj.class_for_admission=class_for_admission;
+                           obj.enquiry_no=enquiry_no;
+                           obj.student_name=student_name;
+                           obj.gender=gender;
+                           obj.dob=dob;
+                           obj.admission_no=admission_no;
+                           obj.subject=subject;
+                     k.push(obj);
+                     g.push(obj);
+                  
+         }
+      
+}
+ for(var i=0;i<overall.length;i++){
+    for(var m=0;m<k.length;m++){
+                if(overall[i].enquiry_no==k[m].enquiry_no){
+         overall.splice(i,1);
+
+                }
+
+            }
+       }
+
+
+for(var j=0;j<k.length;j++){
+    //  var  t=0;
+     // while(t<subject.length){
+       var flag=0;
+  for(var q=0;q<mappingstudentarr.length;q++){
+    //alert(k[j].enquiry_no+subject[t].class_id+"  "+mappingstudentarr[q].id+mappingstudentarr[q].class_id);
+      if(k[j].enquiry_no==mappingstudentarr[q].id){
+             flag=1;
+             // alert(ddd);
+             var ddd=k[j].enquiry_no;
+              var sss=mappingstudentarr[q].class_id;
+         for(var t=0;t<k[j].subject.length;t++){
+             
+           if(k[j].subject[t].class_id==sss){
+                      var rrn=k[j].subject[t].id;
+                      var admno=k[j].enquiry_no;
+                      k[j].subject[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+             }
+           } 
+         }
+         }
+         if(flag==0){
+          }
+     }
+  
+         //alert(JSON.stringify(k));
+     
+   if(k.length!=0){
+    var temp=[];
+          var subarr=[];
+          var obj={};
+          obj.class_for_admission="class";
+          obj.enquiry_no="enq";
+          obj.admission_no="admn";
+          obj.student_name="";
+          obj.gender="gen";
+          obj.dob="dob";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.section_id=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.subject=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(k).length;i++){
+          for(var j=0;j<(k[i].subject).length;j++){
+            k[i].subject[j].hideinput=true;
+             k[i].subject[j].hidecheck=false;
+          }
+          this.finalarr.push(k[i]);
+         }
+          for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+        this.sectionfullarr=this.finalarr;
+     // this.sectionfullarr=k;
+             this.$.uiservice.fnretrivestudent(this.stugradeid);
+                document.querySelector('student-list-pass-section-card').ttt3();
+  
+             document.querySelector('student-list-pass-section-card').f11(); 
+             document.querySelector('student-list-pass-section-card').ttt3();
+             document.querySelector('student-list-pass-section-card').stupersonalinfo13(kn); 
+            kn.splice(obj);
+         }
+            else{
+              document.querySelector('student-list-pass-section-card').f11(); 
+                kn.splice(obj);
+               this.$.previousid.open();
+               this.$.z1.hidden=false;
+               this.$.nextbutton.hidden=true;
+               this.$.prebutton.hidden=false;
+
+    
+            }
+
+      
+
+   },
+mappingstudent1:function(e){
+
+},
+    fnpriver:function(e){
+            
+
+              document.querySelector('student-list-pass-section-card').stupersonalinfo13(kn); 
+          kn.splice(obj);
+   
+
+          var l=[];
+   for(var j=0;j<g.length;j++){
+         if(j<=10){
+    var obj={"class_for_admission":"","admission_no":"","enquiry_no":"","student_name":"","gender":"","dob":"","subject":""}; 
+                  var class_for_admission=g[j].class_for_admission;
+                   var enquiry_no=g[j].enquiry_no;
+                   var student_name=g[j].student_name;
+                   var gender=g[j].gender;
+                   var dob=g[j].dob;
+                   var admission_no=g[j].admission_no;
+          
+                   var subject=g[j].subject;
+                           obj.class_for_admission=class_for_admission;
+                           obj.enquiry_no=enquiry_no;
+                           obj.student_name=student_name;
+                           obj.gender=gender;
+                           obj.dob=dob;
+                           obj.admission_no=admission_no;
+                           obj.subject=subject;
+                         l.push(obj);
+                         overall.push(obj);
+               }
+    }
+   /*  for(var j=0;j<mappingstudentarr.length;j++){
+            var flag=0;
+              // var getschoolroleid=res[j].role_name;
+              for(var i=0;i<l.length;i++){
+                  
+                  if(mappingstudentarr[j].id==l[i].admission_no)
+                  {    
+                   flag=1;
+                   l[i].check=true;   
+                  }
+
+                 }
+                 if(flag==0){   
+                  l[i].check=false;
+                 }
+               }
+*/
+for(var i=0;i<g.length;i++){
+
+            for(var m=0;m<l.length;m++){
+                if(g[i].enquiry_no==l[m].enquiry_no){
+           g.splice(i,1);
+
+             }
+            }
+          }
+     
+
+for(var j=0;j<l.length;j++){
+    //  var  t=0;
+     // while(t<subject.length){
+       var flag=0;
+  for(var q=0;q<mappingstudentarr.length;q++){
+    //alert(k[j].enquiry_no+subject[t].class_id+"  "+mappingstudentarr[q].id+mappingstudentarr[q].class_id);
+      if(l[j].enquiry_no==mappingstudentarr[q].id){
+             flag=1;
+             // alert(ddd);
+             var ddd=l[j].enquiry_no;
+              var sss=mappingstudentarr[q].class_id;
+         for(var t=0;t<l[j].subject.length;t++){
+             
+           if(l[j].subject[t].class_id==sss)
+           {
+                      var rrn=l[j].subject[t].id;
+                      var admno=l[j].enquiry_no;
+                      l[j].subject[t].check=true;
+                      var obj={"dd":"","admno":""};
+                      obj.dd=rrn;
+                      obj.admno=admno;
+                      kn.push(obj);
+
+               }
+           } 
+       }
+         }
+         if(flag==0){
+        }
+     }
+
+ 
+     if(l.length!=0){
+      var temp=[];
+          var subarr=[];
+          var obj={};
+          obj.class_for_admission="class";
+          obj.enquiry_no="enq";
+          obj.admission_no="admn";
+          obj.student_name="";
+          obj.gender="gen";
+          obj.dob="dob";
+          for(var i=0;i<(setarrr).length;i++){
+          var obj1={};
+          obj1.section_id=setarrr[i].srtarr;
+          obj1.hideinput=false;
+          obj1.hidecheck=true;          
+          subarr.push(obj1);
+          }
+          obj.subject=subarr;
+          temp.push(obj);
+
+         this.finalarr=[];
+         this.finalarr.push(temp[0]);
+         for(var i=0;i<(l).length;i++){
+          for(var j=0;j<(l[i].subject).length;j++){
+            l[i].subject[j].hideinput=true;
+             l[i].subject[j].hidecheck=false;
+          }
+          this.finalarr.push(l[i]);
+         }
+          for(var i=0;i<this.finalarr.length;i++)
+         {
+          if(i==0)
+            this.finalarr[i].hidebtn=true;
+          else
+            this.finalarr[i].hidebtn=false;
+         }
+        this.sectionfullarr=this.finalarr;
+      // this.sectionfullarr=l;
+   // alert(JSON.stringify(this.sectionfullarr));
+         document.querySelector('student-list-pass-section-card').f11(); 
+         document.querySelector('student-list-pass-section-card').stupersonalinfo13(kn); 
+         kn.splice(obj);
+     //  this.$.uiservice.fnretrivestudent(this.stugradeid);
+  
+        }
+        else
+        {
+             kn.splice(obj);
+                document.querySelector('student-list-pass-section-card').f11(); 
+      
+            this.$.Nextid.open();
+            this.$.z.hidden=false;
+            this.$.nextbutton.hidden=false;
+            this.$.prebutton.hidden=true;
+        } 
+        this.f22();
+        document.querySelector('student-list-pass-section-card').ttt3();
+     this.$.uiservice.fnretrivestudent(this.stugradeid);
+        document.querySelector('student-list-pass-section-card').ttt3();
+  
+    },
+   f22:function(e){
+       for(var j=0;j<overall.length;j++){
+       var flag=0;
+     for(var q=0;q<mappingstudentarr.length;q++){
+       if(overall[j].enquiry_no==mappingstudentarr[q].id){
+             flag=1;
+              var ddd=overall[j].enquiry_no;
+              var sss=mappingstudentarr[q].class_id;
+         for(var t=0;t<overall[j].subject.length;t++){
+             
+           if(overall[j].subject[t].class_id==sss){
+                      overall[j].subject[t].check=false;
+               }
+            } 
+         }
+         }
+         if(flag==0){
+          }
+       }
+   
+   },
+
+    studentlist:function(arr){
+   studentlistarr=arr;
+    },
+    Studentsection:function(arr){
+     sectionarr=arr;
+    },
+  /* fnemployeename:function(e){
+   
+   
+    this.studentclassid=e.target.selectedItem.value;
+    alert(this.studentclassid+schooltype);
+       document.querySelector('student-list-pass-section-card').fnsplice();
+
+},*/
+    //   document.querySelector('student-list-pass-section-card').ttt3();
+       
+/*alert(JSON.stringify(kn));
+       var obj={"dd":"","admno":""};
+         kn.splice(obj);
+         alert(JSON.stringify(kn));
+            
+       document.querySelector('Student-to-section-mapping-item-card-card').FnRefresh();
+       this.fnrefresh();
+   */
+
+   fnselectgrade:function(e)
+   {
+      //alert("grade");
+        this.hidegenerateopt=false;
+        this.stugradevalue=e.target.selectedItem.textContent.trim(); 
+        this.stugradeid=e.target.selectedItem.value;
+        this.counttypevalue();
+        this.$.uiservice.fnretrivestudent(this.stugradeid);
+        this.$.uiservice.fngetstudent(this.stugradeid,this.stugradevalue);
+        this.$.uiservice.FngetStudentpasssection(this.stugradeid,this.stugradevalue);
+       
+        overall=[];
+        g=[];
+        setarrr=[];
+     },
+
+    /* fnsavezz:function()
+     {
+      this.$.mydialog.toggleDialog();
+    },
+    fnnoinput:function()
+    {
+      this.$.mydialog.toggleDialog3();
+    }*/
+    
+    /*f1:function(e){
+      this.$.uiservice.FngetStudentpasssection(this.stugradeid,this.stugradevalue);
+      } */
+    }); 
+  })();
+  </script>
+</dom-module>
