@@ -10,12 +10,13 @@
       :host {
         display: block;
       } 
-     .cadcdd1{ top: 200px;
+     .cadcdd1{ 
+      /*top: 200px;*/
     right: 90% !important;
     width: 411px;
     height: 300px;
     margin-left: 5%;
-    margin-top: 6%;
+    margin-top: 0%;
     /*position: fixed;
       */overflow: auto;
 
@@ -23,23 +24,31 @@
     paper-fab{
       background-color: #ff0080;
       color: white;
-      bottom: 123px;
-      left: 86%;
+      bottom: 129px;
+      left: 94%;
     }
    
-   .selcard
+   #selcard
    {
-    margin-left: 5%;
+
+    margin-left: 10%;
     margin-top: 2%;
-    width: 35%;
-    height: 533px;
+    width: 1090px;
+    height: 452px;
+
+    border: solid 1px #555; 
+    background-color: white; 
+    box-shadow: inset 10px -10px 25px #77539e(0,0,0,0.6); -moz-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -webkit-box-shadow: inset 10px -10px 25px rgba(146, 93, 93, 0.6); -o-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6);
    }
+
     .selcard11
    {
-       margin-left: 40%;
-    top: -38em;
+    @apply(--layout-horizontal);
+     margin-left: 49%;
+    /* top: -58em; */
     width: 50%;
     height: 531px;
+    margin-top: -28.5%;
   }
    
    h1
@@ -65,7 +74,7 @@
     {
       top: 200px;
     right: 90% !important;
-    height: 300px;
+    height: 297px;
     margin-left: 7%;
     margin-top: 4%;
     overflow: auto;   
@@ -91,144 +100,125 @@
 
     .newcardzz
     {
-      margin-left: 40%;
-    top: -38em;
-    width: 50%;
-    height: 531px;
+      @apply(--layout-horizontal);
+      margin-left: 49%;
+      width: 50%;
+      height: 531px;
+      margin-top: -28.5%;
     }
     </style> 
-    <div>
 
-      <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
-    </div>
  
-<paper-card class="selcard">
-   <div style="background-color: #8164f3;
-    padding-top: 21%;height: 75px;">
-      <h1 style="color:white; margin-top: 0%;margin-left: 41%;"><b>{{capthead}}</b></h1>
+<paper-card id="selcard">
+   <div style="background-color: #9370DB;
+        padding-top: 13%;height: 4px;width: 1091px;">
+        <paper-icon-button icon="arrow-back" on-click="passset" 
+            style="position: absolute;margin-top: -12%;margin-left: 2%;color: white;">
+        </paper-icon-button>
+
+      <h1 style="color:white;position: fixed;margin-top: -7%;margin-left: 38%;"><b>{{capthead}}</b></h1>
+
       <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
     </div>
-     <div class="card-actions">
+    <div class="card-actions">
      
-     <div class="cadcdd1">
-     <table style="width: 80%;">
-       <template is="dom-repeat" items="{{conceptarr}}" as="s">
-      <tr>
-         <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">{{s.concept}}</td>
-           <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;"><h5 style="color:#1B78CF;padding-left: 40px;">{{s.planned_date}}</h5></td>
-         
-         <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-           <aproval-book-value-item-card  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"></aproval-book-value-item-card>  
-        </td>
-        <td  style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-        <paper-icon-button icon="delete" style="color:#ff1493"></paper-icon-button>
-        </td>
-      </tr>  
-       </template>
-        
-     </table>
-          
-     </div> 
+      <div class="cadcdd1">
+        <table style="width: 80%;">
+          <template is="dom-repeat" items="{{conceptarr}}" as="s">
+            <tr>
+              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">{{s.concept}}</td>
+              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;"><h5 style="color:#1B78CF;padding-left: 40px;">{{s.planned_date}}</h5></td>
     
-  </div>
- </paper-card>
-<div id="hideprecard">
-  <paper-card class="selcard11">
-   <div style="background-color: #8164f3;
-    padding-top: 26%;height: 1px;">
-    <center style="position: absolute;margin-top: -12%;margin-left: 38%;
-            color: white;">
-    </center>
-    <paper-input hidden value={{captheadid}}></paper-input>
+              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                <aproval-book-value-item-card  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"></aproval-book-value-item-card>  
+              </td>
+              <td  style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                <paper-icon-button icon="delete" style="color:#ff1493"></paper-icon-button>
+              </td>
+            </tr>  
+          </template>
+        </table>  
+      </div> 
     </div>
-     <div class="card-actions">
-  
-     <div >
-           <table style="border-collapse: collapse;width: 95%;">
-            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-             <th style="text-align: left;">ENTER THE CHAPTER</th>
-             <th style="text-align: left;"> DATE</th>
-             <th>CURRENT DATE</th>
-         
-             </tr>
 
-             <tr>
-               <td>
-            
-                    <paper-textarea id="textarea" label="concept" value="{{concept}}"></paper-textarea>
-          
+
+
+    <div id="hideprecard">
+      <div class="selcard11">
+        <div class="card-actions">
+          <div>
+            <table style="border-collapse: collapse;width: 450px;margin-top: 12%">
+              <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                <th style="text-align: left;">ENTER THE CONCEPT</th>
+                <th style="text-align: center;"> DATE</th>
+                <th>CURRENT DATE</th>
+              </tr>
+
+              <tr>
+                <td>
+                  <paper-textarea id="textarea" label="concept" value="{{concept}}"></paper-textarea>
                 </td>
-               <td>
-
-                 <paper-icon-button style="margin-top: 1%;position: absolute;
-                 color: #1B78CF" icon="date-range" on-click="FnShowDialog">
-                 </paper-icon-button>
-              </td>
-              <td>
-                 <paper-input readonly raised value="{{showdate}}"  style="margin-top: 4%;"></paper-input>
-              </td>
-                
-             </tr>
-           </table>
-          <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
-      margin-left: 22em;margin-top: 7%;"  on-click="fnsetconcept">Submit</paper-button>    
-     </div> 
-  </div>
-</paper-card>
-</div>
-
-
-<div id="newcadhide" >
-  <paper-card class="newcardzz" >
-   <div style="background-color: #8164f3;
-    padding-top:26%;height: 1px;">
-    <center style="position: absolute;margin-top: -12%;margin-left: 38%;
-            color: white;">
-      <!-- <h1><b>{{conceptnamez}}</b></h1> -->
-    </center>
-    <paper-input hidden value={{captheadid}}></paper-input>
-    </div>
-     <div class="card-actions">
-  
-     <div >
-           <table style="border-collapse: collapse;width: 95%;">
-            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-             <th style="text-align: left;">ENTER THE CHAPTER</th>
-             <th style="text-align: left;"> DATE</th>
-             <th style="text-align: left;">CURRENT DATE</th>
-         
-             </tr>
-
-             <tr>
-               <td>
-                  
-                    <paper-textarea id="textarea" label="concept" value="{{conceptnamez}}"></paper-textarea>
-          
-        
+                <td>
+                  <paper-icon-button style="margin-top: 2%;position: absolute;
+                  color: #1B78CF;" icon="date-range" on-click="FnShowDialog">
+                  </paper-icon-button>
                 </td>
-               <td>
-
-                 <paper-icon-button  icon="date-range" on-click="FnShowDialog">
-                 </paper-icon-button>
-              </td>
-              <td>
-                 <paper-input readonly raised value="{{conceptdatez}}"></paper-input>
-              </td>
-                
-             </tr>
-           </table>
-          <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
-      margin-left: 22em;margin-top: 7%;"  on-click="fnnnsubmit">Submit</paper-button>    
+                <td>
+                  <paper-input readonly raised value="{{showdate}}"  style="margin-top: 2em;margin-left: 20%;"></paper-input>
+                </td>
+              </tr>
+            </table>
+                <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;    
+                  margin-left: 13em;margin-top: 11%;"  on-click="fnsetconcept">Submit</paper-button>    
         </div> 
       </div>
-    </paper-card>
-  </div>  
+    </div>
+    <!-- </paper-card> -->
+    </div>  
 
+  <div id="newcadhide">
+    <div class="newcardzz">
+        <paper-input hidden value={{captheadid}}></paper-input>
+
+      <div class="card-actions">
+        <div>
+            <table style="border-collapse: collapse;width: 450px;margin-top: 12%">
+              <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+                <th style="text-align: left;">ENTER THE CONCEPT</th>
+                <th style="text-align: center;"> DATE</th>
+                <th>CURRENT DATE</th>
+              </tr>
+
+             <tr>
+                <td>  
+                  <paper-textarea id="textarea" label="concept" value="{{conceptnamez}}"></paper-textarea>
+                </td>
+                <td>
+                  <paper-icon-button style="margin-top: 2%;position: absolute;
+                  color: #1B78CF;" icon="date-range" on-click="FnShowDialog">
+                  </paper-icon-button>
+                </td>
+                <td>
+                  <paper-input readonly raised value="{{conceptdatez}}"  style="margin-top: 2em;margin-left: 20%;"></paper-input>
+                </td>
+              </tr>
+            </table>
+
+                <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
+                margin-left: 13em;margin-top: 11%;"  on-click="fnnnsubmit">Submit
+                </paper-button>    
+          </div> 
+        </div>
+          <!-- </paper-card> -->
+        </div>
+      </div>  
+
+    </paper-card>
 
 
  
-  <div class="card">
-    <paper-dialog id="dialog" class="paper-date-picker-dialog" modal on-iron-overlay-closed="FnDismissDialog">
+    <div class="card">
+      <paper-dialog id="dialog" class="paper-date-picker-dialog" modal on-iron-overlay-closed="FnDismissDialog">
         <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
         <div class="buttons">
            <paper-button dialog-dismiss>Cancel</paper-button>

@@ -16,11 +16,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+      .card
+      {
+        @apply(--layout-horizontal);
+      }
     </style>
     <div>
+      <div class="card">
         <paper-input hidden value={{capterid}} ></paper-input>
- <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
+        <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
        </paper-button>
+      </div> 
+
 <iron-ajax
         method="post"
         id="fngetconceptvalue11ajax"

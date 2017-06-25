@@ -40,10 +40,7 @@
   padding: 15px 0px;
   text-shadow: 1px 0px 1px rgba(255, 255, 255, 0.8);
 }
-/*h2{
- padding: 30px 20px 10px 350px;
-   
-}*/
+
 .hs-inner p:first-letter{
   font-size: 28px;
 }
@@ -54,41 +51,40 @@
     height: 300px;
     margin-left:40%;
     margin-top:-16%;
-       /*position: fixed;
-      */overflow: auto;
+    overflow: auto;
    }
-   .position{
-    margin-left:10%
-   
+   .position
+   {
+      margin-left:29%;
+   }
+   .position1
+   {
+      margin-left:5%;
    }
    .hs-inner
    {
-    /*top: 200px;*/
     width: 324px;
-    height: 278px;
-    margin-top: 4%;
-    overflow: auto;
+    height: 310px;
+    margin-top: -6%;
+    overflow-x: hidden;
+    overflow-y: visible;
    }
    table
    {
-        margin-left: -22em;
-        margin-top: -4em;
+        margin-left: -25em;
+        /*margin-top: -4em;*/
    }
-   /*paper-card
-   {
-        left: 23%;
-        margin-top: 6%;
-   }*/
+  
 
    #newcardd
     {
-        width:55%;
-        height:466px; 
         margin-top: 4%;
         margin-left: 20%;
+         width:55%;
+        min-height: 512px; 
         border: solid 1px #555; 
         background-color: white; 
-        box-shadow: inset 10px -10px 25px #77539e(0,0,0,0.6); -moz-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -webkit-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -o-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6)
+        box-shadow: inset 10px -10px 25px #77539e(0,0,0,0.6); -moz-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -webkit-box-shadow: inset 10px -10px 25px rgba(146, 93, 93, 0.6); -o-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6)
     }
 
     img
@@ -101,15 +97,26 @@
     paper-fab{
       background-color: #ff0080;
       color: white;
-      bottom: 123px;
-      left: 86%;
+      bottom: 157px;
+      left: 92%;
     }
-   .newchapterrr
-   {
-        border-radius: 10px;
-        width: 400px;
-        height: 150px;
-   }
+     #newchapterrr
+     {
+          border-radius: 10px;
+          width: 350px;
+          height: 200px;
+     }
+    paper-dropdown-menu
+    {
+      width: 15%;
+      --paper-input-container-label: { color: red };
+      text-align:center;
+    }
+      
+       #itemcard:nth-child(odd)
+       {
+         background-color: #cec8c9;
+       }
 
     </style>
        <span class="position"> 
@@ -121,7 +128,7 @@
                 </paper-menu>
          </paper-dropdown-menu>
        </span>
-         <span class="position"> 
+         <span class="position1"> 
          <paper-dropdown-menu  label="Select Subject">
                 <paper-menu id="teacherrefzzzz" class="dropdown-content"   on-iron-select="fnemployeename">
                   <template is="dom-repeat" items="{{subjectarr}}">
@@ -149,14 +156,15 @@
       </div>
  -->
 
-      <div>
         <paper-dialog id="newchapterrr" modal>
-          <paper-input label="Enter Chapter" value="{{captername}}">
+          <paper-input  label="Enter Chapter" value="{{captername}}" style="position: relative; margin-top:14%;">
             <paper-icon-button icon="save" suffix on-click="fnset">
             </paper-icon-button>
+
+              <paper-icon-button icon="close" suffix on-click="fnclose" style="float: right;position: fixed;margin-left: 20.5%;margin-top: -4%;"></paper-icon-button>
           </paper-input>
+
         </paper-dialog>
-    </div>
 
     
         <paper-card id="newcardd">
@@ -174,8 +182,12 @@
               <template is="dom-repeat" items="{{capterarr}}" as="view">
                 <tr>
                   <template is="dom-repeat" items="{{view}}" as="v">
-                    <td style="border-bottom: 1px solid #77539e; line-height: 1.8em;">
-                      <p><teacher-book-refernce-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-refernce-item-card></p>
+                    <td style="line-height: 2em;">
+                      <div id="itemcard">
+                        <p>
+                          <teacher-book-refernce-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-refernce-item-card>
+                        </p>
+                      </div>
                     </td>
                   </template>
                 </tr>
@@ -251,6 +263,11 @@ fnrefresh:function()
 fnsetchapter:function()
 {
   this.$.newchapterrr.toggle();
+},
+
+fnclose:function()
+{
+  this.$.newchapterrr.close();
 },
 FnHidden:function()
 {

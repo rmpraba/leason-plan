@@ -27,13 +27,20 @@
     .dialog-right-position::shadow #scroller {
       width: 500px;
       height: 350px;
-    }   </style>
-    <div>
-     <paper-input hidden value={{capterid}} ></paper-input>
-       <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
-       </paper-button>
+    }  
 
-</div>
+      .card
+      {
+        @apply(--layout-horizontal);
+      }
+
+      
+     </style>
+    <div class="card">
+        <paper-input hidden value={{capterid}} ></paper-input>
+        <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
+        </paper-button>  
+    </div>
   <iron-ajax
         method="post"
         id="fngetconceptvalueajax"
