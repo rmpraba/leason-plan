@@ -17,12 +17,7 @@
     width: 327px;
     height: 300px;
    }
-   section p{    
    
-   }
-   .cadcdd{
- 
-   }
    .hs-inner1
    {
     padding: 30px 20px 10px 377px;
@@ -58,9 +53,9 @@
    .hs-inner1
    {
     /*top: 200px;*/
-    width: 324px;
-    height: 310px;
-    margin-top: 4%;
+    width: 344px;
+    height: 340px;
+    margin-top: 1%;
     overflow-y: visible;
     overflow-x: hidden;
    }
@@ -79,7 +74,7 @@
         
         margin-top: 4%;
         margin-left: 20%;
-        width:55%;
+        width:57%;
         height:512px; 
         border: solid 1px #555; 
         background-color: white; 
@@ -90,22 +85,27 @@
     }
 
     img
-    {
-         margin-top: -18%;
-    height: 163px;
-    width: 721px;
+    { 
+      margin-top: -14em;
+      height: 129px;
+      width: 739px;
     }
     paper-dropdown-menu{
       width: 15%;
-      /*margin-left: 3%;*/
       --paper-input-container-label: { color: red };
       text-align:center;
       }
       
-     
-      #itemcard:nth-child(odd)
+     #itemcarddialog
        {
-         background-color: #cec8c9;
+            width: 82%;
+            height: 90px;
+            text-align: center;
+           display: inline-block;
+            @apply(--layout-center);
+            border-radius: 2px;
+            box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+            padding:5px;
        }
     
       
@@ -153,7 +153,7 @@
        </span>
     <!-- <div id="newcardd111"> -->
          <paper-card id="newcardd111">
-          <div style="padding-top: 18%;height: 5px;">
+          <div style="padding-top: 16%;height: 5px;">
           <img src="../../images/book5.jpg">
             <center style="position: absolute;margin-top: -16%;margin-left: 42%;
             color: black;">
@@ -167,7 +167,7 @@
                 <tr>
                   <template is="dom-repeat" items="{{view}}" as="v">
                     <td style="line-height: 2em;">
-                      <div id="itemcard">
+                      <div id="itemcarddialog">
                         <p><teacher-book-approveal-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-approveal-item-card></p>
                       </div>  
                     </td>
