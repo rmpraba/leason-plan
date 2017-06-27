@@ -37,9 +37,10 @@
              <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
              </td>
              <td>
-              <template is="dom-repeat" items="{{masskill}}" as="r">
-                      <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{consid}}" id="{{r.value_id}}{{empid}}{{gradeid}}{{sectionid}}{{subjectid}}{{capterid}}{{conceptid}}">
-                      </aproval-book>  
+              <template is="dom-repeat" items="{{masskillz}}" as="r">
+                 
+<aproval-save-and-edit-book-card   check="{{r.check}}" valueid="{{r.value_id}}" valuename="{{r.value_name}}">
+ </aproval-save-and-edit-book-card>  
               </template>
             </td>
             <td><from-book-date-picker></from-book-date-picker></td>
