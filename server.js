@@ -8849,9 +8849,9 @@ app.post('/generateroletogrademappinginfo-service',  urlencodedParser,function (
 app.post('/fngetskill-service',  urlencodedParser,function (req,res)
   {  
 
-    var qur1="SELECT * FROM md_skill where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+ var qur1="SELECT * FROM md_skill where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"'";
 
-     var qur3="SELECT * FROM md_book_value  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+var qur3="SELECT * FROM md_book_value  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"'";
 
 
     var qur2="SELECT * FROM master_value";
@@ -9708,11 +9708,11 @@ app.post('/bookrefsection1-service',  urlencodedParser,function (req,res)
      res.status(200).json({'': 'no rows'}); 
   });
 });
-app.post('/fngetskill-service',  urlencodedParser,function (req,res)
+/*app.post('/fngetskill-service',  urlencodedParser,function (req,res)
   {  
 
     var qur1="SELECT * FROM md_skill where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
-
+   
     var qur2="SELECT * FROM master_value";
     console.log(qur1);
     console.log(qur2);
@@ -9742,7 +9742,7 @@ app.post('/fngetskill-service',  urlencodedParser,function (req,res)
      res.status(200).json({'': 'no rows'}); 
   });
 });
-
+*/
 app.post('/fngetclassbookpdf-service',  urlencodedParser,function (req,res)
   {  
     var qur1="SELECT  concept_id as consid,(select concept  from md_concept where  concept_id=consid) as conceptname, capter_id as capterid ,innovation,skill, (select s.capter from md_chapter s where s.capter_id=capterid    and s.academic_year='"+req.query.academic_year+"' and s.gradeid='"+req.query.grade_id+"' and s.subjectid='"+req.query.subject_id+"') as chaptername  FROM md_skill where emp_id='"+req.query.emp_id+"' and  subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and  grade_id='"+req.query.grade_id+"'  and flag='preaprove' and academic_year='"+req.query.academic_year+"'";
