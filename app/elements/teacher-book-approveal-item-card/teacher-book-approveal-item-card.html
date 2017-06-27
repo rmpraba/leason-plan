@@ -123,7 +123,7 @@ passsetcapter:function(e){
                    flag=1;
                    conceptarr[j].innovation=res1[i].innovation;
                    conceptarr[j].skill=res1[i].skill;
-                
+                    conceptarr[j].id=conceptarr[j].concept_id+conceptarr[j].capter_id;
 
              
                   }
@@ -138,6 +138,7 @@ passsetcapter:function(e){
             obj.concept=conceptarr[i].concept;
             obj.innovation=conceptarr[i].innovation;
             obj.skill=conceptarr[i].skill;
+            obj.id=conceptarr[i].id;
             obj.masstrvaluearr=res3;
             overallsxsss.push(obj);   
             }
@@ -160,50 +161,31 @@ passsetcapter:function(e){
 
 
 
-/*
-  for(var j=0;j<overallsxsss.length;j++){
-    for(var q=0;q<res2.length;q++){
 
-//alert(overallsxsss[j].concept_id+overallsxsss[j].capter_id+" "+res2[q].concept_id+res2[q].capter_id);
-
-  if(overallsxsss[j].concept_id+overallsxsss[j].capter_id==res2[q].concept_id+res2[q].capter_id){
-
-           for(var t=0;t<overallsxsss[j].masstrvaluearr.length;t++){
-
-      alert(overallsxsss[j].masstrvaluearr[t].value_id+"  "+res2[q].value_id);
-
-            if(overallsxsss[j].masstrvaluearr[t].value_id==res2[q].value_id){
-                 overallsxsss[j].masstrvaluearr[t].check=true;
-              }}}}}*/
   alert(JSON.stringify(overallsxsss));
 
 
 
-for(var j=0;j<overallsxsss.length;j++){
-  for(var q=0;q<res2.length;q++){
-     if(overallsxsss[j].capter_id==res2[q].capter_id){
-
-       if(overallsxsss[j].concept_id==res2[q].concept_id){
-
-  alert(overallsxsss[j].concept_id+overallsxsss[j].capter_id+" "+res2[q].concept_id+res2[q].capter_id);
-
- 
-         for(var t=0;t<overallsxsss[j].masstrvaluearr.length;t++){
-          overallsxsss[j].masstrvaluearr[t].check=false;
-
-             if(overallsxsss[j].masstrvaluearr[t].value_id==res2[q].value_id){
-
-      alert(overallsxsss[j].masstrvaluearr[t].value_id+" "+res2[q].value_id);
-        overallsxsss[j].masstrvaluearr[t].check=true;
-     
-                 }
+     for(var j=0;j<overallsxsss.length;j++){
+       var flag=0;
+      for(var q=0;q<res2.length;q++){
+      if(overallsxsss[j].id==res2[q].concept_id+res2[q].capter_id){
+             flag=1;
+              var sss=res2[q].value_id;
+              overallsxsss[j].masstrvaluearr[t].check=false;
+            for(var t=0;t<overallsxsss[j].masstrvaluearr.length;t++){
+             
+           if(overallsxsss[j].masstrvaluearr[t].value_id==sss){
+                      overallsxsss[j].masstrvaluearr[t].check=true;
+                      
+               }
            } 
-           }
+        }
          }
-       }
-      }
- 
-
+         if(flag==0){
+          }
+     }
+  
 
   alert(JSON.stringify(res2));
  alert(JSON.stringify(overallsxsss));
