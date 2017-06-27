@@ -6,12 +6,10 @@
 
 var dbserver_ip_address = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1'
 var connection = mysql.createConnection({
-
    host     : 'localhost',
    user     : 'root',
-   password : '',
-   database : 'master1'
-
+   password : 'admin',
+   database : 'reportcardcloudins'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -9122,6 +9120,45 @@ app.post('/selectallsection1-service',  urlencodedParser,function (req,res)
       });
 });
 
+app.post('/fetchchapter-service',  urlencodedParser,function (req,res)
+{ 
+  var qur1="SELECT distinct(s.capter_id),(select distinct(c.capter) from md_chapter c where c.capter_id=s.capter_id and c.school_id='"+req.query.schoolid+"' and c.academic_year='"+req.query.academic_year+"' and c.gradeid='"+req.query.gradeid+"' and c.subjectid='"+req.query.subjectid+"') as capter from md_skill s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.grade_id='"+req.query.gradeid+"' and s.subject_id='"+req.query.subjectid+"' and s.flag='active'";
+
+  console.log(qur1);
+
+   connection.query(qur1,
+    function(err, rows){
+      if(!err)
+      {
+          res.status(200).json({'returnval': rows});
+          //console.log(rows);
+      }
+
+      else
+          //console.log(err);
+          res.status(200).json({'returnval': 'invalid'});
+      });
+});
+
+app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
+{ 
+var qur1="SELECT distinct(s.concept_id),(select distinct(c.concept) from md_concept c where c.concept_id=s.concept_id and c.capter_id='"+req.query.chapterid+"') as concept from md_skill s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.grade_id='"+req.query.gradeid+"' and s.subject_id='"+req.query.subjectid+"' and s.capter_id='"+req.query.chapterid+"' and s.flag='active'";
+
+  console.log(qur1);
+
+   connection.query(qur1,
+    function(err, rows){
+      if(!err)
+      {
+          res.status(200).json({'returnval': rows});
+          //console.log(rows);
+      }
+
+      else
+          //console.log(err);
+          res.status(200).json({'returnval': 'invalid'});
+      });
+});
 
 app.post('/teacherbookref-service',  urlencodedParser,function (req, res)
 {
@@ -9163,12 +9200,14 @@ app.post('/teacherbookref-service',  urlencodedParser,function (req, res)
       console.log(err);
   });
 });
+
+
 app.post('/bookreffixcapterdate-service',  urlencodedParser,function (req, res)
 {
    var qur1;
 
-   if(req.query.roleid=='co-ordinator'){
-qur1="select emp_id,subject_id,section_id,grade_id,concept_id as consid,(select concept  from md_concept where  concept_id=consid) as conceptname, capter_id as capterid ,innovation,skill, (select s.capter from md_chapter s where s.capter_id=capterid    and s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.gradeid='"+req.query.gradeid+"' and s.subjectid='"+req.query.subjectid+"') as chaptername from md_skill where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and  section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and flag='active'";
+if(req.query.roleid=='co-ordinator'){
+ qur1="select emp_id,subject_id,section_id,grade_id,concept_id as consid,(select concept  from md_concept where  concept_id=consid) as conceptname, capter_id as capterid ,innovation,skill, (select s.capter from md_chapter s where s.capter_id=capterid    and s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.gradeid='"+req.query.gradeid+"' and s.subjectid='"+req.query.subjectid+"') as chaptername from md_skill where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and capter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and flag='active'";
 }
 else if(req.query.roleid=='class-teacher'){
  qur1="select * from md_chapter where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and gradeid='"+req.query.gradeid+"' and subjectid='"+req.query.subjectid+"'";   
@@ -9178,7 +9217,7 @@ else if(req.query.roleid=='subject-teacher'){
 }
 else if(req.query.roleid=='principal' ||req.query.roleid=='headofedn'||req.query.roleid=='headmistress'||req.query.roleid=='viceprincipal'){
 
-   qur1="select emp_id,subject_id,section_id,grade_id,concept_id as consid,(select concept  from md_concept where  concept_id=consid) as conceptname, capter_id as capterid ,innovation,skill, (select s.capter from md_chapter s where s.capter_id=capterid    and s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.gradeid='"+req.query.gradeid+"' and s.subjectid='"+req.query.subjectid+"') as chaptername from md_skill where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and  section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and flag='coaprove' and flag!='preaprove'";
+ qur1="select emp_id,subject_id,section_id,grade_id,concept_id as consid,(select concept  from md_concept where  concept_id=consid) as conceptname, capter_id as capterid ,innovation,skill, (select s.capter from md_chapter s where s.capter_id=capterid    and s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.gradeid='"+req.query.gradeid+"' and s.subjectid='"+req.query.subjectid+"') as chaptername from md_skill where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and  section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and flag='coaprove' and flag!='preaprove'";
 
 }
   console.log(qur1);
@@ -9616,7 +9655,7 @@ app.post('/fnbookplangrade-service',  urlencodedParser,function (req,res)
     {
     if(!err)
     {    
-     console.log(JSON.stringify(rows));   
+     // console.log(JSON.stringify(rows));   
       res.status(200).json({'returnval': rows});
     }
     else
@@ -9635,7 +9674,7 @@ app.post('/fngetclassbooksubjectvalue-service',  urlencodedParser,function (req,
     {
     if(!err)
     {    
-     console.log(JSON.stringify(rows));   
+     // console.log(JSON.stringify(rows));   
       res.status(200).json({'returnval': rows});
     }
     else
@@ -9787,8 +9826,7 @@ console.log(qur);
   });
 });
 
-
-var server = app.listen(5000, function () {
+var server = app.listen(3000, function () {
 var host = server.address().address
 var port = server.address().port
 console.log("Example app listening at http://%s:%s", host, port)

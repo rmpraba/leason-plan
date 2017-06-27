@@ -262,7 +262,24 @@
         debounce-duration="300">
     </iron-ajax> 
 </iron-ajax> 
-
+        <iron-ajax
+        method="post"
+        id="fetchchapterajax"
+        url="{{fetchchapterurl}}"
+        params="{{fetchchapterparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchchapterResponse"
+        debounce-duration="300" />
+        <iron-ajax
+        method="post"
+        id="fetchconceptajax"
+        url="{{fetchconcepturl}}"
+        params="{{fetchconceptparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchconceptResponse"
+        debounce-duration="300" />
   </template>
   <script>  
   (function() {
@@ -270,6 +287,43 @@
    var masskill=[];
     Polymer({
       is: 'teacher-book-service-card',
+        FnFetchChapterService:function(gradeid,subjectid){
+           this.fetchchapterurl=sessionStorage.getItem("addrinfo")+"/fetchchapter-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
+           // obj.chapterid=chapterid;
+           obj.subjectid=subjectid;
+           obj.gradeid=gradeid;
+           this.fetchchapterparam=obj;
+           //alert(JSON.stringify(obj));
+           this.$.fetchchapterajax.generateRequest();
+        },
+        fetchchapterResponse:function(e){
+          alert(JSON.stringify(e.detail.response.returnval));
+          document.querySelector('teacher-book-approve-card').chapterarr=e.detail.response.returnval;
+        },
+        FnFetchConceptService:function(gradeid,subjectid,chapterid){
+           this.fetchconcepturl=sessionStorage.getItem("addrinfo")+"/fetchconcept-service";
+            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
+           
+           obj.chapterid=chapterid;
+           obj.subjectid=subjectid;
+           obj.gradeid=gradeid;
+           //alert(JSON.stringify(obj));
+           this.fetchconceptparam=obj;
+           this.$.fetchconceptajax.generateRequest();
+        },
+        fetchconceptResponse:function(e){
+          alert(JSON.stringify(e.detail.response.returnval));
+          document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
+        },
        fnbookplangrade:function(e){
           this.fnbookplangradeurl=sessionStorage.getItem("addrinfo")+"/fnbookplangrade-service";
             var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
@@ -435,13 +489,15 @@ this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
       this.$.skillvaluesajax.generateRequest();
       },
       
-         bookreffixcapterdate:function(empid,gradeid,subjectid,sectionid){
+         bookreffixcapterdate:function(gradeid,subjectid,chapterid,conceptid){
            this.bookreffixcapterdateurl=sessionStorage.getItem("addrinfo")+"/bookreffixcapterdate-service";
            var obj={"empid":"","gradeid":"","subjectid":"","sectionid":"","schoolid":"","academic_year":"","roleid":""};
-           obj.empid=empid;
+           // obj.empid=empid;
            obj.gradeid=gradeid;
            obj.subjectid=subjectid;
-           obj.sectionid=sectionid;
+           obj.chapterid=chapterid;
+           obj.conceptid=conceptid;
+           // obj.sectionid=sectionid;
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
