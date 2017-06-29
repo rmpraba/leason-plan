@@ -106,130 +106,153 @@
       height: 531px;
       margin-top: -28.5%;
     }
+    
+
+     #itemcarddialog1
+       {
+        width: 81%;
+        height: 90px;
+        text-align: center;
+       display: inline-block;
+        @apply(--layout-center);
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+        padding:5px;
+       }
+       #newcardzzzzz
+       {
+           margin-top: 4%;
+        margin-left: 20%;
+         width:57%;
+        min-height: 512px; 
+        border: solid 1px #555; 
+        background-color: white; 
+        box-shadow: inset 10px -10px 25px #77539e(0,0,0,0.6); -moz-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6); -webkit-box-shadow: inset 10px -10px 25px rgba(146, 93, 93, 0.6); -o-box-shadow: inset 10px -10px 25px rgba(0,0,0,0.6)
+       }
+
+       .hs-inner2
+       {
+         /*padding: 30px 20px 10px 377px;*/
+        @apply(--layout-horizontal);
+       }
+       .hs-inner2 p
+       {
+          font-size: 18px;
+          line-height: 24px;
+          text-align: justify;
+          position: relative;
+          padding: 11px 0px;
+          text-shadow: 1px 0px 1px rgba(255, 255, 255, 0.8);
+       }
+       .hs-inner2
+       {
+         width: 738px;
+        height: 350px;
+        margin-top: -2%;
+        overflow-x: hidden;
+        overflow-y: visible;
+       }
+    
+    
+       .hs-inner2 p:first-letter
+        {
+            font-size: 28px;
+        }
+
+
+        img
+        {
+              margin-top: -12%;
+              height: 122px;
+              width: 739px;
+        }
+
+        paper-fab{
+          background-color: #ff0080;
+          color: white;
+          bottom: 116px;
+          left: 92%;
+        }
+        table
+        {
+              width: 90%;
+              margin-left: 5%;
+        }
+        #newconceptttt
+        {
+          border-radius: 10px;
+          width: 350px;
+          height: 200px;
+        }
+        #chkk
+        {
+              position: absolute;
+            margin-top: -2em;
+            margin-left: 6%;
+        }
+        
     </style> 
 
- 
-<paper-card id="selcard">
-   <div style="background-color: #9370DB;
-        padding-top: 13%;height: 4px;width: 1091px;">
-        <paper-icon-button icon="arrow-back" on-click="passset" 
-            style="position: absolute;margin-top: -12%;margin-left: 2%;color: white;">
-        </paper-icon-button>
+        
+    <paper-card id="newcardzzzzz">
+<!-- <div style="background-color: #9370DB;
+        padding-top: 13%;height: 4px;width: 1091px;"> -->
+        <div style="padding-top: 12%;height: 9%;">
 
-      <h1 style="color:white;position: fixed;margin-top: -7%;margin-left: 38%;"><b>{{capthead}}</b></h1>
+            <paper-icon-button icon="arrow-back" on-click="passset" 
+            style="position: absolute;margin-top: -12%;margin-left: 2%;color: black;">
+          </paper-icon-button>
 
-      <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
-    </div>
-    <div class="card-actions">
-     
-      <div class="cadcdd1">
-        <table style="width: 80%;">
-          <template is="dom-repeat" items="{{conceptarr}}" as="s">
-            <tr>
-              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">{{s.concept}}</td>
-              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;"><h5 style="color:#1B78CF;padding-left: 40px;">{{s.planned_date}}</h5></td>
-    
-              <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-                <aproval-book-value-item-card  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"></aproval-book-value-item-card>  
-              </td>
-              <td  style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-                <paper-icon-button icon="delete" style="color:#ff1493"></paper-icon-button>
-              </td>
-            </tr>  
-          </template>
-        </table>  
-      </div> 
-    </div>
+            <img src="../../images/book5.jpg">
+            <center style="position: absolute;margin-top: -14%;margin-left: 39%;
+            color: #1d1d1f;">
+                <h1 style="color:black;position: fixed;margin-top: 2%;margin-left: 3%;"><b>{{capthead}}</b></h1>
+            </center>
+            <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
+        </div>
 
 
-
-    <div id="hideprecard">
-      <div class="selcard11">
-        <div class="card-actions">
-          <div>
-            <table style="border-collapse: collapse;width: 450px;margin-top: 12%">
-              <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-                <th style="text-align: left;">ENTER THE CONCEPT</th>
-                <th style="text-align: center;"> DATE</th>
-                <th>CURRENT DATE</th>
-              </tr>
-
-              <tr>
-                <td>
-                  <paper-textarea id="textarea" label="concept" value="{{concept}}"></paper-textarea>
-                </td>
-                <td>
-                  <paper-icon-button style="margin-top: 2%;position: absolute;
-                  color: #1B78CF;" icon="date-range" on-click="FnShowDialog">
-                  </paper-icon-button>
-                </td>
-                <td>
-                  <paper-input readonly raised value="{{showdate}}"  style="margin-top: 2em;margin-left: 20%;"></paper-input>
-                </td>
-              </tr>
-            </table>
-                <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;    
-                  margin-left: 13em;margin-top: 11%;"  on-click="fnsetconcept">Submit</paper-button>    
+        <div class="hs-inner2">
+          <table>
+             <template is="dom-repeat" items="{{conceptarr}}" as="view">
+                <tr>
+                  <template is="dom-repeat" items="{{view}}" as="v">
+                    <td>
+                      <div id="itemcarddialog1">
+                        <p>
+                          <aproval-book-value-item-card concept="{{v.concept}}" conceptid="{{v.concept_id}}" capterid="{{v.capter_id}}"></aproval-book-value-item-card>
+                        </p>
+                      </div>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+          </table>  
         </div> 
-      </div>
-    </div>
-    <!-- </paper-card> -->
-    </div>  
-
-  <div id="newcadhide">
-    <div class="newcardzz">
-        <paper-input hidden value={{captheadid}}></paper-input>
-
-      <div class="card-actions">
-        <div>
-            <table style="border-collapse: collapse;width: 450px;margin-top: 12%">
-              <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-                <th style="text-align: left;">ENTER THE CONCEPT</th>
-                <th style="text-align: center;"> DATE</th>
-                <th>CURRENT DATE</th>
-              </tr>
-
-             <tr>
-                <td>  
-                  <paper-textarea id="textarea" label="concept" value="{{conceptnamez}}"></paper-textarea>
-                </td>
-                <td>
-                  <paper-icon-button style="margin-top: 2%;position: absolute;
-                  color: #1B78CF;" icon="date-range" on-click="FnShowDialog">
-                  </paper-icon-button>
-                </td>
-                <td>
-                  <paper-input readonly raised value="{{conceptdatez}}"  style="margin-top: 2em;margin-left: 20%;"></paper-input>
-                </td>
-              </tr>
-            </table>
-
-                <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
-                margin-left: 13em;margin-top: 11%;"  on-click="fnnnsubmit">Submit
-                </paper-button>    
-          </div> 
-        </div>
-          <!-- </paper-card> -->
-        </div>
-      </div>  
-
     </paper-card>
 
 
- 
-    <div class="card">
-      <paper-dialog id="dialog" class="paper-date-picker-dialog" modal on-iron-overlay-closed="FnDismissDialog">
-        <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
-        <div class="buttons">
-           <paper-button dialog-dismiss>Cancel</paper-button>
-           <paper-button dialog-confirm>OK</paper-button>
-        </div>
-      </paper-dialog>
-    </div>
+
+        <!-- <div id="viewconcept">
+          <template is="dom-repeat" items="{{concepteditarr}}" as="v">
+            <aproval-book-value-item-card conceptidz="{{v.concept_id}}" conceptnamez="{{v.concept}}" id="{{id}}"></aproval-book-value-item-card>
+          </template>
+        </div> -->
 
 
-    <dialog-page id="ID_Show_Dialog"></dialog-page>
-    
+        <paper-dialog id="newconceptttt" modal>
+          <div>
+              <paper-textarea id="textarea" label="Enter Concept" value="{{concept}}" style="position: relative; margin-top:14%;width: 77%;">
+              </paper-textarea>
+          </div>
+          <div>    
+            <paper-icon-button icon="save" suffix on-click="fnsetconcept" style="float: right;margin-top:-34%;margin-left: -1em; ">
+            </paper-icon-button>
+          </div>
+          <div>  
+              <paper-icon-button icon="close" suffix on-click="Fnclose" style="float: right;position: fixed;margin-left: 20.5%;margin-top: -12%;"></paper-icon-button>
+          </div>    
+        </paper-dialog>
      
   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
@@ -238,10 +261,10 @@
   <script>
   (function() {
     'use strict';
-var conceptid;
-var skll2=[];
-var val1=[];
-
+    var conceptid;
+    var skll2=[];
+    var val1=[];
+    var editconceptarr=[];
     Polymer({  
       is: 'teacher-book-chapter-refernce-card',
 
@@ -249,50 +272,35 @@ ready:function()
   {
     this.showdate=moment(new Date()).format('L');
     localStorage.setItem("localsess_last_service",this.showdate);
-    //this.$.service.feereport(this.showdate);
-    this.$.newcadhide.hidden=true;
-    //this.hideprecard=true;
-     this.$.hideprecard.hidden=true;
-
+     
+    /*this.savezzzzzzzz=true;
+    this.conceptzzzzz=true; */
   },
-  FnShowDialog:function(){
-    this.date=new Date();
-    this.$.dialog.toggle();
-  },
-  FnDismissDialog:function(e)
-  {
-    if(e.detail.confirmed)
-     {
-      var pickdate=moment(this.$.picker.date).format('L');
-      var dd1=new Date();
-      var dd2=new Date(pickdate);
-      var days=parseInt((dd1 - dd2) / (1000 * 60 * 60 * 24));
-          this.showdate = moment(this.$.picker.date).format('L');
-          localStorage.setItem("localsess_last_service",this.showdate);
-  }
-},
-passset:function(e){
-//alert('1');
- document.querySelector('app-card').setPage('homepage','');
-document.querySelector('home-page').setPage('teacher-book-refernce-card','');
 
-},
-fnset:function(e){
+
+    passset:function(e)
+    {
+      //alert('1');
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('teacher-book-refernce-card','');
+    
+    },
+    fnset:function(e)
+    {
   
-     this.$.bookservice.conceptseq();
-    this.$.newcadhide.hidden=true;
-    this.$.hideprecard.hidden=false;
-    this.showdate="";
-  },
-  fnsetconcept:function(e){
-  // alert(this.captheadid+ " "+this.concept+" "+conceptid+" "+this.showdate);
-    this.$.bookservice.fnsendconcept(this.captheadid,this.concept,conceptid,this.showdate);
-   this.concept="";
-      this.$.newcadhide.hidden=true;
-       this.$.hideprecard.hidden=true;
+      this.$.bookservice.conceptseq();
+      this.$.newconceptttt.toggle();
+    },
+    fnsetconcept:function(e)
+    {
+      //alert(this.captheadid+ " "+this.concept+" "+conceptid);
+      this.$.bookservice.fnsendconcept(this.captheadid,this.concept,conceptid);
+      this.concept="";
+      //this.$.newcadhide.hidden=true;
+       //this.$.hideprecard.hidden=true;
     },
 
-conceptidget:function(value)
+  conceptidget:function(value)
    {
     conceptid=value;
    },
@@ -302,19 +310,20 @@ conceptidget:function(value)
       skll2="";
       val1="";
    },
-  FnEdit:function(e)
+
+  /*FnEdit:function(e)
   {
     this.$.newcadhide.hidden=false;
     this.$.hideprecard.hidden=true;
-  },
-  fnnnsubmit:function(){
-   //  alert(this.captheadid+ " "+this.conceptnamez+" "+localStorage.getItem("curr_sess_conceptid")+" "+this.showdate);
-this.$.bookservice.fnbookupdatevalue(this.captheadid,this.conceptnamez,this.showdate)
-       this.$.newcadhide.hidden=true;
-       this.$.hideprecard.hidden=true;
-     ;
-  
+  },*/
+
+                        
+  Fnclose:function()
+  {
+    this.$.newconceptttt.close();        
   }
+
+
 
     });
   })();

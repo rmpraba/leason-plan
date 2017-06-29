@@ -148,12 +148,12 @@
 </iron-ajax> 
  <iron-ajax
         method="post"
-        id="fngetconceptvalue1ajax"
-        url="{{fngetconceptvalue1url}}"
-        params="{{fngetconceptvalue1param}}"
+        id="fngetconceptvalueajax"
+        url="{{fngetconceptvalueurl}}"
+        params="{{fngetconceptvalueparam}}"
         handle-as="json"
         content-type="application/json"
-        on-response="fngetconceptvalue1Response"
+        on-response="fngetconceptvalueResponse"
         debounce-duration="300">
 </iron-ajax> 
  <iron-ajax
@@ -261,6 +261,41 @@
         on-response="fngetclassbooksubjectvalueResponse"
         debounce-duration="300">
     </iron-ajax> 
+
+    
+
+       <iron-ajax
+        method="post"
+        id="conceptdeletajax"
+        url="{{conceptdeleturl}}"
+        params="{{conceptdeletparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="conceptdeletResponse"
+        debounce-duration="300">
+    </iron-ajax> 
+
+       <iron-ajax
+        method="post"
+        id="conceptdeletzzzzajax"
+        url="{{conceptdeletzzzzurl}}"
+        params="{{conceptdeletzzzzparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="conceptdeletzzzzResponse"
+        debounce-duration="300">
+      </iron-ajax> 
+
+      <iron-ajax
+        method="post"
+        id="deleteconceptzzzzajax"
+        url="{{deleteconceptzzzzurl}}"
+        params="{{deleteconceptzzzzparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="deleteconceptzzzzResponse"
+        debounce-duration="300">
+      </iron-ajax>
 </iron-ajax> 
 
   </template>
@@ -648,7 +683,7 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
        //  alert(JSON.stringify(arr));
            //  alert(JSON.stringify(arr[0].concept_prefix+arr[0].concept_sequence));
       var val1=arr[0].concept_prefix+arr[0].concept_sequence;
-    //  alert(val1);
+    //alert(val1);
      document.querySelector('teacher-book-chapter-refernce-card').conceptidget(val1);
        
       },
@@ -725,52 +760,82 @@ bookrefsection1Response:function(e){
   document.querySelector('teacher-book-approve-card').sectionarr=e.detail.response.sectionarr;
    },   
        
-     fnsendconcept:function(capterid,concept,conceptid,showdate){
+     fnsendconcept:function(capterid,concept,conceptid){
            this.fnsendconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
-       var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
+       var obj={"capter_id":"","concept":"","concept_id":""};
       obj.capter_id=capterid;
       obj.concept=concept;
       obj.concept_id=conceptid;
-      obj.showdate=showdate;
+      //obj.showdate=showdate;
        this.fnsendconceptparam=obj;
       this.$.fnsendconceptajax.generateRequest();
       },
-      fnbookupdatevalue:function(capterid,concept,showdate){
+
+
+      fnsendconceptResponse:function(e)
+      {
+
+         var res=e.detail.response.returnval;
+          //alert(JSON.stringify(res));
+            if(res=="Inserted")
+            {
+              alert("Inserted");
+              this.conceptseq(); 
+            }
+            this.fngetconceptvalue();
+      },
+
+      fngetconceptvalue:function()
+      {
+        this.fngetconceptvalueurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue-service";
+                  var obj={"capter_id":""};
+                  obj.capter_id=localStorage.getItem("curr_sess_capters");
+                this.fngetconceptvalueparam=obj;
+            //  alert(JSON.stringify(obj));
+             this.$.fngetconceptvalueajax.generateRequest();
+      },
+
+
+       fngetconceptvalueResponse:function(e)
+     {
+         var res=e.detail.response.returnval;
+          //alert(JSON.stringify(res));
+          
+           var temp=[];
+           var overall=[];
+               for(var i=0;i<res.length;i++)
+               {
+                  temp.push(res[i]);
+                  if(i!=0&&i%3==0)
+                  {
+                    overall.push(temp);
+                    temp=[];
+                  }
+                }
+              overall.push(temp);
+
+         document.querySelector('teacher-book-chapter-refernce-card').conceptarr=overall;
+
+      },
+
+      fnbookupdatevalue:function(capterid,concept)
+      {
            this.fnbookupdatevalueurl=sessionStorage.getItem("addrinfo")+"/fnbookupdatevalue-service";
-       var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
+       var obj={"capter_id":"","concept":"","concept_id":""};
       obj.capter_id=capterid;
       obj.concept=concept;
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      obj.showdate=showdate;
+      //obj.concept_id=conceptid
       this.fnbookupdatevalueparam=obj;
-     //  alert(JSON.stringify(obj));
+     //alert(JSON.stringify(obj));
       this.$.fnbookupdatevalueajax.generateRequest();
       },
-  fnbookupdatevalueResponse:function(e){
+      fnbookupdatevalueResponse:function(e){
            var res=e.detail.response.returnval;
-           // alert(JSON.stringify(res));
+          alert(JSON.stringify(res));
      },
-      fnsendconceptResponse:function(e){
-
-         var res=e.detail.response.returnval;
-      //    alert(JSON.stringify(res));
-      if(res=="Inserted"){
-        alert("Inserted");
-          this.conceptseq();
-
-   this.fngetconceptvalue1url=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue-service";
-            var obj={"capter_id":""};
-            obj.capter_id=localStorage.getItem("curr_sess_capters");
-          this.fngetconceptvalue1param=obj;
-      //  alert(JSON.stringify(obj));
-       this.$.fngetconceptvalue1ajax.generateRequest(); 
-     }
-        },
-        fngetconceptvalue1Response:function(e){
-         var res=e.detail.response.returnval;
-    //   alert(JSON.stringify(res))
-     document.querySelector('teacher-book-chapter-refernce-card').conceptarr=res;
-        },
+      
+       
        fnskillccc:function(e)
       {
        // alert("1");
@@ -821,6 +886,64 @@ bookrefsection1Response:function(e){
 document.querySelector('teacher-book-approveal-concept-item-card').fullvaluearr=res3;
      
      },
+
+     deleteconcept:function(capterid)
+     {
+      //alert(capterid);
+
+        this.conceptdeleturl=sessionStorage.getItem("addrinfo")+"/fnconceptdelet-service";
+        var obj={"conceptid":"","capterid":""};
+            obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+            obj.capterid=capterid;
+          this.conceptdeletparam=obj;
+          //alert(JSON.stringify(obj));
+          this.$.conceptdeletajax.generateRequest();
+
+
+      this.conceptdeletzzzzurl=sessionStorage.getItem("addrinfo")+"/fndeleteconcept2-service";
+       var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":"","conceptid":"","capterid":""};
+        obj.grade_id=sessionStorage.getItem("grdeidz");
+        obj.subject_id=sessionStorage.getItem("subjectidz");
+        obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.capterid=capterid;
+        this.conceptdeletzzzzparam=obj;
+       //alert(JSON.stringify(obj));
+        this.$.conceptdeletzzzzajax.generateRequest();
+
+
+      this.deleteconceptzzzzurl=sessionStorage.getItem("addrinfo")+"/fndeleteconceptzzzz-service";
+        var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":"","conceptid":"","capterid":""};
+            obj.grade_id=sessionStorage.getItem("grdeidz");
+            obj.subject_id=sessionStorage.getItem("subjectidz");
+            obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+            obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+            obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+            obj.capterid=capterid;
+            this.deleteconceptzzzzparam=obj;
+          // alert(JSON.stringify(obj));
+            this.$.deleteconceptzzzzajax.generateRequest();
+
+     },
+
+     deleteconceptzzzzResponse:function(e)
+     {
+        var res=e.detail.response.returnval;
+        alert(JSON.stringify(res));
+     },
+
+     conceptdeletzzzzResponse:function(e)
+     {
+        var res=e.detail.response.returnval;
+        //alert(JSON.stringify(res));
+     },
+     conceptdeletResponse:function(e)
+     {
+         var res=e.detail.response.returnval;
+        //alert(JSON.stringify(res));
+     }
+
   
     });
   })();

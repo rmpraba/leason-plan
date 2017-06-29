@@ -9249,7 +9249,8 @@ app.post('/getcaptervalue-service',  urlencodedParser,function (req,res)
     else
      res.status(200).json({'returnval': 'no rows'}); 
   });
-});  
+}); 
+
 app.post('/fngetconceptvalue-service',  urlencodedParser,function (req,res)
   {  
     var qur="SELECT * FROM md_concept where capter_id='"+req.query.capter_id+"'";
@@ -9290,7 +9291,7 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
        concept_id:req.query.concept_id,
        concept:req.query.concept,
        capter_id:req.query.capter_id,
-       planned_date:req.query.showdate,
+       /*planned_date:req.query.showdate,*/
       };
     console.log('------------school book-------------');
     console.log(response);
@@ -9768,7 +9769,7 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 {  
    /* var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
    */
-var qur="update md_concept set  concept='"+req.query.concept+"',planned_date='"+req.query.showdate+"'where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+var qur="update md_concept set  concept='"+req.query.concept+"'  where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
 console.log(qur);
 
   connection.query(qur,
@@ -9776,7 +9777,7 @@ console.log(qur);
     {
     if(!err)
     {    
-      res.status(200).json({'returnval': 'succ'});
+      res.status(200).json({'returnval': 'Updated'});
     }
     else
     {
@@ -9786,6 +9787,83 @@ console.log(qur);
 
   });
 });
+
+
+    
+    app.post('/fnconceptdelet-service',  urlencodedParser,function (req, res)
+    {  
+    /* var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
+   */
+    var qur="Delete FROM md_concept where capter_id='"+req.query.capterid+"' and concept_id='"+req.query.conceptid+"'";
+    
+    console.log(qur);
+
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': 'Deleted'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
+
+  });
+});
+
+
+
+    app.post('/fndeleteconcept2-service',  urlencodedParser,function (req, res)
+    {  
+    
+    var qur="Delete FROM md_skill where capter_id='"+req.query.capterid+"' and concept_id='"+req.query.conceptid+"' and school_id='"+req.query.school_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and academic_year='"+req.query.academic_year+"'";
+    
+    console.log(qur);
+
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': 'Deleted'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
+
+  });
+});
+
+      
+
+  app.post('/fndeleteconceptzzzz-service',  urlencodedParser,function (req, res)
+  {  
+    
+    var qur="Delete  FROM md_book_value where capter_id='"+req.query.capterid+"' and concept_id='"+req.query.conceptid+"' and school_id='"+req.query.school_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and academic_year='"+req.query.academic_year+"'";
+    
+    console.log(qur);
+
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': 'Deleted'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
+
+  });
+});
+
 
 
 var server = app.listen(5000, function () {
