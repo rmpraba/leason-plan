@@ -8,8 +8,7 @@ var dbserver_ip_address = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1'
 var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
-   password : 'admin',
-   database : 'reportcardcloudins'
+   password : '',
  });
 var bodyParser = require('body-parser'); 
 var app = express();
