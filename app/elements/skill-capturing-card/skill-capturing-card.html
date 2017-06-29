@@ -21,9 +21,6 @@
            <paper-input value={{conceptid}} hidden></paper-input>
      <table border="1">
            <tr>
-             <td>{{capthead}}
-             </td>
-             <td>{{conceptname}}</td>
              <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
              </td> 
              <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
@@ -36,9 +33,9 @@
             </td>
             <td><from-book-date-picker></from-book-date-picker></td>
             <td><to-book-date-picker></to-book-date-picker></td>
-            <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
+           <!--  <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
         <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad1}}" icon="save" on-click="fnsavebook"></paper-icon-button>
-            </td>
+            </td> -->
              <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
              </td>
            </tr>
@@ -54,38 +51,31 @@ var skillid;
 var val=[];
     Polymer({
       is: 'skill-capturing-card',
-  ready:function(e){
+/*  ready:function(e){
 this.dfdsfsdffzzzy1=false;
 this.dasdsaddaffsdsdssdsad1=true;
 this.innovattionvaluezs1=true;
 this.skillvaluezs1=true;
 
- },
- fnsavebook:function(e){
+ },*/
+ /*fnsavebook:function(e){
  this.dfdsfsdffzzzy1=false;
  this.dasdsaddaffsdsdssdsad1=true;
  this.innovattionvaluezs1=true;
  this.skillvaluezs1=true;
 
-},
-fneditbook:function(e){
+},*/
+/*fneditbook:function(e){
 this.dfdsfsdffzzzy1=true;
 this.dasdsaddaffsdsdssdsad1=false;
 this.innovattionvaluezs1=false;
 this.skillvaluezs1=false;
 
-},
+},*/
    fnaddskil:function(e){
      this.$.skillposition.open();
     },
-    fnset:function(e)
-    {
-      document.querySelector('teacher-book-approveal-concept-item-card').FnViewww();
-      localStorage.setItem("curr_sess_conceptid",this.conceptid); 
-      document.querySelector('teacher-book-approveal-concept-item-card').conceptnamez=this.conceptname;
-      this.$.bookservice.fnskillccc();
- 
-    },
+    
     fnaroveset:function(e){
       alert('1');
       alert(JSON.stringify(val));

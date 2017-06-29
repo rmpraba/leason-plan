@@ -162,70 +162,34 @@
                 </paper-menu>
          </paper-dropdown-menu>
        </span>
-       <span class="position" hidden$="{{hideallvaluesss}}"> 
-       <paper-dropdown-menu  label="Select the concept">
-              <paper-menu id="teacherapproveconcept" class="dropdown-content"   on-iron-select="fnselectconcept">
-                   <template is="dom-repeat" items="{{conceptarr}}">
-                    <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
-                  </template>    
-                </paper-menu>
-         </paper-dropdown-menu>
-       </span>
-    <!-- <div id="newcardd111"> -->
-         <paper-card id="newcardd111">
+  
+
+         <paper-card id="newcardd111">  
           <div style="padding-top: 16%;height: 5px;">
           <img src="../../images/book5.jpg">
             <center style="position: absolute;margin-top: -16%;margin-left: 42%;
             color: black;">
-              <h2>CHAPTER NAME</h2>
+              <h2>CONCEPT NAME</h2>
             </center>  
           </div>
-
-          <div class="hs-inner1">
+       <div class="hs-inner1">
             <table style="margin-left: -109%;margin-top: -10%;">
-              <template is="dom-repeat" items="{{capterarr}}" as="view">
-                <tr>
-                  <template is="dom-repeat" items="{{view}}" as="v">
+              <template is="dom-repeat" items="{{conceptarr}}" as="view">
+               <tr>
+                <template is="dom-repeat" items="{{view}}" as="v">
                     <td style="line-height: 2em;">
                       <div id="itemcarddialog">
-                        <p><teacher-book-approveal-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-approveal-item-card></p>
-                      </div>  
+                         <p><teacher-book-approveal-item-card concept="{{v.concept}}" conceptid="{{v.concept_id}}"></teacher-book-approveal-item-card></p>
                     </td>
                   </template>
                 </tr>
               </template>
-            </table>  
+            </table>
           </div>
-        </paper-card>
-      
-    </div>
-     <div id="zdsasddsasfsa" style="width: 101.8%;">
-       
-      <table  border="1" class="report1" id="reporttabzzzzz">
-        <tr>
-          <th>Chapter Name</th>
-          <th>Concept Name</th>
-          <th>skill name</th>
-          <th>Innovation</th>
-          <th>Value</th>
-          <th>Approve</th>
-          <th>Reject</th>
-          <th>Edit</th>
-          <th>Save</th>
-          </tr>
-            <tr>
-                <template  is="dom-repeat" items="{{overallarr1}}" as="view">
-                <tr>
-                  <aproval-book-innovatiosn-item-card 
-                  idz="ntr{{view.consid}}{{view.capterid}}{{view.emp_id}}{{view.grade_id}}{{view.section_id}}{{view.subject_id}}" innovattion="{{view.innovation}}" skillvalue="{{view.skill}}" captname="{{view.chaptername}}"  consname="{{view.conceptname}}" capterid="{{view.capterid}}" conceptid="{{view.consid}}" valuearr="{{view.skillarr}}" empid="{{view.emp_id}}" gradeid="{{view.grade_id}}" sectionid="{{view.section_id}}" subjectid="{{view.subject_id}}"   id="enr{{view.emp_id}}{{view.grade_id}}{{view.section_id}}{{view.subject_id}}{{view.consid}}{{view.capterid}}" >
-                  </aproval-book-innovatiosn-item-card>
-                </tr> 
-                </template>  
-            </tr>
-      </table>
-    </div>  
+          </paper-card>
+ 
+    
 
-       
 
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
@@ -245,17 +209,15 @@
 
     if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
      this.$.newcardd111.hidden=false;
-     this.$.zdsasddsasfsa.hidden=true;
      this.hideallvaluesss1=true;
-     this.$.reporttabzzzzz.hidden=true;
     }
 
     else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
-     this.$.newcardd111.hidden=true;
+     this.$.newcardd111.hidden=false;
      this.hideallvaluesss=false;
      this.hideallvaluesss=false;
-     this.$.zdsasddsasfsa.hidden=true;
      this.hideallvaluesss1=false;
+
 
    }
 
@@ -264,7 +226,6 @@
    this.$.newcardd111.hidden=true;
      this.hideallvaluesss=false;
      this.hideallvaluesss=false;
-     this.$.zdsasddsasfsa.hidden=true;
      this.hideallvaluesss1=false;
 
   }
@@ -288,12 +249,14 @@
              document.querySelector('#asdadczcsadcdasww').selected=-1;
         document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
-        this.$.newcardd111.hidden=true;
+      //  this.$.newcardd111.hidden=true;
 
      }, 
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
+      localStorage.setItem("curr_sess_capters",this.chapterid); 
+    
       this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
      },
      fnselectconcept:function(e){
@@ -309,7 +272,6 @@
            this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
         }
         document.querySelector('#teacherrefzz').selected=-1;
-        this.$.newcardd111.hidden=true;
         },
     fnsetemp:function(e){
          this.empid=e.target.selectedItem.value;
@@ -322,16 +284,13 @@
        this.subjectid=e.target.selectedItem.value;
        this.subjectname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("subjectidz",this.subjectid);
-       this.$.reporttabzzzzz.hidden=false;
         this.$.bookservice.FnFetchChapterService(this.gradeid,this.subjectid); 
         if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
-          this.$.newcardd111.hidden=false;
           document.querySelector('aproval-book').fnsetapproveclear();
         }
 
         if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'||sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal")
         {
-          this.$.zdsasddsasfsa.hidden=false;
         }
       }, 
   fnRefresh:function()
@@ -340,8 +299,7 @@
         document.querySelector('#asdadczcsadcdasww').selected=-1;
         document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
-        this.$.newcardd111.hidden=true;
-
+  
      }
     
     });

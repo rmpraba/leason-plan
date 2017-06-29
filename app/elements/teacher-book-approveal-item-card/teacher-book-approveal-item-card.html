@@ -25,32 +25,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <div>
       <div class="card">
-        <paper-input hidden value={{capterid}} ></paper-input>
-        <paper-button on-click="passsetcapter" no ink><h4>{{capter}}</h4>
+        <paper-input hidden value={{conceptid}} ></paper-input>
+        <paper-button on-click="passsetcapter" no ink><h4>{{concept}}</h4>
        </paper-button>
-      </div> 
-
-<iron-ajax
-        method="post"
-        id="fngetconceptvalue11ajax"
-        url="{{fngetconceptvalue11url}}"
-        params="{{fngetconceptvalue11param}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="fngetconceptvalue11Response"
-        debounce-duration="300">
-</iron-ajax>
-
-<iron-ajax
-        method="post"
-        id="fngetconceptvalue11ajax"
-        url="{{fngetconceptvalue11url}}"
-        params="{{fngetconceptvalue11param}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="fngetconceptvalue11Response"
-        debounce-duration="300">
-</iron-ajax>
+     </div> 
   <iron-ajax
         method="post"
         id="fngetskillajax"
@@ -74,23 +52,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'teacher-book-approveal-item-card',
 passsetcapter:function(e){
-  document.querySelector('teacher-book-approveal-concept-item-card').capthead=this.capter;
-  document.querySelector('teacher-book-approveal-concept-item-card').captheadid=this.capterid;
-   
-    localStorage.setItem("curr_sess_capters",this.capterid); 
-    // alert(localStorage.getItem("curr_sess_capters"));
-       this.fngetconceptvalue11url=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
-            var obj={"capter_id":""};
-            obj.capter_id=this.capterid;
-         this.fngetconceptvalue11param=obj;
-        // alert(JSON.stringify(obj));
-        this.$.fngetconceptvalue11ajax.generateRequest();
-         },
-      fngetconceptvalue11Response:function(e){
-         var res=e.detail.response.returnval;
-    //    
-       conceptarr=res;
-        this.fngetskillurl=sessionStorage.getItem("addrinfo")+"/fngetskill-service";
+     alert(this.conceptid);
+      localStorage.setItem("curr_sess_conceptid",this.conceptid); 
+       this.fngetskillurl=sessionStorage.getItem("addrinfo")+"/fngetskill-service";
       var obj={};
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
       obj.capter_id=localStorage.getItem("curr_sess_capters");
@@ -102,48 +66,42 @@ passsetcapter:function(e){
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
       obj.flag='active';  
       this.fngetskillparam=obj;
-   //   alert(JSON.stringify(obj));
+    //  alert(JSON.stringify(obj));
       this.$.fngetskillajax.generateRequest();
-      },
+        },
       fngetskillResponse:function(e)
       {
           var  res1=e.detail.response.skillarr;
           var res2=e.detail.response.valuearr;
           var res3=e.detail.response.masstrvaluearr;
-    
-
-            
-           for(var j=0;j<conceptarr.length;j++){
+        
+           for(var j=0;j<res3.length;j++){
             var flag=0;
-              for(var i=0;i<res1.length;i++){
-       if(res1[i].concept_id+res1[i].capter_id==conceptarr[j].concept_id+conceptarr[j].capter_id)
+              for(var i=0;i<res2.length;i++){
+       if(res2[i].value_id==res3[j].value_id)
                   {    
                    flag=1;
-                   conceptarr[j].innovation=res1[i].innovation;
-                   conceptarr[j].skill=res1[i].skill;
-                    conceptarr[j].id=conceptarr[j].concept_id+conceptarr[j].capter_id;
-
+                   res3[j].check=true;
+                
              
                   }
                  }
                  if(flag==0){
-                 }
+                     res3[j].check=false;
+                  }
                }
-        for(var  i=0;i<conceptarr.length;i++){
-             var obj={};
-            obj.concept_id=conceptarr[i].concept_id;
-            obj.capter_id=conceptarr[i].capter_id;
-            obj.concept=conceptarr[i].concept;
-            obj.innovation=conceptarr[i].innovation;
-            obj.skill=conceptarr[i].skill;
-            obj.id=conceptarr[i].id;
-            obj.masstrvaluearr=res3;
-            overallsxsss.push(obj);   
-            }
-    document.querySelector('teacher-book-approveal-concept-item-card').conceptarr=overallsxsss;
-   document.querySelector('aproval-save-and-edit-book-card').fnsetz();
-   document.querySelector('app-card').setPage('homepage','');
-   document.querySelector('home-page').setPage('teacher-book-approveal-concept-item-card','');
+        if(res1!="empty"){
+    document.querySelector('teacher-book-approveal-concept-item-card').fnsdsds();}
+  else{
+  document.querySelector('teacher-book-approveal-concept-item-card').fnsdsds1();
+       }
+       document.querySelector('teacher-book-approveal-concept-item-card').innovationz=res1[0].innovation;
+  document.querySelector('teacher-book-approveal-concept-item-card').skill=res1[0].skill;
+  document.querySelector('teacher-book-approveal-concept-item-card').period=res1[0].period;
+   document.querySelector('teacher-book-approveal-concept-item-card').conceptarr=res3;
+document.querySelector('app-card').setPage('homepage','');
+document.querySelector('home-page').setPage('teacher-book-approveal-concept-item-card','');
+      
    overallsxsss=[];
       },
     });

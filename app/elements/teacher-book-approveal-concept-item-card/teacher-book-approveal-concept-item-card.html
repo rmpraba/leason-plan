@@ -94,140 +94,100 @@
   
     </style>
     <div>
-          <div>
+     <div>
       <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
     </div>
- 
-<paper-card class="selcard" hidden>
-   <div style="background-color: #8164f3;
-    padding-top: 21%;height: 75px;">
-  <h1 style="color:white; margin-top: 0%;margin-left: 41%;"><b>{{capthead}}</b></h1>
-  <!--     <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
-   -->  
-   </div>
-    
-
-  <!--  <div class="card-actions">
-     
-     <div class="cadcdd1">
-     <table style="width: 80%;">
-       <template is="dom-repeat" items="{{conceptarr}}" as="s">
-      <tr>
-       
-           
-      <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-           <skill-capturing-card  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}"></skill-capturing-card>  
-        </td>
-        <td style="border-bottom: 1px solid #ccc; line-height: 1.8em;"><h5 style="color:#1B78CF;padding-left: 40px;">{{s.planned_date}}</h5>
-        </td>
-         
-        
-      </tr>  
-       </template>
-        
-     </table>
-          
-     </div> 
-    
-  </div> 
-</paper-card> 
-<<<<<<< HEAD
-=======
- -->
-    
-
-<div id="setconcptzzz">     
-  <paper-card hidden$="{{fnsetselcard1vauz}}" class="selcard1">
-     <div style="background-color: #8164f3;
-      padding-top: 10%;height: 1px;">
-      <center style="position: absolute;margin-top: -12%;margin-left: 38%;
-            color: white;">
-        <h1><b>{{conceptnamez}}</b></h1>
-      </center>
-      
-    <paper-input hidden value={{captheadid}}></paper-input>
-    </div>
-     <div class="card-actions">
-  
-     <div class="cadcdd11">
-           <table style="border-collapse: collapse;width: 95%;">
-            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
-             <th style="text-align: left;">SKILL NAME</th>
-             <th style="text-align: left;padding-left: 6%;">VALUE</th>
-             <th style="text-align: left;">INNOVATION</th>
-             </tr>
-  
-             <tr>
-               <td>
-                  <paper-textarea id="textarea"   label="Enter  Skill" value="{{skillvalue}}"></paper-textarea>
-                </td>
-             <td>
-                 <template is="dom-repeat" items="{{fullvaluearr}}" as="v">
-                     <master-value-card   innovation="{{innovation}}" valueid="{{v.value_id}}" valuename="{{v.value_name}}" 
-                      skillvalue="{{skillvalue}}" id="{{v.value_id}}" check="{{v.check}}" ></master-value-card>
-                 </template>
-               </td>
-                <td>
-                  <paper-textarea id="textarea" label="Enter Innovation" value="{{innovation}}"></paper-textarea>
-                </td>
-             </tr>
-           </table>
-          <paper-button  style=" background-color: #363636;color: #ffffff;width: 7%;
-      margin-left: 22em;margin-top: 7%;"  on-click="fnsubmit">Submit</paper-button> </div> 
-   </div>
- </paper-card>
- </div>
-</div>
-
 
 
   <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
-          <th>Chapter Name</th>
-          <th>Concept Name</th>
           <th>skill name</th>
           <th>Innovation</th>
           <th>Value</th>
           <th>from Date</th>
           <th>to Date</th>
-          <th>Edit</th>
+          <th>No of Period</th>
           <th>Save</th>  
           </tr>
-              <template is="dom-repeat" items="{{conceptarr}}" as="s">
-                <tr>
-                <skill-capturing-card  
-                captheadid ="{{captheadid}}" capthead="{{capthead}}"  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}" masskillz="{{s.masstrvaluearr}}" skill="{{s.skill}}" innovation="{{s.innovation}}"></skill-capturing-card>  
-             </tr>
-         </template>  
-        </table>
-    </div>  
-   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+           <tr>
+              
+             <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
+             </td>
+          <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovationz}}></paper-textarea>
+             </td> 
+             <td>
+              <template is="dom-repeat" items="{{conceptarr}}" as="r">
+                <master-value-card  id="enr{{r.value_id}}" valueid="{{r.value_id}}" valuename="{{r.value_name}}" check="{{r.check}}"></master-value-card>  
+              </template>
+            </td>
+            <td><from-book-date-picker></from-book-date-picker></td>
+            <td><to-book-date-picker></to-book-date-picker></td>
+            <td><paper-input value={{period}}></paper-input></td>
+            <td>
+             <paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
+        <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad1}}" icon="save"  on-click="fnsubmit"></paper-icon-button>
+            
+             </td>
+          </tr>
+           </table>
+    </div> 
+
+ <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  
+ 
   </template>
   <script>
   (function() {
     'use strict';
    var skll2=[];
    var val1=[];
+    var innovationz;
+    var skill;
+    var period;
+
     Polymer({
       is: 'teacher-book-approveal-concept-item-card',
    passset:function(e){
+    innovationz="";
+    skill="";
+    period="";
    document.querySelector('app-card').setPage('homepage','');
    document.querySelector('home-page').setPage('teacher-book-approve-card','');
    this.$.setconcptzzz.hidden=true;
+    
+
    document.querySelector('aproval-save-and-edit-book-card').fnclearx();
-
-    },
+   },
+   ready:function(e){
+    this.dfdsfsdffzzzy1=true;
+    this.dasdsaddaffsdsdssdsad1=false;
+   },
+   fneditbook:function(e){
+     this.dfdsfsdffzzzy1=true;
+    this.dasdsaddaffsdsdssdsad1=false;
+   },
+   fnsdsds1:function(e){
+    this.dfdsfsdffzzzy1=true;
+    this.dasdsaddaffsdsdssdsad1=false;
+   },
   fnsubmit:function(e){
+    this.$.bookservice.skillvalues(this.skill,this.innovationz,this.period);
+    this.$.bookservice.captvaluesz(val1);
+    
+    innovationz=this.innovationz;
+    skill=this.skill;
+    period=this.period;
 
-    //alert(JSON.stringify(val1));
-    //alert(this.captheadid);
-    //alert(this.innovation+"   "+this.skillvalue);
+    this.innovationz="";
+    this.skill="";
+    this.period="";
+
   
-    this.$.bookservice.captvalues(val1);
-    this.$.bookservice.skillvalues(this.skillvalue,this.innovation);
-    this.innovation="";
-    this.skillvalue="";
     document.querySelector('master-value-card').fnclear();
+    },
+    fnsdsds:function(e){
+    this.dfdsfsdffzzzy1=false;
+    this.dasdsaddaffsdsdssdsad1=true;
     },
    fnsetskill:function()
    {
@@ -240,6 +200,11 @@
    {
     val1=vall;
    },
+   fnsetvalue1:function(val){
+   
+       this.$.bookservice.sddsdsdsdqda(val);
+ },
+  
    FnRefresh:function()
    {
     this.$.setconcptzzz.hidden=true;

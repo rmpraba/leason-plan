@@ -30,42 +30,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        <paper-input hidden>{{valueid}}</paper-input> 
        <paper-input hidden>{{captheadid}}</paper-input> 
         <paper-checkbox id="{{id}}" on-change="fngetvalue" checked="{{check}}">{{valuename}}</paper-checkbox>
+      
    </div>
+    
+<teacher-book-service-card id="bookservice"></teacher-book-service-card>
+ 
 </template>
   <script>
   (function() {
     'use strict';
-    var val1=[];
-    Polymer({
+    var val=[];
+  var valz=[];
+      Polymer({
       is: 'master-value-card',
 
     fngetvalue:function(e)
     {
       if(document.querySelector('#'+this.id).checked==true)
       {
-         var obj={"value_id":"","value_name":"","capter_id":"","id":""};
+         var obj={"value_id":"","value_name":"","id":""};
             obj.value_id=this.valueid;
             obj.value_name=this.valuename;
-            obj.capter_id=this.captheadid;
             obj.id=this.id;
-            val1.push(obj);
+            val.push(obj);
            }
 
       else if(document.querySelector('#'+this.id).checked==false)
       {
-           for( var i=0;i<val1.length;i++){
-                if(val1[i].id==this.id){
-                  val1.splice(i,1);
+            var obj1={"value_id":"","value_name":"","id":""};
+     
+            obj1.value_id=this.valueid;
+            obj1.value_name=this.valuename;
+            obj1.id=this.id;
+            valz.push(obj1);
+        document.querySelector('teacher-book-approveal-concept-item-card').fnsetvalue1(valz);
+        valz=[];
+ 
+    
+
+           for( var i=0;i<val.length;i++){
+                if(val[i].id==this.id){
+                  val.splice(i,1);
                 }
            }
         
        }
    
- document.querySelector('teacher-book-approveal-concept-item-card').fnsetvalue(val1);
+ document.querySelector('teacher-book-approveal-concept-item-card').fnsetvalue(val);
     },
+  
     fnclear:function(e){
-           for( var i=0;i<val1.length;i++){
-               var r=val1[i].id;
+           for( var i=0;i<val.length;i++){
+               var r=val[i].id;
                document.querySelector('#'+r).checked=false;
            }
              var obj={"value_id":"","value_name":"","capter_id":""};
