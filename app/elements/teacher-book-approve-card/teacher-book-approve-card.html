@@ -123,7 +123,8 @@
                 </paper-menu>
          </paper-dropdown-menu>
        </span>
-        <span class="position" hidden$="{{hideallvaluesss1}}"> 
+        <!-- <span class="position" hidden$="{{hideallvaluesss1}}">  -->
+        <span class="position" hidden>
         <paper-dropdown-menu  label="Select Empoyee Name">
                 <paper-menu id="asdadczcsadcdasww" class="dropdown-content"   on-iron-select="fnsetemp">
                   <template is="dom-repeat" items="{{emparr}}">
@@ -133,7 +134,8 @@
          </paper-dropdown-menu>
        </span>
     
-         <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <!-- <span class="position" hidden$="{{hideallvaluesss}}">  -->
+       <span class="position" hidden> 
        <paper-dropdown-menu  label="Select The Section ">
                 <paper-menu id="teacherrefyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
                   <template is="dom-repeat" items="{{sectionarr}}">
@@ -142,11 +144,29 @@
                 </paper-menu>
          </paper-dropdown-menu>
        </span>
-         <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <span class="position" hidden$="{{hideallvaluesss}}"> 
        <paper-dropdown-menu  label="Select the subject">
               <paper-menu id="teacherrefzz" class="dropdown-content"   on-iron-select="fnsetsubject">
                    <template is="dom-repeat" items="{{subjectarr}}">
                     <paper-item value="{{item.subjectid}}">{{item.subjectname}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+       <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <paper-dropdown-menu  label="Select the chapter">
+              <paper-menu id="teacherapprovechapter" class="dropdown-content"   on-iron-select="fnselectchapter">
+                   <template is="dom-repeat" items="{{chapterarr}}">
+                    <paper-item value="{{item.capter_id}}">{{item.capter}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+       <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <paper-dropdown-menu  label="Select the concept">
+              <paper-menu id="teacherapproveconcept" class="dropdown-content"   on-iron-select="fnselectconcept">
+                   <template is="dom-repeat" items="{{conceptarr}}">
+                    <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
                   </template>    
                 </paper-menu>
          </paper-dropdown-menu>
@@ -174,15 +194,13 @@
                   </template>
                 </tr>
               </template>
-            </table>
+            </table>  
           </div>
         </paper-card>
-      <!-- </div>  --> 
-
+      
     </div>
      <div id="zdsasddsasfsa" style="width: 101.8%;">
-       <!-- <paper-button on-click="asdadczcsadcdas">reset</paper-button> -->
-     
+       
       <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
           <th>Chapter Name</th>
@@ -193,7 +211,7 @@
           <th>Approve</th>
           <th>Reject</th>
           <th>Edit</th>
-           <th>Save</th>
+          <th>Save</th>
           </tr>
             <tr>
                 <template  is="dom-repeat" items="{{overallarr1}}" as="view">
@@ -273,9 +291,19 @@
         this.$.newcardd111.hidden=true;
 
      }, 
+     fnselectchapter:function(e){
+      this.chapterid=e.target.selectedItem.value;
+      this.chaptername=e.target.selectedItem.textContent.trim();
+      this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
+     },
+     fnselectconcept:function(e){
+      this.conceptid=e.target.selectedItem.value;
+      this.conceptname=e.target.selectedItem.textContent.trim();
+      this.$.bookservice.bookreffixcapterdate(this.gradeid,this.subjectid,this.chapterid,this.conceptid);
+     },
      fnsetsection:function(e){
        this.sectionid=e.target.selectedItem.value;
-       this.sectionname=e.target.selectedItem.textContent.trim()
+       this.sectionname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("sectoinidz",this.sectionid);
       if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
            this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
@@ -295,7 +323,7 @@
        this.subjectname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("subjectidz",this.subjectid);
        this.$.reporttabzzzzz.hidden=false;
-       this.$.bookservice.bookreffixcapterdate(this.empid,this.gradeid,this.subjectid,this.sectionid);
+        this.$.bookservice.FnFetchChapterService(this.gradeid,this.subjectid); 
         if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
           this.$.newcardd111.hidden=false;
           document.querySelector('aproval-book').fnsetapproveclear();

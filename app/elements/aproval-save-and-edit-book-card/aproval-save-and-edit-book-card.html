@@ -18,38 +18,96 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>
-        <paper-icon-button    hidden$="{{dfdsfsdffzzzy}}" icon="create" on-click="fneditbook"></paper-icon-button>
-        <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad}}" icon="save" on-click="fnsavebook"></paper-icon-button  >
-            
+        <paper-input hidden value="{{captheadid}}"></paper-input>
+        <paper-checkbox on-change="fnsezzt" checked="{{check}}"  id="{{id}}">{{valuename}}
     </div>
+    <iron-ajax
+        method="post"
+        id="fnsetzajax"
+        url="{{fnsetzurl}}"
+        params="{{fnsetzparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnsetzResponse"
+        debounce-duration="300">
+</iron-ajax> 
   </template>
   <script>
   (function() {
     'use strict';
+var v=[];
+var val1=[];
 
     Polymer({
       is: 'aproval-save-and-edit-book-card',
-/*ready:function(e){
-this.dfdsfsdffzzzy=false;
-this.dasdsaddaffsdsdssdsad=true;
-  
+ready:function(e){
+
+   this.fnsetz();
 },
-*/      fneditbook:function(e){
-       this.dfdsfsdffzzzy=true;
-       this.dasdsaddaffsdsdssdsad=false;
-  
-  document.querySelector('aproval-book-skill-item-card').skillvaluezs=false;
-  document.querySelector('aproval-book-innovatiosn-item-card').innovationvauz=false;
+fnsezzt:function(e){
+     if(document.querySelector('#'+this.id).checked==true)
+      {
+         var obj={"value_id":"","value_name":"","capter_id":"","id":""};
+            obj.value_id=this.valueid;
+            obj.value_name=this.valuename;
+            obj.capter_id=this.captheadid;
+            obj.id=this.id;
+            val1.push(obj);
+            v.push(obj);
+           }
 
+      else if(document.querySelector('#'+this.id).checked==false)
+      {
+           for( var i=0;i<val1.length;i++){
+                if(val1[i].id==this.id){
+                  val1.splice(i,1);
+                }
+           }
+        
+       }
    
-      },
-      fnsavebook:function(e){
-      this.$.fneditbookidzzz.hidden=false;
-       this.$.fnsavebookidzzz.hidden=true;
-document.querySelector('aproval-book-skill-item-card').skillvaluezs=true;
-document.querySelector('aproval-book-innovatiosn-item-card').innovationvauz=true;
+ document.querySelector('skill-capturing-card').fnsetvalue(val1);
+   
+   
+},
+fnsetz:function(e){
+  //alert('1');
+  this.fnsetzurl=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
+      var obj={};
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
+      obj.grade_id=sessionStorage.getItem("grdeidz");
+      obj.subject_id=sessionStorage.getItem("subjectidz");
+      obj.section_id=sessionStorage.getItem("sectoinidz");
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+      obj.flag='active';  
+      this.fnsetzparam=obj;
+      this.$.fnsetzajax.generateRequest();
+},
+fnclearx:function(e){
+       for(var i=0;i<v.length;i++){
+         var xx=v[i].id;
+         document.querySelector('#'+xx).checked=false; 
+          }
+         var obj={};
+          v.splice(obj);
+         val1.splice(obj);
 
+},
+fnsetzResponse:function(e){
+   var res=e.detail.response.returnval;
+       for(var i=0;i<res.length;i++){
+           var obj={};
+           var  mz=res[i].capter_id+res[i].concept_id+res[i].value_id;
+                document.querySelector('#'+mz).checked=true; 
+     
+           obj.id=mz;
+           v.push(obj);
+        }
      },
+    
 });
   })();
   </script>

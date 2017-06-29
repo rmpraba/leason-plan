@@ -39,7 +39,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         content-type="application/json"
         on-response="fngetconceptvalue11Response"
         debounce-duration="300">
-</iron-ajax> 
+</iron-ajax>
+
+<iron-ajax
+        method="post"
+        id="fngetconceptvalue11ajax"
+        url="{{fngetconceptvalue11url}}"
+        params="{{fngetconceptvalue11param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptvalue11Response"
+        debounce-duration="300">
+</iron-ajax>
+  <iron-ajax
+        method="post"
+        id="fngetskillajax"
+        url="{{fngetskillurl}}"
+        params="{{fngetskillparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetskillResponse"
+        debounce-duration="300">
+ </iron-ajax> 
 
   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
@@ -48,15 +69,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
   (function() {
     'use strict';
-
+ var conceptarr=[];
+ var overallsxsss=[];
     Polymer({
       is: 'teacher-book-approveal-item-card',
 passsetcapter:function(e){
   document.querySelector('teacher-book-approveal-concept-item-card').capthead=this.capter;
   document.querySelector('teacher-book-approveal-concept-item-card').captheadid=this.capterid;
-    document.querySelector('app-card').setPage('homepage','');
-  document.querySelector('home-page').setPage('teacher-book-approveal-concept-item-card','');
-
+   
     localStorage.setItem("curr_sess_capters",this.capterid); 
     // alert(localStorage.getItem("curr_sess_capters"));
        this.fngetconceptvalue11url=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
@@ -65,12 +85,66 @@ passsetcapter:function(e){
          this.fngetconceptvalue11param=obj;
         // alert(JSON.stringify(obj));
         this.$.fngetconceptvalue11ajax.generateRequest();
-      
-        },
+         },
       fngetconceptvalue11Response:function(e){
          var res=e.detail.response.returnval;
-          // alert(JSON.stringify(res));
-  document.querySelector('teacher-book-approveal-concept-item-card').conceptarr=res;
+    //    
+       conceptarr=res;
+        this.fngetskillurl=sessionStorage.getItem("addrinfo")+"/fngetskill-service";
+      var obj={};
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
+      obj.grade_id=sessionStorage.getItem("grdeidz");
+      obj.subject_id=sessionStorage.getItem("subjectidz");
+      obj.section_id=sessionStorage.getItem("sectoinidz");
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+      obj.flag='active';  
+      this.fngetskillparam=obj;
+   //   alert(JSON.stringify(obj));
+      this.$.fngetskillajax.generateRequest();
+      },
+      fngetskillResponse:function(e)
+      {
+          var  res1=e.detail.response.skillarr;
+          var res2=e.detail.response.valuearr;
+          var res3=e.detail.response.masstrvaluearr;
+    
+
+            
+           for(var j=0;j<conceptarr.length;j++){
+            var flag=0;
+              for(var i=0;i<res1.length;i++){
+       if(res1[i].concept_id+res1[i].capter_id==conceptarr[j].concept_id+conceptarr[j].capter_id)
+                  {    
+                   flag=1;
+                   conceptarr[j].innovation=res1[i].innovation;
+                   conceptarr[j].skill=res1[i].skill;
+                    conceptarr[j].id=conceptarr[j].concept_id+conceptarr[j].capter_id;
+
+             
+                  }
+                 }
+                 if(flag==0){
+                 }
+               }
+        for(var  i=0;i<conceptarr.length;i++){
+             var obj={};
+            obj.concept_id=conceptarr[i].concept_id;
+            obj.capter_id=conceptarr[i].capter_id;
+            obj.concept=conceptarr[i].concept;
+            obj.innovation=conceptarr[i].innovation;
+            obj.skill=conceptarr[i].skill;
+            obj.id=conceptarr[i].id;
+            obj.masstrvaluearr=res3;
+            overallsxsss.push(obj);   
+            }
+    document.querySelector('teacher-book-approveal-concept-item-card').conceptarr=overallsxsss;
+   document.querySelector('aproval-save-and-edit-book-card').fnsetz();
+   document.querySelector('app-card').setPage('homepage','');
+   document.querySelector('home-page').setPage('teacher-book-approveal-concept-item-card','');
+   overallsxsss=[];
       },
     });
   })();

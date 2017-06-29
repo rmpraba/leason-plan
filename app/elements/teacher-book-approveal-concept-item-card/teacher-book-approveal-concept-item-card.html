@@ -83,13 +83,22 @@
         width: 30%;   
         margin-top: -4%;
     }
+    .report1
+   {
+          table-layout: fixed;
+          border-collapse: collapse;
+          width: 91%;
+          margin-left: 5%;
+          margin-top: 5%;
+   }
+  
     </style>
     <div>
           <div>
       <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
     </div>
  
-<paper-card class="selcard">
+<paper-card class="selcard" hidden>
    <div style="background-color: #8164f3;
     padding-top: 21%;height: 75px;">
   <h1 style="color:white; margin-top: 0%;margin-left: 41%;"><b>{{capthead}}</b></h1>
@@ -98,7 +107,7 @@
    </div>
     
 
-   <div class="card-actions">
+  <!--  <div class="card-actions">
      
      <div class="cadcdd1">
      <table style="width: 80%;">
@@ -122,7 +131,10 @@
     
   </div> 
 </paper-card> 
-
+<<<<<<< HEAD
+=======
+ -->
+    
 
 <div id="setconcptzzz">     
   <paper-card hidden$="{{fnsetselcard1vauz}}" class="selcard1">
@@ -152,7 +164,7 @@
              <td>
                  <template is="dom-repeat" items="{{fullvaluearr}}" as="v">
                      <master-value-card   innovation="{{innovation}}" valueid="{{v.value_id}}" valuename="{{v.value_name}}" 
-                      skillvalue="{{skillvalue}}" id="{{v.value_id}}" check="{{v.check}}"></master-value-card>
+                      skillvalue="{{skillvalue}}" id="{{v.value_id}}" check="{{v.check}}" ></master-value-card>
                  </template>
                </td>
                 <td>
@@ -167,7 +179,29 @@
  </div>
 </div>
 
-<teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
+
+  <table  border="1" class="report1" id="reporttabzzzzz">
+        <tr>
+          <th>Chapter Name</th>
+          <th>Concept Name</th>
+          <th>skill name</th>
+          <th>Innovation</th>
+          <th>Value</th>
+          <th>from Date</th>
+          <th>to Date</th>
+          <th>Edit</th>
+          <th>Save</th>  
+          </tr>
+              <template is="dom-repeat" items="{{conceptarr}}" as="s">
+                <tr>
+                <skill-capturing-card  
+                captheadid ="{{captheadid}}" capthead="{{capthead}}"  conceptdate="{{s.planned_date}}" conceptid="{{s.concept_id}}" conceptname="{{s.concept}}" masskillz="{{s.masstrvaluearr}}" skill="{{s.skill}}" innovation="{{s.innovation}}"></skill-capturing-card>  
+             </tr>
+         </template>  
+        </table>
+    </div>  
+   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
   <script>
   (function() {
@@ -180,7 +214,8 @@
    document.querySelector('app-card').setPage('homepage','');
    document.querySelector('home-page').setPage('teacher-book-approve-card','');
    this.$.setconcptzzz.hidden=true;
-    
+   document.querySelector('aproval-save-and-edit-book-card').fnclearx();
+
     },
   fnsubmit:function(e){
 
@@ -189,7 +224,6 @@
     //alert(this.innovation+"   "+this.skillvalue);
   
     this.$.bookservice.captvalues(val1);
-   // this.$.bookservice.innovationvalues(this.innovation);
     this.$.bookservice.skillvalues(this.skillvalue,this.innovation);
     this.innovation="";
     this.skillvalue="";

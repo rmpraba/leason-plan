@@ -692,6 +692,8 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
         document.querySelector('home-page').setPage('teacher-book-approve-card','');
       if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
          this.$.bookservice.bookgrade();
+         this.$.bookservice.masterzskill();
+         
          document.querySelector('teacher-book-approveal-concept-item-card').FnRefresh();
         }
       else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
