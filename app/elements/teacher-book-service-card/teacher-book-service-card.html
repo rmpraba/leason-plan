@@ -280,6 +280,15 @@
         content-type="application/json"
         on-response="fetchconceptResponse"
         debounce-duration="300" />
+             <iron-ajax
+        method="post"
+        id="sddsdsdsdqdaajax"
+        url="{{sddsdsdsdqdaurl}}"
+        params="{{sddsdsdsdqdaparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="sddsdsdsdqdaResponse"
+        debounce-duration="300" />
   </template>
   <script>  
   (function() {
@@ -321,8 +330,22 @@
            this.$.fetchconceptajax.generateRequest();
         },
         fetchconceptResponse:function(e){
-          alert(JSON.stringify(e.detail.response.returnval));
-          document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
+          var res=e.detail.response.returnval;
+          
+          alert(JSON.stringify(res));
+               var temp=[];
+               var overall=[];
+               for(var l=0;l<res.length;l++){
+                temp.push(res[l]);
+                 if(l!=0&&l%4==0){
+                  overall.push(temp);
+                  temp=[];
+                }
+            }
+        overall.push(temp);
+           alert(JSON.stringify(overall));
+       
+          document.querySelector('teacher-book-approve-card').conceptarr=overall;
         },
        fnbookplangrade:function(e){
           this.fnbookplangradeurl=sessionStorage.getItem("addrinfo")+"/fnbookplangrade-service";
@@ -395,7 +418,29 @@ fnbookplangradeResponse:function(e){
       document.querySelector('teacher-book-refernce-card').empschoolnamesarr=res;
       },
 
-    getbookinteacher:function(gradeid){ 
+    sddsdsdsdqda:function(val){ 
+      alert('3');
+      
+   for(var i=0;i<val.length;i++){
+    
+       this.sddsdsdsdqdaurl=sessionStorage.getItem("addrinfo")+"/sddsdsdsdqda-service";
+      
+            var obj={};
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+     obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.grade_id=sessionStorage.getItem("grdeidz");
+      obj.subject_id=sessionStorage.getItem("subjectidz");
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+      obj.flag='active'; 
+      obj.value_id=val[i].value_id;
+     this.sddsdsdsdqdaparam=obj;
+       alert(JSON.stringify(obj));
+           this.$.sddsdsdsdqdaajax.generateRequest();
+         }
+       },
+
+         getbookinteacher:function(gradeid){ 
        this.getbookinteacherurl=sessionStorage.getItem("addrinfo")+"/getbookinteacher-service";
            var obj={"schoolid":"","academic_year":"","roleid":"","gradeid":""};
            obj.gradeid=gradeid;
@@ -429,46 +474,47 @@ fnbookplangradeResponse:function(e){
           // alert(JSON.stringify(res));
            document.querySelector('teacher-book-approve-card').emparr=res;
       },
-       captvalues:function(val1){
+       captvaluesz:function(val1){
           for(var i=0;i<val1.length;i++)
           {
-this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
-      var obj={"school_id":"","value_id":"","value_name":"","concept_id":"","capter_id":"","emp_id":"","flag":""};
+    this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
+      var obj={"school_id":"","value_id":"","value_name":"","concept_id":"","capter_id":"","fromdate":"","todate":"","flag":""};
       obj.value_id=val1[i].value_id;
       obj.value_name=val1[i].value_name;
+      obj.todate=localStorage.getItem("localsess_to_service");
+      obj.fromdate=localStorage.getItem("localsess_from_service");
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
       obj.capter_id=localStorage.getItem("curr_sess_capters");
-      obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
       obj.grade_id=sessionStorage.getItem("grdeidz");
       obj.subject_id=sessionStorage.getItem("subjectidz");
-      obj.section_id=sessionStorage.getItem("sectoinidz");
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
       obj.flag='active';  
       this.captvaluesparam=obj;
-         alert(JSON.stringify(obj));
+   //      alert(JSON.stringify(obj));
       this.$.captvaluesajax.generateRequest();
      }
       },
       
 
-       skillvalues:function(skillvalue,innovation){
+       skillvalues:function(skill,innovationz,period){
      this.skillvaluesurl=sessionStorage.getItem("addrinfo")+"/skillvalue-service";
-      var obj={"school_id":"","skillvalue":"","concept_id":"","capter_id":"","emp_id":"","innovation":"","flag":"","emp_name":""};
-      obj.skillvalue=skillvalue;
-      obj.innovation=innovation;
+var obj={"school_id":"","skillvalue":"","concept_id":"","capter_id":"","fromdate":"","innovation":"","flag":"","todate":"","period":""};
+      obj.skillvalue=skill;
+      obj.innovation=innovationz;
+      obj.todate=localStorage.getItem("localsess_to_service");
+      obj.fromdate=localStorage.getItem("localsess_from_service");
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
       obj.capter_id=localStorage.getItem("curr_sess_capters"); 
-      obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
-      obj.emp_name=sessionStorage.getItem("curr_sess_loggeduname");
       obj.grade_id=sessionStorage.getItem("grdeidz");
       obj.subject_id=sessionStorage.getItem("subjectidz");
       obj.section_id=sessionStorage.getItem("sectoinidz");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-      obj.flag='active';   
+      obj.flag='active'; 
+      obj.period=period;
       this.skillvaluesparam=obj;
-       alert(JSON.stringify(obj));
+      alert(JSON.stringify(obj));
       this.$.skillvaluesajax.generateRequest();
       },
       

@@ -48,7 +48,7 @@
     this.$.dialog.toggle();
   },
   FnDismissDialog:function(e)
-  {
+  { 
     if(e.detail.confirmed)
      {
       var pickdate=moment(this.$.picker.date).format('L');
@@ -56,7 +56,7 @@
       var dd2=new Date(pickdate);
       var days=parseInt((dd1 - dd2) / (1000 * 60 * 60 * 24));
           this.showdate = moment(this.$.picker.date).format('L');
-          localStorage.setItem("localsess_last_service",this.showdate);
+          localStorage.setItem("localsess_from_service",this.showdate);
       alert(this.showdate);
       }
     },
