@@ -446,25 +446,11 @@ this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
       obj.flag='active';  
       this.captvaluesparam=obj;
-        // alert(JSON.stringify(obj));
+         alert(JSON.stringify(obj));
       this.$.captvaluesajax.generateRequest();
      }
       },
-      /*innovationvalues:function(innovation,skillvalue){
-           this.innovationvaluesurl=sessionStorage.getItem("addrinfo")+"/innovation-service";
-       var obj={"school_id":"","innovation":"","concept_id":"","capter_id":"","emp_id":""};
-      obj.innovation=innovation;
-      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      obj.capter_id=localStorage.getItem("curr_sess_capters"); 
-      obj.emp_id=sessionStorage.getItem("empidz");
-      obj.grade_id=sessionStorage.getItem("grdeidz");
-      obj.subject_id=sessionStorage.getItem("subjectidz");
-      obj.section_id=sessionStorage.getItem("sectoinidz");
-      this.innovationvaluesparam=obj;
-       alert(JSON.stringify(obj)); 
-      this.$.innovationvaluesajax.generateRequest();
-      },*/
+      
 
        skillvalues:function(skillvalue,innovation){
      this.skillvaluesurl=sessionStorage.getItem("addrinfo")+"/skillvalue-service";
@@ -480,12 +466,9 @@ this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
       obj.subject_id=sessionStorage.getItem("subjectidz");
       obj.section_id=sessionStorage.getItem("sectoinidz");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-
       obj.flag='active';   
-     
       this.skillvaluesparam=obj;
-        // alert(JSON.stringify(obj));
-        
+       alert(JSON.stringify(obj));
       this.$.skillvaluesajax.generateRequest();
       },
       

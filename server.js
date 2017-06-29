@@ -8677,6 +8677,24 @@ app.post('/fnretrivestudent-service' ,urlencodedParser, function (req, res)
       });
     });
 
+app.post('/fnsetz-service' ,urlencodedParser, function (req, res)
+    {  
+     var qur3="SELECT * FROM md_book_value  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and emp_id='"+req.query.emp_id+"' and grade_id='"+req.query.grade_id+"' and subject_id='"+req.query.subject_id+"' and  section_id='"+req.query.section_id+"' and capter_id='"+req.query.capter_id+"'";
+
+    //console.log(qur);
+      connection.query(qur3,function(err, rows){
+        if(!err){
+
+          res.status(200).json({'returnval': rows});
+          console.log(rows);
+        }
+
+        else
+          //console.log(err);
+          res.status(200).json({'returnval': 'invalid'});
+
+      });
+    });
 
 
 

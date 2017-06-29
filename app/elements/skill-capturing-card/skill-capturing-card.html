@@ -16,18 +16,10 @@
       }
 
     </style>
-    <!--  <div >
-        <paper-button  on-click="fnset" no ink>
-            {{conceptname}}<h5 style="color:#1B78CF">{{planneddate}}</h5>
-        </paper-button>
-          <tr>
-            <td></td>
-          </tr>
-     </div> -->
+    
       <paper-input value={{captheadid}} hidden></paper-input>
            <paper-input value={{conceptid}} hidden></paper-input>
-
-       <table border="1">
+     <table border="1">
            <tr>
              <td>{{capthead}}
              </td>
@@ -38,16 +30,13 @@
              </td>
              <td>
               <template is="dom-repeat" items="{{masskillz}}" as="r">
-                 
-<aproval-save-and-edit-book-card   check="{{r.check}}" valueid="{{r.value_id}}" valuename="{{r.value_name}}">
- </aproval-save-and-edit-book-card>  
+                <aproval-save-and-edit-book-card  captheadid="{{captheadid}}" conceptid="{{conceptid}}"  id="{{captheadid}}{{conceptid}}{{r.value_id}}" check="{{r.check}}" valueid="{{r.value_id}}" valuename="{{r.value_name}}">
+                </aproval-save-and-edit-book-card>  
               </template>
             </td>
             <td><from-book-date-picker></from-book-date-picker></td>
             <td><to-book-date-picker></to-book-date-picker></td>
-         
-                
-              <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
+            <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
         <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad1}}" icon="save" on-click="fnsavebook"></paper-icon-button>
             </td>
              <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
@@ -62,22 +51,31 @@
   (function(){
     'use strict';
 var skillid;
+var val=[];
     Polymer({
       is: 'skill-capturing-card',
   ready:function(e){
 this.dfdsfsdffzzzy1=false;
 this.dasdsaddaffsdsdssdsad1=true;
+this.innovattionvaluezs1=true;
+this.skillvaluezs1=true;
+
  },
  fnsavebook:function(e){
  this.dfdsfsdffzzzy1=false;
  this.dasdsaddaffsdsdssdsad1=true;
+ this.innovattionvaluezs1=true;
+ this.skillvaluezs1=true;
+
 },
 fneditbook:function(e){
 this.dfdsfsdffzzzy1=true;
 this.dasdsaddaffsdsdssdsad1=false;
+this.innovattionvaluezs1=false;
+this.skillvaluezs1=false;
+
 },
    fnaddskil:function(e){
-     this.$.bookservice.skillseq();
      this.$.skillposition.open();
     },
     fnset:function(e)
@@ -88,7 +86,19 @@ this.dasdsaddaffsdsdssdsad1=false;
       this.$.bookservice.fnskillccc();
  
     },
+    fnaroveset:function(e){
+      alert('1');
+      alert(JSON.stringify(val));
+      alert(this.skill+" "+this.innovation);
     
+    this.$.bookservice.captvalues(val);
+    this.$.bookservice.skillvalues(this.skill,this.innovation);
+    this.skill="";
+    this.innovation="";
+     },
+    fnsetvalue:function(e){
+  val=e;
+    }
  
     });
   })();
