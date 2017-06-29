@@ -111,13 +111,9 @@
       text-align:center;
     }
       
-/*       #itemcard:nth-child(odd)
-       {
-         background-color: #cec8c9;
-       }*/
        #itemcarddialog
        {
-        width: 82%;
+        width: 81%;
         height: 90px;
         text-align: center;
        display: inline-block;
@@ -239,8 +235,6 @@ var k;
        sessionStorage.setItem("sectoinidz",this.sectoinidz);
      this.sectoinname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.getcaptervalue();
-  
-    
     },
      fnset:function(e){
        if(this.captername==""){
@@ -278,11 +272,10 @@ fnclose:function()
 {
   this.$.newchapterrr.close();
 },
-FnHidden:function()
-{
-  
-}
-    });
+
+
+
+  });
   })();
   </script>
 </dom-module>

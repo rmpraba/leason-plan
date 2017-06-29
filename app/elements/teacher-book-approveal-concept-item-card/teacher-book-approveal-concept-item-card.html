@@ -97,6 +97,8 @@
      <div>
       <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
     </div>
+
+
   <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
           <th>skill name</th>
@@ -199,14 +201,10 @@
     val1=vall;
    },
    fnsetvalue1:function(val){
-    alert('1');
+   
        this.$.bookservice.sddsdsdsdqda(val);
  },
-   sddsdsdsdqdaResponse:function(e){
-     var res=e.detail.response.returnval;
-     alert(JSON.stringify(res));
-    },
-
+  
    FnRefresh:function()
    {
     this.$.setconcptzzz.hidden=true;

@@ -1148,9 +1148,9 @@ Generatesectionid:function()
       this.$.fngetstudentajax.generateRequest();
      },
     fngetstudentResponse:function(e){
-      alert('2.....');
+      //alert('2.....');
       var res=e.detail.response.returnval; 
-        alert(JSON.stringify(res));
+        //alert(JSON.stringify(res));
         document.querySelector('Student-to-section-mapping-card').Studentsection(res);
      },
      fnsetstudentinfo:function(studeninfoarr,stugradeid,schooltype){
@@ -1201,9 +1201,9 @@ Generatesectionid:function()
      },
   FngetStudentpasssectionResponse:function(e)
   {
-    alert('3.......');
+   // alert('3.......');
       var res=e.detail.response.returnval; 
-      alert(JSON.stringify(res));
+     // alert(JSON.stringify(res));
       document.querySelector('Student-to-section-mapping-card').studentlist(res);
     },
    
@@ -1259,11 +1259,10 @@ Generatesectionid:function()
     fnretrivestudentResponse:function(e){
      // alert('1.......');
            var res=e.detail.response.returnval; 
-                alert(JSON.stringify(res));
+                //alert(JSON.stringify(res));
            document.querySelector('Student-to-section-mapping-card').mappingstudent(res);
           document.querySelector('student-list-pass-section-card').studentcheckinfo1(res); 
-  
-   
+
        },
        tranfergradeinfo:function(e)
        {
