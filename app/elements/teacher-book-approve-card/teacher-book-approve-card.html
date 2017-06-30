@@ -47,7 +47,7 @@
       */overflow: auto;
    }
    .position{
-    margin-left: 9%;
+    margin-left: 13%;
   
    }
    .hs-inner1
@@ -173,7 +173,7 @@
             </center>  
           </div>
        <div class="hs-inner1">
-            <table style="margin-left: -109%;margin-top: -10%;">
+            <table style="margin-left: -96%;margin-top: 2%;">
               <template is="dom-repeat" items="{{conceptarr}}" as="view">
                <tr>
                 <template is="dom-repeat" items="{{view}}" as="v">
@@ -201,7 +201,10 @@
 
     Polymer({
       is: 'teacher-book-approve-card',
-        
+        fnhide:function()
+        {
+          this.$.newcardd111.hidden=true;
+        },
     
   fnsetval:function(e){
    
@@ -258,6 +261,7 @@
       localStorage.setItem("curr_sess_capters",this.chapterid); 
     
       this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
+      this.$.newcardd111.hidden=false;
      },
      fnselectconcept:function(e){
       this.conceptid=e.target.selectedItem.value;
@@ -299,6 +303,7 @@
         document.querySelector('#asdadczcsadcdasww').selected=-1;
         document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
   
      }
     

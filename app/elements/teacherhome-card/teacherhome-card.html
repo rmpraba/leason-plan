@@ -685,9 +685,9 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookapruval")
          {
             document.querySelector('teacher-book-approve-card').fnsetval();
-
             document.querySelector('teacher-book-approve-card').fnRefresh();
-
+            document.querySelector('teacher-book-approve-card').fnhide();
+            
        document.querySelector('app-card').setPage('homepage','');
         document.querySelector('home-page').setPage('teacher-book-approve-card','');
       if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){

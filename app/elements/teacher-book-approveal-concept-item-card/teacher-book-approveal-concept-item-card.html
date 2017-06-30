@@ -65,25 +65,35 @@
     margin-top: 4%;
     overflow: auto;   
     }
-   #textarea
+   #textarea1
     {
-          position:absolute;
+          /*position:absolute;*/
         overflow-x:hidden;
         overflow-y:visible;
         height: 110px;
-        width: 30%;   
-        margin-top: -5%;
+        /*width: 30%; */  
+        margin-top: -4%;
     }
      #tarea1
     {
-          position: absolute;
+          /*position: absolute;*/
         overflow-x: hidden;
         overflow-y: visible;
         height: 110px;
-        width: 30%;   
+        /*width: 30%;*/   
         margin-top: -4%;
     }
-   
+    table
+    {
+      border-collapse: collapse;
+          width: 86%;
+    margin-left: 8%;
+    margin-top: 4%;
+    }
+   #prid
+   {
+    text-align: center;
+   }
   
     </style>
     <div>
@@ -104,9 +114,9 @@
           </tr>
            <tr>
               
-             <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
+             <td><paper-textarea  id="textarea1" readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
              </td>
-          <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovationz}}></paper-textarea>
+          <td><paper-textarea  id="tarea1" readonly$="{{innovattionvaluezs1}}" value={{innovationz}}></paper-textarea>
              </td> 
              <td>
               <template is="dom-repeat" items="{{conceptarr}}" as="r">
@@ -115,7 +125,7 @@
             </td>
             <td><from-book-date-picker></from-book-date-picker></td>
             <td><to-book-date-picker></to-book-date-picker></td>
-            <td><paper-input value={{period}}></paper-input></td>
+            <td><paper-input id="prid" value={{period}}></paper-input></td>
             <td>
              <paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
         <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad1}}" icon="save"  on-click="fnsubmit"></paper-icon-button>
