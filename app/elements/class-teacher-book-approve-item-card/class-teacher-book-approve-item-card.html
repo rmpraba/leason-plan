@@ -29,17 +29,19 @@
       } 
 
     </style>
-    <div> 
-    <div class='card'>
-      <!-- <table border="1"> -->
-        <!-- <tr id="tb1"> -->
-        <!-- <p>{{sno}}</p> -->
-        <p hidden>{{sectionid}}</p>        
-        <p>{{empid}}</p>
-        <p>{{empname}}</p>        
-        <p><paper-button  id="tb3" on-click="FnView">View</paper-button></p>
-   
-    </div>
+     <div> 
+         
+     <table border="1">
+           <template is="dom-repeat" items="{{mainarr}}" as="w">
+           <tr>
+            <skill-capturing-card empname="{{empname}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}"  innovation="{{w.innovation}}" fromdate="{{w.fromdate}}" todate="{{w.todate}}" masskillz="{{w.masskill}}" >
+             </skill-capturing-card>
+            </tr>
+           </template>
+       </table>
+    
+     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+
     </div>
       <iron-ajax
         method="post"
@@ -72,18 +74,13 @@ this.fngetservifsddddsfdurl=sessionStorage.getItem("addrinfo")+"/fngetclassbookp
            obj.section_id=this.sectionid;
            obj.emp_id=this.empid;
            this.fngetservifsddddsfdparam=obj;
-          // alert(JSON.stringify(obj));
            this.$.fngetservifsddddsfdajax.generateRequest();
        
 },
  fngetservifsddddsfdResponse:function(e){
-    //alert("1");
- var res=e.detail.response.skillarr;
- var res1=e.detail.response.valuearr;
-    //alert(JSON.stringify(res));
-    //alert(JSON.stringify(res1));
- //   finalarr
-var adcarr=[];
+     var res=e.detail.response.skillarr;
+     var res1=e.detail.response.valuearr;
+     var adcarr=[];
 
   for(var i=0;i<res.length;i++){
      for( var j=0;j<res1.length;j++){
@@ -98,14 +95,8 @@ var adcarr=[];
                      obj.value_name=res1[j].value_name;
                      obj.capterid=res1[j].capterid;
                      obj.consid=res1[j].consid;
-                  
                      adcarr.push(obj);
-                 }}
-
-     }
-  }
-
-                 // alert(JSON.stringify(generatearr));
+                 }}}}
         var a=[];
         var overall=[];
        for(var k=0;k<adcarr.length;k++)

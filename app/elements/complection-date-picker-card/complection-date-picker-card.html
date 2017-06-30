@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<dom-module id="from-book-date-picker">
+<dom-module id="complection-date-picker-card">
   <template>
     <style is="custom-style" include="paper-date-picker-dialog-style">
       .card {
@@ -20,7 +20,7 @@
     </style>
     <!--component which invokes the predefined date picker control-->
     <div class="card">
-      <paper-input label="From date" class="btn" on-click="FnShowDialog" raised value="{{showdate}}"></paper-input>
+      <paper-input label="Completion date" class="btn" on-click="FnShowDialog" raised value="{{showdate}}"></paper-input>
       <paper-dialog id="dialog" class="paper-date-picker-dialog" modal on-iron-overlay-closed="FnDismissDialog">
         <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
         <div class="buttons">
@@ -36,11 +36,11 @@
   <!--JS file import-->
   <script>
     Polymer({
-  is: "from-book-date-picker",
+  is: "complection-date-picker-card",
   ready:function()
   {
     this.showdate=moment(new Date()).format('L');
-    localStorage.setItem("localsess_last_service",this.showdate);
+    localStorage.setItem("localsess_comp_service",this.showdate);
     //this.$.service.feereport(this.showdate);
   },
   FnShowDialog:function(){
@@ -65,5 +65,44 @@
     },
     
 });
+  </script>
+</dom-module>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="complection-date-picker-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'complection-date-picker-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'complection-date-picker-card',
+          notify: true
+        }
+      }
+    });
+  })();
   </script>
 </dom-module>

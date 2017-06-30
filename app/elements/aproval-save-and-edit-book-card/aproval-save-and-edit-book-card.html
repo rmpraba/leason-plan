@@ -18,15 +18,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>
-        <paper-input hidden value="{{captheadid}}"></paper-input>
-        <paper-checkbox on-change="fnsezzt" checked="{{check}}"  id="{{id}}">{{valuename}}
+        <paper-input hidden value="{{valueid}}"></paper-input>
+        <paper-checkbox on-change="fnsezzt"   id="{{id}}">{{valuename}}
     </div>
     <iron-ajax
         method="post"
         id="fnsetzajax"
         url="{{fnsetzurl}}"
         params="{{fnsetzparam}}"
-        handle-as="json"
+        handle-as="json"  
         content-type="application/json"
         on-response="fnsetzResponse"
         debounce-duration="300">
@@ -42,11 +42,12 @@ var val1=[];
       is: 'aproval-save-and-edit-book-card',
 ready:function(e){
 
-   this.fnsetz();
+   
 },
 fnsezzt:function(e){
      if(document.querySelector('#'+this.id).checked==true)
       {
+        alert(this.id);
          var obj={"value_id":"","value_name":"","capter_id":"","id":""};
             obj.value_id=this.valueid;
             obj.value_name=this.valuename;
@@ -96,19 +97,15 @@ fnclearx:function(e){
          val1.splice(obj);
 
 },
-fnsetzResponse:function(e){
-   var res=e.detail.response.returnval;
+setvvale:function(res){
        for(var i=0;i<res.length;i++){
            var obj={};
-           var  mz=res[i].capter_id+res[i].concept_id+res[i].value_id;
+       var  mz=res[i].grade_id+res[i].subject_id+res[i].concept_id+res[i].value_id;
                 document.querySelector('#'+mz).checked=true; 
-     
-           obj.id=mz;
+         obj.id=mz;
            v.push(obj);
-        }
-     },
-    
-});
+        }},
+ });
   })();
   </script>
 </dom-module>

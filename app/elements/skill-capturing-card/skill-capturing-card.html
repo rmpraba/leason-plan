@@ -18,25 +18,29 @@
     </style>
     
       <paper-input value={{captheadid}} hidden></paper-input>
-           <paper-input value={{conceptid}} hidden></paper-input>
+      <paper-input value={{conceptid}} hidden></paper-input>
      <table border="1">
            <tr>
-             <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
+             <td>{{empname}}</td>
+              <td hidden>{{empid}}</td>
+              <td hidden>{{conceptid}}</td>
+              <td>{{concept}}</td>
+                <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
              </td> 
              <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
              </td>
              <td>
-              <template is="dom-repeat" items="{{masskillz}}" as="r">
-                <aproval-save-and-edit-book-card  captheadid="{{captheadid}}" conceptid="{{conceptid}}"  id="{{captheadid}}{{conceptid}}{{r.value_id}}" check="{{r.check}}" valueid="{{r.value_id}}" valuename="{{r.value_name}}">
+              <template is="dom-repeat" items="{{masskillz}}" as="x">
+                <aproval-save-and-edit-book-card   valueid="{{x.value_id}}" valuename="{{x.value_name}}" id="{{gradeid}}{{subjectid}}{{conceptid}}{{x.value_id}}">
                 </aproval-save-and-edit-book-card>  
               </template>
             </td>
-            <td><from-book-date-picker></from-book-date-picker></td>
-            <td><to-book-date-picker></to-book-date-picker></td>
-           <!--  <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy1}}" icon="create" on-click="fneditbook"></paper-icon-button>
-        <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad1}}" icon="save" on-click="fnsavebook"></paper-icon-button>
-            </td> -->
-             <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
+            <td>{{fromdate}}</td>
+            <td>{{todate}}</td>
+            <td><complection-date-picker-card></complection-date-picker-card></td>
+            <td><paper-input value="{{complestarus}}"></paper-input></td>
+            <td><paper-input value="{{remark}}"></paper-input></td>
+              <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
              </td>
            </tr>
        </table>
@@ -72,19 +76,11 @@ this.innovattionvaluezs1=false;
 this.skillvaluezs1=false;
 
 },*/
-   fnaddskil:function(e){
-     this.$.skillposition.open();
-    },
-    
+  
     fnaroveset:function(e){
-      alert('1');
-      alert(JSON.stringify(val));
       alert(this.skill+" "+this.innovation);
-    
-    this.$.bookservice.captvalues(val);
-    this.$.bookservice.skillvalues(this.skill,this.innovation);
-    this.skill="";
-    this.innovation="";
+      this.$.bookservice.captvalues1(val,this.empid,this.conceptid);
+      this.$.bookservice.skillvalues1(this.skill,this.innovation,this.conceptid,this.complestarus,this.remark);
      },
     fnsetvalue:function(e){
   val=e;
