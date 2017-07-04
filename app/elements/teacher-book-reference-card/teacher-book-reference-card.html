@@ -102,7 +102,8 @@
      {
           border-radius: 10px;
           width: 350px;
-          height: 200px;
+          height: 320px;
+       
      }
     paper-dropdown-menu
     {
@@ -141,32 +142,13 @@
                   </template>    
                 </paper-menu>
           </paper-dropdown-menu>
-       </span> 
-       <!--   <span class="position"> 
-         <paper-dropdown-menu  label="Select Subject">
-                <paper-menu id="teacherref" class="dropdown-content"   on-iron-select="fnsection">
-                  <template is="dom-repeat" items="{{sectionarr}}">
-                    <paper-item value="{{item.id}}">{{item.section}}</paper-item>
-                  </template>    
-                </paper-menu>
-          </paper-dropdown-menu>
-       </span>  -->
-
-
-      <!-- <div style="width: 20%; margin-left: 61%;margin-top: -5.9%;"> 
-         <paper-input label="Enter Chapter" value="{{captername}}">
-         <paper-icon-button icon="save" suffix on-click="fnset">
-        </paper-icon-button>
-         </paper-input>
-      </div>
- -->
-
-        <paper-dialog id="newchapterrr" modal>
-          <paper-input  label="Enter Chapter" value="{{captername}}" style="position: relative; margin-top:14%;">
-            <paper-icon-button icon="save" suffix on-click="fnset">
-            </paper-icon-button>
-
-              <paper-icon-button icon="close" suffix on-click="fnclose" style="float: right;position: fixed;margin-left: 20.5%;margin-top: -4%;"></paper-icon-button>
+       </span>
+      <paper-dialog id="newchapterrr" modal>
+         <paper-input label="Enter Chapter" value="{{captername}}" ></paper-input>
+         <paper-input label="Enter Peroid" value="{{period}}"></paper-input>
+         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
+      <center>  <paper-button  on-click="fnset" style="color:white;background-color:black">Save</paper-button>
+          <paper-button style="color:white;background-color:black" on-click="fnclose" >Close</paper-button></center>
           </paper-input>
 
         </paper-dialog>
@@ -237,11 +219,13 @@ var k;
        this.$.bookservice.getcaptervalue();
     },
      fnset:function(e){
-       if(this.captername==""){
+       if(this.captername=="" && this.period=="" || this.bufferperiod==""){
       alert("Please enter the value");
        }else{
-     this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid);
+      this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid,this.period,this.bufferperiod);
      this.captername="";
+     this.period="";
+     this.bufferperiod="";
      }
        },
 

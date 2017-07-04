@@ -24,16 +24,7 @@
         on-response="bookrefsectionResponse"
          debounce-duration="300">
         </iron-ajax>  
-          <iron-ajax
-        method="post"
-        id="bookrefsection1ajax"
-        url="{{bookrefsection1url}}"
-        params="{{bookrefsection1param}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="bookrefsection1Response"
-         debounce-duration="300">
-        </iron-ajax>  
+      
       
         <iron-ajax  
         method="post"
@@ -363,6 +354,24 @@
         content-type="application/json"
         on-response="skillvalues1Response"
         debounce-duration="300" />
+        <iron-ajax
+        method="post"
+        id="fnsetcoskillajax"
+        url="{{fnsetcoskillurl}}"
+        params="{{fnsetcoskillparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnsetcoskillResponse"
+        debounce-duration="300" />
+        <iron-ajax
+        method="post"
+        id="fnbookeditskillajax"
+        url="{{fnbookeditskillurl}}"
+        params="{{fnbookeditskillparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnbookeditskillResponse"
+        debounce-duration="300" />
   </template>
   <script>  
   (function() {
@@ -395,7 +404,6 @@
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
-           
            obj.chapterid=chapterid;
            obj.subjectid=subjectid;
            obj.gradeid=gradeid;
@@ -437,57 +445,70 @@
                       obj.subject_id=sessionStorage.getItem("subjectidz");
                       obj.masskill=masskill;
                       setattr.push(obj);
-                    }
-   var fullarr=[];
-    for(var j=0;j<res1.length;j++){
+                     }
+          var fullarr=[];
+     for(var j=0;j<res1.length;j++){
                var obj1={};
                  obj1.empid=res1[j].empid;
                  obj1.empname=res1[j].empname;
                  obj1.mainarr=setattr;
                  fullarr.push(obj1);
+             }
+   document.querySelector('class-teacher-book-approve-card').fullarr=fullarr; 
 
+   
+          },
+         
+   fetchconceptResponse:function(e){
+var res=e.detail.response.conceptarr;
+var res1=e.detail.response.chapterarr;
+var res2=[];
+var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
 
+                   for(var i=0;i<res.length;i++){
+                  var obj={};
+                  obj.concept_id=res[i].concept_id;  
+                  obj.concept=res[i].concept;   
+                  obj.capter_id=res[i].capter_id;  
+                  obj.period=res[i].period;  
+                  obj.planned_date=res[i].planned_date;  
+                  obj.skill=res[i].skill;
+                  obj.innovation=res[i].innovation;
+                  obj.masskill=masskill;
+
+                  obj.hidecheck=false; 
+                  obj.hidecheck1=true; 
+                  res2.push(obj);     
+                  }
+        for(var k=0;k<r;k++){
+        var obj={};
+               obj.concept_id="";  
+               obj.concept="";   
+               obj.capter_id=""; 
+               obj.hidecheck=true; 
+               obj.hidecheck1=false; 
+               obj.masskill=masskill;
+
+               res2.push(obj);     
               }
-             // alert(JSON.stringify(fullarr));
+              alert(JSON.stringify(res2));
+    document.querySelector('teacher-book-approve-card').overallarr1=res2;
+      res2=[];
 
-document.querySelector('class-teacher-book-approve-card').fullarr=fullarr; 
+
 
      this.fetchclassconcept1url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
-            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
-           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-           obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
+            var obj={};
            obj.chapterid=localStorage.getItem("curr_sess_capters");
-           obj.subjectid=sessionStorage.getItem("subjectidz");
            obj.gradeid=sessionStorage.getItem("grdeidz");
-          // alert(JSON.stringify(obj));
            this.fetchclassconcept1param=obj;
            this.$.fetchclassconcept1ajax.generateRequest();
-          },
-            fetchclassconcept1Response(e){
+   },
+   fetchclassconcept1Response(e){
              var res=e.detail.response.returnval;
-           //  alert(JSON.stringify(res));
-    document.querySelector('aproval-save-and-edit-book-card').setvvale(res); 
+      document.querySelector('aproval-book').fnselbookvalue(res); 
 
           },
-         fetchconceptResponse:function(e){
-          var res=e.detail.response.returnval;
-          //  alert(JSON.stringify(res));
-               var temp=[];
-               var overall=[];
-               for(var l=0;l<res.length;l++){
-                temp.push(res[l]);
-                 if(l!=0&&l%4==0){
-                  overall.push(temp);
-                  temp=[];
-                }
-            }
-        overall.push(temp);
-          // alert(JSON.stringify(overall));
-       
-          document.querySelector('teacher-book-approve-card').conceptarr=overall;
-        },
 
        fnbookplangrade:function(e){
        // alert('1');
@@ -617,27 +638,7 @@ fnbookplangradeResponse:function(e){
           // alert(JSON.stringify(res));
            document.querySelector('teacher-book-approve-card').emparr=res;
       },
-       captvaluesz:function(val1){
-          for(var i=0;i<val1.length;i++)
-          {
-    this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
-      var obj={"school_id":"","value_id":"","value_name":"","concept_id":"","capter_id":"","fromdate":"","todate":"","flag":""};
-      obj.value_id=val1[i].value_id;
-      obj.value_name=val1[i].value_name;
-      obj.todate=localStorage.getItem("localsess_to_service");
-      obj.fromdate=localStorage.getItem("localsess_from_service");
-      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      obj.capter_id=localStorage.getItem("curr_sess_capters");
-      obj.grade_id=sessionStorage.getItem("grdeidz");
-      obj.subject_id=sessionStorage.getItem("subjectidz");
-      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-      obj.flag='active';  
-      this.captvaluesparam=obj;
-   //      alert(JSON.stringify(obj));
-      this.$.captvaluesajax.generateRequest();
-     }
-      },
+
       
        captvalues1:function(val1,empid,conceptid){
           for(var i=0;i<val1.length;i++)
@@ -820,13 +821,15 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
     
       },
    
-      fnsetcapture:function(gradeid,subjectid,captername,capterid){
+      fnsetcapture:function(gradeid,subjectid,captername,capterid,period,bufferperiod){
     this.fnsetcaptureurl=sessionStorage.getItem("addrinfo")+"/bookrefsectioncapter-service";
      var obj={"school_id":"","gradeid":"","subjectid":"","academic_year":"","capter_id":"","capter":"","sectionid":""};  
       obj.gradeid=gradeid;
       obj.subjectid=subjectid;
       obj.capter_id=capterid;
       obj.capter=captername;
+      obj.period=period;
+      obj.buffer_period=bufferperiod;
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
      //  alert(JSON.stringify(obj));
@@ -913,11 +916,8 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
       {
 
        var arr= e.detail.response.returnval;
-       //  alert(JSON.stringify(arr));
-           //  alert(JSON.stringify(arr[0].concept_prefix+arr[0].concept_sequence));
-      var val1=arr[0].concept_prefix+arr[0].concept_sequence;
-    //alert(val1);
-     document.querySelector('teacher-book-chapter-refernce-card').conceptidget(val1);
+       var val1=arr[0].concept_prefix+arr[0].concept_sequence;
+       localStorage.setItem("curr_sess_conceptid",val1);
        
       },
        skillseq:function()
@@ -969,38 +969,20 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
            // alert(JSON.stringify(res));
        document.querySelector('teacher-book-approve-card').subjectarr=e.detail.response.returnval;
   
- 
-      },
-bookrefsection1:function(gradeid,gradename){
-           this.bookrefsection1url=sessionStorage.getItem("addrinfo")+"/bookrefsection1-service";
-       var obj={"school_id":"","gradeid":"","gradename":"","academic_year":""};
-      obj.gradeid=gradeid;
-      obj.gradename=gradename;
-      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
-      this.bookrefsection1param=obj;
-      
-      this.$.bookrefsection1ajax.generateRequest();
-      },
- 
-   
-bookrefsection1Response:function(e){
+   },
 
-//alert(JSON.stringify(e.detail.response.emparr));
-//alert(JSON.stringify(e.detail.response.sectionarr));
-
-  document.querySelector('teacher-book-approve-card').emparr=e.detail.response.emparr;
-  document.querySelector('teacher-book-approve-card').sectionarr=e.detail.response.sectionarr;
-   },   
+ 
        
-     fnsendconcept:function(capterid,concept,conceptid){
+     fnsendconcept:function(concept,period){
            this.fnsendconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
        var obj={"capter_id":"","concept":"","concept_id":""};
-      obj.capter_id=capterid;
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
       obj.concept=concept;
-      obj.concept_id=conceptid;
-      //obj.showdate=showdate;
-       this.fnsendconceptparam=obj;
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+      obj.period=period;
+      obj.planned_date=localStorage.getItem("localsess_last_service");
+      this.fnsendconceptparam=obj;
+      alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
       },
 
@@ -1018,50 +1000,113 @@ bookrefsection1Response:function(e){
             }
             
       },
-
+fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,completestatus){
+           this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-service";
+       var obj={};
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.concept=concept;
+      obj.concept_id=conceptid;
+      obj.period=period;
+      obj.skill=skill;
+      obj.innovation=innovation;
+      obj.remark=remark;
+      obj.completestatus=completestatus;
+      obj.planned_date=localStorage.getItem("localsess_last_service");
+      this.fnbookeditskillparam=obj;
+      alert(JSON.stringify(obj));
+      this.$.fnbookeditskillajax.generateRequest();
+      },
+fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
+           this.fnsetcoskillurl=sessionStorage.getItem("addrinfo")+"/fnsetcoskill-service";
+       var obj={};
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.concept=concept;
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+      obj.planned_date=localStorage.getItem("localsess_last_service");
+      obj.period=period;
+      obj.skill=skill;
+      obj.innovation=innovation;
+      obj.remark=remark;
+      obj.completestatus=completestatus;
+      obj.planned_date=localStorage.getItem("localsess_last_service");
+      this.fnsetcoskillparam=obj;
+      alert(JSON.stringify(obj));
+      this.$.fnsetcoskillajax.generateRequest();
+      },
+  fnsetcoskillResponse:function(e)
+      {
+       var res=e.detail.response.returnval;
+            if(res=="Inserted")
+            {
+              alert("Inserted");
+              this.conceptseq(); 
+              this.FnFetchConceptService();
+            }
+        },
+   fnsetcovalue:function(val1){
+          for(var i=0;i<val1.length;i++)
+          {
+    this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
+      var obj={};
+      obj.value_id=val1[i].value_id;
+      obj.value_name=val1[i].value_name;
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
+      obj.flag='active';  
+      this.captvaluesparam=obj;
+      this.$.captvaluesajax.generateRequest();
+     }
+      },
       fngetconceptvalue:function()
       {
         this.fngetconceptvalueurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue-service";
                   var obj={"capter_id":""};
                   obj.capter_id=localStorage.getItem("curr_sess_capters");
                 this.fngetconceptvalueparam=obj;
-            //  alert(JSON.stringify(obj));
+              alert(JSON.stringify(obj));
              this.$.fngetconceptvalueajax.generateRequest();
       },
-
-
-       fngetconceptvalueResponse:function(e)
-     {
-         var res=e.detail.response.returnval;
-          //alert(JSON.stringify(res));
-          
-           var temp=[];
-           var overall=[];
-               for(var i=0;i<res.length;i++)
-               {
-                  temp.push(res[i]);
-                  if(i!=0&&i%3==0)
-                  {
-                    overall.push(temp);
-                    temp=[];
+ fngetconceptvalueResponse:function(e)
+     {            
+var res=e.detail.response.conceptarr;
+var res1=e.detail.response.chapterarr;
+var res2=[];
+var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
+                   for(var i=0;i<res.length;i++){
+                  var obj={};
+                  obj.concept_id=res[i].concept_id;  
+                  obj.concept=res[i].concept;   
+                  obj.capter_id=res[i].capter_id;  
+                  obj.period=res[i].period;  
+                  obj.planned_date=res[i].planned_date;  
+                  obj.hidecheck=false; 
+                  obj.hidecheck1=true; 
+                  res2.push(obj);     
                   }
-                }
-              overall.push(temp);
-
-         document.querySelector('teacher-book-chapter-refernce-card').conceptarr=overall;
+      for(var k=0;k<r;k++){
+        var obj={};
+               obj.concept_id="";  
+               obj.concept="";   
+               obj.capter_id=""; 
+               obj.hidecheck=true; 
+               obj.hidecheck1=false; 
+               res2.push(obj);     
+              }
+     document.querySelector('teacher-book-chapter-refernce-card').conceptarr=res2;
 
       },
 
-      fnbookupdatevalue:function(capterid,concept)
+      fnbookupdatevalue:function(capterid,concept,period,planneddate)
       {
            this.fnbookupdatevalueurl=sessionStorage.getItem("addrinfo")+"/fnbookupdatevalue-service";
        var obj={"capter_id":"","concept":"","concept_id":""};
-      obj.capter_id=capterid;
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
       obj.concept=concept;
-      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      //obj.concept_id=conceptid
+      obj.period=period;
+      obj.concept_id=capterid;
+      obj.planned_date=planneddate;
       this.fnbookupdatevalueparam=obj;
-     //alert(JSON.stringify(obj));
+      alert(JSON.stringify(obj));
       this.$.fnbookupdatevalueajax.generateRequest();
       },
       fnbookupdatevalueResponse:function(e){

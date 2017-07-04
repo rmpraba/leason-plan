@@ -12,268 +12,83 @@
           width: 1220px;
           border-collapse: collapse;
       }
+     paper-textarea
+      {
+        overflow-x: hidden;
+        overflow-y: visible;
+        height: 50px;
+      }
     </style>
     <div>
-            <paper-input value={{capterid}} hidden></paper-input>
-           <paper-input value={{consid}} hidden></paper-input>
-
+           <paper-input value={{conceptid}} hidden></paper-input>
+           <paper-input value={{capterid}} hidden></paper-input>
       <table border="1">
            <tr>
-             <td>{{captname}}
-             </td>
-             <td>{{consname}}</td>
-             <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovattion}}></paper-textarea>
-             </td> 
-             <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skillvalue}}></paper-textarea>
-             </td>
+             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+                 <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
+             <td><paper-input value={{concept}}></paper-input></td>
+             <td><paper-input value={{period}}></paper-input> </td>
+             <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
+              <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
             <td>
-              <template is="dom-repeat" items="{{valuearr}}" as="r">
-                      <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{consid}}" id="{{r.value_id}}{{empid}}{{gradeid}}{{sectionid}}{{subjectid}}{{capterid}}{{conceptid}}">
+              <template is="dom-repeat" items="{{masskill}}" as="r">
+                      <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{conceptid}}" id="ENRz{{conceptid}}{{r.value_id}}">
                       </aproval-book>  
               </template>
             </td>
-                <td><paper-checkbox id={{id}}   on-change="fnsetaprovezzz"></paper-checkbox></td>
-              <td><paper-checkbox   id={{idz}} on-change="fnsetaprove1"></paper-checkbox></td>
-              <td><paper-icon-button    hidden$="{{dfdsfsdffzzzy}}" icon="create" on-click="fneditbook"></paper-icon-button>
-        <paper-icon-button  hidden$="{{dasdsaddaffsdsdssdsad}}" icon="save" on-click="fnsavebook"></paper-icon-button>
+            <td><paper-input value="{{remark}}"></paper-input></td>
+            <td><paper-input value="{{completestatus}}"></paper-input></td>
+            <td>
+               <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
+                <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
             </td>
-             <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
-             </td>
+            <td><paper-icon-button icon="close"></paper-icon-button></td>
+             
            </tr>
        </table>
       
     </div>
-    
-    <iron-ajax
-        method="post"
-        id="teacherbookref1ajax"
-        url="{{teacherbookref1url}}"
-        params="{{teacherbookref1param}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="teacherbookref1Response"
-        debounce-duration="300">
-   </iron-ajax> 
-   
-<iron-ajax
-        method="post"
-        id="skillbookupdateajax"
-        url="{{skillbookupdateurl}}"
-        params="{{skillbookupdateparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="skillbookupdateResponse"
-        debounce-duration="300">
-</iron-ajax> 
-
-<iron-ajax
-        method="post"
-        id="valuebookupdateajax"
-        url="{{valuebookupdateurl}}"
-        params="{{valuebookupdateparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="valuebookupdateResponse"
-        debounce-duration="300">
-</iron-ajax>
-<iron-ajax
-        method="post"
-        id="coflagskillajax"
-        url="{{coflagskillurl}}"
-        params="{{coflagskillparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="coflagskillResponse"
-        debounce-duration="300">
-</iron-ajax><iron-ajax
-        method="post"
-        id="coflagevalueajax"
-        url="{{coflagevalueurl}}"
-        params="{{coflagevalueparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="coflagevalueResponse"
-        debounce-duration="300">
-</iron-ajax> 
+     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>
   <script>
   (function() {
     'use strict';
-     var valxzs;
-     var uparr=[];
-     var valarr=[];
+     var tempvaluarr=[];
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
 
-     ready:function(e){
-         this.dasdsaddaffsdsdssdsad=true;
-         this.innovattionvaluezs=true;
-         this.skillvaluezs=true;
-     },
-     fnsetaprovezzz:function(e){
-      //alert(this.id);
-      if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
-          //alert(document.querySelector('#'+this.id).checked);
-     if(document.querySelector('#'+this.id).checked==true){
-             valxzs='coaprove';
-               var obj={};
-                   obj.id=this.id;
-                   uparr.push(obj);
-                   document.querySelector('#'+this.idz).checked=false;
-        }
+    fnsavebook:function(e){
 
-      }else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
-
-          // alert(document.querySelector('#'+this.id).checked);
-     if(document.querySelector('#'+this.id).checked==true){
-             valxzs='preaprove';
-               var obj={};
-                   obj.id=this.id;
-                   uparr.push(obj);
-                   document.querySelector('#'+this.idz).checked=false;
-        }
-
-
-      }
-
-   
-    },
-  fnsetaprove1:function(e){
-    // alert(this.idz);
-       //alert(document.querySelector('#'+this.idz).checked);
-         if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
     
-         if(document.querySelector('#'+this.idz).checked==true){
-                   valxzs='coreject';
-                   var obj={};
-                   obj.idz=this.idz;
-                   rearr.push(obj);
-             document.querySelector('#'+this.id).checked=false;
- 
-                 }
-          }
-          else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+    if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""&&this.completestatus==""){
+      alert("pls insert the value");
+       }
+    else if(this.conceptid==""){
 
-        if(document.querySelector('#'+this.idz).checked==true){
-                   valxzs='prereject';
-                   var obj={};
-                   obj.idz=this.idz;
-                   rearr.push(obj);
-             document.querySelector('#'+this.id).checked=false;
- 
-                 }
-
-          }
-
-           
-},
-       masterzskillResponse:function(e){
-         var res=e.detail.response.returnval;
-      //   alert(JSON.stringify(res));
-     this.masskill=res
-     //document.querySelector('teacher-book-approve-card').masskill=res;
-
-   },
-   fnaroveset:function(e){
-  if((document.querySelector('#'+this.id).checked==true)||(document.querySelector('#'+this.idz).checked==true)){
-this.coflagskillurl=sessionStorage.getItem("addrinfo")+"/coflagskill-service";
-       var obj={"emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":"","conceptid":"","capterid":"","flag":""};
-           obj.conceptid=this.conceptid;
-           obj.capterid=this.capterid;
-           obj.emp_id=sessionStorage.getItem("empidz");           
-           obj.grade_id=sessionStorage.getItem("grdeidz");
-           obj.subject_id=sessionStorage.getItem("subjectidz");
-           obj.section_id=sessionStorage.getItem("sectoinidz");
-           obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-           obj.flag=valxzs;
-          this.coflagskillparam=obj;
-        // alert(JSON.stringify(obj));
-          this.$.coflagskillajax.generateRequest();
-
-      this.coflagevalueurl=sessionStorage.getItem("addrinfo")+"/coflagevalue-service";
-          var obj={"emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":"","conceptid":"","capterid":"","flag":""}; 
-          obj.conceptid=this.conceptid;
-          obj.capterid=this.capterid;
-          obj.emp_id=sessionStorage.getItem("empidz");           
-          obj.grade_id=sessionStorage.getItem("grdeidz");
-          obj.subject_id=sessionStorage.getItem("subjectidz");
-          obj.section_id=sessionStorage.getItem("sectoinidz");
-          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-          obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-          obj.flag=valxzs;
-          this.coflagevalueparam=obj;
-         // alert(JSON.stringify(obj));
-          this.$.coflagevalueajax.generateRequest();
-     }
-   else{
-alert("PLEASE CHECK THE VALUE");
-   }
-
-   },
-      fneditbook:function(e){
-       this.dfdsfsdffzzzy=true;
-       this.dasdsaddaffsdsdssdsad=false;
-       this.innovattionvaluezs=false;
-       this.skillvaluezs=false
-      },
-      fnsavebook:function(e){
-       this.innovattionvaluezs=true;
-       this.skillvaluezs=true;
-       this.dfdsfsdffzzzy=false;
-       this.dasdsaddaffsdsdssdsad=true;
-
-   this.skillbookupdateurl=sessionStorage.getItem("addrinfo")+"/skillbookupdate-service";
-       var obj={"emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":"","innovattion":"","skillvalue":"","conceptid":"","capterid":""};
-           obj.innovattion=this.innovattion;
-           obj.skillvalue=this.skillvalue;
-           obj.conceptid=this.conceptid;
-           obj.capterid=this.capterid;
-           obj.emp_id=sessionStorage.getItem("empidz");           
-           obj.grade_id=sessionStorage.getItem("grdeidz");
-           obj.subject_id=sessionStorage.getItem("subjectidz");
-           obj.section_id=sessionStorage.getItem("sectoinidz");
-           obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-          this.skillbookupdateparam=obj;
-      //    alert(JSON.stringify(obj));
-          this.$.skillbookupdateajax.generateRequest();
-
-         for(var i=0;i<valarr.length;i++){
-this.valuebookupdateurl=sessionStorage.getItem("addrinfo")+"/valuebookupdate-service";
-          var obj={"valueid":"","valuename":"","emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":"","conceptid":"","capterid":""}; 
-          obj.valueid=valarr[i].valueid;
-          obj.valuename=valarr[i].valuename;
-          obj.conceptid=this.conceptid;
-          obj.capterid=this.capterid;
-          obj.emp_id=sessionStorage.getItem("empidz");           
-          obj.grade_id=sessionStorage.getItem("grdeidz");
-          obj.subject_id=sessionStorage.getItem("subjectidz");
-          obj.section_id=sessionStorage.getItem("sectoinidz");
-          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-          obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-          this.valuebookupdateparam=obj;
-        //  alert(JSON.stringify(obj));
-          this.$.valuebookupdateajax.generateRequest();
-         } 
-        document.querySelector('aproval-book').smallclean();
+ //   this.$.bookservice.fnsendconcept(this.concept,this.period);
+ alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
+    this.$.bookservice.fnsetcoskill(this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
+    this.$.bookservice.fnsetcovalue(tempvaluarr);
       
-      },
-      skillbookupdateResponse:function(e){
-     var res=e.detail.response.returnval;
-         //alert(JSON.stringify(res));
-         
-      },
-      valuebookupdateResponse:function(e){
-      var res=e.detail.response.returnval;
-           //alert(JSON.stringify(res));
-         
-      },
-     fnsetpassvalz:function(arr){
-     valarr=arr;
-     //alert(JSON.stringify(valarr));
-     },
+     }
+    else{
+  this.$.bookservice.fnbookeditskill(this.conceptid,this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
+   this.$.bookservice.fnsetcovalue(tempvaluarr);
+     
+      }
+   this.hidecheck1=true;
+   this.hidecheck=false;
+ },
+ fneditbook:function(e){
+  this.hidecheck1=false;
+  this.hidecheck=true;
+},
+fnsetpassvalz:function(e){
+e=tempvaluarr;
+
+},
+
 
    });
   })();

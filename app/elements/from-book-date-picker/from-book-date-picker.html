@@ -20,7 +20,7 @@
     </style>
     <!--component which invokes the predefined date picker control-->
     <div class="card">
-      <paper-input label="From date" class="btn" on-click="FnShowDialog" raised value="{{showdate}}"></paper-input>
+      <paper-input label=" planing date" class="btn" on-click="FnShowDialog" raised value="{{showdate}}"></paper-input>
       <paper-dialog id="dialog" class="paper-date-picker-dialog" modal on-iron-overlay-closed="FnDismissDialog">
         <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
         <div class="buttons">
@@ -55,7 +55,7 @@
       var dd1=new Date();
       var dd2=new Date(pickdate);
       var days=parseInt((dd1 - dd2) / (1000 * 60 * 60 * 24));
-          this.showdate = moment(this.$.picker.date).format('L');
+      this.showdate = moment(this.$.picker.date).format('L');
           localStorage.setItem("localsess_from_service",this.showdate);
       alert(this.showdate);
       }

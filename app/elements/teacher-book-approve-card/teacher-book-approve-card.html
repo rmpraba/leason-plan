@@ -63,7 +63,7 @@
    {
           table-layout: fixed;
           border-collapse: collapse;
-          width: 91%;
+          width: 93.9%;
           margin-left: 5%;
           margin-top: 5%;
    }
@@ -164,30 +164,33 @@
        </span>
   
 
-         <paper-card id="newcardd111">  
-          <div style="padding-top: 16%;height: 5px;">
-          <img src="../../images/book5.jpg">
-            <center style="position: absolute;margin-top: -16%;margin-left: 42%;
-            color: black;">
-              <h2>CONCEPT NAME</h2>
-            </center>  
-          </div>
-       <div class="hs-inner1">
-            <table style="margin-left: -96%;margin-top: 2%;">
-              <template is="dom-repeat" items="{{conceptarr}}" as="view">
-               <tr>
-                <template is="dom-repeat" items="{{view}}" as="v">
-                    <td style="line-height: 2em;">
-                      <div id="itemcarddialog">
-                         <p><teacher-book-approveal-item-card concept="{{v.concept}}" conceptid="{{v.concept_id}}"></teacher-book-approveal-item-card></p>
-                    </td>
-                  </template>
-                </tr>
-              </template>
-            </table>
-          </div>
-          </paper-card>
- 
+      
+
+     <div id="zdsasddsasfsa" >
+     
+      <table  border="1" class="report1" id="reporttabzzzzz">
+        <tr>
+          <th>Date</th>
+          <th>CONCEPT</th>
+          <th>PERIOD NO</th>
+          <th>SKILL</th>
+          <th>INNOVATION</th>
+          <th>VALUE</th>
+          <th>REMARKS</th>
+          <th>CORRECTION STATUS</th>
+          <th>Save</th>
+          <th>Delete</th>
+        
+          </tr>
+            <tr>
+             <template  is="dom-repeat" items="{{overallarr1}}" as="view">
+                <tr>
+                  <aproval-book-innovatiosn-item-card conceptid="{{view.concept_id}}" concept="{{view.concept}}" capterid="{{view.capter_id}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skill}}"  innovation="{{view.innovation}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}"> 
+                  </aproval-book-innovatiosn-item-card>
+                </tr> 
+                </template>  
+            </tr>
+      </table>
     
 
 
@@ -203,36 +206,12 @@
       is: 'teacher-book-approve-card',
         fnhide:function()
         {
-          this.$.newcardd111.hidden=true;
         },
     
   fnsetval:function(e){
    
-    this.empnamez=sessionStorage.getItem("curr_sess_loggeduname");
-
-    if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
-     this.$.newcardd111.hidden=false;
-     this.hideallvaluesss1=true;
-    }
-
-    else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
-     this.$.newcardd111.hidden=false;
-     this.hideallvaluesss=false;
-     this.hideallvaluesss=false;
-     this.hideallvaluesss1=false;
-
-
-   }
-
-   else  if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
-
-   this.$.newcardd111.hidden=true;
-     this.hideallvaluesss=false;
-     this.hideallvaluesss=false;
-     this.hideallvaluesss1=false;
-
-  }
-   },
+    
+ },
      asdadczcsadcdas:function(e){
      document.querySelector('#asdadczcsadcdasww').selected=-1;
  
@@ -241,40 +220,22 @@
     this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
      this.gradename=e.target.selectedItem.textContent.trim()
-      if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
-       this.$.bookservice.bookrefsection1(this.gradeid,this.gradename);
-       }
-      else  if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
-    
-          this.$.bookservice.getbookinteacher(this.gradeid);
-     }
-     this.$.bookservice.bookrefsection(this.gradeid,this.gradename);
-             document.querySelector('#asdadczcsadcdasww').selected=-1;
-        document.querySelector('#teacherrefyyyy').selected=-1;
-        document.querySelector('#teacherrefzz').selected=-1;
-      //  this.$.newcardd111.hidden=true;
-
-     }, 
+      this.$.bookservice.bookrefsection(this.gradeid,this.gradename);
+    }, 
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
-    
       this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
-      this.$.newcardd111.hidden=false;
+      this.$.bookservice.conceptseq();
+      
      },
-     fnselectconcept:function(e){
-      this.conceptid=e.target.selectedItem.value;
-      this.conceptname=e.target.selectedItem.textContent.trim();
-      this.$.bookservice.bookreffixcapterdate(this.gradeid,this.subjectid,this.chapterid,this.conceptid);
-     },
+  
      fnsetsection:function(e){
        this.sectionid=e.target.selectedItem.value;
        this.sectionname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("sectoinidz",this.sectionid);
-      if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
            this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
-        }
         document.querySelector('#teacherrefzz').selected=-1;
         },
     fnsetemp:function(e){
@@ -289,13 +250,6 @@
        this.subjectname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("subjectidz",this.subjectid);
         this.$.bookservice.FnFetchChapterService(this.gradeid,this.subjectid); 
-        if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
-          document.querySelector('aproval-book').fnsetapproveclear();
-        }
-
-        if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'||sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal")
-        {
-        }
       }, 
   fnRefresh:function()
      {

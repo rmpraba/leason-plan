@@ -44,17 +44,7 @@
         </paper-button>  
     </div>
 
-  <!-- <iron-ajax
-        method="post"
-        id="fngetconceptvalueajax"
-        url="{{fngetconceptvalueurl}}"
-        params="{{fngetconceptvalueparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="fngetconceptvalueResponse"
-        debounce-duration="300">
-</iron-ajax>  -->
-
+  
   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>
@@ -70,51 +60,22 @@
    {
       document.querySelector('teacher-book-chapter-refernce-card').capthead=this.capter;
       document.querySelector('teacher-book-chapter-refernce-card').captheadid=this.capterid;
-    
+         this.$.bookservice.conceptseq();
+ 
      
      document.querySelector('app-card').setPage('homepage','');
          document.querySelector('home-page').setPage('teacher-book-chapter-refernce-card','');
-      //alert(this.capterid);
+    
         localStorage.setItem("curr_sess_capters",this.capterid); 
 
         this.$.bookservice.fngetconceptvalue();
     
-       /*this.fngetconceptvalueurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue-service";
-            var obj={"capter_id":""};
-            obj.capter_id=this.capterid;
-         this.fngetconceptvalueparam=obj;
-        // alert(JSON.stringify(obj));
-        this.$.fngetconceptvalueajax.generateRequest();*/
+     
       
 
       },
   
   
-     /*fngetconceptvalueResponse:function(e)
-     {
-         var res=e.detail.response.returnval;
-          alert(JSON.stringify(res));
-          //document.querySelector('teacher-book-chapter-refernce-card').conceptedt(res);
-          
-          document.querySelector('teacher-book-chapter-refernce-card').concepteditarr=res;
-          
-
-           var temp=[];
-           var overall=[];
-               for(var i=0;i<res.length;i++)
-               {
-                  temp.push(res[i]);
-                  if(i!=0&&i%3==0)
-                  {
-                    overall.push(temp);
-                    temp=[];
-                  }
-                }
-              overall.push(temp);
-
-         document.querySelector('teacher-book-chapter-refernce-card').conceptarr=overall;
-
-      },*/
     });
   })();
   </script>

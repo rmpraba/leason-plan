@@ -21,10 +21,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div>
         <paper-input value={{valueid}} hidden></paper-input>
-          <paper-input value={{valuename}} hidden></paper-input>
+        <paper-input value={{valuename}} hidden></paper-input>
         <paper-input value={{conceptid}} hidden></paper-input>
-         <paper-input value={{capterid}} hidden></paper-input>
-    <paper-checkbox on-change="fnsezzt" id={{id}}   checked="{{check}}"  >{{valuename}}</paper-checkbox></div>
+        <paper-input value={{capterid}} hidden></paper-input>
+    <paper-checkbox on-change="fnsezzt" id={{id}}>{{valuename}}</paper-checkbox></div>
     <iron-ajax
         method="post"
         id="bookvaldelajax"
@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'aproval-book',
 
   fnsezzt:function(e){ 
-  //alert(this.id);
+  alert(this.id);
   alert(document.querySelector('#'+this.id).checked);
 
    if(document.querySelector('#'+this.id).checked==true){
@@ -61,17 +61,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
     else if(document.querySelector('#'+this.id).checked==false){
      this.bookvaldelurl=sessionStorage.getItem("addrinfo")+"/bookvaldel-service";
-      
-      var obj={"capterid":"","conceptid":"","valueid":"","emp_id":"","grade_id":"","subject_id":"","section_id":"","school_id":"","academic_year":""};
+     
+       var obj={};
       obj.valueid=this.valueid;
       obj.conceptid=this.conceptid;
       obj.capterid=this.capterid;
-      obj.emp_id=sessionStorage.getItem("empidz");           
-      obj.grade_id=sessionStorage.getItem("grdeidz");
-      obj.subject_id=sessionStorage.getItem("subjectidz");
-      obj.section_id=sessionStorage.getItem("sectoinidz");
-      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
       this.bookvaldelparam=obj;
       alert(JSON.stringify(obj));
       this.$.bookvaldelajax.generateRequest();
@@ -109,15 +103,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      
        },
   fnselbookvalue:function(arr){
-    //   alert(JSON.stringify(arr));
+       alert(JSON.stringify(arr));
   for(var i=0;i<arr.length;i++){
-      var idz=arr[i].value_id+arr[i].emp_id+arr[i].grade_id+arr[i].section_id+arr[i].subject_id+arr[i].capter_id+arr[i].concept_id;
-        var obj={};
-          obj.id=idz;
-          obj.valueid=arr[i].value_id;
-        temparr.push(obj);
-       // alert(JSON.stringify(temparr));
-        document.querySelector('#'+idz).checked=true;
+      var idz="ENRz"+arr[i].concept_id+arr[i].value_id;
+      alert(idz);
+          document.querySelector('#'+idz).checked=true;
+          var obj={};
+           obj.id=idz;
+          temparr.push(obj);
+          // alert(JSON.stringify(temparr));
       }
      }
    }); 
