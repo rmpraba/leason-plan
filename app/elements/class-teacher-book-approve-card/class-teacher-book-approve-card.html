@@ -6,7 +6,7 @@
         display: block;
       }
       .position{
-    margin-left:10%
+    margin-left:7%
    
    }
     #tb1{
@@ -34,7 +34,7 @@
    {
           table-layout: fixed;
           border-collapse: collapse;
-          width: 92%;
+          width: 94%;
           margin-left: 5%;
           margin-top: 5%;
    }
@@ -60,10 +60,19 @@
                   </template>    
                 </paper-menu>
           </paper-dropdown-menu>
+       </span>
+     
+        <span class="position"> 
+         <paper-dropdown-menu  label="Select Section">
+                <paper-menu id="teacherrefyyyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
+                  <template is="dom-repeat" items="{{sectionarr}}">
+                    <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
+                  </template>    
+                </paper-menu>
+          </paper-dropdown-menu>
        </span>   
              
-
-      <span class="position"> 
+  <span class="position"> 
        <paper-dropdown-menu  label="Select the chapter">
               <paper-menu id="teacherapprovechapter" class="dropdown-content"   on-iron-select="fnselectchapter">
                    <template is="dom-repeat" items="{{chapterarr}}">
@@ -71,48 +80,35 @@
                   </template>    
                 </paper-menu>
          </paper-dropdown-menu>
-     </span>
-
-
-         
-
-
-
-<table  border="1" class="report1" id="reporttabzzzzz">
+     </span>   
+       
+      
+   <paper-input value="{{empid}}" hidden></paper-input>
+      <h2>{{empname}}</h2>
+   <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
-          <th>Empname</th>
-          <th>Concept</th>
+          <th>CONCEPT</th>
+          <th>PERIOD NO</th>
           <th>Skill</th>
-          <th>Innovation</th>
           <th>Value</th>
-          <th>From date </th>
-          <th>TO date</th>
+          <th>Innovation</th>
+          <th>Planning date</th>
           <th>Completion Date</th>
-          <th>Completion Status</th>
           <th>Remarks</th>
+          <th>Enrichment Suggestion</th>
+          <th>Completion Status</th>
           <th>Save</th>  
           </tr>
-          <template is="dom-repeat" items="{{fullarr}}" as="view">
+             <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>
-              <class-teacher-book-approve-item-card chapterid="{{chapterid}}" empname="{{view.empname}}"  mainarr="{{view.mainarr}}" >
-             </class-teacher-book-approve-item-card>
-           </tr>
+            <skill-capturing-card empname="{{empname}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}"   iddate="{{w.id_date}}" id="enrz{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}"
+            idz="enrno{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" masskillz="{{w.masskill}}" >
+             </skill-capturing-card>
+            </tr>
            </template>
      </table>
     </div> 
-
-
-
-
-
-
-
-
-
-
-       
-       </div>
-       <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
   <script>
   (function() {
@@ -121,28 +117,49 @@
     Polymer({
       is: 'class-teacher-book-approve-card',
 
-     fnsetgrade:function(e){
+   fnsetgrade:function(e){
       this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
       this.gradename=e.target.selectedItem.textContent.trim();
       document.querySelector('#teacherrefzzzz').selected=-1;
-   
-     },
-    
+        document.querySelector('#teacherrefyyyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
+      },
      fnsubject:function(e){
-     // alert('1');
        this.subjectid=e.target.selectedItem.value;
        sessionStorage.setItem("subjectidz",this.subjectid);
        this.subjectname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
+       document.querySelector('#teacherrefyyyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
      },
+     fnsetsection:function(e){
+     this.sectionidz=e.target.selectedItem.value;
+       sessionStorage.setItem("sectionidz",this.sectionidz);
+       this.sectionidname=e.target.selectedItem.textContent.trim();
+       document.querySelector('#teacherrefyyyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
+      },
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
-     this.$.bookservice.FnFetchClassConceptService(this.gradeid,this.subjectid,this.chapterid); 
+     this.$.bookservice.FnFetchClassConceptService(this.gradeid,this.subjectid,this.chapterid,this.sectionidz); 
+     this.$.reporttabzzzzz.hidden=false;
+     document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
      },
+     FnRefresh:function()
+     {
+        document.querySelector('#teacherref').selected=-1;
+        document.querySelector('#teacherrefzzzz').selected=-1;
+        document.querySelector('#teacherrefyyyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
+        this.$.reporttabzzzzz.hidden=true;
+     }
    
+
+
+
     });
   })();
   </script>

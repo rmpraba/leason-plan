@@ -5,8 +5,7 @@
 <dom-module id="class-teacher-book-approve-item-card">
   <template>
     <style>
-     
-        :host {
+     :host {
         display: block;
       }
       table{
@@ -32,12 +31,7 @@
      <div> 
          
      <table border="1">
-           <template is="dom-repeat" items="{{mainarr}}" as="w">
-           <tr>
-            <skill-capturing-card empname="{{empname}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}"  innovation="{{w.innovation}}" fromdate="{{w.fromdate}}" todate="{{w.todate}}" masskillz="{{w.masskill}}" >
-             </skill-capturing-card>
-            </tr>
-           </template>
+        
        </table>
     
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>

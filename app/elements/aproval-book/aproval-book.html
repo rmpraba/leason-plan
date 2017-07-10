@@ -55,8 +55,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            obj.id=this.id;
            obj.valueid=this.valueid;
            obj.valuename=this.valuename;
+           obj.conceptid=this.conceptid;
            temparr.push(obj);
            temparr1.push(obj);
+           alert(JSON.stringify(temparr1));
+
   document.querySelector('aproval-book-innovatiosn-item-card').fnsetpassvalz(temparr1)
     }
     else if(document.querySelector('#'+this.id).checked==false){
@@ -82,31 +85,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      
   },
   fnsetapproveclear:function(e){
-  
-       for(var i=0;i<temparr.length;i++) {
+     for(var i=0;i<temparr.length;i++) {
           var wz=temparr[i].id;
        document.querySelector('#'+wz).checked=false;
          }  
         temparr.splice(obj);
         temparr1.splice(obj);
-
-
   },
-  smallclean:function(e){
-     var obj={};
-           temparr1.splice(obj);
-      
+  splices:function(e){
+var obj={};
+  temparr1.splice(obj);
   },
+ 
   bookvaldelResponse:function(e){
        var res=e.detail.response.returnval;
          alert(JSON.stringify(res));
      
        },
   fnselbookvalue:function(arr){
-       alert(JSON.stringify(arr));
+    alert(JSON.stringify(arr));
+
   for(var i=0;i<arr.length;i++){
       var idz="ENRz"+arr[i].concept_id+arr[i].value_id;
-      alert(idz);
           document.querySelector('#'+idz).checked=true;
           var obj={};
            obj.id=idz;

@@ -222,12 +222,12 @@ var k;
        if(this.captername=="" && this.period=="" || this.bufferperiod==""){
       alert("Please enter the value");
        }else{
-      this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid,this.period,this.bufferperiod);
+    this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid,this.period,this.bufferperiod);
      this.captername="";
      this.period="";
      this.bufferperiod="";
      }
-       },
+   },
 
    addconcept:function() {
   this.$.addconcept.toggle();

@@ -17,95 +17,101 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>
-        <paper-input hidden value="{{valueid}}"></paper-input>
-        <paper-checkbox on-change="fnsezzt"   id="{{id}}">{{valuename}}
-    </div>
+  <div>
+        <paper-input value={{valueid}} hidden></paper-input>
+        <paper-input value={{valuename}} hidden></paper-input>
+        <paper-input value={{conceptid}} hidden></paper-input>
+        <paper-input value={{capterid}} hidden></paper-input>
+    <paper-checkbox on-change="fnsezzt" id={{id}}>{{valuename}}</paper-checkbox></div>
     <iron-ajax
         method="post"
-        id="fnsetzajax"
-        url="{{fnsetzurl}}"
-        params="{{fnsetzparam}}"
-        handle-as="json"  
+        id="bookvaldelajax"
+        url="{{bookvaldelurl}}"
+        params="{{bookvaldelparam}}"
+        handle-as="json"
         content-type="application/json"
-        on-response="fnsetzResponse"
+        on-response="bookvaldelResponse"
         debounce-duration="300">
 </iron-ajax> 
+
   </template>
   <script>
   (function() {
     'use strict';
-var v=[];
-var val1=[];
-
+ var temparr=[];
+ var temparr1=[];
+ 
     Polymer({
       is: 'aproval-save-and-edit-book-card',
-ready:function(e){
 
-   
-},
-fnsezzt:function(e){
-     if(document.querySelector('#'+this.id).checked==true)
-      {
-        alert(this.id);
-         var obj={"value_id":"","value_name":"","capter_id":"","id":""};
-            obj.value_id=this.valueid;
-            obj.value_name=this.valuename;
-            obj.capter_id=this.captheadid;
-            obj.id=this.id;
-            val1.push(obj);
-            v.push(obj);
-           }
+  fnsezzt:function(e){ 
+  alert(this.id);
+  alert(document.querySelector('#'+this.id).checked);
 
-      else if(document.querySelector('#'+this.id).checked==false)
-      {
-           for( var i=0;i<val1.length;i++){
-                if(val1[i].id==this.id){
-                  val1.splice(i,1);
-                }
-           }
-        
-       }
-   
- document.querySelector('skill-capturing-card').fnsetvalue(val1);
-   
-   
-},
-fnsetz:function(e){
-  //alert('1');
-  this.fnsetzurl=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
-      var obj={};
-      obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      obj.capter_id=localStorage.getItem("curr_sess_capters");
-      obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
-      obj.grade_id=sessionStorage.getItem("grdeidz");
-      obj.subject_id=sessionStorage.getItem("subjectidz");
-      obj.section_id=sessionStorage.getItem("sectoinidz");
-      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-      obj.flag='active';  
-      this.fnsetzparam=obj;
-      this.$.fnsetzajax.generateRequest();
-},
-fnclearx:function(e){
-       for(var i=0;i<v.length;i++){
-         var xx=v[i].id;
-         document.querySelector('#'+xx).checked=false; 
-          }
-         var obj={};
-          v.splice(obj);
-         val1.splice(obj);
+   if(document.querySelector('#'+this.id).checked==true){
+          var obj={};
+           obj.id=this.id;
+           obj.valueid=this.valueid;
+           obj.valuename=this.valuename;
+           obj.conceptid=this.conceptid;
+           temparr.push(obj);
+           temparr1.push(obj);
+           alert(JSON.stringify(temparr1));
 
-},
-setvvale:function(res){
-       for(var i=0;i<res.length;i++){
-           var obj={};
-       var  mz=res[i].grade_id+res[i].subject_id+res[i].concept_id+res[i].value_id;
-                document.querySelector('#'+mz).checked=true; 
-         obj.id=mz;
-           v.push(obj);
-        }},
- });
+  document.querySelector('skill-capturing-card').fnsetpassvalz(temparr1)
+    }
+    else if(document.querySelector('#'+this.id).checked==false){
+     this.bookvaldelurl=sessionStorage.getItem("addrinfo")+"/bookvaldel-service";
+     
+       var obj={};
+      obj.valueid=this.valueid;
+      obj.conceptid=this.conceptid;
+      obj.capterid=this.capterid;
+      this.bookvaldelparam=obj;
+      alert(JSON.stringify(obj));
+      this.$.bookvaldelajax.generateRequest();
+
+         for(var i=0;i<temparr.length;i++){
+                 if(temparr[i].id==this.id){
+                  temparr.splice(i,1);
+
+                 }          
+         
+         }
+     
+    }   
+     
+  },
+  fnsetapproveclear:function(e){
+     for(var i=0;i<temparr.length;i++) {
+          var wz=temparr[i].id;
+       document.querySelector('#'+wz).checked=false;
+         }  
+        temparr.splice(obj);
+        temparr1.splice(obj);
+  },
+  splices:function(e){
+var obj={};
+  temparr1.splice(obj);
+  },
+ 
+  bookvaldelResponse:function(e){
+       var res=e.detail.response.returnval;
+         alert(JSON.stringify(res));
+     
+       },
+  fnselbookvalue:function(arr){
+    alert(JSON.stringify(arr));
+ for(var i=0;i<arr.length;i++){
+      var idz="ENRz"+arr[i].concept_id+arr[i].value_id;
+          document.querySelector('#'+idz).checked=true;
+          var obj={};
+           obj.id=idz;
+          temparr.push(obj);
+          // alert(JSON.stringify(temparr));
+      }
+     }
+   }); 
   })();
   </script>
 </dom-module>

@@ -24,26 +24,26 @@
            <paper-input value={{capterid}} hidden></paper-input>
       <table border="1">
            <tr>
-             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
-                 <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-input value={{concept}}></paper-input></td>
              <td><paper-input value={{period}}></paper-input> </td>
+             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+                 <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
-              <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
             <td>
               <template is="dom-repeat" items="{{masskill}}" as="r">
                       <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{conceptid}}" id="ENRz{{conceptid}}{{r.value_id}}">
                       </aproval-book>  
               </template>
             </td>
-            <td><paper-input value="{{remark}}"></paper-input></td>
-            <td><paper-input value="{{completestatus}}"></paper-input></td>
+            <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
+
+            <td><paper-input value={{remark}}></paper-input></td>
+            <!-- <td><paper-input value={{completestatus}} hidden></paper-input></td> -->
             <td>
                <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
                 <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
             </td>
-            <td><paper-icon-button icon="close"></paper-icon-button></td>
-             
+            <td><paper-icon-button icon="close" on-click="fndelete"></paper-icon-button></td>
            </tr>
        </table>
       
@@ -59,7 +59,8 @@
       is: 'aproval-book-innovatiosn-item-card',
 
     fnsavebook:function(e){
-
+   alert(JSON.stringify(tempvaluarr));
+  
     
     if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""&&this.completestatus==""){
       alert("pls insert the value");
@@ -70,22 +71,27 @@
  alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
     this.$.bookservice.fnsetcoskill(this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
-      
-     }
+      }
     else{
-  this.$.bookservice.fnbookeditskill(this.conceptid,this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
-   this.$.bookservice.fnsetcovalue(tempvaluarr);
-     
+    this.$.bookservice.fnbookeditskill(this.conceptid,this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
+     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
    this.hidecheck1=true;
    this.hidecheck=false;
- },
+    document.querySelector('aproval-book').splices();
+},
+fndelete:function(e){
+this.$.bookservice.buffdel();
+},
  fneditbook:function(e){
   this.hidecheck1=false;
   this.hidecheck=true;
 },
 fnsetpassvalz:function(e){
-e=tempvaluarr;
+  alert(1);
+tempvaluarr=e;
+ alert(JSON.stringify(tempvaluarr));
+
 
 },
 

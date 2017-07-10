@@ -21,26 +21,29 @@
       <paper-input value={{conceptid}} hidden></paper-input>
      <table border="1">
            <tr>
-             <td>{{empname}}</td>
               <td hidden>{{empid}}</td>
               <td hidden>{{conceptid}}</td>
               <td>{{concept}}</td>
-                <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
-             </td> 
-             <td><paper-textarea  readonly$="{{skillvaluezs1}}" value={{skill}}></paper-textarea>
+              <td><paper-input value={{period}}></paper-input></td>
+             <td><paper-textarea value={{skill}}></paper-textarea>
              </td>
              <td>
               <template is="dom-repeat" items="{{masskillz}}" as="x">
-                <aproval-save-and-edit-book-card   valueid="{{x.value_id}}" valuename="{{x.value_name}}" id="{{gradeid}}{{subjectid}}{{conceptid}}{{x.value_id}}">
+                <aproval-save-and-edit-book-card   valueid="{{x.value_id}}" valuename="{{x.value_name}}" id="ENRz{{conceptid}}{{x.value_id}}">
                 </aproval-save-and-edit-book-card>  
               </template>
             </td>
-            <td>{{fromdate}}</td>
-            <td>{{todate}}</td>
+            <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
+             </td> 
+            <td>{{planneddate}}</td>
             <td><complection-date-picker-card></complection-date-picker-card></td>
-            <td><paper-input value="{{complestarus}}"></paper-input></td>
-            <td><paper-input value="{{remark}}"></paper-input></td>
-              <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
+            <td><paper-input value={{remark}}></paper-input></td>
+            <td><paper-input value={{enrichmentsuggest}}></paper-input></td>
+            <td>
+                <paper-checkbox checked id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
+                <paper-checkbox id={{idz}} on-change="fnsetno">No</paper-checkbox>
+              </td>
+            <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
              </td>
            </tr>
        </table>
@@ -53,40 +56,40 @@
     'use strict';
 var skillid;
 var val=[];
+var costatus;
+
     Polymer({
       is: 'skill-capturing-card',
-/*  ready:function(e){
-this.dfdsfsdffzzzy1=false;
-this.dasdsaddaffsdsdssdsad1=true;
-this.innovattionvaluezs1=true;
-this.skillvaluezs1=true;
-
- },*/
- /*fnsavebook:function(e){
- this.dfdsfsdffzzzy1=false;
- this.dasdsaddaffsdsdssdsad1=true;
- this.innovattionvaluezs1=true;
- this.skillvaluezs1=true;
-
-},*/
-/*fneditbook:function(e){
-this.dfdsfsdffzzzy1=true;
-this.dasdsaddaffsdsdssdsad1=false;
-this.innovattionvaluezs1=false;
-this.skillvaluezs1=false;
-
-},*/
   
     fnaroveset:function(e){
-      alert(this.skill+" "+this.innovation);
-      this.$.bookservice.captvalues1(val,this.empid,this.conceptid);
-      this.$.bookservice.skillvalues1(this.skill,this.innovation,this.conceptid,this.complestarus,this.remark);
+    alert(costatus);
+      alert(this.skill+"br"+this.innovation+"br "+this.enrichmentsuggest+" br"+this.period+"br"+this.planneddate+"br"+this.concept+"br"+this.conceptid+"br"+this.remark);
+         this.$.bookservice.fnfinalbook(this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark);
+       document.querySelector('aproval-save-and-edit-book-card').splices();
+
      },
-    fnsetvalue:function(e){
-  val=e;
-    }
- 
-    });
+    fnsetyes:function(e){
+      alert(this.id);
+      alert(document.querySelector('#'+this.id).checked);
+
+
+  if(document.querySelector('#'+this.id).checked==true){
+             costatus='Yes';
+     document.querySelector('#'+this.idz).checked=false;
+      
+           }
+    },
+    fnsetno:function(e){
+       alert(this.id);
+
+if(document.querySelector('#'+this.idz).checked==true){
+             costatus='No';
+     document.querySelector('#'+this.id).checked=false;
+      
+           }
+  
+    },
+ });
   })();
   </script>
 </dom-module>

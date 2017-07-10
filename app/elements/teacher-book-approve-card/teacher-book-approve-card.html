@@ -35,8 +35,7 @@
 
 .hs-inner1 p:first-letter{
   font-size: 28px;
-}
-    .cadcdd1{
+}.cadcdd1{
     top: 200px;
     right: 90% !important;
     width: 327px;
@@ -162,22 +161,22 @@
                 </paper-menu>
          </paper-dropdown-menu>
        </span>
+         
   
+      <paper-button style="color:white;background-color:black" on-click="fnaddbuffer">Add Buffer period</paper-button>  
 
-      
+
 
      <div id="zdsasddsasfsa" >
-     
       <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
-          <th>Date</th>
           <th>CONCEPT</th>
           <th>PERIOD NO</th>
+          <th>DATE</th>
           <th>SKILL</th>
-          <th>INNOVATION</th>
           <th>VALUE</th>
+          <th>INNOVATION</th>
           <th>REMARKS</th>
-          <th>CORRECTION STATUS</th>
           <th>Save</th>
           <th>Delete</th>
         
@@ -185,14 +184,21 @@
             <tr>
              <template  is="dom-repeat" items="{{overallarr1}}" as="view">
                 <tr>
-                  <aproval-book-innovatiosn-item-card conceptid="{{view.concept_id}}" concept="{{view.concept}}" capterid="{{view.capter_id}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skill}}"  innovation="{{view.innovation}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}"> 
+                  <aproval-book-innovatiosn-item-card conceptid="{{view.concept_id}}" concept="{{view.concept}}" capterid="{{view.capter_id}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skillzz}}"  innovation="{{view.innovationzz}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" completestatus="{{view.completestatus}}" remark="{{view.remark}}"> 
                   </aproval-book-innovatiosn-item-card>
                 </tr> 
                 </template>  
             </tr>
       </table>
     
+   <paper-dialog id="bufferdialog" modal>
+         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
+      <center>  <paper-button  on-click="fnbufset" style="color:white;background-color:black">Save</paper-button>
+      <paper-button style="color:white;background-color:black" on-click="fnclose" >Close</paper-button>
+         </center>
+          </paper-input>
 
+        </paper-dialog>
 
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
@@ -206,12 +212,27 @@
       is: 'teacher-book-approve-card',
         fnhide:function()
         {
+           
         },
+        fnbufset:function(e){
+         this.$.bookservice.buffset(this.bufferperiod);
+         },
+        fnclose:function()
+{
+  this.$.bufferdialog.close();
+},
+
     
   fnsetval:function(e){
    
     
  },
+ fnaddbuffer:function(e){
+  this.$.bufferdialog.toggle();
+
+
+ },
+
      asdadczcsadcdas:function(e){
      document.querySelector('#asdadczcsadcdasww').selected=-1;
  
@@ -227,7 +248,10 @@
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
       this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
+      this.$.zdsasddsasfsa.hidden=false;
       this.$.bookservice.conceptseq();
+       document.querySelector('aproval-book').fnsetapproveclear();
+
       
      },
   
@@ -258,6 +282,7 @@
         document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
         document.querySelector('#teacherapprovechapter').selected=-1;
+        this.$.zdsasddsasfsa.hidden=true;
   
      }
     
