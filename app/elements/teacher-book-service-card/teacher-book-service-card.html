@@ -453,7 +453,7 @@
          // alert(JSON.stringify(e.detail.response.returnval));
           document.querySelector('teacher-book-approve-card').chapterarr=e.detail.response.returnval;
         },
-        fnfinalbook:function(empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark){
+        fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark){
              this.fnfinalbookurl=sessionStorage.getItem("addrinfo")+"/fnfinalbook-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -461,9 +461,10 @@
            obj.chapterid=localStorage.getItem("curr_sess_capters");
            obj.subjectid=sessionStorage.getItem("subjectidz");
            obj.gradeid=sessionStorage.getItem("grdeidz");
-           obj.sectionid=sessionStorage.setItem("sectionidz");
+           obj.sectionid=sessionStorage.getItem("sectionidz");
            obj.completion_date=localStorage.getItem("localsess_comp_service");
            obj.empid=empid;
+           obj.status=status;
            obj.skill=skill;
            obj.innovation=innovation;
            obj.enrichmentsuggest=enrichmentsuggest;
@@ -472,12 +473,14 @@
            obj.concept=concept;
            obj.conceptid=conceptid;
            obj.remark=remark;
-           obj.subjectid=subjectid;
-           obj.gradeid=gradeid;
            this.fnfinalbookparam=obj;
            this.$.fnfinalbookajax.generateRequest();
-        
-
+         //  alert(JSON.stringify(obj));
+        },
+        fnfinalbookResponse:function(e)
+        {
+            var res=e.detail.response.returnval;
+            alert('Inserted');
         },
         FnFetchConceptService:function(gradeid,subjectid,chapterid){
            this.fetchconcepturl=sessionStorage.getItem("addrinfo")+"/fetchconcept-service";
@@ -510,7 +513,7 @@
         fetchclassconceptResponse:function(e){
           var res=e.detail.response.skillarr;
           var res1=e.detail.response.emparr;
-          alert(JSON.stringify(res));
+         // alert(JSON.stringify(res));
           var setattr=[];
              for(var i=0;i<res.length;i++){
                     var obj={};
@@ -529,7 +532,7 @@
                       obj.masskill=masskill;
                       setattr.push(obj);
                      }
-                           alert(JSON.stringify(setattr));
+                          // alert(JSON.stringify(setattr));
 
      
    document.querySelector('class-teacher-book-approve-card').mainarr=setattr; 
@@ -548,7 +551,7 @@
    fetchconceptResponse:function(e){
 var res=e.detail.response.conceptarr;
 var res1=e.detail.response.chapterarr;
-alert(JSON.stringify(e.detail.response.conceptarr));
+//alert(JSON.stringify(e.detail.response.conceptarr));
 
 var res2=[];
 var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
@@ -580,7 +583,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
 
                res2.push(obj);     
               }
-              alert(JSON.stringify(res2));
+             // alert(JSON.stringify(res2));
     document.querySelector('teacher-book-approve-card').overallarr1=res2;
       res2=[];
 
@@ -1077,7 +1080,7 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
       obj.period=period;
       obj.planned_date=localStorage.getItem("localsess_last_service");
       this.fnsendconceptparam=obj;
-      alert(JSON.stringify(obj));
+    //  alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
       },
 
@@ -1108,7 +1111,7 @@ fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,comple
       obj.completestatus=completestatus;
       obj.planned_date=localStorage.getItem("localsess_last_service");
       this.fnbookeditskillparam=obj;
-      alert(JSON.stringify(obj));
+    //  alert(JSON.stringify(obj));
       this.$.fnbookeditskillajax.generateRequest();
       },
 fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
@@ -1125,7 +1128,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
       obj.completestatus=completestatus;
       obj.planned_date=localStorage.getItem("localsess_last_service");
       this.fnsetcoskillparam=obj;
-      alert(JSON.stringify(obj));
+     // alert(JSON.stringify(obj));
       this.$.fnsetcoskillajax.generateRequest();
       },
   fnsetcoskillResponse:function(e)
@@ -1139,7 +1142,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
             }
         },
    fnsetcovalue:function(val1){
-    alert(JSON.stringify(val1));
+  //  alert(JSON.stringify(val1));
           for(var i=0;i<val1.length;i++)
           {
     this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";
@@ -1150,13 +1153,13 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
       obj.concept_id=val1[i].conceptid;
       obj.flag='active';  
       this.captvaluesparam=obj;
-      alert(JSON.stringify(obj));
+    //  alert(JSON.stringify(obj));
       this.$.captvaluesajax.generateRequest();
        }
       },
 
       captvaluesResponse:function(e){
-       alert(JSON.stringify(e.detail.response.returnval));
+       //alert(JSON.stringify(e.detail.response.returnval));
        },
        buffset:function(bufferperiodzz){
         bufferperiod=bufferperiodzz;
@@ -1178,7 +1181,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
      },
    buffset1Response:function(e){
      var res=e.detail.response.returnval;
-     alert(JSON.stringify(res));
+   //  alert(JSON.stringify(res));
 
       if(res=="Updated"){
            this.conceptseq(); 
@@ -1188,7 +1191,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
         
    },
    buffdel:function(e){
-    alert("1");
+   // alert("1");
     
     this.buffdelurl=sessionStorage.getItem("addrinfo")+"/buffset-service";
     var obj={};
@@ -1199,7 +1202,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
  buffdelResponse:function(e){
      var res=e.detail.response.returnval;
      var delperiod=parseInt(res[0].period)-1;
-     alert(delperiod);
+    // alert(delperiod);
      this.buffdel1url=sessionStorage.getItem("addrinfo")+"/buffdel-service";
       var obj={};
       obj.delperiod=delperiod;
@@ -1216,7 +1219,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
             var obj={"capter_id":""};
                 obj.capter_id=localStorage.getItem("curr_sess_capters");
                 this.fngetconceptvalueparam=obj;
-              alert(JSON.stringify(obj));
+            //  alert(JSON.stringify(obj));
              this.$.fngetconceptvalueajax.generateRequest();
       },
  fngetconceptvalueResponse:function(e)
@@ -1259,7 +1262,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
       obj.concept_id=capterid;
       obj.planned_date=planneddate;
       this.fnbookupdatevalueparam=obj;
-      alert(JSON.stringify(obj));
+    //  alert(JSON.stringify(obj));
       this.$.fnbookupdatevalueajax.generateRequest();
       },
       fnbookupdatevalueResponse:function(e){
@@ -1311,7 +1314,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
      deleteconceptzzzzResponse:function(e)
      {
         var res=e.detail.response.returnval;
-        alert(JSON.stringify(res));
+       // alert(JSON.stringify(res));
      },
 
      conceptdeletzzzzResponse:function(e)

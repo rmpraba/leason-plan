@@ -59,7 +59,7 @@
       is: 'aproval-book-innovatiosn-item-card',
 
     fnsavebook:function(e){
-   alert(JSON.stringify(tempvaluarr));
+  // alert(JSON.stringify(tempvaluarr));
   
     
     if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""&&this.completestatus==""){
@@ -68,7 +68,7 @@
     else if(this.conceptid==""){
 
  //   this.$.bookservice.fnsendconcept(this.concept,this.period);
- alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
+// alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
     this.$.bookservice.fnsetcoskill(this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
@@ -88,9 +88,9 @@ this.$.bookservice.buffdel();
   this.hidecheck=true;
 },
 fnsetpassvalz:function(e){
-  alert(1);
+ // alert(1);
 tempvaluarr=e;
- alert(JSON.stringify(tempvaluarr));
+// alert(JSON.stringify(tempvaluarr));
 
 
 },

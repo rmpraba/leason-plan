@@ -62,25 +62,24 @@ var costatus;
       is: 'skill-capturing-card',
   
     fnaroveset:function(e){
-    alert(costatus);
-      alert(this.skill+"br"+this.innovation+"br "+this.enrichmentsuggest+" br"+this.period+"br"+this.planneddate+"br"+this.concept+"br"+this.conceptid+"br"+this.remark);
-         this.$.bookservice.fnfinalbook(this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark);
+        costatus='Yes';
+
+         this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark);
        document.querySelector('aproval-save-and-edit-book-card').splices();
+      // alert('Inserted');
 
      },
     fnsetyes:function(e){
-      alert(this.id);
-      alert(document.querySelector('#'+this.id).checked);
-
-
-  if(document.querySelector('#'+this.id).checked==true){
+     // alert(this.id);
+      //alert(document.querySelector('#'+this.id).checked);
+ if(document.querySelector('#'+this.id).checked==true){
              costatus='Yes';
      document.querySelector('#'+this.idz).checked=false;
       
            }
     },
     fnsetno:function(e){
-       alert(this.id);
+      // alert(this.id);
 
 if(document.querySelector('#'+this.idz).checked==true){
              costatus='No';

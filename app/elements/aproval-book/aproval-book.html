@@ -47,8 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'aproval-book',
 
   fnsezzt:function(e){ 
-  alert(this.id);
-  alert(document.querySelector('#'+this.id).checked);
+ // alert(this.id);
+ // alert(document.querySelector('#'+this.id).checked);
 
    if(document.querySelector('#'+this.id).checked==true){
           var obj={};
@@ -58,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            obj.conceptid=this.conceptid;
            temparr.push(obj);
            temparr1.push(obj);
-           alert(JSON.stringify(temparr1));
+          // alert(JSON.stringify(temparr1));
 
   document.querySelector('aproval-book-innovatiosn-item-card').fnsetpassvalz(temparr1)
     }
@@ -70,7 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       obj.conceptid=this.conceptid;
       obj.capterid=this.capterid;
       this.bookvaldelparam=obj;
-      alert(JSON.stringify(obj));
+     // alert(JSON.stringify(obj));
       this.$.bookvaldelajax.generateRequest();
 
          for(var i=0;i<temparr.length;i++){
@@ -99,11 +99,11 @@ var obj={};
  
   bookvaldelResponse:function(e){
        var res=e.detail.response.returnval;
-         alert(JSON.stringify(res));
+        // alert(JSON.stringify(res));
      
        },
   fnselbookvalue:function(arr){
-    alert(JSON.stringify(arr));
+   // alert(JSON.stringify(arr));
 
   for(var i=0;i<arr.length;i++){
       var idz="ENRz"+arr[i].concept_id+arr[i].value_id;

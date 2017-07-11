@@ -84,7 +84,10 @@
        
       
    <paper-input value="{{empid}}" hidden></paper-input>
-      <h2>{{empname}}</h2>
+      <div id="empidzz" style="position: 
+      absolute;margin-left: 5%;margin-top: 1.4%;"><label><b>Employee Name:</b></label></div>
+      <h4 style="margin-top: 1.3%;position: absolute;
+      margin-left: 14%;">{{empname}}</h4>
    <table  border="1" class="report1" id="reporttabzzzzz">
         <tr>
           <th>CONCEPT</th>
@@ -101,7 +104,7 @@
           </tr>
              <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>
-            <skill-capturing-card empname="{{empname}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}"   iddate="{{w.id_date}}" id="enrz{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}"
+            <skill-capturing-card empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}"   iddate="{{w.id_date}}" id="enrz{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}"
             idz="enrno{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" masskillz="{{w.masskill}}" >
              </skill-capturing-card>
             </tr>
@@ -146,6 +149,7 @@
       localStorage.setItem("curr_sess_capters",this.chapterid); 
      this.$.bookservice.FnFetchClassConceptService(this.gradeid,this.subjectid,this.chapterid,this.sectionidz); 
      this.$.reporttabzzzzz.hidden=false;
+     this.$.empidzz.hidden=false;
      document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
      },
      FnRefresh:function()
@@ -155,6 +159,7 @@
         document.querySelector('#teacherrefyyyyyy').selected=-1;
         document.querySelector('#teacherapprovechapter').selected=-1;
         this.$.reporttabzzzzz.hidden=true;
+        this.$.empidzz.hidden=true;
      }
    
 

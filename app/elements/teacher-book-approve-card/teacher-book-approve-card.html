@@ -214,8 +214,11 @@
         {
            
         },
-        fnbufset:function(e){
-         this.$.bookservice.buffset(this.bufferperiod);
+        fnbufset:function(e)
+        {
+            this.$.bookservice.buffset(this.bufferperiod);
+            this.bufferperiod="";
+
          },
         fnclose:function()
 {

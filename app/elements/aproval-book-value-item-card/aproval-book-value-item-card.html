@@ -62,16 +62,16 @@
    this.hidecheck1=false;
   },
 fnaroveset:function(e){
- alert(this.conceptid+" "+this.concept+" "+this.period);
- alert(this.conceptid)
+// alert(this.conceptid+" "+this.concept+" "+this.period);
+ //alert(this.conceptid)
    if(this.conceptid==""&&this.concept==""&&this.period==""){
-    alert("empty");
+    //alert("empty");
     }
    else if(this.conceptid==""){
      this.$.bookservice.fnsendconcept(this.concept,this.period);
      }
   else{
-    alert("edit");
+    //alert("edit");
   this.$.bookservice.fnbookupdatevalue(this.conceptid,this.concept,this.period,this.planneddate);
     }
 
