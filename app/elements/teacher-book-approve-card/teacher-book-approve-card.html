@@ -106,9 +106,7 @@
             box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
             padding:5px;
        }
-    
-      
-    </style>
+     </style>
     <center><h2 hidden style="color:#00ccff">{{empnamez}}</h2></center>
      <paper-input hidden value="{{empnamez}}"></paper-input>
        
@@ -162,6 +160,8 @@
          </paper-dropdown-menu>
        </span>
          
+
+
   
       <paper-button style="color:white;background-color:black;margin-left: 3%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
 
@@ -192,13 +192,29 @@
       </table>
     
    <paper-dialog id="bufferdialog" modal>
-         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
-      <center>  <paper-button  on-click="fnbufset" style="color:white;background-color:black">Save</paper-button>
-      <paper-button style="color:white;background-color:black" on-click="fnclose" >Close</paper-button>
-         </center>
-          </paper-input>
 
-        </paper-dialog>
+      <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">Chaper</paper-checkbox>
+      <paper-checkbox id="Conceptzzzidzz" on-change="fnconceptzz">Concept</paper-checkbox>
+        <div  hidden$="{{chaptbuffidz}}">
+      <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
+      </div>
+      <div  hidden$="{{Conceptbuffidz}}">
+        <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
+ <paper-dropdown-menu  label="Select the concept" style="width:10%;margin-left: 13%;
+  ">   
+  <paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
+                 <template is="dom-repeat" items="{{conceptarr}}">
+                    <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
+               </template>    
+                </paper-menu>
+        </paper-dropdown-menu>
+        </div>
+        <center> 
+         <div></div>
+        <paper-button id="sub11" on-click="fnconsubmit" style="color:white;background-color:black">Submit</paper-button>
+        <paper-button id="sub2222" on-click="fncaptsubmit">Submit</paper-button>
+        <paper-button id="cls111" on-click="fnclose">Close</paper-button></center>
+     </paper-dialog>
 
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
@@ -207,19 +223,56 @@
   <script>
   (function() {
     'use strict';
-
+   var conceptidz;
+   var conceptnamez;
+    
     Polymer({
       is: 'teacher-book-approve-card',
         fnhide:function()
         {
-           
+             Conceptzzzidzz.checked=false;
+             Chaperzzzzidzz.checked=false;
+             this.Conceptbuffidz=true;
+             this.chaptbuffidz=true;
+             this.$.sub11.hidden=true;
+             this.$.sub2222.hidden=true;
+             this.$.cls111.hidden=true;
+         },
+        fnconsubmit:function(e){
+          this.$.bookservice.buffset11(this.bufferperiod,conceptidz,conceptnamez);
         },
-        fnbufset:function(e)
-        {
-            this.$.bookservice.buffset(this.bufferperiod);
+        fncaptsubmit:function(e){
+     this.$.bookservice.buffset(this.bufferperiod);
             this.bufferperiod="";
 
-         },
+        },
+    fnchapter:function(e){
+          alert(Chaperzzzzidzz.checked);
+          if(Chaperzzzzidzz.checked==true)
+          {
+            Conceptzzzidzz.checked=false;
+            this.$.sub11.hidden=false;
+            this.$.sub2222.hidden=true;
+            this.$.cls111.hidden=false;
+            this.Conceptbuffidz=true;
+            this.chaptbuffidz=false;
+          }
+
+        },
+        fnconceptzz:function(e){
+              alert(Conceptzzzidzz.checked);
+          this.$.bookservice.fnbuffconcept();
+          if(Conceptzzzidzz.checked==true)
+          {
+            Chaperzzzzidzz.checked=false;
+            this.Conceptbuffidz=false;
+            this.chaptbuffidz=true;
+            this.$.sub11.hidden=true;
+            this.$.sub2222.hidden=false;
+            this.$.cls111.hidden=false;
+          }
+        },
+       
         fnclose:function()
 {
   this.$.bufferdialog.close();
@@ -250,28 +303,31 @@
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
-      this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid); 
-      this.$.zdsasddsasfsa.hidden=false;
+     this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid);this.$.zdsasddsasfsa.hidden=false;
       this.$.bookservice.conceptseq();
        document.querySelector('aproval-book').fnsetapproveclear();
-
-      
-     },
-  
-     fnsetsection:function(e){
+       },
+fnselectconcept:function(e){
+      this.conceptid=e.target.selectedItem.value;
+      this.conceptname=e.target.selectedItem.textContent.trim();
+      localStorage.setItem("curr_sess_chapterid",this.chapterid); 
+      conceptidz=this.conceptid;
+      conceptnamez=this.conceptname
+      },
+    fnsetsection:function(e){
        this.sectionid=e.target.selectedItem.value;
        this.sectionname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("sectoinidz",this.sectionid);
-           this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
+       this.$.bookservice.bookapprvvalsubject(this.gradeid,this.sectionid);
         document.querySelector('#teacherrefzz').selected=-1;
         },
-    fnsetemp:function(e){
+    /*fnsetemp:function(e){
          this.empid=e.target.selectedItem.value;
        sessionStorage.setItem("empidz",this.empid);
        this.empname=e.target.selectedItem.textContent.trim();
         document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
-    },
+    },*/
      fnsetsubject:function(e){
        this.subjectid=e.target.selectedItem.value;
        this.subjectname=e.target.selectedItem.textContent.trim();

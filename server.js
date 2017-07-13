@@ -1060,20 +1060,33 @@ app.post('/fetchfagrade-service',  urlencodedParser,function (req,res)
 
   });
 });
+app.post('/fnbuffconcept-service',  urlencodedParser,function (req,res)
+{  
+  var qur="SELECT * FROM md_concept where capter_id='"+req.query.capterid+"' ";
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    { 
+      //console.log(JSON.stringify(rows));   
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
 
-
-
-
+  });
+});
 app.post('/fetchcoscholasticgrade-service',  urlencodedParser,function (req,res)
 {  
-  // var qur="SELECT grade FROM MD_GRADE_RATING WHERE lower_limit<='"+req.query.score+"' and higher_limit>='"+req.query.score+"'";
   var qur="SELECT * FROM md_coscholastic_grade_rating";
   connection.query(qur,
     function(err, rows)
     {
     if(!err)
     { 
-      //console.log(JSON.stringify(rows));  
       global.coscholasticgrade=rows; 
       res.status(200).json({'returnval': rows});
     }
