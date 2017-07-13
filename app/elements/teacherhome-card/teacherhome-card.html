@@ -690,7 +690,9 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
             
        document.querySelector('app-card').setPage('homepage','');
         document.querySelector('home-page').setPage('teacher-book-approve-card','');
-      if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher'){
+      if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher')
+      {   
+        //alert(2);
          this.$.bookservice.bookgrade();
          this.$.bookservice.masterzskill();
          
@@ -699,8 +701,6 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
       else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
             this.$.bookservice.getappovedcoordinator();
             this.$.bookservice.masterzskill();
-            
-    
      }
      else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
            this.$.bookservice.masterzskill();
@@ -715,7 +715,7 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
             this.$.bookservice.fnbookplangrade();
             this.$.bookservice.fnbookplansubject();
             this.$.bookservice.masterzskill();
-       document.querySelector('class-teacher-book-approve-card').FnRefresh();
+       document.querySelector('class-teacher-book-approve-card').FnRefresh1();
 
      }
      

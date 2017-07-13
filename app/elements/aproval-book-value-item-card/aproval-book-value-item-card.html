@@ -30,7 +30,7 @@
              <td><from-book-date-picker hidden$="{{hidecheck1}}" ></from-book-date-picker>
                 <paper-input value={{planneddate}} hidden$="{{hidecheck}}"></paper-input></td>
              <td> <paper-input value={{concept}}></paper-input></td>
-              <td><paper-input value={{period}}></paper-input></td>
+              <td><paper-input value={{period}} allowed-pattern="[0-9]"></paper-input></td>
               <td><paper-icon-button   hidden$="{{hidecheck}}" on-click="fnaroveset1" icon="create">
               </paper-icon-button>
                <paper-icon-button  hidden$="{{hidecheck1}}" on-click="fnaroveset" icon="save"></paper-icon-button></td>
@@ -67,12 +67,16 @@ fnaroveset:function(e){
    if(this.conceptid==""&&this.concept==""&&this.period==""){
     //alert("empty");
     }
-   else if(this.conceptid==""){
+   else if(this.conceptid=="")
+   {
+    //alert('t1');
+    //alert(this.concept+" "+this.period);
      this.$.bookservice.fnsendconcept(this.concept,this.period);
      }
   else{
     //alert("edit");
-  this.$.bookservice.fnbookupdatevalue(this.conceptid,this.concept,this.period,this.planneddate);
+    
+      this.$.bookservice.fnbookupdatevalue(this.conceptid,this.concept,this.period,this.planneddate);
     }
 
  this.hidecheck=false;

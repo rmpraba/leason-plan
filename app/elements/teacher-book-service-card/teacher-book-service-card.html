@@ -1114,6 +1114,11 @@ fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,comple
     //  alert(JSON.stringify(obj));
       this.$.fnbookeditskillajax.generateRequest();
       },
+      fnbookeditskillResponse:function(e)
+      {
+            var res=e.detail.response.returnval;
+            alert('Updated');
+      },
 fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
            this.fnsetcoskillurl=sessionStorage.getItem("addrinfo")+"/fnsetcoskill-service";
        var obj={};
@@ -1267,7 +1272,8 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
       },
       fnbookupdatevalueResponse:function(e){
            var res=e.detail.response.returnval;
-          alert(JSON.stringify(res));
+          //alert(JSON.stringify(res));
+          alert('Updated');
      },
 
   

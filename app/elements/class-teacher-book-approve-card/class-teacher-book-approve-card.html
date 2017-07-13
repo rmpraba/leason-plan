@@ -44,7 +44,7 @@
     <div>
      <span class="position"> 
        <paper-dropdown-menu  label="Select the Grade">
-                <paper-menu id="teacherref" class="dropdown-content"   on-iron-select="fnsetgrade">
+                <paper-menu id="teacherreffzzf" class="dropdown-content"   on-iron-select="fnsetgrade">
                   <template is="dom-repeat" items="{{gradearr}}">
                     <paper-item value="{{item.gradeid}}">{{item.gradename}}</paper-item>
                   </template>    
@@ -54,7 +54,7 @@
       
        <span class="position"> 
          <paper-dropdown-menu  label="Select Subject">
-                <paper-menu id="teacherrefzzzz" class="dropdown-content"   on-iron-select="fnsubject">
+                <paper-menu id="teachersubzzzz" class="dropdown-content"   on-iron-select="fnsubject">
                   <template is="dom-repeat" items="{{subjectarr}}">
                     <paper-item value="{{item.subject_id}}">{{item.subject_name}}</paper-item>
                   </template>    
@@ -64,7 +64,7 @@
      
         <span class="position"> 
          <paper-dropdown-menu  label="Select Section">
-                <paper-menu id="teacherrefyyyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
+                <paper-menu id="tsectttyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
                   <template is="dom-repeat" items="{{sectionarr}}">
                     <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
                   </template>    
@@ -74,7 +74,7 @@
              
   <span class="position"> 
        <paper-dropdown-menu  label="Select the chapter">
-              <paper-menu id="teacherapprovechapter" class="dropdown-content"   on-iron-select="fnselectchapter">
+              <paper-menu id="teacherapprovechapterzz" class="dropdown-content"   on-iron-select="fnselectchapter">
                    <template is="dom-repeat" items="{{chapterarr}}">
                     <paper-item value="{{item.capter_id}}">{{item.capter}}</paper-item>
                   </template>    
@@ -124,24 +124,24 @@
       this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
       this.gradename=e.target.selectedItem.textContent.trim();
-      document.querySelector('#teacherrefzzzz').selected=-1;
-        document.querySelector('#teacherrefyyyyyy').selected=-1;
-        document.querySelector('#teacherapprovechapter').selected=-1;
+      document.querySelector('#teachersubzzzz').selected=-1;
+        document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
       },
      fnsubject:function(e){
        this.subjectid=e.target.selectedItem.value;
        sessionStorage.setItem("subjectidz",this.subjectid);
        this.subjectname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
-       document.querySelector('#teacherrefyyyyyy').selected=-1;
-        document.querySelector('#teacherapprovechapter').selected=-1;
+       document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
      },
      fnsetsection:function(e){
      this.sectionidz=e.target.selectedItem.value;
        sessionStorage.setItem("sectionidz",this.sectionidz);
        this.sectionidname=e.target.selectedItem.textContent.trim();
-       document.querySelector('#teacherrefyyyyyy').selected=-1;
-        document.querySelector('#teacherapprovechapter').selected=-1;
+       document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
       },
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
@@ -152,14 +152,15 @@
      this.$.empidzz.hidden=false;
      document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
      },
-     FnRefresh:function()
+     FnRefresh1:function()
      {
-        document.querySelector('#teacherref').selected=-1;
-        document.querySelector('#teacherrefzzzz').selected=-1;
-        document.querySelector('#teacherrefyyyyyy').selected=-1;
-        document.querySelector('#teacherapprovechapter').selected=-1;
+        document.querySelector('#teacherreffzzf').selected=-1;
+        document.querySelector('#teachersubzzzz').selected=-1;
+        document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
         this.$.reporttabzzzzz.hidden=true;
         this.$.empidzz.hidden=true;
+        this.empname="";
      }
    
 
