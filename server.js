@@ -8,7 +8,7 @@ var dbserver_ip_address = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1'
 var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
-   password : '',
+   password : 'admin',
    database : 'master1'
  });
 var bodyParser = require('body-parser'); 
@@ -603,7 +603,7 @@ var qurcheck;
  
 
   var qur="select * from tr_coscholastic_assesment_marks where academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and  grade='"+req.query.gradename+"' and  section='"+req.query.section+"' and school_id='"+req.query.schoolid+"' and subject_id='"+req.query.subject+"' order by sub_seq";
- //console.log(qur);
+ //console.log(qur);   
  //console.log(qurcheck);
    connection.query(qurcheck,function(err, rows){
     if(!err){
@@ -1063,6 +1063,7 @@ app.post('/fetchfagrade-service',  urlencodedParser,function (req,res)
 app.post('/fnbuffconcept-service',  urlencodedParser,function (req,res)
 {  
   var qur="SELECT * FROM md_concept where capter_id='"+req.query.capterid+"' ";
+  console.log(qur);
   connection.query(qur,
     function(err, rows)
     {

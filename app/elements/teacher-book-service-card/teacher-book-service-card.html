@@ -499,7 +499,7 @@
        },
        buffset11Response:function(e){
           alert(JSON.stringify(e.detail.response.returnval));
-//document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
+document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
  },
         fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark){
              this.fnfinalbookurl=sessionStorage.getItem("addrinfo")+"/fnfinalbook-service";

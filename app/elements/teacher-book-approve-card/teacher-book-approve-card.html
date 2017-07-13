@@ -319,7 +319,7 @@
 fnselectconcept:function(e){
       this.conceptid=e.target.selectedItem.value;
       this.conceptname=e.target.selectedItem.textContent.trim();
-      localStorage.setItem("curr_sess_chapterid",this.chapterid); 
+      localStorage.setItem("curr_sess_chapterid",this.conceptid); 
       conceptidz=this.conceptid;
       conceptnamez=this.conceptname
       },
