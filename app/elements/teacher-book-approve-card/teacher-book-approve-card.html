@@ -94,6 +94,11 @@
       --paper-input-container-label: { color: red };
       text-align:center;
       }
+      paper-input
+      {
+        --paper-input-container-label: { color: red };
+      text-align:center;
+      }
       
      #itemcarddialog
        {
@@ -105,6 +110,11 @@
             border-radius: 2px;
             box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
             padding:5px;
+       }
+
+       #bufferdialog
+       {
+         border-radius: 10px;
        }
      </style>
     <center><h2 hidden style="color:#00ccff">{{empnamez}}</h2></center>
@@ -200,9 +210,8 @@
       </div>
       <div  hidden$="{{Conceptbuffidz}}">
         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
- <paper-dropdown-menu  label="Select the concept" style="width:10%;margin-left: 13%;
-  ">   
-  <paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
+        <paper-dropdown-menu  label="Select the concept" style="width:100%;margin-left: -1%;">   
+        <paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
                  <template is="dom-repeat" items="{{conceptarr}}">
                     <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
                </template>    
@@ -212,8 +221,8 @@
         <center> 
          <div></div>
         <paper-button id="sub11" on-click="fnconsubmit" style="color:white;background-color:black">Submit</paper-button>
-        <paper-button id="sub2222" on-click="fncaptsubmit">Submit</paper-button>
-        <paper-button id="cls111" on-click="fnclose">Close</paper-button></center>
+        <paper-button id="sub2222" on-click="fncaptsubmit"  style="color:white;background-color:black">Submit</paper-button>
+        <paper-button id="cls111" on-click="fnclose" style="color:white;background-color:black">Close</paper-button></center>
      </paper-dialog>
 
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
@@ -247,7 +256,7 @@
 
         },
     fnchapter:function(e){
-          alert(Chaperzzzzidzz.checked);
+          //alert(Chaperzzzzidzz.checked);
           if(Chaperzzzzidzz.checked==true)
           {
             Conceptzzzidzz.checked=false;
@@ -260,7 +269,7 @@
 
         },
         fnconceptzz:function(e){
-              alert(Conceptzzzidzz.checked);
+              //alert(Conceptzzzidzz.checked);
           this.$.bookservice.fnbuffconcept();
           if(Conceptzzzidzz.checked==true)
           {
@@ -274,15 +283,15 @@
         },
        
         fnclose:function()
-{
-  this.$.bufferdialog.close();
-},
+        {
+          this.$.bufferdialog.close();
+        },
 
     
-  fnsetval:function(e){
+        fnsetval:function(e)
+        {
    
-    
- },
+        },
  fnaddbuffer:function(e){
   this.$.bufferdialog.toggle();
 
