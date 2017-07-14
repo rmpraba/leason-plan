@@ -383,6 +383,15 @@
         content-type="application/json"
         on-response="fnbookeditskillResponse"
         debounce-duration="300" />
+         <iron-ajax
+        method="post"
+        id="fnbookeditskill1ajax"
+        url="{{fnbookeditskill1url}}"
+        params="{{fnbookeditskill1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnbookeditskill1Response"
+        debounce-duration="300" />
         <iron-ajax
         method="post"
         id="buffsetajax"
@@ -446,12 +455,22 @@
         content-type="application/json"
         on-response="buffset11Response"
         debounce-duration="300" />
+        <iron-ajax
+        method="post"
+        id="subflagseqeajax"
+        url="{{subflagseqeurl}}"
+        params="{{subflagseqeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="subflagseqeResponse"
+        debounce-duration="300" />
   </template>
   <script>  
   (function() {
     'use strict';
    var masskill=[];
    var bufferperiod=bufferperiod;
+   var subflagseqid;
     Polymer({
       is: 'teacher-book-service-card',
         FnFetchChapterService:function(gradeid,subjectid){
@@ -496,17 +515,18 @@
            obj.bufferperiod=bufferperiod;
            obj.conceptidz=conceptidz;
            obj.conceptnamez=conceptnamez;
+           obj.subflag=subflagseqid;
            this.buffset11param=obj;
            alert(JSON.stringify(obj));
-       this.$.buffset11ajax.generateRequest();
+           this.$.buffset11ajax.generateRequest();
        }
         },
        buffset11Response:function(e){
           alert(JSON.stringify(e.detail.response.returnval));
-           if(e.detail.response.returnval=="Inserted!"){
+           if(e.detail.response.returnval=="Inserted"){
               this.conceptseq(); 
-               this.FnFetchConceptService();
-      
+              this.FnFetchConceptService();
+              this.subflagseqe();
            }
       
 
@@ -623,10 +643,10 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
                   obj.planned_date=res[i].planned_date;  
                   obj.skillzz=res[i].skill;
                   obj.remark=res[i].remark;
+                  obj.subflag=res[i].subflag;
                   obj.completestatus=res[i].completestatus;
                   obj.innovationzz=res[i].innovation;
-              
-                  obj.masskill=masskill;
+              obj.masskill=masskill;
                   obj.hidecheck=false; 
                   obj.hidecheck1=true; 
                   res2.push(obj);     
@@ -1064,6 +1084,20 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
        document.querySelector('teacher-book-refernce-card').capterid=arr[0].chapter_prefix+arr[0].chapter_sequence;
        
       },
+       subflagseqe:function()
+      {     
+           alert('1');
+     
+        this.subflagseqeurl=sessionStorage.getItem("addrinfo")+"/fetchsubjectseq-service";
+        this.$.subflagseqeajax.generateRequest();
+      },
+
+      subflagseqeResponse:function(e)
+      {
+ var arr= e.detail.response.returnval;
+       alert(JSON.stringify(arr));
+     subflagseqid=arr[0].sub+arr[0].sub_seq;
+      },
        conceptseq:function()
       {     
           // alert('1');
@@ -1141,6 +1175,7 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
       obj.period=period;
       obj.planned_date=localStorage.getItem("localsess_last_service");
+      obj.subflag='active';
       this.fnsendconceptparam=obj;
     //  alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
@@ -1160,8 +1195,25 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
             }
             
       },
-fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,completestatus){
-           this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-service";
+fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,completestatus,planneddate,subflag){
+       if(subflag=="active"){
+this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-service";
+     var obj={};
+      obj.capter_id=localStorage.getItem("curr_sess_capters");
+      obj.concept=concept;
+      obj.concept_id=conceptid;
+      obj.period=period;
+      obj.skill=skill;
+      obj.innovation=innovation;
+      obj.remark=remark;
+      obj.planned_date=planneddate;
+      obj.subflag=subflag;
+      this.fnbookeditskillparam=obj;
+      alert(JSON.stringify(obj));
+      this.$.fnbookeditskillajax.generateRequest();
+ }
+else{
+    this.fnbookeditskill1url=sessionStorage.getItem("addrinfo")+"/fnbookeditskill1-service";
        var obj={};
       obj.capter_id=localStorage.getItem("curr_sess_capters");
       obj.concept=concept;
@@ -1171,15 +1223,29 @@ fnbookeditskill:function(conceptid,concept,period,skill,innovation,remark,comple
       obj.innovation=innovation;
       obj.remark=remark;
       obj.completestatus=completestatus;
-      obj.planned_date=localStorage.getItem("localsess_last_service");
-      this.fnbookeditskillparam=obj;
-    //  alert(JSON.stringify(obj));
-      this.$.fnbookeditskillajax.generateRequest();
+      obj.subflag=subflag;
+      obj.planned_date=localStorage.getItem("localsess_from_service");
+      this.fnbookeditskill1param=obj;
+      alert(JSON.stringify(obj));
+      this.$.fnbookeditskill1ajax.generateRequest();
+    }
       },
       fnbookeditskillResponse:function(e)
       {
             var res=e.detail.response.returnval;
             alert('Updated');
+                    this.conceptseq(); 
+              this.FnFetchConceptService();
+      
+
+      },
+        fnbookeditskill1Response:function(e)
+      {
+             var res=e.detail.response.returnval;
+             alert('Updated');
+               this.conceptseq(); 
+              this.FnFetchConceptService();
+      
       },
 fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
            this.fnsetcoskillurl=sessionStorage.getItem("addrinfo")+"/fnsetcoskill-service";
@@ -1329,6 +1395,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
       obj.period=period;
       obj.concept_id=capterid;
       obj.planned_date=planneddate;
+      obj.subflag='active';
       this.fnbookupdatevalueparam=obj;
     //  alert(JSON.stringify(obj));
       this.$.fnbookupdatevalueajax.generateRequest();

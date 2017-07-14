@@ -89,7 +89,7 @@
       <h4 style="margin-top: 1.3%;position: absolute;
       margin-left: 14%;">{{empname}}</h4>
    <table  border="0" class="report1" id="reporttabzzzzz">
-        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
           <th>CONCEPT</th>
           <th>PERIOD NO</th>
           <th>Skill</th>
@@ -124,7 +124,7 @@
       this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
       this.gradename=e.target.selectedItem.textContent.trim();
-      document.querySelector('#teachersubzzzz').selected=-1;
+        document.querySelector('#teachersubzzzz').selected=-1;
         document.querySelector('#tsectttyyyy').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
       },
@@ -134,7 +134,7 @@
        this.subjectname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
        document.querySelector('#tsectttyyyy').selected=-1;
-        document.querySelector('#teacherapprovechapterzz').selected=-1;
+       document.querySelector('#teacherapprovechapterzz').selected=-1;
      },
      fnsetsection:function(e){
      this.sectionidz=e.target.selectedItem.value;

@@ -179,7 +179,7 @@
 
      <div id="zdsasddsasfsa" >
       <table class="report1" id="reporttabzzzzz">
-        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
+        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
           <th>CONCEPT</th>
           <th>PERIOD NO</th>
           <th>DATE</th>
@@ -194,7 +194,7 @@
             <tr>
              <template  is="dom-repeat" items="{{overallarr1}}" as="view">
                 <tr>
-                  <aproval-book-innovatiosn-item-card conceptid="{{view.concept_id}}" concept="{{view.concept}}" capterid="{{view.capter_id}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skillzz}}"  innovation="{{view.innovationzz}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" completestatus="{{view.completestatus}}" remark="{{view.remark}}"> 
+                  <aproval-book-innovatiosn-item-card conceptid="{{view.concept_id}}" concept="{{view.concept}}" capterid="{{view.capter_id}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skillzz}}" subflag="{{view.subflag}}" innovation="{{view.innovationzz}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" completestatus="{{view.completestatus}}" remark="{{view.remark}}"> 
                   </aproval-book-innovatiosn-item-card>
                 </tr> 
                 </template>  
@@ -203,7 +203,7 @@
     
    <paper-dialog id="bufferdialog" modal>
 
-      <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">Chaper</paper-checkbox>
+      <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">Chapter</paper-checkbox>
       <paper-checkbox id="Conceptzzzidzz" on-change="fnconceptzz">Concept</paper-checkbox>
         <div  hidden$="{{chaptbuffidz}}">
       <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
@@ -249,11 +249,15 @@
          },
         fncaptsubmit:function(e){
           this.$.bookservice.buffset11(this.bufferperiod,conceptidz,conceptnamez);
+          this.$.bookservice.subflagseqe();
+
         },
         fnconsubmit:function(e){
         alert(this.bufferperiod);      
      this.$.bookservice.buffset(this.bufferperiod);
             this.bufferperiod="";
+            this.$.bookservice.subflagseqe();
+
 
         },
     fnchapter:function(e){
@@ -270,7 +274,6 @@
 
         },
         fnconceptzz:function(e){
-              //alert(Conceptzzzidzz.checked);
           this.$.bookservice.fnbuffconcept();
           if(Conceptzzzidzz.checked==true)
           {
@@ -295,6 +298,7 @@
         },
  fnaddbuffer:function(e){
   this.$.bufferdialog.toggle();
+  this.$.bookservice.subflagseqe();
 
 
  },
