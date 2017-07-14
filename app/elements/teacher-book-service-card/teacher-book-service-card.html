@@ -533,7 +533,7 @@
 
 document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
  },
-        fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark){
+  fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark,subflag){
              this.fnfinalbookurl=sessionStorage.getItem("addrinfo")+"/fnfinalbook-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -553,6 +553,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.concept=concept;
            obj.conceptid=conceptid;
            obj.remark=remark;
+           obj.subflag=subflag;
            this.fnfinalbookparam=obj;
            this.$.fnfinalbookajax.generateRequest();
          //  alert(JSON.stringify(obj));
@@ -574,9 +575,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.gradeid=sessionStorage.getItem("grdeidz");
            this.fetchconceptparam=obj;
            this.$.fetchconceptajax.generateRequest();
-        },
-
- FnFetchClassConceptService:function(gradeid,subjectid,chapterid,sectoinidz){
+    },
+     FnFetchClassConceptService:function(gradeid,subjectid,chapterid,sectoinidz){
     this.fetchclassconcepturl=sessionStorage.getItem("addrinfo")+"/fetchclassconcept-service";
            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -600,6 +600,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.concept_id=res[i].concept_id;
                       obj.concept=res[i].concept;
                       obj.skill=res[i].skill;
+                      obj.skill=res[i].skill;
                       obj.innovation=res[i].innovation;
                       obj.planned_date=res[i].planned_date;
                       var id_date=res[i].planned_date;
@@ -607,6 +608,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.id_date=id_date;
                       obj.remark=res[i].remark;
                       obj.period=res[i].period;
+                      obj.subflag=res[i].subflag;
+                
                       obj.grade_id=sessionStorage.getItem("grdeidz");
                       obj.subject_id=sessionStorage.getItem("subjectidz");
                       obj.masskill=masskill;
@@ -619,10 +622,14 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
    document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
    document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
 
-      this.fetchclassconcept1url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
+      this.fetchclassconcept1url=sessionStorage.getItem("addrinfo")+"/fnsetz1-service";
             var obj={};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.chapterid=localStorage.getItem("curr_sess_capters");
            obj.gradeid=sessionStorage.getItem("grdeidz");
+           obj.subjectid=sessionStorage.getItem("subjectidz");
+           obj.sectoinid=sessionStorage.getItem("sectionidz");
            this.fetchclassconcept1param=obj;
            this.$.fetchclassconcept1ajax.generateRequest();
           
@@ -678,9 +685,9 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
    },
    fetchclassconcept1Response(e){
        var res=e.detail.response.returnval;
-     document.querySelector('aproval-save-and-edit-book-card').fnselbookvalue(res)
-  
-          },
+       alert(JSON.stringify(res));
+       document.querySelector('aproval-save-and-edit-book-card').fnselbookvalue(res)
+    },
   fetchclassconcept11Response(e){
              var res=e.detail.response.returnval;
       document.querySelector('aproval-book').fnselbookvalue(res); 
@@ -1260,6 +1267,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
       obj.innovation=innovation;
       obj.remark=remark;
       obj.completestatus=completestatus;
+      obj.flag="coactive";
       obj.planned_date=localStorage.getItem("localsess_last_service");
       this.fnsetcoskillparam=obj;
      // alert(JSON.stringify(obj));

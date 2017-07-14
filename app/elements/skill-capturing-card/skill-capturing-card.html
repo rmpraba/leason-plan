@@ -9,29 +9,27 @@
         display: block;
       }
        table
-      {
-            table-layout: fixed;
+      {   table-layout: fixed;
           width: 1220px;
           border-collapse: collapse;
-      }
+        }
 
     </style>
-    
       <paper-input value={{captheadid}} hidden></paper-input>
       <paper-input value={{conceptid}} hidden></paper-input>
+      <paper-input value={{subflag}} hidden></paper-input>
       <table border="0">
         <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
               <td hidden>{{empid}}</td>
               <td hidden>{{conceptid}}</td>
               <td>{{concept}}</td>
               <td><paper-input value={{period}}></paper-input></td>
-              <td><paper-textarea value={{skill}}></paper-textarea>
-              </td>
+              <td><paper-textarea value={{skill}}></paper-textarea></td>
               <td>
                 <template is="dom-repeat" items="{{masskillz}}" as="x">
                   <aproval-save-and-edit-book-card   valueid="{{x.value_id}}" valuename="{{x.value_name}}" id="ENRz{{conceptid}}{{x.value_id}}">
                   </aproval-save-and-edit-book-card>  
-                </template>
+               </template>
               </td>
               <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
               </td> 
@@ -64,7 +62,7 @@ var costatus;
     fnaroveset:function(e){
         costatus='Yes';
 
-         this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark);
+         this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.subflag);
        document.querySelector('aproval-save-and-edit-book-card').splices();
       // alert('Inserted');
 

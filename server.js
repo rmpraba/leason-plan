@@ -3582,6 +3582,8 @@ app.post('/fnfinalbook-service',  urlencodedParser,function (req, res)
          concept:req.query.concept,   
          remark:req.query.remark,   
          concept_id:req.query.conceptid,
+         subflag:req.query.subflag,
+
        }
 
 /*console.log("----------------");
@@ -8723,6 +8725,25 @@ app.post('/fnsetz-service' ,urlencodedParser, function (req, res)
 
       });
     });
+app.post('/fnsetz1-service' ,urlencodedParser, function (req, res)
+    {  
+   var qur3="SELECT * FROM md_book_value  where capter_id='"+req.query.chapterid+"' and  concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
+
+    console.log(qur3);
+      connection.query(qur3,function(err, rows){
+        if(!err){
+
+          res.status(200).json({'returnval': rows});
+          console.log(rows);
+        }
+
+        else
+          //console.log(err);
+          res.status(200).json({'returnval': 'invalid'});
+
+      });
+    });
+
 
 app.post('/buffset-service' ,urlencodedParser, function (req, res)
     {  
@@ -9418,6 +9439,7 @@ app.post('/fnsetcoskill-service',  urlencodedParser,function (req,res)
        planned_date:req.query.planned_date,
        remark:req.query.remark,
        completestatus:req.query.completestatus,
+       flag:req.query.flag,
        };
     console.log('------------school book-------------');
     console.log(response);
@@ -9785,10 +9807,12 @@ app.post('/bookrefsection-service',  urlencodedParser,function (req,res)
 
 app.post('/fetchclassconcept-service', urlencodedParser,function (req,res)
   {  
-var qur1="select * from md_concept where capter_id='"+req.query.chapterid+"'";
+
+
+ var qur1="select * from md_concept where capter_id='"+req.query.chapterid+"'  and flag='coactive' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
 
 var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
-    console.log(qur1);
+   console.log(qur1);
     console.log(qur2);
     var skillarr=[];
     var emparr=[];
@@ -9949,7 +9973,7 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 app.post('/fnbookeditskill1-service',  urlencodedParser,function (req, res)
 {  
    
-   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',planned_date='"+req.query.planned_date+"' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
+   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',planned_date='"+req.query.planned_date+"',flag='coactive' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
 console.log(qur);
 
   connection.query(qur,
@@ -9970,7 +9994,7 @@ console.log(qur);
 app.post('/fnbookeditskill-service',  urlencodedParser,function (req, res)
 {  
    
-   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
+   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',flag='coactive',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
 console.log(qur);
 
   connection.query(qur,
