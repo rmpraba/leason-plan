@@ -9,8 +9,9 @@
       table
       {
             table-layout: fixed;
-          width: 1220px;
+          width: 1245px;
           border-collapse: collapse;
+          margin-left: 26%;
       }
      paper-textarea
       {
@@ -22,8 +23,8 @@
     <div>
            <paper-input value={{conceptid}} hidden></paper-input>
            <paper-input value={{capterid}} hidden></paper-input>
-      <table border="1">
-           <tr>
+      <table border="0">
+           <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;">
              <td><paper-input value={{concept}}></paper-input></td>
              <td><paper-input value={{period}}></paper-input> </td>
              <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
