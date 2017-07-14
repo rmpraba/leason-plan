@@ -9677,7 +9677,7 @@ app.post('/fngetclassbooksubjectvalue-service',  urlencodedParser,function (req,
 
 app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
   {  
-      var qur1="SELECT * FROM md_concept where capter_id='"+req.query.chapterid+"'";
+      var qur1="SELECT * FROM md_concept where capter_id='"+req.query.chapterid+"' order by concept_id";
       var qur2="SELECT * FROM md_chapter where capter_id='"+req.query.chapterid+"'";
     console.log(qur1);
     console.log(qur2);
@@ -9954,6 +9954,29 @@ app.post('/buffdel-service',  urlencodedParser,function (req, res)
     }  
 
   });
+});
+
+app.post('/buffset11-service' , urlencodedParser,function (req, res)
+{  
+
+   var response={ 
+      capter_id:req.query.capterid,
+      concept_id:req.query.conceptidz,
+      concept:req.query.conceptnamez,
+     };
+     console.log(response);
+     connection.query("INSERT INTO md_concept SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)   
+    {
+      res.status(200).json({'returnval':'Inserted!'});
+    }
+    else
+    {
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
 });
 
 

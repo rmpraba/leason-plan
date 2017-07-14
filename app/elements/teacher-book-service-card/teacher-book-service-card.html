@@ -486,19 +486,30 @@
           alert(JSON.stringify(e.detail.response.returnval));
           document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
         },
-        buffset11:function(e){
+        buffset11:function(bufferperiod,conceptidz,conceptnamez){
+              for(var i=0;i<bufferperiod;i++){
              this.buffset11url=sessionStorage.getItem("addrinfo")+"/buffset11-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.capterid=localStorage.getItem("curr_sess_capters");
-           obj.gradeid=sessionStorage.getItem("grdeidz");
-           obj.subjectid=sessionStorage.getItem("subjectidz");
+           obj.bufferperiod=bufferperiod;
+           obj.conceptidz=conceptidz;
+           obj.conceptnamez=conceptnamez;
            this.buffset11param=obj;
-           this.$.buffset11ajax.generateRequest();
-       },
+           alert(JSON.stringify(obj));
+       this.$.buffset11ajax.generateRequest();
+       }
+        },
        buffset11Response:function(e){
           alert(JSON.stringify(e.detail.response.returnval));
+           if(e.detail.response.returnval=="Inserted!"){
+              this.conceptseq(); 
+               this.FnFetchConceptService();
+      
+           }
+      
+
 document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
  },
         fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark){
@@ -986,11 +997,14 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
 
       fnsetcaptureResponse:function(e){
        var res=e.detail.response.returnval;
-         alert(JSON.stringify(res));
-   
-         if(res=="Inserted"){
+       alert(JSON.stringify(res));
+        if(res=="Inserted"){
           this.capterseq();
           this.getcaptervalue();
+      /*   document.querySelector('app-card').setPage('homepage','');
+         document.querySelector('home-page').setPage('teacher-book-chapter-refernce-card','');
+         this.fngetconceptvalue();
+   */
          }
         
       },
@@ -1225,6 +1239,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
      buffsetResponse:function(e){
       var res=e.detail.response.returnval;
       var bufperiod=parseInt(res[0].buffer_period)+parseInt(bufferperiod);
+      alert(bufperiod);
       this.buffset1url=sessionStorage.getItem("addrinfo")+"/buffset1-service";
       var obj={};
       obj.bufperiod=bufperiod;
