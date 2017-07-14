@@ -502,7 +502,7 @@
            this.$.fnbuffconceptajax.generateRequest();
         },
         fnbuffconceptResponse:function(e){
-          alert(JSON.stringify(e.detail.response.returnval));
+          //alert(JSON.stringify(e.detail.response.returnval));
           document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
         },
         buffset11:function(bufferperiod,conceptidz,conceptnamez){
@@ -517,13 +517,14 @@
            obj.conceptnamez=conceptnamez;
            obj.subflag=subflagseqid;
            this.buffset11param=obj;
-           alert(JSON.stringify(obj));
+           //alert(JSON.stringify(obj));
            this.$.buffset11ajax.generateRequest();
        }
         },
        buffset11Response:function(e){
-          alert(JSON.stringify(e.detail.response.returnval));
-           if(e.detail.response.returnval=="Inserted"){
+          //alert(JSON.stringify(e.detail.response.returnval));
+           if(e.detail.response.returnval=="Inserted")
+           {
               this.conceptseq(); 
               this.FnFetchConceptService();
               this.subflagseqe();
@@ -1086,7 +1087,7 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
       },
        subflagseqe:function()
       {     
-           alert('1');
+           //alert('1');
      
         this.subflagseqeurl=sessionStorage.getItem("addrinfo")+"/fetchsubjectseq-service";
         this.$.subflagseqeajax.generateRequest();
@@ -1095,7 +1096,7 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
       subflagseqeResponse:function(e)
       {
  var arr= e.detail.response.returnval;
-       alert(JSON.stringify(arr));
+       //alert(JSON.stringify(arr));
      subflagseqid=arr[0].sub+arr[0].sub_seq;
       },
        conceptseq:function()
@@ -1209,7 +1210,7 @@ this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-ser
       obj.planned_date=planneddate;
       obj.subflag=subflag;
       this.fnbookeditskillparam=obj;
-      alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
       this.$.fnbookeditskillajax.generateRequest();
  }
 else{
@@ -1226,7 +1227,7 @@ else{
       obj.subflag=subflag;
       obj.planned_date=localStorage.getItem("localsess_from_service");
       this.fnbookeditskill1param=obj;
-      alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
       this.$.fnbookeditskill1ajax.generateRequest();
     }
       },
@@ -1305,7 +1306,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
      buffsetResponse:function(e){
       var res=e.detail.response.returnval;
       var bufperiod=parseInt(res[0].buffer_period)+parseInt(bufferperiod);
-      alert(bufperiod);
+      //alert(bufperiod);
       this.buffset1url=sessionStorage.getItem("addrinfo")+"/buffset1-service";
       var obj={};
       obj.bufperiod=bufperiod;

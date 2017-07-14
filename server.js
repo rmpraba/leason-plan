@@ -8,7 +8,7 @@ var dbserver_ip_address = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1'
 var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
-   password : 'admin',
+   password : '',
    database : 'master1'
  });
 var bodyParser = require('body-parser'); 
@@ -9928,8 +9928,8 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 {  
    /* var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
    */
-var qur="update md_concept set  concept='"+req.query.concept+"',planned_date='"+req.query.planned_date+"',period='"+req.query.period+"',subflag='"+req.query.subflag+"'where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
-console.log(qur);
+    var qur="update md_concept set  concept='"+req.query.concept+"',planned_date='"+req.query.planned_date+"',period='"+req.query.period+"',subflag='"+req.query.subflag+"'where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+    console.log(qur);
 
   connection.query(qur,
     function(err, rows)
