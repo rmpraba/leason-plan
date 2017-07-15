@@ -1369,7 +1369,7 @@ fnsetcoskill:function(concept,period,skill,innovation,remark,completestatus){
      {            
 var res=e.detail.response.conceptarr;
 var res1=e.detail.response.chapterarr;
-var res2=[];
+/*var res2=[];
 var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
                    for(var i=0;i<res.length;i++){
                   var obj={};
@@ -1390,8 +1390,25 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
                obj.hidecheck=true; 
                obj.hidecheck1=false; 
                res2.push(obj);     
-              }
-     document.querySelector('teacher-book-chapter-refernce-card').conceptarr=res2;
+              }*/
+
+
+
+         var temp1=[];
+         var overallzz=[];
+        for(var l=0;l<res.length;l++)
+        {
+            temp1.push(res[l]);
+            if(l!=0&&l%4==0)
+            {
+                overallzz.push(temp1);
+                temp1=[];
+            }
+        }
+        overallzz.push(temp1);
+
+
+     document.querySelector('teacher-book-chapter-refernce-card').conceptarr=overallzz;
 
       },
 

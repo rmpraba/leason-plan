@@ -13,19 +13,24 @@
           width:403.5%;
           border-collapse: collapse;
       }
-      
+       .card
+      {
+        @apply(--layout-horizontal);
+            margin-top: -2em;
+          margin-left: -6%;
+      }
 
     </style>
   
     
       
-      <div class="itemcard">
+      <!-- <div class="itemcard">
         <paper-input value="{{capterid}}" hidden></paper-input>
         <paper-input value="{{conceptid}}" hidden></paper-input>
        
       </div>
 
-<table border="1">
+      <table border="1">
            <tr>
              <td><from-book-date-picker hidden$="{{hidecheck1}}" ></from-book-date-picker>
                 <paper-input value={{planneddate}} hidden$="{{hidecheck}}"></paper-input></td>
@@ -37,7 +42,11 @@
 
               
            </tr>
-       </table>
+       </table> -->
+
+       <div class="card">
+         <paper-item><h4>{{concept}}</h4></paper-item>
+       </div>
      
 
 
