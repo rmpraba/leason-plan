@@ -26,7 +26,8 @@
            <paper-input value={{subflag}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
-             <td><paper-input value={{concept}}></paper-input></td>
+             <td><paper-icon-button icon="add" on-change="fngetconceptz" style="color:#6699ff"></paper-icon-button>
+             </td>
              <td><paper-input value={{period}}></paper-input> </td>
              <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
                  <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
@@ -50,6 +51,8 @@
        </table>
       
     </div>
+
+    
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>
@@ -81,6 +84,10 @@
    this.hidecheck1=true;
    this.hidecheck=false;
     document.querySelector('aproval-book').splices();
+},
+
+fngetconceptz:function(e){
+  this.$.bookservice.fngetconceptcheck();
 },
 fndelete:function(e){
 this.$.bookservice.buffdel();

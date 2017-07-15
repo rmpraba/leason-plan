@@ -464,6 +464,15 @@
         content-type="application/json"
         on-response="subflagseqeResponse"
         debounce-duration="300" />
+          <iron-ajax
+        method="post"
+        id="fngetconceptcheckajax"
+        url="{{fngetconceptcheckurl}}"
+        params="{{fngetconceptcheckparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptcheckResponse"
+        debounce-duration="300" />
   </template>
   <script>  
   (function() {
@@ -473,6 +482,19 @@
    var subflagseqid;
     Polymer({
       is: 'teacher-book-service-card',
+        fngetconceptcheck:function(e){
+     this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+           var obj={};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.capterid=localStorage.getItem("curr_sess_capters");
+           this.fngetconceptcheckparam=obj;
+           this.$.fngetconceptcheckajax.generateRequest();
+          },
+        fngetconceptcheckResponse:function(e){
+          alert(JSON.stringify(e.detail.response.returnval));
+            document.querySelector('aproval-book-innovatiosn-item-card').conceparr=e.detail.
+         },
         FnFetchChapterService:function(gradeid,subjectid){
            this.fetchchapterurl=sessionStorage.getItem("addrinfo")+"/fetchchapter-service";
            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
@@ -485,8 +507,8 @@
            this.fetchchapterparam=obj;
            this.$.fetchchapterajax.generateRequest();
         },
-
-        fetchchapterResponse:function(e){
+      
+         fetchchapterResponse:function(e){
          // alert(JSON.stringify(e.detail.response.returnval));
           document.querySelector('teacher-book-approve-card').chapterarr=e.detail.response.returnval;
         },
@@ -638,27 +660,9 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
    fetchconceptResponse:function(e){
 var res=e.detail.response.conceptarr;
 var res1=e.detail.response.chapterarr;
-//alert(JSON.stringify(e.detail.response.conceptarr));
-
 var res2=[];
-var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
-                  for(var i=0;i<res.length;i++){
-                  var obj={};
-                  obj.concept_id=res[i].concept_id;  
-                  obj.concept=res[i].concept;   
-                  obj.capter_id=res[i].capter_id;  
-                  obj.period=res[i].period;  
-                  obj.planned_date=res[i].planned_date;  
-                  obj.skillzz=res[i].skill;
-                  obj.remark=res[i].remark;
-                  obj.subflag=res[i].subflag;
-                  obj.completestatus=res[i].completestatus;
-                  obj.innovationzz=res[i].innovation;
-              obj.masskill=masskill;
-                  obj.hidecheck=false; 
-                  obj.hidecheck1=true; 
-                  res2.push(obj);     
-                  }
+var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period);
+
         for(var k=0;k<r;k++){
         var obj={};
                obj.concept_id="";  
@@ -667,16 +671,12 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
                obj.hidecheck=true; 
                obj.hidecheck1=false; 
                obj.masskill=masskill;
-
                res2.push(obj);     
               }
-             // alert(JSON.stringify(res2));
+    // alert(JSON.stringify(res2));
     document.querySelector('teacher-book-approve-card').overallarr1=res2;
       res2=[];
-
-
-
-     this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
+   this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
             var obj={};
            obj.chapterid=localStorage.getItem("curr_sess_capters");
            obj.gradeid=sessionStorage.getItem("grdeidz");
@@ -1175,17 +1175,18 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
 
  
        
-     fnsendconcept:function(concept,period){
+     fnsendconcept:function(captheadid,conceptz){
            this.fnsendconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
-       var obj={"capter_id":"","concept":"","concept_id":""};
-      obj.capter_id=localStorage.getItem("curr_sess_capters");
-      obj.concept=concept;
+      var obj={"capter_id":"","concept":"","concept_id":""};
+      obj.capter_id=captheadid;
+      obj.concept=conceptz;
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
-      obj.period=period;
+      obj.flag='active';
+   /* obj.period=period;
       obj.planned_date=localStorage.getItem("localsess_last_service");
       obj.subflag='active';
-      this.fnsendconceptparam=obj;
-    //  alert(JSON.stringify(obj));
+  */  this.fnsendconceptparam=obj;
+      alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
       },
 

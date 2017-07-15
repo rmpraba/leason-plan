@@ -19,8 +19,7 @@ app.use(express.static('app'));
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/', function (req, res) {
-
-  res.sendFile("app/index.html" );
+   res.sendFile("app/index.html" );
 })
 app.post('/checkschool-card',  urlencodedParser,function (req, res)
 {
@@ -9348,10 +9347,13 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
        concept_id:req.query.concept_id,
        concept:req.query.concept,
        capter_id:req.query.capter_id,
-       period:req.query.period,
+       flag:req.query.flag,
+
+   /*    period:req.query.period,
        planned_date:req.query.planned_date,
        subflag:req.query.subflag,
-      };
+   */   
+ };
     console.log('------------school book-------------');
     console.log(response);
     connection.query(qur,[response],

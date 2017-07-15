@@ -151,7 +151,7 @@
                         <p>
                           <aproval-book-value-item-card concept="{{v.concept}}" conceptid="{{v.concept_id}}" capterid="{{v.capter_id}}"></aproval-book-value-item-card>
                         </p>
-                      </div>
+                      </div>  
                     </td>
                   </template>
                 </tr>
@@ -163,7 +163,7 @@
 
         <paper-dialog id="newconceptttt" modal>
           <div>
-              <paper-textarea id="textarea" label="Enter Concept" value="{{concept}}" style="position: relative; margin-top:14%;width: 77%;">
+              <paper-textarea id="textarea" label="Enter Concept" value="{{conceptz}}" style="position: relative; margin-top:14%;width: 77%;">
               </paper-textarea>
           </div>
           <div>    
@@ -201,7 +201,7 @@
     fnset:function(e)
     {
   
-      this.$.bookservice.conceptseq();
+      this.$.bookservice.conceptseq();   
       this.$.newconceptttt.toggle();
     },
    
@@ -212,9 +212,9 @@
 
      fnsetconcept:function(e)
     {
-      //alert(this.captheadid+ " "+this.concept+" "+conceptid);
-      this.$.bookservice.fnsendconcept(this.captheadid,this.concept,conceptid);
-      this.concept="";
+      alert(this.captheadid+ " "+this.conceptz+" "+conceptid);
+      this.$.bookservice.fnsendconcept(this.captheadid,this.conceptz);
+      this.conceptz="";
     },
 
 
