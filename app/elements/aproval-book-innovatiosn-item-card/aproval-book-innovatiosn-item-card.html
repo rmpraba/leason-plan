@@ -105,18 +105,23 @@ this.$.dzfsd.close();
     if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
       alert("Please insert the value");
        }
-    else if(this.conceptid==""){
+    else if(this.planneddate==""){
   //alert("ins");
  //this.$.bookservice.fnsendconcept(this.concept,this.period);
  // alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
+ alert("save");
  alert(JSON.stringify(tempvaluarr));
-    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark);
+    this.$.bookservice.fnsetcoskill(conarr);
    this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
     else{
-    this.$.bookservice.fnbookeditskill(this.conceptid,this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus,this.planneddate,this.subflag);
-     this.$.bookservice.fnsetcovalue(tempvaluarr);
+      alert("edit");
+ 
+this.$.bookservice.fnbookeditskill(conarr,this.planneddate);
+this.$.bookservice.fnbookeditskill1(this.period,this.skill,this.innovation,this.remark,this.planneddate);
+   
+     this.$.bookservice.fnsetcovalue1(tempvaluarr,this.planneddate);
       }
    this.hidecheck1=true;
    this.hidecheck=false;
@@ -128,7 +133,7 @@ fngetconceptz:function(e){
  this.fngetconceptcheck();
 },
 fngetconceptcheck:function(e){
-  this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
@@ -140,9 +145,7 @@ fngetconceptcheck:function(e){
           //alert(JSON.stringify(e.detail.response.returnval));
           var res1=e.detail.response.skillarr;
           var res=e.detail.response.conceptarr;
-
-
-              for(var j=0;j<res.length;j++){
+          for(var j=0;j<res.length;j++){
             var flag=0;
               for(var i=0;i<res1.length;i++){
                   

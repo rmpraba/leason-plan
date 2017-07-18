@@ -9594,6 +9594,30 @@ app.post('/captvalues-service' , urlencodedParser,function (req, res)
     }
     });
 });
+app.post('/captvalues11-service' , urlencodedParser,function (req, res)
+{  
+
+   var response={ 
+      planned_date:req.query.planned_date,
+      value_id:req.query.value_id,
+      value_name:req.query.value_name,
+      capter_id:req.query.capter_id,
+      flag:req.query.flag
+      };
+     connection.query("INSERT INTO md_book_value SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)   
+    {
+      res.status(200).json({'returnval': 'Inserted!'});
+    }
+    else
+    {
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+});
+
 app.post('/emplschooltype11-service',  urlencodedParser,function (req, res)
 {
 
@@ -10045,10 +10069,10 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 });
 app.post('/fnbookeditskill1-service',  urlencodedParser,function (req, res)
 {  
-   
-   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',planned_date='"+req.query.planned_date+"',flag='coactive' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
+   var qur="update md_period_value set  period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',Remarks='"+req.query.remark+"' where capter_id='"+req.query.capter_id+"' and date='"+req.query.planned_date+"'";
+console.log('----------');
 console.log(qur);
-
+console.log('----------');
   connection.query(qur,
     function(err, rows)
     {
@@ -10066,8 +10090,8 @@ console.log(qur);
 });
 app.post('/fnbookeditskill-service',  urlencodedParser,function (req, res)
 {  
-   
-   var qur="update md_concept set  concept='"+req.query.concept+"',period='"+req.query.period+"',skill='"+req.query.skill+"',flag='coactive',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"' and subflag='"+req.query.subflag+"'";
+
+var qur="update md_skill set concept_id='"+req.query.concept_id+"' where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and capter_id='"+req.query.capter_id+"' and planning_date='"+req.query.planned_date+"'";
 console.log(qur);
 
   connection.query(qur,
