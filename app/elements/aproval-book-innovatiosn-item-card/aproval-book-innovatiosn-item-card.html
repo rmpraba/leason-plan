@@ -26,15 +26,19 @@
            <paper-input value={{subflag}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
-             <td><paper-icon-button icon="add" on-change="fngetconceptz" style="color:#6699ff"></paper-icon-button>
+             <td>
+              <template is="dom-repeat" items="{{conceptzz}}" as="r">
+               <h4>{{r.conceptname}}</h4>
+             </template>
+             <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff"></paper-icon-button>
              </td>
              <td><paper-input value={{period}}></paper-input> </td>
-             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
-                 <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
+           <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+   <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
             <td>
               <template is="dom-repeat" items="{{masskill}}" as="r">
-                      <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{conceptid}}" id="ENRz{{conceptid}}{{r.value_id}}">
+                    <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{conceptid}}" id="ENRz{{iddate}}{{r.value_id}}">
                       </aproval-book>  
               </template>
             </td>
@@ -52,7 +56,27 @@
       
     </div>
 
-    
+    <paper-dialog id="dzfsd" modal>
+       <h3>Concept Name<h3/>
+      <template is="dom-repeat" items="{{conceparr}}" as="s">
+         <concept-check-card chapterid="{{s.concept_id}}" id="{{s.concept_id}}" chaptername="{{s.concept}}" check="{{s.check}}"></concept-check-card>
+      </template>
+      <center>
+          <paper-button on-click="fnsubmit"  hidden style="background-color:black;color:white">Submit</paper-button>
+         <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
+     
+      </center>
+    </paper-dialog>
+     <iron-ajax
+        method="post"
+        id="fngetconceptcheckajax"
+        url="{{fngetconceptcheckurl}}"
+        params="{{fngetconceptcheckparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptcheckResponse"
+        debounce-duration="300" />
+       </iron-ajax>
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>
@@ -60,21 +84,34 @@
   (function() {
     'use strict';
      var tempvaluarr=[];
+     var conarr=[];
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
+fnsubmit:function(e){
+//   this.$.bookservice.fnpassinsetconcept(conarr);
+},
+fnpasparr:function(e){
+conarr=e;
 
+},
+fnclose:function(e){
+this.$.dzfsd.close();
+//document.querySelector('concept-check-card').fnclean();
+},
     fnsavebook:function(e){
-  // alert(JSON.stringify(tempvaluarr));
+  alert(JSON.stringify(conarr));
   
     
-    if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""&&this.completestatus==""){
+    if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
       alert("Please insert the value");
        }
     else if(this.conceptid==""){
-
- //   this.$.bookservice.fnsendconcept(this.concept,this.period);
-// alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
-    this.$.bookservice.fnsetcoskill(this.concept,this.period,this.skill,this.innovation,this.remark,this.completestatus);
+  //alert("ins");
+ //this.$.bookservice.fnsendconcept(this.concept,this.period);
+ // alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
+ alert(JSON.stringify(tempvaluarr));
+    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark);
+   this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
     else{
@@ -83,12 +120,45 @@
       }
    this.hidecheck1=true;
    this.hidecheck=false;
-    document.querySelector('aproval-book').splices();
+    document.querySelector('concept-check-card').fnclean();
 },
 
 fngetconceptz:function(e){
-  this.$.bookservice.fngetconceptcheck();
+  this.$.dzfsd.toggle();
+ this.fngetconceptcheck();
 },
+fngetconceptcheck:function(e){
+  this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+           var obj={};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.capter_id=localStorage.getItem("curr_sess_capters");
+           this.fngetconceptcheckparam=obj;
+           this.$.fngetconceptcheckajax.generateRequest();
+          },
+        fngetconceptcheckResponse:function(e){
+          //alert(JSON.stringify(e.detail.response.returnval));
+          var res1=e.detail.response.skillarr;
+          var res=e.detail.response.conceptarr;
+
+
+              for(var j=0;j<res.length;j++){
+            var flag=0;
+              for(var i=0;i<res1.length;i++){
+                  
+                  if(res[j].concept_id==res1[i].concept_id)
+                  {    
+                   flag=1;
+                   res[j].check=true;   
+                  }
+                 }
+                 if(flag==0){
+                  res[j].check=false;
+                 }
+                }
+           //    alert(JSON.stringify(res));
+      this.conceparr=res;
+   },   
 fndelete:function(e){
 this.$.bookservice.buffdel();
 },
@@ -97,11 +167,7 @@ this.$.bookservice.buffdel();
   this.hidecheck=true;
 },
 fnsetpassvalz:function(e){
- // alert(1);
-tempvaluarr=e;
-// alert(JSON.stringify(tempvaluarr));
-
-
+ tempvaluarr=e;
 },
 
 
