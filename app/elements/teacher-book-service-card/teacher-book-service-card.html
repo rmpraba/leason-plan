@@ -1091,8 +1091,7 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
      //  alert(JSON.stringify(obj));
        this.fnsetcaptureparam=obj;
-         this.$.fnsetcaptureajax.generateRequest();
-    
+     
       },
 
       fnsetcaptureResponse:function(e){
@@ -1258,7 +1257,7 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
       obj.planned_date=localStorage.getItem("localsess_last_service");
       obj.subflag='active';
   */  this.fnsendconceptparam=obj;
-      alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
       },
 
@@ -1317,8 +1316,7 @@ else{
             alert('Updated');
                     this.conceptseq(); 
               this.FnFetchConceptService();
-      
-
+    
       },
         fnbookeditskill1Response:function(e)
       {
@@ -1340,7 +1338,7 @@ fnsetcoskill:function(arr,period,skill,innovation,remark,completestatus){
         obj.planned_date=localStorage.getItem("localsess_from_service");
         obj.flag="active";
         this.fnsetcoskillparam=obj;
-        alert(JSON.stringify(obj));
+        //alert(JSON.stringify(obj));
         this.$.fnsetcoskillajax.generateRequest();
        }
    },
@@ -1362,7 +1360,7 @@ fnsetcoskill1:function(period,skill,innovation,remark,completestatus){
   fnsetcoskillResponse:function(e)
       {
        var res=e.detail.response.returnval;
-       alert(JSON.stringify(res));
+       //alert(JSON.stringify(res));
 
             if(res=="Inserted")
             {
@@ -1372,13 +1370,13 @@ fnsetcoskill1:function(period,skill,innovation,remark,completestatus){
             }
         },
          fnsetcoskill1Response:function(e)
-      {
-       var res=e.detail.response.returnval;
-       alert(JSON.stringify(res));
-  },
+        {
+            var res=e.detail.response.returnval;
+            //alert(JSON.stringify(res));
+        },
  
-   fnsetcovalue:function(val1){
-  //  alert(JSON.stringify(val1));
+        fnsetcovalue:function(val1){
+            //  alert(JSON.stringify(val1));
           for(var i=0;i<val1.length;i++)
           {
     this.captvaluesurl=sessionStorage.getItem("addrinfo")+"/captvalues-service";

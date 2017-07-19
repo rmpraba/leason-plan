@@ -19,6 +19,13 @@
         overflow-y: visible;
         height: 50px;
       }
+
+      #dzfsd
+      {
+          border-radius: 10px;
+          width: 250px;
+          height: 320px;
+      }
     </style>
     <div>
            <paper-input value={{conceptid}} hidden></paper-input>
@@ -27,10 +34,10 @@
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
              <td>
+              <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
               <template is="dom-repeat" items="{{conceptzz}}" as="r">
                <h4>{{r.conceptname}}</h4>
              </template>
-             <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff"></paper-icon-button>
              </td>
              <td><paper-input value={{period}}></paper-input> </td>
            <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
@@ -61,10 +68,9 @@
       <template is="dom-repeat" items="{{conceparr}}" as="s">
          <concept-check-card chapterid="{{s.concept_id}}" id="{{s.concept_id}}" chaptername="{{s.concept}}" check="{{s.check}}"></concept-check-card>
       </template>
-      <center>
+      <center style="margin-top: 8%;">
           <paper-button on-click="fnsubmit"  hidden style="background-color:black;color:white">Submit</paper-button>
          <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
-     
       </center>
     </paper-dialog>
      <iron-ajax

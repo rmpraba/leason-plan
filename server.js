@@ -8,8 +8,8 @@ var dbserver_ip_address = process.env.OPENSHIFT_MYSQL_DB_HOST || '127.0.0.1'
 var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
-   password : 'admin',
-   database : 'master1'
+   password : '',
+   database : 'reportcardnew'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -10043,6 +10043,7 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 
   });
 });
+
 app.post('/fnbookeditskill1-service',  urlencodedParser,function (req, res)
 {  
    
