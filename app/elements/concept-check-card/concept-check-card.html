@@ -30,14 +30,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'concept-check-card',
 
      fnsetzz:function(e){
-      alert(this.id);
+      //alert(this.id);
       if(document.querySelector('#'+this.id).checked==true){
          var obj={};
            obj.id=this.id;
            obj.chapterid=this.chapterid;
            obj.chaptername=this.chaptername;
            concarr.push(obj);
-           alert(JSON.stringify(concarr));
+           //alert(JSON.stringify(concarr));
          }  
          else if(document.querySelector('#'+this.id).checked==false){
     
