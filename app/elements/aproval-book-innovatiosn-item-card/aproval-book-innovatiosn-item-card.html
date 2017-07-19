@@ -102,23 +102,17 @@ conarr=e;
 },
 fnclose:function(e){
 this.$.dzfsd.close();
-//document.querySelector('concept-check-card').fnclean();
 },
     fnsavebook:function(e){
-  alert(JSON.stringify(conarr));
-  
-    
-    if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
+ if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
       alert("Please insert the value");
        }
-    else if(this.planneddate==""){
-  //alert("ins");
- //this.$.bookservice.fnsendconcept(this.concept,this.period);
- // alert(this.concept+" "+this.period+" "+this.skill+" "+this.innovation+" "+this.remark+" "+this.completestatus)
+else if(this.planneddate=="empty"){
+//this.$.bookservice.fnsendconcept(this.concept,this.period);
  alert("save");
  alert(JSON.stringify(tempvaluarr));
     this.$.bookservice.fnsetcoskill(conarr);
-   this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
+    this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
     else{
@@ -127,10 +121,11 @@ this.$.dzfsd.close();
 this.$.bookservice.fnbookeditskill(conarr,this.planneddate);
 this.$.bookservice.fnbookeditskill1(this.period,this.skill,this.innovation,this.remark,this.planneddate);
    
-     this.$.bookservice.fnsetcovalue1(tempvaluarr,this.planneddate);
+     this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
       }
    this.hidecheck1=true;
    this.hidecheck=false;
+   this.planneddate="";
     document.querySelector('concept-check-card').fnclean();
 },
 

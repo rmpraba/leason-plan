@@ -752,7 +752,8 @@ for(var i=0;i<overall.length;i++){
                obj.concept_id="";  
                obj.concept="";   
                obj.capter_id=""; 
-               obj.hidecheck=true; 
+               obj.planned_date="empty" 
+                obj.hidecheck=true; 
                obj.hidecheck1=false; 
                obj.masskill=masskill;
                res2.push(obj);     
@@ -1471,9 +1472,10 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
        alert(JSON.stringify(e.detail.response.returnval));
        },
    
-       fnsetcovalue11:function(val1){
+       fnsetcovalue11:function(val1,planneddate){
           for(var i=0;i<val1.length;i++)
           {
+    alert('a');
     this.captvalues11url=sessionStorage.getItem("addrinfo")+"/captvalues11-service";
       var obj={};
       obj.value_id=val1[i].valueid;
