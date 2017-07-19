@@ -677,9 +677,9 @@ var res=e.detail.response.skillarr;
 var res3=e.detail.response.valuearr;
 var res2=[];
 var adcarr=[];
-alert(JSON.stringify(res1));
-alert(JSON.stringify(res));
-alert(JSON.stringify(res3));
+//alert(JSON.stringify(res1));
+//alert(JSON.stringify(res));
+//alert(JSON.stringify(res3));
 
 
   for(var i=0;i<res.length;i++){
@@ -696,7 +696,7 @@ alert(JSON.stringify(res3));
                     
                      adcarr.push(obj);
                  }}}
-            alert(JSON.stringify(adcarr));
+            //alert(JSON.stringify(adcarr));
   
         var a=[];
         var overall=[];
@@ -731,7 +731,7 @@ alert(JSON.stringify(res3));
             overall.push(nameobj);
             a=[];
              }
-alert(JSON.stringify(overall));
+//alert(JSON.stringify(overall));
 var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.length);
 for(var i=0;i<overall.length;i++){
                   var obj={};
@@ -758,7 +758,7 @@ for(var i=0;i<overall.length;i++){
                obj.masskill=masskill;
                res2.push(obj);     
               }
-    alert(JSON.stringify(res2));
+    //alert(JSON.stringify(res2));
     document.querySelector('teacher-book-approve-card').overallarr1=res2;
       res2=[];
    this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
@@ -770,7 +770,7 @@ for(var i=0;i<overall.length;i++){
    },
    fetchclassconcept1Response(e){
        var res=e.detail.response.returnval;
-       alert(JSON.stringify(res));
+       //alert(JSON.stringify(res));
        document.querySelector('aproval-save-and-edit-book-card').fnselbookvalue(res)
     },
   fetchclassconcept11Response(e){
@@ -1119,8 +1119,10 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
 
       fnsetcaptureResponse:function(e){
        var res=e.detail.response.returnval;
-       alert(JSON.stringify(res));
-        if(res=="Inserted"){
+       //alert(JSON.stringify(res));
+        if(res=="Inserted")
+        {
+            alert('Inserted');
           this.capterseq();
           this.getcaptervalue();
       /*   document.querySelector('app-card').setPage('homepage','');
@@ -1381,7 +1383,7 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
         obj1.remark=remark;
         obj1.capter_id=localStorage.getItem("curr_sess_capters");
    this.fnsetcoskill1param=obj1;
-        alert(JSON.stringify(obj1));
+        //alert(JSON.stringify(obj1));
         this.$.fnsetcoskill1ajax.generateRequest();
     },
 
@@ -1398,7 +1400,7 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
         obj.planned_date=planneddate;
         obj.flag="active";
        this.fnbookeditskillparam=obj;
-      alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
       this.$.fnbookeditskillajax.generateRequest();
   }
    },
@@ -1413,7 +1415,7 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
         obj1.capter_id=localStorage.getItem("curr_sess_capters");
    
       this.fnbookeditskill1param=obj1;
-      alert(JSON.stringify(obj1));
+      //alert(JSON.stringify(obj1));
       this.$.fnbookeditskill1ajax.generateRequest();
    
       },
@@ -1467,18 +1469,18 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
       obj.planned_date=localStorage.getItem("localsess_from_service");
       obj.flag='active';  
       this.captvaluesparam=obj;
-     alert(JSON.stringify(obj));
+     //alert(JSON.stringify(obj));
       this.$.captvaluesajax.generateRequest();
        }
       },
    captvaluesResponse:function(e){
-       alert(JSON.stringify(e.detail.response.returnval));
+       //alert(JSON.stringify(e.detail.response.returnval));
        },
    
        fnsetcovalue11:function(val1,planneddate){
           for(var i=0;i<val1.length;i++)
           {
-    alert('a');
+    //alert('a');
     this.captvalues11url=sessionStorage.getItem("addrinfo")+"/captvalues11-service";
       var obj={};
       obj.value_id=val1[i].valueid;
@@ -1487,12 +1489,12 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
       obj.planned_date=planneddate;
       obj.flag='active';  
       this.captvalues11param=obj;
-     alert(JSON.stringify(obj));
+     //alert(JSON.stringify(obj));
       this.$.captvalues11ajax.generateRequest();
        }
       },
        captvalues11Response:function(e){
-       alert(JSON.stringify(e.detail.response.returnval));
+       //alert(JSON.stringify(e.detail.response.returnval));
        },
        buffset:function(bufferperiodzz){
         bufferperiod=bufferperiodzz;

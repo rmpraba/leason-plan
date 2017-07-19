@@ -47,8 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'aproval-book',
 
   fnsezzt:function(e){ 
-  alert(this.id);
-  alert(document.querySelector('#'+this.id).checked);
+  //alert(this.id);
+  //alert(document.querySelector('#'+this.id).checked);
 
    if(document.querySelector('#'+this.id).checked==true){
           var obj={};
@@ -58,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            obj.conceptid=this.conceptid;
            temparr.push(obj);
            temparr1.push(obj);
-          alert(JSON.stringify(temparr1));
+         // alert(JSON.stringify(temparr1));
 
   document.querySelector('aproval-book-innovatiosn-item-card').fnsetpassvalz(temparr1)
     }

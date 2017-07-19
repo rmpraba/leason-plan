@@ -108,15 +108,14 @@ this.$.dzfsd.close();
       alert("Please insert the value");
        }
 else if(this.planneddate=="empty"){
-//this.$.bookservice.fnsendconcept(this.concept,this.period);
- alert("save");
+//this.$.books alert("save");
  alert(JSON.stringify(conarr));
-    this.$.bookservice.fnsetcoskill(conarr);
+   this.$.bookservice.fnsetcoskill(conarr);
     this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
     else{
-      alert("edit");
+    //  alert("edit");
  
 this.$.bookservice.fnbookeditskill(conarr,this.planneddate);
 this.$.bookservice.fnbookeditskill1(this.period,this.skill,this.innovation,this.remark,this.planneddate);
