@@ -1442,10 +1442,9 @@ fnsetcoskill1:function(period,skill,innovation,remark,planneddate){
       {
        var res=e.detail.response.returnval;
        //alert(JSON.stringify(res));
-
+       alert("Inserted");
             if(res=="Inserted")
             {
-              alert("Inserted");
               this.conceptseq(); 
               this.FnFetchConceptService();
             }
