@@ -308,6 +308,8 @@
      document.querySelector('#asdadczcsadcdasww').selected=-1;
  
    },
+
+
      fnsetgrade:function(e){
     this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
@@ -318,7 +320,8 @@
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
-     this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid);this.$.zdsasddsasfsa.hidden=false;
+      this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid);
+      this.$.zdsasddsasfsa.hidden=false;
       this.$.bookservice.conceptseq();
        document.querySelector('aproval-book').fnsetapproveclear();
        },
