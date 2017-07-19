@@ -563,7 +563,7 @@
            {
               this.conceptseq(); 
               this.FnFetchConceptService();
-              this.subflagseqe();
+             
            }
       
 
@@ -1188,10 +1188,13 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
       },
        subflagseqe:function()
       {     
-           //alert('1');
-     
-        this.subflagseqeurl=sessionStorage.getItem("addrinfo")+"/fetchsubjectseq-service";
-        this.$.subflagseqeajax.generateRequest();
+       this.subflagseqeurl=sessionStorage.getItem("addrinfo")+"/fetchsubjectseq-service";
+        var obj={};
+         obj.capter_id=localStorage.getItem("curr_sess_capters");
+         obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
+         this.subflagseqeparam=obj;
+         this.$.subflagseqeajax.generateRequest();
       },
 
       subflagseqeResponse:function(e)
@@ -1231,7 +1234,7 @@ document.querySelector('teacher-book-refernce-card').capterarr=overall;
       },
       bookrefsection:function(gradeid,gradename){
            this.bookrefsectionurl=sessionStorage.getItem("addrinfo")+"/bookrefsection-service";
-       var obj={"school_id":"","gradeid":"","gradename":"","academic_year":""};
+      var obj={"school_id":"","gradeid":"","gradename":"","academic_year":""};
       obj.gradeid=gradeid;
       obj.gradename=gradename;
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -1349,7 +1352,7 @@ else{
               this.FnFetchConceptService();
       
       },
-fnsetcoskill:function(arr,period,skill,innovation,remark,completestatus){
+fnsetcoskill:function(arr){
 
        for(var i=0;i<arr.length;i++){
    this.fnsetcoskillurl=sessionStorage.getItem("addrinfo")+"/fnsetcoskill-service";
@@ -1362,7 +1365,7 @@ fnsetcoskill:function(arr,period,skill,innovation,remark,completestatus){
         obj.planned_date=localStorage.getItem("localsess_from_service");
         obj.flag="active";
         this.fnsetcoskillparam=obj;
-        //alert(JSON.stringify(obj));
+        alert(JSON.stringify(obj));
         this.$.fnsetcoskillajax.generateRequest();
        }
    },

@@ -5468,7 +5468,7 @@ app.post('/fngetpasssectinvalue-service',  urlencodedParser,function (req,res)
 app.post('/fetchsubjectseq-service',  urlencodedParser,function (req,res)
 {  
   
-  var qur="SELECT * FROM sequence";
+  var qur="SELECT * FROM md_skill cpater_id='"+req.query.capter_id+"'";
   connection.query(qur,
     function(err, rows)
     {
