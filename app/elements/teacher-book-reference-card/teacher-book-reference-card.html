@@ -246,20 +246,16 @@ var k;
        this.$.bookservice.getcaptervalue();
     },
      fnset:function(e){
-       if(this.captername=="" && this.period=="" || this.bufferperiod=="")
-       {
-          alert("Please enter the value");
-       }
-       else
-       {
-        this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid,this.period,this.bufferperiod);
-        this.captername="";
-        this.period="";
-        this.bufferperiod="";
-     }
-       //this.$.newchapterrr.close();
 
-    
+      alert(1);
+       if(this.captername=="" && this.period=="" || this.bufferperiod==""){
+      alert("Please enter the value");
+       }else{
+    this.$.bookservice.fnsetcapture(this.gradeid,this.subjectid,this.captername,this.capterid,this.period,this.bufferperiod);
+     this.captername="";
+     this.period="";
+     this.bufferperiod="";
+}
    },
 
    addconcept:function() {
