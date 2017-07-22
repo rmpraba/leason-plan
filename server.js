@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
    password : '',
-   database : 'reportcard11'
+   database : 'reportcard1'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
