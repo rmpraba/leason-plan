@@ -322,10 +322,10 @@
       this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid);
       this.$.zdsasddsasfsa.hidden=false;
       this.$.bookservice.conceptseq();
-       document.querySelector('aproval-book').fnsetapproveclear();
-       document.querySelector('concept-check-card').fnclean();
+       //document.querySelector('aproval-book').fnsetapproveclear();
+       //document.querySelector('concept-check-card').fnclean();
        },
-fnselectconcept:function(e){
+  fnselectconcept:function(e){
       this.conceptid=e.target.selectedItem.value;
       this.conceptname=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_chapterid",this.conceptid); 
