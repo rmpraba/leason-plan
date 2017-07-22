@@ -28,19 +28,21 @@
       }
     </style>
     <div>
+           <paper-input value={{rowid}} hidden></paper-input>
            <paper-input value={{conceptid}} hidden></paper-input>
            <paper-input value={{capterid}} hidden></paper-input>
            <paper-input value={{subflag}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+           <td>{{rowid}}</td>
              <td>
-              <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3.9%;"></paper-icon-button>
+              <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
               <template is="dom-repeat" items="{{conceptzz}}" as="r">
-               <h4 hidden$="{{hidecheck}}">{{r.conceptname}}</h4>
+               <h4>{{r.conceptname}}</h4>
              </template>
               <div hidden$="{{hidecheck1}}">
               <template is="dom-repeat" items="{{emsddsad}}" as="rere">
-               <chapter-pass-card conceptname1="{{rere.conceptname1}}"></chapter-pass-card>
+              <chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
                </template>
              </div>
              
@@ -67,16 +69,15 @@
             <td><paper-icon-button icon="close" on-click="fndelete"></paper-icon-button></td>
            </tr>
        </table>
-      
-    </div>
+     </div>
 
     <paper-dialog id="dzfsd" modal>
        <h3>Concept Name<h3/>
       <template is="dom-repeat" items="{{conceparr}}" as="s">
-         <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}"></concept-check-card>
+         <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
       </template>  
-      <center style="margin-top: 8%;">
-          <paper-button on-click="fnsubmit"  hidden style="background-color:black;color:white">Submit</paper-button>
+      <center style="margin-top: 5%;">
+          <paper-button on-click="fnsubmit"  style="background-color:black;color:white">Submit</paper-button>
          <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
       </center>
     </paper-dialog>
@@ -103,18 +104,34 @@
       is: 'aproval-book-innovatiosn-item-card',
 fnsubmit:function(e){
  //this.$.bookservice.fnpassinsetconcept(conarr);
+ this.$.dzfsd.toggle();
+ var temp=[];
+ for(var i=0;i<conarr.length;i++){
+  if(conarr[i].rowid==this.rowid){
+    temp.push({"conceptname":conarr[i].conceptname});
+  }
+ }
+ // alert(JSON.stringify(temp));
+ this.conceptzz=[];
+ this.conceptzz=temp;
 },
 fnpasparr:function(e){
 conarr=e;
+// alert(JSON.stringify(conarr));
 },
 fnpasparr1:function(e){
-  alert(JSON.stringify(e));
+  // alert(JSON.stringify(e));
 conarr1fsdfs=e;
 },
 fnclose:function(e){
 this.$.dzfsd.close();
-this.emsddsad=conarr1fsdfs;
-alert(JSON.stringify(this.emsddsad));
+// for(var i=0;i<conarr.length;i++){
+//   if(conarr[i].rowid==this.rowid){
+    
+//   }
+//  }
+// this.emsddsad=conarr1fsdfs;
+// alert(JSON.stringify(this.emsddsad));
 },
     fnsavebook:function(e){
  if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
@@ -141,8 +158,8 @@ else if(this.planneddate=="empty"){
 },
 
 fngetconceptz:function(e){
-  this.$.dzfsd.toggle();
- this.fngetconceptcheck();
+  this.fngetconceptcheck();
+  this.$.dzfsd.toggle(); 
 },
 fngetconceptcheck:function(e){
 this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
@@ -153,7 +170,7 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
            obj.period=this.period;
            obj.planneddate=this.planneddate;
            this.fngetconceptcheckparam=obj;
-          alert(JSON.stringify(obj));
+          // alert(JSON.stringify(obj));
            this.$.fngetconceptcheckajax.generateRequest();
           },
         fngetconceptcheckResponse:function(e){
@@ -174,6 +191,18 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
                   res[j].check=false;
                  }
                 }
+      if(conarr.length>0){
+        for(var i=0;i<conarr.length;i++){
+          for(var j=0;j<res.length;j++){
+            // res[j].check=false;
+          // alert(conarr[i].conceptid+" "+res[j].concept_id+"  "+this.rowid+" "+conarr[i].rowid);
+          if(conarr[i].conceptid==res[j].concept_id&&this.rowid==conarr[i].rowid){
+            res[j].check=true;
+          }
+          }
+        }
+      }    
+      // alert(JSON.stringify(res));      
       this.conceparr=res;
    },   
 fndelete:function(e){

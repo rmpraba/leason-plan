@@ -193,7 +193,7 @@
             <tr>
              <template  is="dom-repeat" items="{{overallarr1}}" as="view">
                 <tr>
-                  <aproval-book-innovatiosn-item-card  remark="{{view.remark}}" period="{{view.period}}" planneddate="{{view.planning_date}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" emsddsad="{{view.emsddsad}}" conceptzz="{{view.valuearrr}}" > 
+                  <aproval-book-innovatiosn-item-card rowid="{{view.rowid}}" remark="{{view.remark}}" period="{{view.period}}" planneddate="{{view.planning_date}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" emsddsad="{{view.emsddsad}}" conceptzz="{{view.valuearrr}}" > 
                   </aproval-book-innovatiosn-item-card>
                 </tr> 
               </template>  
@@ -202,19 +202,20 @@
     
    <paper-dialog id="bufferdialog" modal>
 
-      <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">Chapter</paper-checkbox>
-      <paper-checkbox id="Conceptzzzidzz" on-change="fnconceptzz">Concept</paper-checkbox>
+      <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">After Last Row</paper-checkbox>
+      <paper-checkbox id="Conceptzzzidzz" on-change="fnconceptzz">After Which Row</paper-checkbox>
         <div  hidden$="{{chaptbuffidz}}">
       <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
       </div>
       <div  hidden$="{{Conceptbuffidz}}">
+      <paper-input label="Which row after??" value="{{periodafter}}"></paper-input>
         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
-        <paper-dropdown-menu  label="Select the concept" style="width:100%;margin-left: -1%;"><paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
+       <!--  <paper-dropdown-menu  label="Select the concept" style="width:100%;margin-left: -1%;"><paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
                  <template is="dom-repeat" items="{{conceptarr}}">
                     <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
                </template>    
                 </paper-menu>
-        </paper-dropdown-menu>
+        </paper-dropdown-menu> -->
         </div>
         <center> 
          <div></div>
@@ -246,15 +247,19 @@
              this.$.cls111.hidden=true;
          },
         fncaptsubmit:function(e){
-          this.$.bookservice.buffset11(this.bufferperiod,conceptidz,conceptnamez);
-          this.$.bookservice.subflagseqe();
-
+         this.$.bookservice.buffset(this.bufferperiod,this.periodafter);
+          // this.$.bookservice.buffset11(this.bufferperiod,this.periodafter);
+          // this.$.bookservice.subflagseqe();
+          this.bufferperiod="";
+          this.periodafter="";
         },
         fnconsubmit:function(e){
         //alert(this.bufferperiod);      
-     this.$.bookservice.buffset(this.bufferperiod);
+        this.periodafter=-1;
+     this.$.bookservice.buffset(this.bufferperiod,this.periodafter);
             this.bufferperiod="";
-            this.$.bookservice.subflagseqe();
+          this.periodafter="";
+            // this.$.bookservice.subflagseqe();
 
 
         },
@@ -272,7 +277,7 @@
 
         },
         fnconceptzz:function(e){
-          this.$.bookservice.fnbuffconcept();
+          // this.$.bookservice.fnbuffconcept();
           if(Conceptzzzidzz.checked==true)
           {
             Chaperzzzzidzz.checked=false;

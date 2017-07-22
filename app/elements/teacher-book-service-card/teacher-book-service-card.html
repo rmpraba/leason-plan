@@ -730,7 +730,6 @@ for(var i=0;i<overall.length;i++){
                   id_date=id_date.replace(/[^\w\s]/gi, '');
                   obj.id_date=id_date;
                   obj.masskill=masskill;
-
                   obj.hidecheck=false; 
                   obj.hidecheck1=true; 
                   res2.push(obj);     
@@ -747,9 +746,36 @@ for(var i=0;i<overall.length;i++){
                obj.masskill=masskill;
                res2.push(obj);
                }
-    alert(JSON.stringify(res2));
+               //alert(JSON.stringify(res2));
+  for(var i=0;i<res2.length;i++){
+    res2[i].rowid=i+1;
+  }
+  alert(this.periodafter+"  "+res2.length);
+  var flag=0;
+  if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!=""){
+    flag=1;
+    alert('coming!!');
+    var len=res2.length;
+    var obj=res2.splice(len-1,1);
+    alert(JSON.stringify(obj));
+    var temp=[];
+    for(var i=0;i<res2.length;i++){
+        if((i+1)==parseInt(this.periodafter)){
+            alert('yes');
+            temp.push(obj);
+        }
+        else{
+            temp.push(res2[i]);
+        }
+    }
+  }
+    if(flag==0)
     document.querySelector('teacher-book-approve-card').overallarr1=res2;
+    else
+     document.querySelector('teacher-book-approve-card').overallarr1=temp;   
       res2=[];
+      temp=[];
+      this.periodafter="";
    this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fnsetz-service";
             var obj={};
            obj.chapterid=localStorage.getItem("curr_sess_capters");
@@ -1101,24 +1127,22 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
       obj.buffer_period=bufferperiodz;
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-     //  alert(JSON.stringify(obj));
+       alert(JSON.stringify(obj));
        this.fnsetcaptureparam=obj;
      
       },
 
       fnsetcaptureResponse:function(e){
        var res=e.detail.response.returnval;
-       //alert(JSON.stringify(res));
-        if(res=="Inserted")
-        {
-            alert('Inserted');
+       alert(JSON.stringify(res));
+        
           this.capterseq();
           this.getcaptervalue();
       /*   document.querySelector('app-card').setPage('homepage','');
          document.querySelector('home-page').setPage('teacher-book-chapter-refernce-card','');
          this.fngetconceptvalue();
    */
-         }
+         
         
       },
 
@@ -1387,15 +1411,11 @@ fnsetcoskill:function(arr,period,skill,innovation,remark){
   fnsetcoskillResponse:function(e)
       {
        var res=e.detail.response.returnval;
-   alert("Inserted");
-            if(res=="Inserted")
-            {
-
+       alert("Inserted");
+           
               this.conceptseq(); 
               this.FnFetchConceptService();
         },
-      
-
    fnsetcovalue:function(val1)
    {
 
@@ -1436,8 +1456,9 @@ fnsetcoskill:function(arr,period,skill,innovation,remark){
        captvalues11Response:function(e){
        //alert(JSON.stringify(e.detail.response.returnval));
        },
-       buffset:function(bufferperiodzz){
+       buffset:function(bufferperiodzz,pafter){
         bufferperiod=bufferperiodzz;
+        this.periodafter=pafter;
       this.buffseturl=sessionStorage.getItem("addrinfo")+"/buffset-service";
       var obj={};
       obj.capter_id=localStorage.getItem("curr_sess_capters");
