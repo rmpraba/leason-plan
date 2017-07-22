@@ -1387,7 +1387,10 @@ fnsetcoskill:function(arr,period,skill,innovation,remark){
   fnsetcoskillResponse:function(e)
       {
        var res=e.detail.response.returnval;
-       alert("Inserted");
+   alert("Inserted");
+            if(res=="Inserted")
+            {
+
               this.conceptseq(); 
               this.FnFetchConceptService();
         },
