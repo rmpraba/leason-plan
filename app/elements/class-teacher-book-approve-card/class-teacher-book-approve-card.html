@@ -106,10 +106,10 @@
           <th>Enrichment Suggestion</th>
           <th>Completion Status</th>
           <th>Save</th>  
-          </tr>
+          </tr>  
              <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>
-            <skill-capturing-card empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}"  subflag="{{w.subflag}}" skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}"
+            <skill-capturing-card empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.concept_id}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}"
             idz="enrno{{empid}}{{w.concept_id}}{{w.id_date}}{{w.grade_id}}{{w.subject_id}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" masskillz="{{w.masskill}}" >
              </skill-capturing-card>
             </tr>

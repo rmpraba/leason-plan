@@ -51,7 +51,7 @@
    }
    .hs-inner1
    {
-    /*top: 200px;*/
+   
     width: 344px;
     height: 340px;
     margin-top: 1%;
@@ -171,7 +171,9 @@
          
 
       <paper-button style="color:white;background-color:black;margin-left: 3%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
-
+ <template is="dom-repeat" items="{{conceptjhkhzz}}" as="rere">
+              <chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
+  </template>
 
 
      <div id="zdsasddsasfsa" >
@@ -191,8 +193,7 @@
             <tr>
              <template  is="dom-repeat" items="{{overallarr1}}" as="view">
                 <tr>
-                 
-                  <aproval-book-innovatiosn-item-card  remark="{{view.Remarks}}" period="{{view.period}}" planneddate="{{view.planned_date}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" conceptzz="{{view.valuearrr}}" > 
+                  <aproval-book-innovatiosn-item-card  remark="{{view.remark}}" period="{{view.period}}" planneddate="{{view.planning_date}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck1="{{view.hidecheck1}}" masskill="{{view.masskill}}" emsddsad="{{view.emsddsad}}" conceptzz="{{view.valuearrr}}" > 
                   </aproval-book-innovatiosn-item-card>
                 </tr> 
               </template>  
@@ -208,8 +209,7 @@
       </div>
       <div  hidden$="{{Conceptbuffidz}}">
         <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
-        <paper-dropdown-menu  label="Select the concept" style="width:100%;margin-left: -1%;">   
-        <paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
+        <paper-dropdown-menu  label="Select the concept" style="width:100%;margin-left: -1%;"><paper-menu  class="dropdown-content"   on-iron-select="fnselectconcept">
                  <template is="dom-repeat" items="{{conceptarr}}">
                     <paper-item value="{{item.concept_id}}">{{item.concept}}</paper-item>
                </template>    
@@ -309,9 +309,7 @@
      document.querySelector('#asdadczcsadcdasww').selected=-1;
  
    },
-
-
-     fnsetgrade:function(e){
+ fnsetgrade:function(e){
     this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
      this.gradename=e.target.selectedItem.textContent.trim()
@@ -325,6 +323,7 @@
       this.$.zdsasddsasfsa.hidden=false;
       this.$.bookservice.conceptseq();
        document.querySelector('aproval-book').fnsetapproveclear();
+       document.querySelector('concept-check-card').fnclean();
        },
 fnselectconcept:function(e){
       this.conceptid=e.target.selectedItem.value;

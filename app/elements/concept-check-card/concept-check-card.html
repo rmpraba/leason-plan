@@ -18,39 +18,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <div>
-    <paper-input hidden value={{chapterid}}></paper-input>
-      <paper-checkbox on-change="fnsetzz" id={{id}} checked="{{check}}">{{chaptername}}</paper-checkbox>
+    <paper-input hidden value={{conceptid}}></paper-input>
+      <paper-checkbox on-change="fnsetzz" id={{id}} checked="{{check}}">{{conceptname}}</paper-checkbox>
     </div>
   </template>
   <script>
   (function() {
     'use strict';
    var  concarr=[]; 
+    var  concarr1=[]; 
     Polymer({
       is: 'concept-check-card',
 
      fnsetzz:function(e){
-      //alert(this.id);
+      alert(this.id);
+      alert(document.querySelector('#'+this.id).checked);
+      
       if(document.querySelector('#'+this.id).checked==true){
          var obj={};
+          var obj1={};
            obj.id=this.id;
-           obj.chapterid=this.chapterid;
-           obj.chaptername=this.chaptername;
+           obj.conceptid=this.conceptid;
+           obj.conceptname=this.conceptname;
            concarr.push(obj);
-           //alert(JSON.stringify(concarr));
+           obj1.id1=this.id;
+           obj1.conceptid1=this.conceptid;
+           obj1.conceptname1=this.conceptname;
+           concarr1.push(obj1);
          }  
-         else if(document.querySelector('#'+this.id).checked==false){
-    
+       else if(document.querySelector('#'+this.id).checked==false){
+        
          for(var i=0;i<concarr.length;i++){
                  if(concarr[i].id==this.id){
                   concarr.splice(i,1);
-            }}}
-
-     document.querySelector('aproval-book-innovatiosn-item-card').fnpasparr(concarr);
+            }} for(var j=0;j<concarr1.length;j++){
+                 if(concarr[j].id1==this.id){
+                  concarr1.splice(j,1);
+            }}
+          }
+      document.querySelector('aproval-book-innovatiosn-item-card').fnpasparr(concarr);
+      document.querySelector('aproval-book-innovatiosn-item-card').fnpasparr1(concarr1);
+     
        },
        fnclean:function(e){
-        var obj={};
+        var obj={}; var obj1={};
     concarr.splice(obj);
+    concarr1.splice(obj1);
        },
        fnselbookvalue:function(arr){
         for(var i=0;i<arr.length;i++){

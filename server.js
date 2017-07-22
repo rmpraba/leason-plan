@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
    password : '',
-   database : 'reportcardnew'
+   database : 'reportcard1'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -5468,7 +5468,28 @@ app.post('/fngetpasssectinvalue-service',  urlencodedParser,function (req,res)
 app.post('/fetchsubjectseq-service',  urlencodedParser,function (req,res)
 {  
   
-  var qur="SELECT * FROM md_skill cpater_id='"+req.query.capter_id+"'";
+  var qur="SELECT * FROM sequence";
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    { 
+      //console.log(JSON.stringify(rows));   
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      //console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
+
+  });
+});
+
+app.post('/fetchsubjectseq-service',  urlencodedParser,function (req,res)
+{  
+  
+  var qur="SELECT * FROM md_skill capter_id='"+req.query.capter_id+"'";
   connection.query(qur,
     function(err, rows)
     {
@@ -8994,8 +9015,8 @@ app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
  
   var qur1="SELECT * FROM md_chapter where capter_id='"+req.query.chapterid+"'";
    //var qur2="SELECT * FROM md_skill where capter_id='"+req.query.chapterid+"' order by concept_id";
-   var qur2="SELECT concept_id as conceptid,planning_date,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
-  var qur3="SELECT * FROM md_period_value  where capter_id='"+req.query.chapterid+"' ";
+   var qur2="SELECT concept_id as conceptid,planning_date,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
+  var qur3="SELECT * FROM md_chapter  where capter_id='"+req.query.chapterid+"' ";
     console.log(qur1);
     console.log(qur2);
     console.log(qur3);
@@ -9472,6 +9493,11 @@ app.post('/fnsetcoskill-service' , urlencodedParser,function (req, res)
        planning_date:req.query.planned_date,
        school_id:req.query.school_id,
        academic_year:req.query.academic_year,
+       period:req.query.period,
+       skill:req.query.skill,
+       innovation:req.query.innovation,
+       remark:req.query.remark,
+       flag:req.query.flag,
     };
     
      console.log(response);
@@ -9489,32 +9515,7 @@ app.post('/fnsetcoskill-service' , urlencodedParser,function (req, res)
     });
 });
 
-app.post('/fnsetcoskill1-service' , urlencodedParser,function (req, res)
-{  
-    var response={ 
-           capter_id:req.query.capter_id,
-       date:req.query.planned_date,
-       Remarks:req.query.remark,
-       period:req.query.period,
-       skill:req.query.skill,
-       innovation:req.query.innovation,
-    };
-    console.log("--------------");
-     console.log(response);
-     console.log("--------------");
-     connection.query("INSERT INTO md_period_value SET ?",[response],
-    function(err, rows)
-    {
-    if(!err)   
-    {
-      res.status(200).json({'returnval':'Inserted!'});
-    }
-    else
-    {
-      res.status(200).json({'returnval': 'Not Inserted!'});
-    }
-    });
-});
+
 
 app.post('/skillvalue-service' , urlencodedParser,function (req, res)
 {  
@@ -9804,7 +9805,7 @@ app.post('/fngetconceptvalue-service',  urlencodedParser,function (req,res)
 app.post('/fngetconceptvalue11-service',  urlencodedParser,function (req,res)
   {  
       var qur1="SELECT * FROM md_concept where capter_id='"+req.query.capter_id+"'";
-      var qur2="SELECT * FROM md_skill where  capter_id='"+req.query.capter_id+"'";
+      var qur2="SELECT * FROM md_skill where  capter_id='"+req.query.capter_id+"' and  planning_date='"+req.query.planneddate+"' and period='"+req.query.period+"'";
    console.log(qur1);
     console.log(qur2);
     var conceptarr=[];
@@ -9906,11 +9907,14 @@ app.post('/fetchclassconcept-service', urlencodedParser,function (req,res)
   {  
 
 
- var qur1="select * from md_concept where capter_id='"+req.query.chapterid+"'  and flag='coactive' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
+ var qur1="select   concept_id as conceptid,planning_date,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
 
 var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
+   console.log("----------");
    console.log(qur1);
-    console.log(qur2);
+   console.log(qur2);
+   console.log("----------");
+
     var skillarr=[];
     var emparr=[];
     connection.query(qur1,function(err, rows){
@@ -10068,27 +10072,7 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
   });
 });
 
-app.post('/fnbookeditskill1-service',  urlencodedParser,function (req, res)
-{  
-   var qur="update md_period_value set  period='"+req.query.period+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',Remarks='"+req.query.remark+"' where capter_id='"+req.query.capter_id+"' and date='"+req.query.planned_date+"'";
-console.log('----------');
-console.log(qur);
-console.log('----------');
-  connection.query(qur,
-    function(err, rows)
-    {
-    if(!err)
-    {    
-      res.status(200).json({'returnval': 'Updated'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'fail'});
-    }  
 
-  });
-});
 app.post('/fnbookeditskill-service',  urlencodedParser,function (req, res)
 {  
 

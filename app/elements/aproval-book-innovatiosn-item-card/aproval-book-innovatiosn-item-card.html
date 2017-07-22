@@ -36,12 +36,19 @@
              <td>
               <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
               <template is="dom-repeat" items="{{conceptzz}}" as="r">
-               <h4>{{r.conceptname}}</h4>
+               <h4 hidden$="{{hidecheck}}">{{r.conceptname}}</h4>
              </template>
+              <div hidden$="{{hidecheck1}}">
+              <template is="dom-repeat" items="{{emsddsad}}" as="rere">
+               <chapter-pass-card conceptname1="{{rere.conceptname1}}"></chapter-pass-card>
+               </template>
+             </div>
+             
+             
              </td>
              <td><paper-input value={{period}}></paper-input> </td>
-           <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
-   <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
+             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
             <td>
               <template is="dom-repeat" items="{{masskill}}" as="r">
@@ -66,8 +73,8 @@
     <paper-dialog id="dzfsd" modal>
        <h3>Concept Name<h3/>
       <template is="dom-repeat" items="{{conceparr}}" as="s">
-         <concept-check-card chapterid="{{s.concept_id}}" id="{{s.concept_id}}" chaptername="{{s.concept}}" check="{{s.check}}"></concept-check-card>
-      </template>
+         <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}"></concept-check-card>
+      </template>  
       <center style="margin-top: 8%;">
           <paper-button on-click="fnsubmit"  hidden style="background-color:black;color:white">Submit</paper-button>
          <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
@@ -91,6 +98,7 @@
     'use strict';
      var tempvaluarr=[];
      var conarr=[];
+     var conarr1fsdfs=[];
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
 fnsubmit:function(e){
@@ -98,34 +106,38 @@ fnsubmit:function(e){
 },
 fnpasparr:function(e){
 conarr=e;
-
+},
+fnpasparr1:function(e){
+  alert(JSON.stringify(e));
+conarr1fsdfs=e;
 },
 fnclose:function(e){
 this.$.dzfsd.close();
+this.emsddsad=conarr1fsdfs;
+alert(JSON.stringify(this.emsddsad));
 },
     fnsavebook:function(e){
  if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
       alert("Please insert the value");
        }
 else if(this.planneddate=="empty"){
-//this.$.books alert("save");
- alert(JSON.stringify(conarr));
-   this.$.bookservice.fnsetcoskill(conarr);
-    this.$.bookservice.fnsetcoskill1(this.period,this.skill,this.innovation,this.remark);
+    alert("save");
+    alert(JSON.stringify(conarr));
+    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark);
+   //this.$.bookservice.fnsetcoskill1(conarr);
     this.$.bookservice.fnsetcovalue(tempvaluarr);
       }
-    else{
-    //  alert("edit");
- 
-this.$.bookservice.fnbookeditskill(conarr,this.planneddate);
-this.$.bookservice.fnbookeditskill1(this.period,this.skill,this.innovation,this.remark,this.planneddate);
-   
-     this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
+ else{
+    alert("edit");
+    this.$.bookservice.fnbookeditskill(conarr,this.period,this.skill,this.innovation,this.remark,this.planneddate);
+  //this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
       }
    this.hidecheck1=true;
    this.hidecheck=false;
    this.planneddate="";
     document.querySelector('concept-check-card').fnclean();
+    conarr1=[];
+   this.conceptjhkhzz="";
 },
 
 fngetconceptz:function(e){
@@ -138,7 +150,10 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.capter_id=localStorage.getItem("curr_sess_capters");
+           obj.period=this.period;
+           obj.planneddate=this.planneddate;
            this.fngetconceptcheckparam=obj;
+          alert(JSON.stringify(obj));
            this.$.fngetconceptcheckajax.generateRequest();
           },
         fngetconceptcheckResponse:function(e){
@@ -159,7 +174,6 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
                   res[j].check=false;
                  }
                 }
-           //    alert(JSON.stringify(res));
       this.conceparr=res;
    },   
 fndelete:function(e){
