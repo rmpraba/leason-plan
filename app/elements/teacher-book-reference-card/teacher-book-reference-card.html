@@ -95,8 +95,7 @@
     paper-fab{
       background-color: #ff0080;
       color: white;
-      bottom: 116px;
-      left: 92%;
+    
     }
      #newchapterrr
      {
@@ -165,10 +164,11 @@
             color: #1d1d1f;">
               <h2>CHAPTER NAME</h2>
             </center>
-            <paper-fab  icon="add" mini on-click="fnsetchapter"></paper-fab>
+            <paper-fab style="bottom: 116px;left: 92%;"  icon="add" mini on-click="fnsetchapter"></paper-fab>
+            <paper-fab  style="bottom: 155px;left: 85%;" id="chapedit" icon="create" mini on-click="Fnchapteredit"></paper-fab>
           </div>
 
-          <div class="hs-inner">
+          <div class="hs-inner" hidden$="{{hidecreatechapt}}">
             <table>
               <template is="dom-repeat" items="{{capterarr}}" as="view">
                 <tr>
@@ -177,6 +177,25 @@
                       <div id="itemcarddialog">
                         <p>
                           <teacher-book-refernce-item-card capter="{{v.capter}}" capterid="{{v.capter_id}}"></teacher-book-refernce-item-card>
+                        </p>
+                      </div>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+            </table>
+          </div>  
+
+
+          <div class="hs-inner" hidden$="{{hideeditchapt}}">
+            <table>
+              <template is="dom-repeat" items="{{capterarr}}" as="view">
+                <tr>
+                  <template is="dom-repeat" items="{{view}}" as="v">
+                    <td style="line-height: 2em;">
+                      <div id="itemcarddialog">
+                        <p>
+                          <chapter-edit-card captername="{{v.capter}}" capterid1="{{v.capter_id}}"></chapter-edit-card>
                         </p>
                       </div>
                     </td>
@@ -197,7 +216,11 @@ var k;
 /*set1Page:function(page1){
    this.page1=page1;
 },*/
-    
+    ready:function()
+    {
+      this.hidecreatechapt=false;
+      this.hideeditchapt=true;
+    },
     fnsetgrade:function(e){
      this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
@@ -254,7 +277,7 @@ fnrefresh:function()
   this.$.newcardd.hidden=true;
   document.querySelector('#teacherref').selected=-1;
   document.querySelector('#teacherrefzzzz').selected=-1;
-
+  this.ready();
 },
 
 fnsetchapter:function()
@@ -266,6 +289,14 @@ fnclose:function()
 {
   this.$.newchapterrr.close();
 },
+
+Fnchapteredit:function()
+{
+    this.hidecreatechapt=true;
+      this.hideeditchapt=false;
+},
+
+
 
 
 

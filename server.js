@@ -9424,7 +9424,7 @@ app.post('/bookrefsectioncapter-service' ,  urlencodedParser,function (req, res)
 
 
     var qqq="SELECT * FROM md_chapter  WHERE capter_id='"+req.query.capter_id+"' or capter='"+req.query.capter+"'";
-    
+
      console.log('------------school book-------------');
      console.log(qqq);
     console.log(response);
@@ -10162,21 +10162,23 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 {  
    /* var obj={"capter_id":"","concept":"","concept_id":"","showdate":""};
    */
-    var qur="update md_concept set  concept='"+req.query.concept+"',planned_date='"+req.query.planned_date+"',period='"+req.query.period+"',subflag='"+req.query.subflag+"'where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+    var qur="update md_concept set  concept='"+req.query.concept+"' where capter_id='"+req.query.capter_id+"' and concept_id='"+req.query.concept_id+"'";
+
+    console.log("----------- coceppt edit-------------");
     console.log(qur);
 
-  connection.query(qur,
-    function(err, rows)
-    {
-    if(!err)
-    {    
-      res.status(200).json({'returnval': 'Updated'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'fail'});
-    }  
+    connection.query(qur,
+      function(err, rows)
+      {
+        if(!err)
+        {    
+          res.status(200).json({'returnval': 'Updated'});
+        }
+        else
+        {
+          console.log(err);
+          res.status(200).json({'returnval': 'fail'});
+        }  
 
   });
 });
@@ -10248,6 +10250,30 @@ app.post('/buffdel-service',  urlencodedParser,function (req, res)
   });
 });
 
+
+
+app.post('/fnchapterupdatezzz-service',  urlencodedParser,function (req, res)
+{  
+   
+   var qur="update md_chapter set  capter='"+req.query.chaptername+"' where capter_id='"+req.query.chapterid+"' and school_id='"+req.query.school_id+"' and gradeid='"+req.query.gradeid+"' and subjectid='"+req.query.subjectid+"' and academic_year='"+req.query.academic_year+"'";
+
+   console.log("------------------------------------------------------");
+    console.log(qur);
+    connection.query(qur,
+      function(err, rows)
+      {
+        if(!err)
+        {    
+          res.status(200).json({'returnval': 'Updated'});
+        }
+        else
+        {
+          console.log(err);
+          res.status(200).json({'returnval': 'fail'});
+        }  
+
+  });
+});
 
 
 var server = app.listen(3000, function () {

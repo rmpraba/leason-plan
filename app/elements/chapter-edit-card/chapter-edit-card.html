@@ -1,0 +1,120 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="chapter-edit-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+       .card
+      {
+        @apply(--layout-horizontal);
+            margin-top: -2em;
+          margin-left: -6%;
+      }
+      #chaptereditt
+      {
+          border-radius: 10px;
+          width: 350px;
+          height: 200px;
+      }
+      #edttt
+      {
+            position: fixed;
+            margin-top: -4%;
+            margin-left: 17em;
+      }
+      #ipchapt
+      {
+        margin-top: 3em;
+        width: 79%;
+      }
+      #svee1
+        {
+            position: fixed;
+            margin-top: -4%;
+            margin-left: 17em;
+        }
+    </style>
+    <div class="card">
+        <paper-input hidden value={{capterid1}} ></paper-input>
+        <paper-button on-click="chapterupdate" no ink><h4>{{captername}}</h4>
+        </paper-button>  
+    </div>
+
+    <paper-dialog id="chaptereditt" modal>
+          <div>
+            <paper-icon-button icon="close" suffix on-click="Fnclosechapt" style="float: right;position: fixed;margin-left: 20%;margin-top: -1%;"></paper-icon-button>
+          </div>
+          <div>
+            <paper-input id="ipchapt"  readonly$="{{chpaterrread}}" value="{{chapternamez}}">
+            </paper-input>
+          </div>
+          <div>
+            <paper-icon-button id="edttt" icon="create" suffix on-click="fneditchapt"  
+            hidden$="{{chapedtzzzz}}">
+            </paper-icon-button>
+            <paper-icon-button id="svee1" icon="save" on-click="fnsavechapt" 
+            hidden$="{{chapsavezzzz}}">
+            </paper-icon-button>
+          </div>
+     </paper-dialog>     
+
+  
+  <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'chapter-edit-card',
+
+      ready:function()
+      {
+        this.chpaterrread=true;
+        this.chapsavezzzz=true;
+      },
+
+      chapterupdate:function(e)
+      {
+        //alert(this.captername);
+        this.chapternamez=this.captername;
+        this.$.chaptereditt.toggle();
+      },
+      Fnclosechapt:function(e)
+      {
+        this.$.chaptereditt.close();
+        document.querySelector('teacher-book-refernce-card').ready();
+      },
+      fneditchapt:function(e)
+      {
+        this.chpaterrread=false;
+        this.chapedtzzzz=true;
+        this.chapsavezzzz=false;
+      },
+      fnsavechapt:function()
+      {
+        //alert(this.chapternamez+" "+this.capterid1);
+        this.$.bookservice.chapupdateservice(this.chapternamez,this.capterid1);
+        this.chpaterrread=true;
+        this.chapedtzzzz=false;
+        this.chapsavezzzz=true;
+        this.chapternamez="";
+      }
+
+    });
+  })();
+  </script>
+</dom-module>
