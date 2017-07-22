@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
    password : '',
-   database : 'reportcard1'
+   database : 'reportcard11'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -9316,7 +9316,7 @@ app.post('/fetchchapter-service',  urlencodedParser,function (req,res)
       if(!err)
       {
           res.status(200).json({'returnval': rows});
-          //console.log(rows);
+          console.log(rows);
       }
 
       else
@@ -9371,7 +9371,7 @@ else if(req.query.roleid=='principal' ||req.query.roleid=='headofedn'||req.query
   });
 });
 
-app.post('/bookrefsectioncapter-service',  urlencodedParser,function (req,res)
+/*app.post('/bookrefsectioncapter-service',  urlencodedParser,function (req,res)
   {  
     var qur="INSERT INTO md_chapter SET ?";
     var response={ 
@@ -9403,6 +9403,64 @@ app.post('/bookrefsectioncapter-service',  urlencodedParser,function (req,res)
      res.status(200).json({'returnval': 'no rows'}); 
   });
 });
+*/
+
+
+
+
+app.post('/bookrefsectioncapter-service' ,  urlencodedParser,function (req, res)
+
+{  
+    var response={ 
+      school_id:req.query.school_id,
+      gradeid:req.query.gradeid,
+      subjectid:req.query.subjectid,
+      academic_year:req.query.academic_year,
+      capter:req.query.capter,
+      capter_id:req.query.capter_id,
+      period:req.query.period,
+      buffer_period:req.query.buffer_period
+    };
+
+
+    var qqq="SELECT * FROM md_chapter  WHERE capter_id='"+req.query.capter_id+"' or capter='"+req.query.capter+"'";
+    
+     console.log('------------school book-------------');
+     console.log(qqq);
+    console.log(response);
+
+    connection.query(qqq,
+    function(err, rows)
+    {
+    if(rows.length==0)
+    {
+        connection.query("INSERT INTO md_chapter SET ?",[response],
+          function(err, rows)
+          {
+            if(!err)
+            {
+              var tempseq1=parseInt((req.query.capter_id).substring(2))+1;
+              connection.query("UPDATE sequence SET chapter_sequence='"+tempseq1+"'", function (err,result)
+                {
+                  if(result.affectedRows>0)
+                  res.status(200).json({'returnval': 'Inserted'});
+                });
+            }
+              else
+              {
+              //console.log(err);
+              res.status(200).json({'returnval': 'Not Inserted!'});
+              }
+            });
+    }
+    else
+    {
+      res.status(200).json({'returnval': 'Already Exit'});
+    }
+  });
+});
+
+
 
 
 
@@ -9423,7 +9481,7 @@ app.post('/getcaptervalue-service',  urlencodedParser,function (req,res)
 });  
 
 
-app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
+/*app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
   {  
     var qur="INSERT INTO md_concept SET ?";
     var response={ 
@@ -9431,11 +9489,6 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
        concept:req.query.concept,
        capter_id:req.query.capter_id,
        flag:req.query.flag,
-
-   /*    period:req.query.period,
-       planned_date:req.query.planned_date,
-       subflag:req.query.subflag,
-   */   
  };
     console.log('------------school book-------------');
     console.log(response);
@@ -9456,6 +9509,60 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
      res.status(200).json({'returnval': 'no rows'}); 
   });
 });
+*/
+
+
+
+app.post('/fnsendconcept-service' ,  urlencodedParser,function (req, res)
+
+{  
+    var response={ 
+       concept_id:req.query.concept_id,
+       concept:req.query.concept,
+       capter_id:req.query.capter_id,
+       flag:req.query.flag, 
+    }; 
+
+
+    var qqq="SELECT * FROM md_concept WHERE concept_id='"+req.query.concept_id+"' or concept='"+req.query.concept+"'";
+     
+     console.log(qqq);
+    console.log(response);
+
+    connection.query(qqq,
+    function(err, rows)
+    {
+    if(rows.length==0)
+    {
+        connection.query("INSERT INTO md_concept SET ?",[response],
+          function(err, rows)
+          {
+            if(!err)
+            {
+              var tempseq1=parseInt((req.query.concept_id).substring(3))+1;
+                connection.query("UPDATE sequence SET concept_sequence='"+tempseq1+"'", function (err,result)
+                      {
+                        if(result.affectedRows>0)
+                        res.status(200).json({'returnval': 'Inserted'});
+                      });
+            }
+              else
+              {
+              //console.log(err);
+              res.status(200).json({'returnval': 'Not Inserted!'});
+              }
+            });
+    }
+    else
+    {
+      res.status(200).json({'returnval': 'Already Exit'});
+    }
+  });
+});
+
+
+
+
 
 app.post('/buffset11-service',  urlencodedParser,function (req,res)
   {  
@@ -9712,6 +9819,8 @@ app.post('/getappovedcoordinator-service',  urlencodedParser,function (req,res)
 app.post('/bookapprvvalsubject-service',urlencodedParser,function (req,res)
 {  
   var qur1="select   distinct subject_id as subjectid,(select subject_name from md_subject where subject_id=subjectid) as subjectname from mp_teacher_grade where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"'  and class_id='"+req.query.section+"'";
+
+
   console.log(qur1);
 
      connection.query(qur1,

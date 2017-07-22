@@ -125,6 +125,10 @@
        }
 
     </style>
+
+      <div>
+        <center><h3>BOOK CHAPTER CREATION</h3></center>
+      </div>
        <span class="position"> 
        <paper-dropdown-menu  label="Select the Grade">
                 <paper-menu id="teacherref" class="dropdown-content"   on-iron-select="fnsetgrade">
@@ -219,6 +223,7 @@ var k;
        this.$.bookservice.getcaptervalue();
     },
      fnset:function(e){
+
       alert(1);
        if(this.captername=="" && this.period=="" || this.bufferperiod==""){
       alert("Please enter the value");
@@ -227,10 +232,7 @@ var k;
      this.captername="";
      this.period="";
      this.bufferperiod="";
-     }
-       this.$.newchapterrr.close();
-
-    
+}
    },
 
    addconcept:function() {

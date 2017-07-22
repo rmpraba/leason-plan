@@ -23,8 +23,8 @@
       #newcardzzzzz
        {
            margin-top: 4%;
-        margin-left: 20%;
-         width:57%;
+        margin-left: 13%;
+         width:74%;
         min-height: 512px; 
         border: solid 1px #555; 
         background-color: white; 
@@ -33,7 +33,7 @@
       
         #itemcarddialog1
        {
-          width: 81%;
+          width: 76%;
           height: 90px;
           text-align: center;
          display: inline-block;
@@ -43,12 +43,12 @@
           padding:5px;
        }
 
-        .hs-inner2
+        .hs-inner
        {
          /*padding: 30px 20px 10px 377px;*/
         @apply(--layout-horizontal);
        }
-       .hs-inner2 p
+       .hs-inner p
        {
           font-size: 18px;
           line-height: 24px;
@@ -57,9 +57,9 @@
           padding: 11px 0px;
           text-shadow: 1px 0px 1px rgba(255, 255, 255, 0.8);
        }
-       .hs-inner2
+       .hs-inner
        {
-         width: 738px;
+         width: 878px;
         height: 350px;
         margin-top: -2%;
         overflow-x: hidden;
@@ -67,17 +67,16 @@
        }
     
     
-       .hs-inner2 p:first-letter
+       .hs-inner p:first-letter
         {
             font-size: 28px;
         }
-
 
         img
         {
               margin-top: -12%;
               height: 122px;
-              width: 739px;
+              width: 960px;
         }
 
         paper-fab{
@@ -89,7 +88,7 @@
         table
         {
               width: 90%;
-              margin-left: 5%;
+              margin-left: 2em;
         }
 
          #newconceptttt
@@ -123,11 +122,12 @@
      </table>
     </div>  -->
 
-
+    <div>
+      <center><h3>CONCEPT CREATION</h3></center>
+    </div>
 
     <paper-card id="newcardzzzzz">
         <div style="padding-top: 12%;height: 9%;">
-
             <paper-icon-button icon="arrow-back" on-click="passset" 
             style="position: absolute;margin-top: -12%;margin-left: 2%;color: black;">
           </paper-icon-button>
@@ -135,13 +135,12 @@
             <img src="../../images/book5.jpg">
             <center style="position: absolute;margin-top: -14%;margin-left: 39%;
             color: #1d1d1f;">
-                <h1 style="color:black;position: fixed;margin-top: 2%;margin-left: 3%;"><b>{{capthead}}</b></h1>
+                <h2 style="color:black;margin-top: 2em;margin-left: -1em;"><b>{{capthead}}</b></h2>
             </center>
             <paper-fab  icon="add" mini on-click="fnset"></paper-fab>
         </div>
 
-
-        <div class="hs-inner2">
+        <div class="hs-inner">
           <table>
              <template is="dom-repeat" items="{{conceptarr}}" as="view">
                 <tr>
@@ -212,9 +211,18 @@
 
      fnsetconcept:function(e)
     {
-      //alert(this.captheadid+ " "+this.conceptz+" "+conceptid);
-      this.$.bookservice.fnsendconcept(this.captheadid,this.conceptz);
-      this.conceptz="";
+
+      if(this.conceptz=="")
+      {
+        alert("Please Enter Concept");
+      }
+      else
+      {
+        //alert(this.captheadid+ " "+this.conceptz+" "+conceptid);
+        this.$.bookservice.fnsendconcept(this.captheadid,this.conceptz);
+        this.conceptz="";
+      }
+      
     },
 
 
