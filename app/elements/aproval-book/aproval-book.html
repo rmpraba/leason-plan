@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-input value={{valuename}} hidden></paper-input>
         <paper-input value={{conceptid}} hidden></paper-input>
         <paper-input value={{capterid}} hidden></paper-input>
-    <paper-checkbox on-change="fnsezzt" id={{id}}>{{valuename}}</paper-checkbox></div>
+    <paper-checkbox on-change="fnsezzt1" id={{id}}>{{valuename}}</paper-checkbox></div>
     <iron-ajax
         method="post"
         id="bookvaldelajax"
@@ -40,79 +40,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
   (function() {
     'use strict';
- var temparr=[];
+ var concarr=[];
  var temparr1=[];
  
     Polymer({
       is: 'aproval-book',
 
-  fnsezzt:function(e){ 
-  //alert(this.id);
-  //alert(document.querySelector('#'+this.id).checked);
-
-   if(document.querySelector('#'+this.id).checked==true){
-          var obj={};
-           obj.id=this.id;
-           obj.valueid=this.valueid;
-           obj.valuename=this.valuename;
-           obj.conceptid=this.conceptid;
-           temparr.push(obj);
-           temparr1.push(obj);
-         // alert(JSON.stringify(temparr1));
-
-  document.querySelector('aproval-book-innovatiosn-item-card').fnsetpassvalz(temparr1)
-    }
-    else if(document.querySelector('#'+this.id).checked==false){
-     this.bookvaldelurl=sessionStorage.getItem("addrinfo")+"/bookvaldel-service";
-      
-      var obj={};
-      obj.valueid=this.valueid;
-      obj.conceptid=this.conceptid;
-      obj.capterid=this.capterid;
-      this.bookvaldelparam=obj;
-     // alert(JSON.stringify(obj));
-      this.$.bookvaldelajax.generateRequest();
-
-         for(var i=0;i<temparr.length;i++){
-                 if(temparr[i].id==this.id){
-                  temparr.splice(i,1);
-
-                 }          
-         
-         }
-     
-    }   
-     
-  },
-  fnsetapproveclear:function(e){
-     for(var i=0;i<temparr.length;i++) {
-          var wz=temparr[i].id;
-       document.querySelector('#'+wz).checked=false;
-         }  
-         var obj={};
-        temparr.splice(obj);
-        temparr1.splice(obj);
-  },
-  splices:function(e){
-var obj={};
-  temparr1.splice(obj);
-  },
- 
-  bookvaldelResponse:function(e){
-       var res=e.detail.response.returnval;
-        // alert(JSON.stringify(res));
+  fnsezzt1:function(e){
+   alert(this.id);
+   alert(document.querySelector('#'+this.id).checked);
+      if(document.querySelector('#'+this.id).checked==true){
+        var obj={};
+        obj.id=this.id;
+        obj.rowid=this.rowid;
+        obj.valueid=this.valueid;
+        obj.valuename=this.valuename;
+        if(concarr.length==0)
+        concarr.push(obj);
+        else{
+          var f=0;
+          for(var i=0;i<concarr.length;i++){
+            if(concarr[i].id==this.id&&concarr[i].valueid==this.valueid&&concarr[i].rowid==this.rowid){
+            f=1;
+            }
+          }
+          if(f==0)
+            concarr.push(obj);
+        }
+      }
+      if(document.querySelector('#'+this.id).checked==false){
+          for(var i=0;i<concarr.length;i++){
+            if(concarr[i].id==this.id&&concarr[i].valueid==this.valueid&&concarr[i].rowid==this.rowid){
+            concarr.splice(i,1);
+            }
+          }
+      }
+ document.querySelector('aproval-book-innovatiosn-item-card').fnpasparr1(concarr);
      
        },
-  fnselbookvalue:function(arr){
- 
-  for(var i=0;i<arr.length;i++){
-      var idz="ENRz"+arr[i].id_date+arr[i].value_id;
-          document.querySelector('#'+idz).checked=true;
-          var obj={};
-           obj.id=idz;
-          temparr.push(obj);
-       }
-     }
    }); 
   })();
   </script>

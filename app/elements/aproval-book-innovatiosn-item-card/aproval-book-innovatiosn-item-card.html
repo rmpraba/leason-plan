@@ -25,6 +25,14 @@
           border-radius: 10px;
           width: 250px;
           height: 320px;
+          overflow-x: hidden;
+          overflow-y: visible;
+      }
+      #dzfsd1xsasa
+      {
+          border-radius: 10px;
+          width: 250px;
+          height: 320px;
       }
     </style>
     <div>
@@ -40,12 +48,7 @@
               <template is="dom-repeat" items="{{conceptzz}}" as="r">
                <h4>{{r.conceptname}}</h4>
              </template>
-              <div hidden$="{{hidecheck1}}">
-              <template is="dom-repeat" items="{{emsddsad}}" as="rere">
-              <chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
-               </template>
-             </div>
-             
+              
              
              </td>
              <td><paper-input value={{period}}></paper-input> </td>
@@ -53,10 +56,12 @@
              <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
             <td>
-              <template is="dom-repeat" items="{{masskill}}" as="r">
-                    <aproval-book  valueid="{{r.value_id}}" valuename="{{r.value_name}}" capterid="{{capterid}}" conceptid="{{conceptid}}" id="ENRz{{iddate}}{{r.value_id}}">
-                      </aproval-book>  
-              </template>
+               <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+                <template is="dom-repeat" items="{{massvalue}}" as="sr">
+               <h4>{{sr.valuename}}</h4>
+             </template>
+              
+               
             </td>
             <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
 
@@ -72,13 +77,24 @@
      </div>
 
     <paper-dialog id="dzfsd" modal>
-       <h3>Concept Name<h3/>
+       <h3>Concept Name</h3>
       <template is="dom-repeat" items="{{conceparr}}" as="s">
          <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
       </template>  
       <center style="margin-top: 5%;">
           <paper-button on-click="fnsubmit"  style="background-color:black;color:white">Submit</paper-button>
          <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
+      </center>
+    </paper-dialog>
+
+     <paper-dialog id="dzfsd1xsasa" modal>
+       <h3>Value Name</h3>
+      <template is="dom-repeat" items="{{valuearrz}}" as="ss">
+         <aproval-book valueid="{{ss.value_id}}" id="VVYJ{{rowid}}{{iddate}}{{ss.value_id}}" valuename="{{ss.value_name}}" check="{{s.check}}" rowid="{{rowid}}"></aproval-book>
+      </template>  
+      <center style="margin-top: 5%;">
+          <paper-button on-click="fnsubmit1"  style="background-color:black;color:white">Submit</paper-button>
+         <paper-button on-click="fnclose1" style="background-color:black;color:white">Close</paper-button>
       </center>
     </paper-dialog>
      <iron-ajax
@@ -91,6 +107,16 @@
         on-response="fngetconceptcheckResponse"
         debounce-duration="300" />
        </iron-ajax>
+          <iron-ajax
+        method="post"
+        id="fngetbookvaluezajax"
+        url="{{fngetbookvaluezurl}}"
+        params="{{fngetbookvaluezparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetbookvaluezResponse"
+        debounce-duration="300" />
+       </iron-ajax>
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>
@@ -99,7 +125,7 @@
     'use strict';
      var tempvaluarr=[];
      var conarr=[];
-     var conarr1fsdfs=[];
+     var valuearr=[];
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
 fnsubmit:function(e){
@@ -115,13 +141,26 @@ fnsubmit:function(e){
  this.conceptzz=[];
  this.conceptzz=temp;
 },
+fnsubmit1:function(e){
+  alert(JSON.stringify(valuearr));
+ this.$.dzfsd1xsasa.toggle();
+ var temp1=[];
+ for(var i=0;i<valuearr.length;i++){
+  if(valuearr[i].rowid==this.rowid){
+    temp1.push({"valuename":valuearr[i].valuename});
+  }
+ }
+ //alert(JSON.stringify(temp1));
+ this.massvalue=[];
+ this.massvalue=temp1;
+},
 fnpasparr:function(e){
 conarr=e;
 // alert(JSON.stringify(conarr));
 },
 fnpasparr1:function(e){
-  // alert(JSON.stringify(e));
-conarr1fsdfs=e;
+  
+valuearr=e;
 },
 fnclose:function(e){
 this.$.dzfsd.close();
@@ -133,16 +172,19 @@ this.$.dzfsd.close();
 // this.emsddsad=conarr1fsdfs;
 // alert(JSON.stringify(this.emsddsad));
 },
+fnclose1:function(e){
+this.$.dzfsd1xsasa.close();
+},
     fnsavebook:function(e){
- if(this.conceptid==""&& this.planneddate=="" && this.period=="" &&this.skill==""&&this.innovation==""&&this.remark==""){
+ if(this.period==""&&this.skill==""&&this.innovation==""&&this.remark==""){
       alert("Please insert the value");
        }
 else if(this.planneddate=="empty"){
     alert("save");
     alert(JSON.stringify(conarr));
-    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark);
+    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid);
    //this.$.bookservice.fnsetcoskill1(conarr);
-    this.$.bookservice.fnsetcovalue(tempvaluarr);
+    this.$.bookservice.fnsetcovalue(valuearr,this.period,this.rowid);
       }
  else{
     alert("edit");
@@ -160,6 +202,44 @@ else if(this.planneddate=="empty"){
 fngetconceptz:function(e){
   this.fngetconceptcheck();
   this.$.dzfsd.toggle(); 
+},
+fngetconceptz1:function(e){
+   this.$.dzfsd1xsasa.toggle(); 
+  this.fngetinchaptvaluevalue();
+},
+fngetinchaptvaluevalue:function(e){
+this.fngetbookvaluezurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue111-service";
+           var obj={};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.capter_id=localStorage.getItem("curr_sess_capters");
+           obj.period=this.period;
+           obj.planneddate=this.planneddate;
+           this.fngetbookvaluezparam=obj;
+          alert(JSON.stringify(obj));
+           this.$.fngetbookvaluezajax.generateRequest();
+},
+fngetbookvaluezResponse:function(e){
+var res1=e.detail.response.skillarr;
+ var res=e.detail.response.conceptarr;
+ alert(JSON.stringify(res1));
+ alert(JSON.stringify(res));
+          for(var j=0;j<res.length;j++){
+            var flag=0;
+              for(var i=0;i<res1.length;i++){
+                  
+                  if(res[j].value_id==res1[i].value_id)
+                  {    
+                   flag=1;
+                   res[j].check=true;   
+                  }
+                 }
+                 if(flag==0){
+                  res[j].check=false;
+                 }
+                }
+                 this.valuearrz=res;
+               //  alert(JSON.stringify(this.valuearrz));
 },
 fngetconceptcheck:function(e){
 this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";

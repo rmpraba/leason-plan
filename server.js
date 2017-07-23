@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
    host     : 'localhost',
    user     : 'root',
    password : '',
-   database : 'reportcard11'
+   database : 'reportcard1'
  });
 var bodyParser = require('body-parser'); 
 var app = express();
@@ -9015,8 +9015,8 @@ app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
  
   var qur1="SELECT * FROM md_chapter where capter_id='"+req.query.chapterid+"'";
    //var qur2="SELECT * FROM md_skill where capter_id='"+req.query.chapterid+"' order by concept_id";
-   var qur2="SELECT concept_id as conceptid,planning_date,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
-  var qur3="SELECT * FROM md_chapter  where capter_id='"+req.query.chapterid+"' ";
+   var qur2="SELECT concept_id as conceptid,planning_date,rowid,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
+  var qur3="SELECT * FROM md_book_value  where capter_id='"+req.query.chapterid+"' ";
     console.log(qur1);
     console.log(qur2);
     console.log(qur3);
@@ -9038,7 +9038,16 @@ app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
     connection.query(qur3,function(err, rows){
     if(!err)
     { 
-    valuearr=rows;
+   
+    if(rows.length>0)
+    {
+      //console.log(rows);
+     valuearr=rows;
+     }
+    else
+    {
+    valuearr="empty";
+    }
   res.status(200).json({'chapterarr': chapterarr,'skillarr':skillarr,'valuearr':valuearr});
     }});}});}
     else
@@ -9605,9 +9614,11 @@ app.post('/fnsetcoskill-service' , urlencodedParser,function (req, res)
        innovation:req.query.innovation,
        remark:req.query.remark,
        flag:req.query.flag,
+       rowid:req.query.rowid
     };
-    
+    console.log("------");
      console.log(response);
+     console.log("--------")
      connection.query("INSERT INTO md_skill SET ?",[response],
     function(err, rows)
     {
@@ -9681,13 +9692,14 @@ app.post('/skillvalue-service' , urlencodedParser,function (req, res)
 });
 app.post('/captvalues-service' , urlencodedParser,function (req, res)
 {  
-
-   var response={ 
+  var response={ 
       planned_date:req.query.planned_date,
       value_id:req.query.value_id,
       value_name:req.query.value_name,
       capter_id:req.query.capter_id,
-      flag:req.query.flag
+      flag:req.query.flag,
+      period:req.query.period,
+      rowid:req.query.rowid,
       };
      connection.query("INSERT INTO md_book_value SET ?",[response],
     function(err, rows)
@@ -9936,6 +9948,33 @@ app.post('/fngetconceptvalue11-service',  urlencodedParser,function (req,res)
      res.status(200).json({'': 'no rows'}); 
   });
 });
+
+app.post('/fngetconceptvalue111-service',  urlencodedParser,function (req,res)
+  {  
+      var qur1="SELECT distinct value_name,value_id FROM master_value where capter_id='"+req.query.capter_id+"'";
+      var qur2="SELECT * FROM md_book_value where  capter_id='"+req.query.capter_id+"' and  planned_date='"+req.query.planneddate+"' and period='"+req.query.period+"'";
+   console.log(qur1);
+    console.log(qur2);
+    var conceptarr=[];
+    var skillarr=[];
+    connection.query(qur1,function(err, rows){
+    if(!err)
+    {  
+    conceptarr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err)
+    {  
+
+    skillarr=rows;
+    res.status(200).json({'conceptarr': conceptarr,'skillarr':skillarr});
+    }
+    });
+    }
+    else
+     res.status(200).json({'': 'no rows'}); 
+  });
+});
+
 app.post('/',  urlencodedParser,function (req,res)
   {  
     var qur="SELECT * FROM md_concept where capter_id='"+req.query.capter_id+"'";
