@@ -7,48 +7,79 @@
         display: block;
       }
 
-           table
-      {
-            table-layout: fixed;
-          width:403.5%;
-          border-collapse: collapse;
-      }
-       .card
-      {
-        @apply(--layout-horizontal);
-            margin-top: -2em;
-          margin-left: -6%;
-      }
+       #consedtttzzz
+        {
+          border-radius: 10px;
+          width: 350px;
+          height: 200px;
+        }
+        #textarea1
+        {
+              position: relative;
+            margin-top: 21%;
+            width: 77%;
+        }
+        #edt1
+        {
+            position: fixed;
+            margin-top: -4%;
+            margin-left: 17em;
+        }
 
+        #sve1
+        {
+            position: fixed;
+            margin-top: -4%;
+            margin-left: 17em;
+        }
     </style>
   
-    
+      <!-- <div>
+          <paper-input value="{{conceptid}}" hidden></paper-input>
+          <paper-icon-button  icon="create" style="position: fixed;margin-top: -4%;margin-left: 17em;" on-click="fnsetz"></paper-icon-button>
+      </div> -->   
       
-      <!-- <div class="itemcard">
+      <div class="itemcard">
         <paper-input value="{{capterid}}" hidden></paper-input>
         <paper-input value="{{conceptid}}" hidden></paper-input>
-       
+        <paper-button on-click="Fnconceptedit" no ink>{{concept}}</paper-button>
       </div>
 
-      <table border="1">
-           <tr>
-             <td><from-book-date-picker hidden$="{{hidecheck1}}" ></from-book-date-picker>
-                <paper-input value={{planneddate}} hidden$="{{hidecheck}}"></paper-input></td>
-             <td> <paper-input value={{concept}}></paper-input></td>
-              <td><paper-input value={{period}} allowed-pattern="[0-9]"></paper-input></td>
-              <td><paper-icon-button   hidden$="{{hidecheck}}" on-click="fnaroveset1" icon="create">
-              </paper-icon-button>
-               <paper-icon-button  hidden$="{{hidecheck1}}" on-click="fnaroveset" icon="save"></paper-icon-button></td>
 
-              
-           </tr>
-       </table> -->
+        <paper-dialog id="consedtttzzz" modal>
+          <div>
+            <paper-icon-button icon="close" suffix on-click="Fncloseconcpt" style="float: right;position: fixed;margin-left: 20%;margin-top: -1%;"></paper-icon-button>
+          </div>
+          <div>
+            <paper-textarea id="textarea1"  readonly$="{{conceptzzzzz}}" value="{{conceptnamez}}">
+            </paper-textarea>
+          </div>
+          <div>
+            <paper-icon-button id="edt1" icon="create" suffix on-click="fnediittttt"  
+            hidden$="{{edtzzzzzzzz}}">
+            </paper-icon-button>
+            <paper-icon-button id="sve1" icon="save" on-click="fnnnsubmit" 
+            hidden$="{{savezzzzzzzz}}">
+            </paper-icon-button>
+          </div>
+          <!-- <div>
+            <paper-icon-button icon="delete" suffix on-click="fndeletezzzz" 
+            style="position: fixed;margin-left: 20%;margin-top: -4%;">
+            </paper-icon-button>
+          </div> -->
+        </paper-dialog>   
+ 
+    <iron-ajax
+        method="post"
+        id="skillgetcapturevalueajax"
+        url="{{skillgetcapturevalueurl}}"
+        params="{{skillgetcapturevalueparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="skillgetcapturevalueResponse"
+        debounce-duration="300">
+    </iron-ajax> 
 
-       <div class="card">
-         <!-- <paper-item no ink><h4>{{concept}}</h4></paper-item> -->
-         <paper-button no ink><b style="margin-left: -1%;">{{concept}}</b></paper-button>
-       </div>
-     
         <teacher-book-service-card id="bookservice"></teacher-book-service-card>
     
   </template>
@@ -59,36 +90,52 @@
     Polymer({
       is: 'aproval-book-value-item-card',
 
-      fndeletezzzz:function()
+      ready:function()
       {
-        this.$.bookservice.deleteconcept(this.capterid);
+         this.savezzzzzzzz=true;
+        this.conceptzzzzz=true; 
       },
- fnaroveset1:function(e){
-   this.hidecheck=true;
-   this.hidecheck1=false;
-  },
-fnaroveset:function(e){
-// alert(this.conceptid+" "+this.concept+" "+this.period);
- //alert(this.conceptid)
-   if(this.conceptid==""&&this.concept==""&&this.period==""){
-    //alert("empty");
-    }
-   else if(this.conceptid=="")
-   {
-    //alert('t1');
-    //alert(this.concept+" "+this.period);
-     this.$.bookservice.fnsendconcept(this.concept,this.period);
-     }
-  else{
-    //alert("edit");
-    
-      this.$.bookservice.fnbookupdatevalue(this.conceptid,this.concept,this.period,this.planneddate);
-    }
 
- this.hidecheck=false;
- this.hidecheck1=true;
-  
-},
+      Fnconceptedit:function(e)
+     {
+        //alert(this.conceptid);
+        //alert(this.concept);
+        localStorage.setItem("curr_sess_conceptid",this.conceptid);
+        //alert(localStorage.getItem("curr_sess_conceptid"));
+        this.conceptnamez=this.concept;
+        this.$.consedtttzzz.toggle();
+     },
+
+       fnediittttt:function(e)
+      {
+        //alert(this.conceptid);
+        this.edtzzzzzzzz=true;
+        this.savezzzzzzzz=false;
+        this.conceptzzzzz=false;
+      },
+      
+      Fncloseconcpt:function(e)
+      {
+        this.$.consedtttzzz.close();
+      },
+
+      fnnnsubmit:function()
+      {
+          //alert(this.capterid+""+this.conceptnamez+""+localStorage.getItem("curr_sess_conceptid"));
+
+        this.$.bookservice.fnbookupdatevalue(this.capterid,this.conceptnamez,this.conceptid);
+        this.edtzzzzzzzz=false;
+        this.savezzzzzzzz=true;
+        this.conceptzzzzz=true;
+        this.conceptnamez="";
+      }
+
+     /* fndeletezzzz:function()
+      {
+        alert(this.capterid+""+localStorage.getItem("curr_sess_conceptid"));
+        this.$.bookservice.deleteconcept(this.capterid);
+      }
+*/
 
 
       });
