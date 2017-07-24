@@ -1261,10 +1261,7 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
       obj.concept=conceptz;
       obj.concept_id=localStorage.getItem("curr_sess_conceptid");
       obj.flag='active';
-   /* obj.period=period;
-      obj.planned_date=localStorage.getItem("localsess_last_service");
-      obj.subflag='active';
-  */  this.fnsendconceptparam=obj;
+      this.fnsendconceptparam=obj;
       //alert(JSON.stringify(obj));
       this.$.fnsendconceptajax.generateRequest();
       },
@@ -1274,10 +1271,10 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
       {
 
          var res=e.detail.response.returnval;
-          //alert(JSON.stringify(res));
+          alert(JSON.stringify(res));
             if(res=="Inserted")
             {
-              alert("Inserted");
+              //alert("Inserted");
               this.conceptseq(); 
               this.fngetconceptvalue();
             }

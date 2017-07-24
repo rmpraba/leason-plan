@@ -32,6 +32,13 @@
             margin-top: -4%;
             margin-left: 17em;
         }
+
+        .card
+        {
+          @apply(--layout-horizontal);
+            margin-top: -2em;
+          /*margin-left: -6%;*/
+        }
     </style>
   
       <!-- <div>
@@ -39,7 +46,7 @@
           <paper-icon-button  icon="create" style="position: fixed;margin-top: -4%;margin-left: 17em;" on-click="fnsetz"></paper-icon-button>
       </div> -->   
       
-      <div class="itemcard">
+      <div class="card">
         <paper-input value="{{capterid}}" hidden></paper-input>
         <paper-input value="{{conceptid}}" hidden></paper-input>
         <paper-button on-click="Fnconceptedit" no ink><h4 style="margin-top: -1%;">{{concept}}</h4></paper-button>
