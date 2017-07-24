@@ -8,8 +8,8 @@
       }
       table
       {
-            table-layout: fixed;
-          width: 1245px;
+          table-layout: fixed;
+          width: 1300px;
           border-collapse: collapse;
           margin-left: 26%;
       }
@@ -46,6 +46,7 @@
            <paper-input value={{rowidz}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+<<<<<<< HEAD
            <td>{{rowid}}</td>
              <td>
               <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
@@ -71,12 +72,40 @@
             <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
 
             <td><paper-input value={{remark}}></paper-input></td>
+=======
+              <td>{{rowid}}</td>
+              <td>
+                <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+                  <template is="dom-repeat" items="{{conceptzz}}" as="r">
+                    <h4>{{r.conceptname}}</h4>
+                  </template>
+              </td>
+              <td><paper-input value={{period}} allowed-pattern="[0-9]"></paper-input> </td>
+              <td>
+                <paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+                <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
+              </td>
+              <td>
+                <paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea>
+              </td>
+              <td>
+                <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+                <template is="dom-repeat" items="{{massvalue}}" as="sr">
+                  <h4>{{sr.valuename}}</h4>
+                </template>
+              </td>
+              <td>
+                <paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea>
+              </td> 
+              <td><paper-input value={{remark}}></paper-input></td>
             <!-- <td><paper-input value={{completestatus}} hidden></paper-input></td> -->
-            <td>
-               <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
+              <td>
+                <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
                 <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
-            </td>
-            <td><paper-icon-button icon="close" on-click="fndelete"></paper-icon-button></td>
+              </td>
+              <td>
+                <paper-icon-button icon="close" on-click="fndelete"></paper-icon-button>
+              </td>
            </tr>
        </table>
      </div>
@@ -147,7 +176,7 @@ fnsubmit:function(e){
  this.conceptzz=temp;
 },
 fnsubmit1:function(e){
-  alert(JSON.stringify(valuearr));
+ // alert(JSON.stringify(valuearr));
  this.$.dzfsd1xsasa.toggle();
  var temp1=[];
  for(var i=0;i<valuearr.length;i++){
@@ -185,15 +214,15 @@ this.$.dzfsd1xsasa.close();
       alert("Please insert the value");
        }
 else if(this.planneddate=="empty"){
-    alert("save");
-    alert(JSON.stringify(conarr));
+    //alert("save");
+    //alert(JSON.stringify(conarr));
     this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez);
    //this.$.bookservice.fnsetcoskill1(conarr);
   //  this.$.bookservice.fnsetcovalue(valuearr,this.period,this.rowid);
       }
  else{
-    alert("edit");
-       alert(JSON.stringify(conarr));
+    //alert("edit");
+      // alert(JSON.stringify(conarr));
  
     this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
   //this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
@@ -223,14 +252,14 @@ this.fngetbookvaluezurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11
            obj.period=this.period;
            obj.planneddate=this.planneddate;
            this.fngetbookvaluezparam=obj;
-          alert(JSON.stringify(obj));
+         // alert(JSON.stringify(obj));
            this.$.fngetbookvaluezajax.generateRequest();
 },
 fngetbookvaluezResponse:function(e){
 var res1=e.detail.response.skillarr;
  var res=e.detail.response.conceptarr;
- alert(JSON.stringify(res1));
- alert(JSON.stringify(res));
+ //alert(JSON.stringify(res1));
+ //alert(JSON.stringify(res));
           for(var j=0;j<res.length;j++){
             var flag=0;
               for(var i=0;i<res1.length;i++){

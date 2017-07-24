@@ -741,14 +741,14 @@ for(var i=0;i<overall.length;i++){
   var flag=0;
   if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!="  "){
     flag=1;
-    alert('coming!!');
+   // alert('coming!!');
     var len=res2.length;
     var obj=res2.splice(len-1,1);
-    alert(JSON.stringify(obj));
+    //alert(JSON.stringify(obj));
     var temp=[];
     for(var i=0;i<res2.length;i++){
         if((i+1)==parseInt(this.periodafter)){
-            alert('yes');
+           // alert('yes');
             temp.push(obj);
         }
         else{
@@ -1097,28 +1097,22 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
       obj.buffer_period=bufferperiodz;
       obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
       obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-       alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
        this.fnsetcaptureparam=obj;
+       this.$.fnsetcaptureajax.generateRequest();
      
       },
 
       fnsetcaptureResponse:function(e){
        var res=e.detail.response.returnval;
-       alert(JSON.stringify(res));
-        
+        alert(JSON.stringify(res));
           this.capterseq();
-          this.getcaptervalue();
-      /*   document.querySelector('app-card').setPage('homepage','');
-         document.querySelector('home-page').setPage('teacher-book-chapter-refernce-card','');
-         this.fngetconceptvalue();
-   */
-         
-        
+          this.getcaptervalue();   
       },
 
       getcaptervalue:function(e)
       {
-        alert('testtt');
+       // alert('testtt');
      this.getcaptervalueurl=sessionStorage.getItem("addrinfo")+"/getcaptervalue-service";
      var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":""};
       obj.grade_id=sessionStorage.getItem("grdeidz");
@@ -1133,7 +1127,7 @@ document.querySelector('teacher-book-approve-card').capterarr=overall;
       },
       getcaptervalueResponse:function(e){
       var res=e.detail.response.returnval;
-   alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));
  
          var temp=[];
          var overall=[];
@@ -1306,7 +1300,7 @@ this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-ser
       obj.planned_date=planneddate;
       obj.rowidz=rowidz;
       this.fnbookeditskillparam=obj;
-      //alert(JSON.stringify(obj));
+
       this.$.fnbookeditskillajax.generateRequest();
 
     
@@ -1349,7 +1343,6 @@ fnsetcoskill:function(arr,period,skill,innovation,remark,rowid,valuez){
         obj.flag="active";
         this.fnsetcoskillparam=obj;
        // alert('1');
-       // alert(JSON.stringify(obj));
         this.$.fnsetcoskillajax.generateRequest();
        }
    },
