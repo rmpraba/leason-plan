@@ -43,7 +43,7 @@
            <paper-input value={{rowid}} hidden></paper-input>
            <paper-input value={{conceptid}} hidden></paper-input>
            <paper-input value={{capterid}} hidden></paper-input>
-           <paper-input value={{subflag}} hidden></paper-input>
+           <paper-input value={{rowidz}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
            <td>{{rowid}}</td>
@@ -60,11 +60,12 @@
              <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
              <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
             <td>
-               <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+             <paper-textarea  readonly$="{{skillvaluezs}}" value={{valuez}}></paper-textarea>
+              <!--  <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
                 <template is="dom-repeat" items="{{massvalue}}" as="sr">
                <h4>{{sr.valuename}}</h4>
              </template>
-              
+               -->
                
             </td>
             <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
@@ -180,26 +181,28 @@ fnclose1:function(e){
 this.$.dzfsd1xsasa.close();
 },
     fnsavebook:function(e){
- if(this.period==""&&this.skill==""&&this.innovation==""&&this.remark==""){
+ if(this.period==""&&this.skill==""&&this.innovation==""&&this.remark==""&&this.valuez==""){
       alert("Please insert the value");
        }
 else if(this.planneddate=="empty"){
     alert("save");
     alert(JSON.stringify(conarr));
-    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid);
+    this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez);
    //this.$.bookservice.fnsetcoskill1(conarr);
-    this.$.bookservice.fnsetcovalue(valuearr,this.period,this.rowid);
+  //  this.$.bookservice.fnsetcovalue(valuearr,this.period,this.rowid);
       }
  else{
     alert("edit");
-    this.$.bookservice.fnbookeditskill(conarr,this.period,this.skill,this.innovation,this.remark,this.planneddate);
+       alert(JSON.stringify(conarr));
+ 
+    this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
   //this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
       }
    this.hidecheck1=true;
    this.hidecheck=false;
    this.planneddate="";
     document.querySelector('concept-check-card').fnclean();
-    conarr1=[];
+  
    this.conceptjhkhzz="";
 },
 

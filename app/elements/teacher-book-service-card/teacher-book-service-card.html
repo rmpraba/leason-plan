@@ -616,8 +616,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
         fetchclassconceptResponse:function(e){
           var res=e.detail.response.skillarr;
           var res1=e.detail.response.emparr;
-          alert(JSON.stringify(res));
-          alert(JSON.stringify(res1));
+         // alert(JSON.stringify(res));
+          //alert(JSON.stringify(res1));
           var setattr=[];
              for(var i=0;i<res.length;i++){
                     var obj={};
@@ -636,7 +636,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.masskill=masskill;
                       setattr.push(obj);
                      }
-                           alert(JSON.stringify(setattr));
+                          // alert(JSON.stringify(setattr));
 
      
    document.querySelector('class-teacher-book-approve-card').mainarr=setattr; 
@@ -662,24 +662,7 @@ var res=e.detail.response.skillarr;
 var res3=e.detail.response.valuearr;
 var res2=[];
 var adcarr=[];
-//alert(JSON.stringify(res1));
-//alert(JSON.stringify(res));
-//alert(JSON.stringify(res3));
- /*for(var i=0;i<res.length;i++){
-     for( var j=0;j<res3.length;j++){
-               if(res[i].planning_date==res3[j].date){
-                  var  obj={};
-                     obj.period=res3[j].period;
-                     obj.skill=res3[j].skill;
-                     obj.innovation=res3[j].innovation;
-                     obj.Remarks=res3[j].Remarks;
-                     obj.conceptname=res[i].conceptname;
-                     obj.conceptid=res[i].conceptid;
-                     obj.planned_date=res[i].planning_date;
-                     adcarr.push(obj);
-                 }}}*/
-            //alert(JSON.stringify(adcarr));
-  
+
         var a=[];
         var overall=[];
        for(var k=0;k<res.length;k++)
@@ -690,7 +673,10 @@ var adcarr=[];
          nameobj.skill=res[k].skill; 
          nameobj.innovation=res[k].innovation; 
          nameobj.remark=res[k].remark; 
-         
+         nameobj.rowid=res[k].rowid; 
+         nameobj.valuez=res[k].value; 
+         nameobj.rowidz=res[k].rowid; 
+      
 
    var obj={"conceptid":"","conceptname":""};
         obj.conceptid=res[k].conceptid;
@@ -702,129 +688,56 @@ var adcarr=[];
         {
        
           if(res[k].planning_date==res[l].planning_date)
-           {
+            {
+              if(res[k].rowid==res[l].rowid)
+             {
              var obj1={"conceptid":"","conceptname":""}
              obj1.conceptid=res[l].conceptid;
              obj1.conceptname=res[l].conceptname;
              a.push(obj1);
             res.splice(l,1);
              l--;
-         }}
+         }}}
             nameobj.valuearrr=a;
             overall.push(nameobj);
             a=[];
              }
-             alert(JSON.stringify(overall));
-   var bulkarr=[];
-   if (res3=="empty") {
+   // alert(JSON.stringify(overall));
+    var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(overall.length);
 for(var i=0;i<overall.length;i++){
-     
-                  var  obj={};
-                     obj.period=overall[i].period;
-                     obj.skill=overall[i].skill;
-                     obj.innovation=overall[i].innovation;
-                     obj.remark=overall[i].remark;
-                     obj.planning_date=overall[i].planning_date;
-                     obj.valuearrr=overall[i].valuearrr;
-                     obj.valueid="";
-                     obj.valuename="";
-                     bulkarr.push(obj);
-                 }
-  alert(JSON.stringify(bulkarr));
-
-   }
-   else{
-   for(var i=0;i<overall.length;i++){
-     for( var j=0;j<res3.length;j++){
-               if(overall[i].planning_date==res3[j].planned_date){
-                  var  obj={};
-                     obj.period=overall[i].period;
-                     obj.skill=overall[i].skill;
-                     obj.innovation=overall[i].innovation;
-                     obj.remark=overall[i].remark;
-                     obj.planning_date=overall[i].planning_date;
-                     obj.valuearrr=overall[i].valuearrr;
-                     obj.valueid=res3[j].value_id;
-                     obj.valuename=res3[j].value_name;
-                     bulkarr.push(obj);
-                 }}}
-  alert(JSON.stringify(bulkarr));
- 
-   }
-  
-
-        var a1=[];
-        var overall1=[];
-
- for(var k=0;k<bulkarr.length;k++)
-       {       
-       var nameobj={"planning_date":"","period":"","skill":"","innovation":"","remark":""};
-         nameobj.planning_date=bulkarr[k].planning_date; 
-         nameobj.period=bulkarr[k].period; 
-         nameobj.skill=bulkarr[k].skill; 
-         nameobj.innovation=bulkarr[k].innovation; 
-         nameobj.remark=bulkarr[k].remark; 
-         nameobj.valuearrr=bulkarr[k].valuearrr; 
-         
-
-      var obj={"valueid":"","valuename":""};
-        obj.valuename=bulkarr[k].valuename;
-        obj.valueid=bulkarr[k].valueid;
-        
-        a1.push(obj);
-       
-        for(var l=k+1;l<bulkarr.length;l++)
-        {
-       
-          if(bulkarr[k].planning_date==bulkarr[l].planning_date)
-           {
-             var obj1={"valueid":"","valuename":""}
-             obj1.valueid=bulkarr[l].valueid;
-             obj1.valuename=bulkarr[l].valuename;
-             a1.push(obj1);
-            bulkarr.splice(l,1);
-             l--;
-         }}
-            nameobj.massvalue=a1;
-            overall1.push(nameobj);
-            a=[];
-             }
-
-alert(JSON.stringify(overall1));
-var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(overall1.length);
-for(var i=0;i<overall1.length;i++){
                   var obj={};
-                  obj.period=overall1[i].period;  
-                  obj.skill=overall1[i].skill;   
-                  obj.innovation=overall1[i].innovation;  
-                  obj.remark=overall1[i].remark;  
-                  obj.planning_date=overall1[i].planning_date; 
-                  obj.id_date=overall1[i].id_date; 
-                  obj.valuearrr=overall1[i].valuearrr;
-                  var id_date=overall1[i].planning_date;
+                  obj.period=overall[i].period;  
+                  obj.skill=overall[i].skill;   
+                  obj.innovation=overall[i].innovation;  
+                  obj.remark=overall[i].remark;  
+                  obj.planning_date=overall[i].planning_date; 
+                  obj.id_date=overall[i].id_date;
+                  obj.valuez=overall[i].valuez; 
+                  obj.valuearrr=overall[i].valuearrr;
+                  obj.rowidz=overall[i].rowidz;
+                  var id_date=overall[i].planning_date;
                   id_date=id_date.replace(/[^\w\s]/gi, '');
                   obj.id_date=id_date;
-                  obj.massvalue=overall1[i].massvalue;
                   obj.hidecheck=false; 
                   obj.hidecheck1=true; 
                   res2.push(obj);     
                   }
-            for(var k=0;k<r;k++){
-           var obj={};
+               for(var k=0;k<r;k++){
+               var obj={};
                obj.concept_id="";  
                obj.concept="";   
                obj.capter_id=""; 
                obj.planning_date="empty" 
-               obj.emsddsadk="";
+               obj.rowidz="";
                obj.hidecheck=true; 
                obj.hidecheck1=false; 
               res2.push(obj);
                }
-               alert(JSON.stringify(res2));
+             //  alert(JSON.stringify(res2));
   for(var i=0;i<res2.length;i++){
     res2[i].rowid=i+1;
   }
-  alert(this.periodafter+"  "+res2.length);
+ // alert(this.periodafter+"  "+res2.length);
   var flag=0;
   if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!="  "){
     flag=1;
@@ -1376,32 +1289,35 @@ document.querySelector('teacher-book-refernce-card').subjectarr=e.detail.respons
             }
             
       },
-fnbookeditskill:function(arr,period,skill,innovation,remark,planneddate){
-    for(var i=0;i<arr.length;i++){
+fnbookeditskill:function(period,skill,innovation,remark,planneddate,rowidz,value){
+    
+   
 
 this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-service";
      var obj={};
+      obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
       obj.capter_id=localStorage.getItem("curr_sess_capters");
-      obj.concept_id=arr[i].chapterid;
-      obj.concept_name=arr[i].chaptername;
       obj.period=period;
       obj.skill=skill;
       obj.innovation=innovation;
       obj.remark=remark;
+      obj.value=value;
       obj.planned_date=planneddate;
-      obj.subflag=subflag;
+      obj.rowidz=rowidz;
       this.fnbookeditskillparam=obj;
-      alert(JSON.stringify(obj));
+      //alert(JSON.stringify(obj));
       this.$.fnbookeditskillajax.generateRequest();
 
-    }
+    
    
     },
       fnbookeditskillResponse:function(e)
       {
             var res=e.detail.response.returnval;
             alert('Updated');
-                    this.conceptseq(); 
+           // alert(JSON.stringify(res));
+               this.conceptseq(); 
               this.FnFetchConceptService();
     
       },
@@ -1413,7 +1329,7 @@ this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-ser
               this.FnFetchConceptService();
       
       },
-fnsetcoskill:function(arr,period,skill,innovation,remark,rowid){
+fnsetcoskill:function(arr,period,skill,innovation,remark,rowid,valuez){
 
        for(var i=0;i<arr.length;i++){
    this.fnsetcoskillurl=sessionStorage.getItem("addrinfo")+"/fnsetcoskill-service";
@@ -1428,47 +1344,18 @@ fnsetcoskill:function(arr,period,skill,innovation,remark,rowid){
         obj.skill=skill;
         obj.innovation=innovation;
         obj.remark=remark;
+        obj.valuez=valuez
         obj.rowid=rowid+localStorage.getItem("curr_sess_capters");
         obj.flag="active";
         this.fnsetcoskillparam=obj;
-        alert('1');
-        alert(JSON.stringify(obj));
+       // alert('1');
+       // alert(JSON.stringify(obj));
         this.$.fnsetcoskillajax.generateRequest();
        }
    },
 
 
 
-    fnbookeditskill:function(arr,period,skill,innovation,remark,planneddate){
-     for(var i=0;i<arr.length;i++){
-     this.fnbookeditskillurl=sessionStorage.getItem("addrinfo")+"/fnbookeditskill-service";
-        var obj={};
-        obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
-        obj.academic_year=localStorage.getItem("curr_sess_academicyear"); 
-        obj.concept_id=arr[i].chapterid;
-        obj.concept_name=arr[i].chaptername;
-        obj.capter_id=localStorage.getItem("curr_sess_capters");
-        obj.period=period;
-        obj.skill=skill;
-        obj.innovation=innovation;
-        obj.remark=remark;
-        obj.planneddate=planneddate;
-        obj.flag="active";
-       this.fnbookeditskillparam=obj;
-      
-      this.$.fnbookeditskillajax.generateRequest();
-  }
-   },
-  
-      fnbookeditskillResponse:function(e)
-      {
-            var res=e.detail.response.returnval;
-            alert('Updated');
-                    this.conceptseq(); 
-              this.FnFetchConceptService();
-      
-
-      },
        
   fnsetcoskillResponse:function(e)
       {

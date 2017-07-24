@@ -9015,7 +9015,7 @@ app.post('/fetchconcept-service',  urlencodedParser,function (req,res)
  
   var qur1="SELECT * FROM md_chapter where capter_id='"+req.query.chapterid+"'";
    //var qur2="SELECT * FROM md_skill where capter_id='"+req.query.chapterid+"' order by concept_id";
-   var qur2="SELECT concept_id as conceptid,planning_date,rowid,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
+   var qur2="SELECT concept_id as conceptid,planning_date,rowid,period,value,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname FROM `md_skill` WHERE  capter_id='"+req.query.chapterid+"'";
   var qur3="SELECT * FROM md_book_value  where capter_id='"+req.query.chapterid+"' ";
     console.log(qur1);
     console.log(qur2);
@@ -9614,6 +9614,7 @@ app.post('/fnsetcoskill-service' , urlencodedParser,function (req, res)
        innovation:req.query.innovation,
        remark:req.query.remark,
        flag:req.query.flag,
+       value:req.query.valuez,
        rowid:req.query.rowid
     };
     console.log("------");
@@ -10226,7 +10227,7 @@ app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
 app.post('/fnbookeditskill-service',  urlencodedParser,function (req, res)
 {  
 
-var qur="update md_skill set concept_id='"+req.query.concept_id+"' where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and capter_id='"+req.query.capter_id+"' and planning_date='"+req.query.planned_date+"'";
+var qur="update md_skill set planning_date='"+req.query.planned_date+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',value='"+req.query.value+"' ,period='"+req.query.period+"' where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and rowid='"+req.query.rowidz+"' and capter_id='"+req.query.capter_id+"'";
 console.log(qur);
 
   connection.query(qur,
