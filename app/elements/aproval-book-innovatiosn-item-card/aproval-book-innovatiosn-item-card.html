@@ -8,8 +8,8 @@
       }
       table
       {
-            table-layout: fixed;
-          width: 1245px;
+          table-layout: fixed;
+          width: 1300px;
           border-collapse: collapse;
           margin-left: 26%;
       }
@@ -46,36 +46,39 @@
            <paper-input value={{subflag}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
-           <td>{{rowid}}</td>
-             <td>
-              <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
-              <template is="dom-repeat" items="{{conceptzz}}" as="r">
-               <h4>{{r.conceptname}}</h4>
-             </template>
-              
-             
-             </td>
-             <td><paper-input value={{period}}></paper-input> </td>
-             <td ><paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
-             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
-             <td><paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea></td>
-            <td>
-               <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+              <td>{{rowid}}</td>
+              <td>
+                <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
+                  <template is="dom-repeat" items="{{conceptzz}}" as="r">
+                    <h4>{{r.conceptname}}</h4>
+                  </template>
+              </td>
+              <td><paper-input value={{period}} allowed-pattern="[0-9]"></paper-input> </td>
+              <td>
+                <paper-input hidden$="{{hidecheck}}" value={{planneddate}}></paper-input>
+                <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
+              </td>
+              <td>
+                <paper-textarea  readonly$="{{skillvaluezs}}" value={{skill}}></paper-textarea>
+              </td>
+              <td>
+                <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
                 <template is="dom-repeat" items="{{massvalue}}" as="sr">
-               <h4>{{sr.valuename}}</h4>
-             </template>
-              
-               
-            </td>
-            <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea></td> 
-
-            <td><paper-input value={{remark}}></paper-input></td>
+                  <h4>{{sr.valuename}}</h4>
+                </template>
+              </td>
+              <td>
+                <paper-textarea  readonly$="{{innovattionvaluezs}}" value={{innovation}}></paper-textarea>
+              </td> 
+              <td><paper-input value={{remark}}></paper-input></td>
             <!-- <td><paper-input value={{completestatus}} hidden></paper-input></td> -->
-            <td>
-               <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
+              <td>
+                <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
                 <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
-            </td>
-            <td><paper-icon-button icon="close" on-click="fndelete"></paper-icon-button></td>
+              </td>
+              <td>
+                <paper-icon-button icon="close" on-click="fndelete"></paper-icon-button>
+              </td>
            </tr>
        </table>
      </div>

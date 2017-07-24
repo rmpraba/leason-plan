@@ -62,8 +62,8 @@
    {
           table-layout: fixed;
           border-collapse: collapse;
-          width: 93.9%;
-          margin-left: 5%;
+          width: 100%;
+          /*margin-left: 5%;*/
           margin-top: 5%;
    }
   
@@ -181,7 +181,7 @@
         <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
           <th>S.NO</th>
           <th>CONCEPT</th>
-          <th>PERIOD NO</th>
+          <th>NO OF PERIODS</th>
           <th>DATE</th>
           <th>SKILL</th>
           <th>VALUE</th>
@@ -206,7 +206,7 @@
       <paper-checkbox id="Chaperzzzzidzz" on-change="fnchapter">After Last Row</paper-checkbox>
       <paper-checkbox id="Conceptzzzidzz" on-change="fnconceptzz">After Which Row</paper-checkbox>
         <div  hidden$="{{chaptbuffidz}}">
-      <paper-input label="Enter Buffer period" value="{{bufferperiod}}"></paper-input>
+      <paper-input label="Enter Buffer period" value="{{bufferperiod}}" allowed-pattern="[0-9]"></paper-input>
       </div>
       <div  hidden$="{{Conceptbuffidz}}">
       <paper-input label="Which row after??" value="{{periodafter}}"></paper-input>
@@ -315,12 +315,16 @@
      document.querySelector('#asdadczcsadcdasww').selected=-1;
  
    },
- fnsetgrade:function(e){
+  fnsetgrade:function(e)
+  {
     this.gradeid=e.target.selectedItem.value;
       sessionStorage.setItem("grdeidz",this.gradeid);
      this.gradename=e.target.selectedItem.textContent.trim()
       this.$.bookservice.bookrefsection(this.gradeid,this.gradename);
-    }, 
+      document.querySelector('#teacherrefzz').selected=-1;
+        document.querySelector('#teacherapprovechapter').selected=-1;
+        this.$.zdsasddsasfsa.hidden=true;
+  }, 
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
@@ -357,12 +361,12 @@
        this.subjectname=e.target.selectedItem.textContent.trim();
        sessionStorage.setItem("subjectidz",this.subjectid);
         this.$.bookservice.FnFetchChapterService(this.gradeid,this.subjectid); 
+        document.querySelector('#teacherapprovechapter').selected=-1;
+        this.$.zdsasddsasfsa.hidden=true;
       }, 
   fnRefresh:function()
      {
         document.querySelector('#teacherrefffff').selected=-1;
-        document.querySelector('#asdadczcsadcdasww').selected=-1;
-        document.querySelector('#teacherrefyyyy').selected=-1;
         document.querySelector('#teacherrefzz').selected=-1;
         document.querySelector('#teacherapprovechapter').selected=-1;
         this.$.zdsasddsasfsa.hidden=true;
