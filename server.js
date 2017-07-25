@@ -3581,9 +3581,8 @@ app.post('/fnfinalbook-service',  urlencodedParser,function (req, res)
          concept:req.query.concept,   
          remark:req.query.remark,   
          concept_id:req.query.conceptid,
-         subflag:req.query.subflag,
-
-       }
+         value:req.query.valuez,
+      }
 
 /*console.log("----------------");
 console.log(response);
@@ -10056,7 +10055,7 @@ app.post('/fetchclassconcept-service', urlencodedParser,function (req,res)
   {  
 
 
- var qur1="select   concept_id as conceptid,planning_date,period,skill,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
+ var qur1="select   concept_id as conceptid,planning_date,period,skill,value,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
 
 var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
    console.log("----------");

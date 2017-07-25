@@ -554,7 +554,7 @@
 
 document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response.returnval;
  },
-  fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark,subflag){
+  fnfinalbook:function(status,empid,skill,innovation,enrichmentsuggest,period,planneddate,concept,conceptid,remark,valuez){
              this.fnfinalbookurl=sessionStorage.getItem("addrinfo")+"/fnfinalbook-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -574,7 +574,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.concept=concept;
            obj.conceptid=conceptid;
            obj.remark=remark;
-           obj.subflag=subflag;
+           obj.valuez=valuez;
            this.fnfinalbookparam=obj;
            this.$.fnfinalbookajax.generateRequest();
          //  alert(JSON.stringify(obj));
@@ -583,7 +583,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
         {
             var res=e.detail.response.returnval;
             alert('Inserted');
-        },
+            this.FnFetchClassConceptService();
+          },
         FnFetchConceptService:function(gradeid,subjectid,chapterid)
         {
             
@@ -601,15 +602,15 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
     },
      FnFetchClassConceptService:function(gradeid,subjectid,chapterid,sectoinidz){
     this.fetchclassconcepturl=sessionStorage.getItem("addrinfo")+"/fetchclassconcept-service";
-           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
-           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+   var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+      obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
-           obj.chapterid=chapterid;
-           obj.subjectid=subjectid;
-           obj.gradeid=gradeid;
-           obj.sectoinid=sectoinidz;
+           obj.chapterid=localStorage.getItem("curr_sess_capters"); 
+           obj.subjectid=sessionStorage.getItem("subjectidz"); 
+           obj.gradeid=sessionStorage.getItem("grdeidz");
+           obj.sectoinid=sessionStorage.getItem("sectionidz");
            this.fetchclassconceptparam=obj;
            this.$.fetchclassconceptajax.generateRequest();
         },
@@ -631,17 +632,16 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.id_date=id_date;
                       obj.remark=res[i].remark;
                       obj.period=res[i].period;
+                      obj.valuez=res[i].value;
                       obj.grade_id=sessionStorage.getItem("grdeidz");
                       obj.subject_id=sessionStorage.getItem("subjectidz");
-                      obj.masskill=masskill;
+                      obj.rowid=i+1;
                       setattr.push(obj);
-                     }
-                          // alert(JSON.stringify(setattr));
-
-     
-   document.querySelector('class-teacher-book-approve-card').mainarr=setattr; 
-   document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
-   document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
+                      }
+                      alert(JSON.stringify(setattr));
+ document.querySelector('class-teacher-book-approve-card').mainarr=setattr; 
+ document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
+ document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
 
       this.fetchclassconcept1url=sessionStorage.getItem("addrinfo")+"/fnsetz1-service";
             var obj={};
