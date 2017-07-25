@@ -109,7 +109,7 @@
           </tr>  
           <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>  
-           <class-teacher-book-reject-item-card empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
+           <class-teacher-book-reject-item-card  completion_date="{{w.completiondate}}" enrichment_sug="{{w.enrichmentsug}}" empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
             idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
               </class-teacher-book-reject-item-card> 
             </tr>
@@ -142,9 +142,10 @@
        document.querySelector('#teacherapprovechapterzz').selected=-1;
      },
      fnsetsection:function(e){
-     this.sectionidz=e.target.selectedItem.value;
+          this.sectionidz=e.target.selectedItem.value;
        sessionStorage.setItem("sectionidz",this.sectionidz);
        this.sectionidname=e.target.selectedItem.textContent.trim();
+       alert(this.sectionidz);
      this.$.bookservice.fngetrejectsubject(this.gradeid,this.subjectid,this.sectionidz);
      
        document.querySelector('#tsectttyyyy').selected=-1;
@@ -154,7 +155,7 @@
       this.chapterid=e.target.selectedItem.value;
       this.chaptername=e.target.selectedItem.textContent.trim();
       localStorage.setItem("curr_sess_capters",this.chapterid); 
-     this.$.bookservice.FnFetchClassConceptService(this.gradeid,this.subjectid,this.chapterid,this.sectionidz); 
+     this.$.bookservice.FnFetchClassConceptService11(this.gradeid,this.subjectid,this.chapterid,this.sectionidz); 
      this.$.reporttabzzzzz.hidden=false;
      this.$.empidzz.hidden=false;
 document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
