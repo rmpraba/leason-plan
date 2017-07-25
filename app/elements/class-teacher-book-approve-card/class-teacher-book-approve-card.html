@@ -69,7 +69,7 @@
      
         <span class="position"> 
          <paper-dropdown-menu  label="Select Section">
-                <paper-menu id="tsectttyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
+          <paper-menu  class="dropdown-content" id="sectidxyzxyzxyz"  on-iron-select="fnsetsection">
                   <template is="dom-repeat" items="{{sectionarr}}">
                     <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
                   </template>    
@@ -130,23 +130,32 @@
         sessionStorage.setItem("grdeidz",this.gradeid);
         this.gradename=e.target.selectedItem.textContent.trim();
         document.querySelector('#teachersubzzzz').selected=-1;
-        document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#sectidxyzxyzxyz').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
+        this.$.reporttabzzzzz.hidden=true;
+        this.$.empidzz.hidden=true;
+        this.empname="";
       },
      fnsubject:function(e){
        this.subjectid=e.target.selectedItem.value;
        sessionStorage.setItem("subjectidz",this.subjectid);
        this.subjectname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
-       document.querySelector('#tsectttyyyy').selected=-1;
+       document.querySelector('#sectidxyzxyzxyz').selected=-1;
        document.querySelector('#teacherapprovechapterzz').selected=-1;
+       this.$.reporttabzzzzz.hidden=true;
+       this.$.empidzz.hidden=true;
+        this.empname="";
      },
      fnsetsection:function(e){
      this.sectionidz=e.target.selectedItem.value;
        sessionStorage.setItem("sectionidz",this.sectionidz);
        this.sectionidname=e.target.selectedItem.textContent.trim();
-       document.querySelector('#tsectttyyyy').selected=-1;
+       document.querySelector('#sectidxyzxyzxyz').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
+        this.$.reporttabzzzzz.hidden=true;
+        this.$.empidzz.hidden=true;
+        this.empname="";
       },
      fnselectchapter:function(e){
       this.chapterid=e.target.selectedItem.value;
@@ -157,11 +166,11 @@
      this.$.empidzz.hidden=false;
      document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
      },
-     FnRefresh1:function()
+     FnRefreshzz:function()
      {
+        document.querySelector('#sectidxyzxyzxyz').selected=-1;
         document.querySelector('#teacherreffzzf').selected=-1;
         document.querySelector('#teachersubzzzz').selected=-1;
-        document.querySelector('#tsectttyyyy').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
         this.$.reporttabzzzzz.hidden=true;
         this.$.empidzz.hidden=true;
