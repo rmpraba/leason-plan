@@ -444,18 +444,20 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
                <h4>Student To Section Report</h4>
             </paper-button>
        </div>
+      </div>   
 
-        <!-- <div class="container1"> -->
-        <div class="card" hidden$="{{captureReport}}">
-          <paper-button on-click="CaptureReportads" no ink><img src="../../images/active1.jpg" height="180px" width="180px">
+        <div class="container1">
+          <div class="card" hidden$="{{captureReport}}">
+            <paper-button on-click="CaptureReportads" no ink><img src="../../images/active1.jpg" height="180px" width="180px">
             <h4>Chapter creation</h4>
-          </paper-button>
-        </div>
+            </paper-button>
+          </div>
+      
 
-       
-         <div class="card" hidden$="{{bookaprval}}">
-          <paper-button on-click="fnbookapruval" no ink><img src="../../images/appruval.jpg" height="180px" width="180px">
+          <div class="card" hidden$="{{bookaprval}}">
+            <paper-button on-click="fnbookapruval" no ink><img src="../../images/appruval.jpg" height="180px" width="180px">
             <h4>Book Apruval Date</h4>
+<<<<<<< HEAD
           </paper-button>
         </div>
         <div class="card" hidden$="{{bookclassplan}}">
@@ -469,6 +471,16 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
           </paper-button>
         </div>
 <!-- </div> -->
+=======
+            </paper-button>
+          </div>
+          <div class="card" hidden$="{{bookclassplan}}">
+            <paper-button on-click="fnbookclassplan" no ink><img src="../../images/classplan.gif" height="180px" width="180px">
+              <h4>class teacher book chapter</h4>
+            </paper-button>
+          </div>
+      </div>
+>>>>>>> origin/master
      
  
 
@@ -718,8 +730,11 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
 document.querySelector('home-page').setPage('class-teacher-book-approve-card','');
             this.$.bookservice.fnbookplangrade();
             this.$.bookservice.fnbookplansubject();
-            //this.$.bookservice.masterzskill();
+
        document.querySelector('class-teacher-book-approve-card').FnRefresh1();
+
+            this.$.bookservice.masterzskill();
+       document.querySelector('class-teacher-book-approve-card').FnRefreshzz();
 
      }
    if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookreject"){
@@ -830,7 +845,7 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
            this.roletogrademapping=false;
            this.empreportdetails=false;
            this.studentsectionreport=false;
-           this.captureReport=false;
+           //this.captureReport=false;
            this.capturedate=false;
            //this.bookaprval=false;
   
@@ -862,9 +877,8 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
           // this.TA=false;
           }
         if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
-              
             this.highlevelcommon=false;
-               this.bookaprval=false;
+            this.bookaprval=false;
      
           }
           if(sessionStorage.getItem("curr_sess_loggedroleid")=="co-ordinator")
@@ -872,8 +886,9 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
             this.coordinator=false;
             this.bookaprval=false;
             this.bookclassplan=false;
-             this.bookreject=false;
-  
+            this.bookreject=false;
+            this.captureReport=false;
+ 
           }
         
       },
