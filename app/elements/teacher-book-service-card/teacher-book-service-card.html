@@ -666,8 +666,10 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.chapterid=localStorage.getItem("curr_sess_capters"); 
            obj.subjectid=sessionStorage.getItem("subjectidz"); 
            obj.gradeid=sessionStorage.getItem("grdeidz");
-           obj.sectoinid=sessionStorage.getItem("sectionidz");
+           obj.sectoinidz=sessionStorage.getItem("sectionidz");
            this.fetchclassconcept11param=obj;
+           alert("r");
+           alert(JSON.stringify(obj));
            this.$.fetchclassconcept11ajax.generateRequest();
         },
         fetchclassconcept11Response:function(e){
@@ -676,10 +678,12 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
              for(var i=0;i<res.length;i++){
                     var obj={};
                       obj.conceptid=res[i].concept_id;
-                      obj.concept=res[i].conceptname;
+                      obj.concept=res[i].concept;
                       obj.skill=res[i].skill;
                       obj.innovation=res[i].innovation;
-                      obj.planned_date=res[i].planning_date;
+                      obj.planned_dateplanning_date;
+                      obj.completion_date=res[i].completion_date;
+                      obj.enrichment_sug=res[i].enrichment_sug;
                       var id_date=res[i].planning_date;
                       id_date=id_date.replace(/[^\w\s]/gi, '');
                       obj.id_date=id_date;
@@ -693,6 +697,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       }
                       //alert(JSON.stringify(setattr));
  document.querySelector('class-teacher-book-reject-card').mainarr=setattr; 
+
  /*document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
  document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
 */

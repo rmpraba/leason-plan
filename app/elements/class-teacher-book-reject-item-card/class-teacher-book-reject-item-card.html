@@ -24,23 +24,21 @@
               <td>{{concept}}</td>
               <td><paper-input value={{period}}></paper-input></td>
               <td><paper-textarea value={{skill}}></paper-textarea></td>
-              <td>{{valuez}}
-                <template hidden is="dom-repeat" items="{{masskillz}}" as="x">
-                  <aproval-save-and-edit-book-card   valueid="{{x.value_id}}" valuename="{{x.value_name}}" id="ENRz{{conceptid}}{{x.value_id}}">
-                  </aproval-save-and-edit-book-card>  
-               </template>
-              </td>
+              <td>{{valuez}}</td>
               <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
               </td> 
               <td>{{planneddate}}</td>
-              <td><complection-date-picker-card></complection-date-picker-card></td>
+              <td>
+              <paper-input value={{completiondate}}></paper-input>
+              <complection-date-picker-card></complection-date-picker-card></td>
               <td><paper-input value={{remark}}></paper-input></td>
-              <td><paper-input value={{enrichmentsuggest}}></paper-input></td>
+              <td><paper-input value={{enrichmentsug}}></paper-input></td>
               <td>
                 <paper-checkbox  id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
                 <paper-checkbox id={{idz}} on-change="fnsetno">No</paper-checkbox>
               </td>
-              <td><paper-icon-button  on-click="fnaroveset" icon="save"></paper-icon-button>
+              <td><paper-icon-button  on-click="fnaroveset" hidden$="{{hidesavevalue}}" icon="save"></paper-icon-button>
+              <paper-icon-button  on-click="fnedit" icon="create" hidden$="{{hideeditvalue}}"></paper-icon-button>
               </td>
         </tr>
       </table>
@@ -56,11 +54,20 @@ var costatus;
 
     Polymer({
       is: 'class-teacher-book-reject-item-card',
-  
+  ready:function(e){
+this.hidesavevalue=true;
+this.hideeditvalue=false;
+  },
+  fnedit:function(e){
+this.hidesavevalue=false;
+this.hideeditvalue=true;
+  },
     fnaroveset:function(e){
        alert('1');
        alert(this.conceptid);
-this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
+  
+  
+this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
        document.querySelector('aproval-save-and-edit-book-card').splices();
       // alert('Inserted');
 

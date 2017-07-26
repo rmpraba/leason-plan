@@ -10151,9 +10151,10 @@ app.post('/fnbookplangrade-service',  urlencodedParser,function (req,res)
 
 app.post('/fetchclassconcept11-service',  urlencodedParser,function (req,res)
   {  
-      var qur1="select * from mp_teacher_grade where grade_id='"+req.query.gradeid+"' and  subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectionid+"' and capter_id='"+req.query.chapterid+"'  and academic_year='"+req.query.academic_year+"' and school_id='"+req.query.schoolid+"' completion='no'";
-
- 
+      var qur1="select * from final_book_sug where grade_id='"+req.query.gradeid+"' and  subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectoinidz+"' and capter_id='"+req.query.chapterid+"'  and academic_year='"+req.query.academic_year+"' and school_id='"+req.query.schoolid+"' and completion='no'";
+      console.log("---------------");
+      console.log(qur1);
+     console.log("---------------");
      connection.query(qur1,
     function(err, rows)
     {
