@@ -46,37 +46,39 @@
            <paper-input value={{rowidz}} hidden></paper-input>
         <table border="0">
            <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
-           <td style="padding-left: 3%;">{{rowid}}</td>
+            <td style="padding-left: 3%;">{{rowid}}</td>
+            
              <td>
-              <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 6%;margin-top: -1%;"></paper-icon-button>
-              <template is="dom-repeat" items="{{conceptzz}}" as="r">
-               <h4 style="margin-left: -11%;">{{r.conceptname}}</h4>
-             </template>
-               </td>
-             <td><paper-input value="{{period}}"></paper-input> </td>
-             <td ><paper-input hidden$="{{hidecheck}}" value="{{planneddate}}"></paper-input>
-             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
-             <td><paper-textarea  readonly$="{{skillvaluezs}}" value="{{skill}}"></paper-textarea></td>
-            <td>
-             <paper-textarea  readonly$="{{skillvaluezs}}" value="{{valuez}}"></paper-textarea>
-              <!--  <paper-icon-button icon="add" on-click="fngetconceptz1" style="color:#6699ff;position: absolute;margin-left: 3%;"></paper-icon-button>
-                <template is="dom-repeat" items="{{massvalue}}" as="sr">
-               <h4>{{sr.valuename}}</h4>
-             </template>
-               -->
-               
+                <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 6%;margin-top: -1%;"></paper-icon-button>
+                  <template is="dom-repeat" items="{{conceptzz}}" as="r">
+                    <h4 style="margin-left: -11%;">{{r.conceptname}}</h4>
+                  </template>
+              </td>
+             <td>
+                <paper-input value="{{period}}" allowed-pattern="[0-9]"></paper-input>
+             </td>
+             <td>
+                <paper-input hidden$="{{hidecheck}}" value="{{planneddate}}"></paper-input>
+                <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
+              </td>
+             <td>
+                <paper-textarea  readonly$="{{skillvaluezs}}" value="{{skill}}"></paper-textarea>
+             </td>
+             <td>
+                <paper-textarea  readonly$="{{skillvaluezs}}" value="{{valuez}}"></paper-textarea>
             </td>
-            <td><paper-textarea  readonly$="{{innovattionvaluezs}}" value="{{innovation}}"</paper-textarea></td> 
-
-            <td><paper-input value="{{remark}}"></paper-input></td>
+            <td>
+              <paper-textarea  readonly$="{{innovattionvaluezs}}" value="{{innovation}}"</paper-textarea>
+            </td> 
+            <td>
+              <paper-input value="{{remark}}"></paper-input>
+            </td>
               
               <td style="padding-left: 2%;">
                 <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
                 <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
               </td>
-              <!-- <td>
-                <paper-icon-button icon="close" on-click="fndelete"></paper-icon-button>
-              </td> -->
+             
            </tr>
        </table>
      </div>
@@ -182,30 +184,29 @@ this.$.dzfsd1xsasa.close();
 },
     fnsavebook:function(e)
     {
-      if(this.period==""&&this.skill==""&&this.innovation==""&&this.remark==""&&this.valuez=="")
+      alert(3);
+      if(this.period==""|| this.period==null|| this.skill=="" || this.skill==null || this.innovation=="" || this.innovation==null || this.remark=="" || this.remark==null || this.valuez=="" || this.valuez==null)
       {
           alert("Please insert the value");
       }
-    else if(this.planneddate=="empty")
-    {
+      else if(this.planneddate=="empty")
+      {
         //alert("save");
         //alert(JSON.stringify(conarr));
         this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez);
-        //this.$.bookservice.fnsetcoskill1(conarr);
-      //  this.$.bookservice.fnsetcovalue(valuearr,this.period,this.rowid);
-    }
-    else
-    {
+        
+      }
+      else
+      {
         //alert("edit");
-      // alert(JSON.stringify(conarr));
-      this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
-      //this.$.bookservice.fnsetcovalue11(tempvaluarr,this.planneddate);
-    }
-      this.hidecheck1=true;
-      this.hidecheck=false;
-      this.planneddate="";
-      document.querySelector('concept-check-card').fnclean();
-      this.conceptjhkhzz="";
+        // alert(JSON.stringify(conarr));
+        this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
+      }
+        this.hidecheck1=true;
+        this.hidecheck=false;
+        this.planneddate="";
+        document.querySelector('concept-check-card').fnclean();
+        this.conceptjhkhzz="";
   },
 
 fngetconceptz:function(e){

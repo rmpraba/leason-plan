@@ -735,10 +735,16 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.rowid=i+1;
                       setattr.push(obj);
                       }
+
                       alert(JSON.stringify(setattr));
   document.querySelector('class-teacher-book-reject-card').mainarr=setattr; 
  document.querySelector('class-teacher-book-reject-card').empid=res[0].empid; 
  document.querySelector('class-teacher-book-reject-card').empname=res[0].empname; 
+
+
+ /*document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
+ document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
+*/
 
         },
         fetchclassconceptResponse:function(e){
@@ -765,7 +771,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.rowid=i+1;
                       setattr.push(obj);
                       }
-                      alert(JSON.stringify(setattr));
+                      //alert(JSON.stringify(setattr));
  document.querySelector('class-teacher-book-approve-card').mainarr=setattr; 
  document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
  document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
@@ -860,7 +866,7 @@ for(var i=0;i<overall.length;i++){
                obj.hidecheck1=false; 
               res2.push(obj);
                }
-               alert(JSON.stringify(res2));
+               //alert(JSON.stringify(res2));
   for(var i=0;i<res2.length;i++){
     res2[i].rowid=i+1;
   }
@@ -922,12 +928,11 @@ this.fnsetrejectbookgradeurl=sessionStorage.getItem("addrinfo")+"/fnbookplangrad
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
            this.fnsetrejectbookgradeparam=obj;
-           alert(JSON.stringify(obj));
+           //alert(JSON.stringify(obj));
            this.$.fnsetrejectbookgradeajax.generateRequest();
         },
  fnsetrejectbookgradeResponse:function(e){
        var res=e.detail.response.returnval;
-       alert(JSON.stringify())
        document.querySelector('class-teacher-book-reject-card').gradearr=res;
      },
        fngetclassbooksubjectvalue:function(gradeid,subjectid){
