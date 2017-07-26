@@ -58,12 +58,20 @@ var costatus;
     Polymer({
       is: 'skill-capturing-card',
   
-    fnaroveset:function(e){
-       alert('1');
-       alert(this.conceptid);
-this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
-       document.querySelector('aproval-save-and-edit-book-card').splices();
+    fnaroveset:function(e)
+    {
+       //alert('1');
+       //alert(this.conceptid);
+       if(this.enrichmentsuggest==""||this.enrichmentsuggest==null)
+       {
+        alert("Please Enter All Fields");
+       }
+       else
+       {
+        this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsuggest,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
+        document.querySelector('aproval-save-and-edit-book-card').splices();
       // alert('Inserted');
+       }
 
      },
     fnsetyes:function(e){
