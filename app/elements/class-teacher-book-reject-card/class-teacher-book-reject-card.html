@@ -1,0 +1,179 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<dom-module id="class-teacher-book-reject-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .position{
+    margin-left:7%
+   
+   }
+    #tb1{
+         width:15%
+        }
+        #tb2{
+         width:35%
+        }
+        #tb3{
+         width:10%
+        }
+        #itemcard:nth-child(odd) {
+        background-color: white;
+       
+      }
+      #itemcard:nth-child(even) {
+        background-color: #f1f1f1;
+      }
+      #itemcard{
+        width: 80%;
+          margin-left: 11%;
+          
+      }
+      .report1
+      {
+          table-layout: fixed;
+          border-collapse: collapse;
+          width: 94%;
+          margin-left: 5%;
+          margin-top: 5%;
+      }
+      paper-dropdown-menu
+      {
+      
+      --paper-input-container-label: { color: red };
+      text-align:center;
+      }
+    
+    </style>
+    <div>
+     <span class="position"> 
+       <paper-dropdown-menu  label="Select the Grade">
+                <paper-menu id="teacherreffzzf" class="dropdown-content"   on-iron-select="fnsetgrade">
+                  <template is="dom-repeat" items="{{gradearr}}">
+                    <paper-item value="{{item.gradeid}}">{{item.gradename}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+       </span>
+      
+       <span class="position"> 
+         <paper-dropdown-menu  label="Select Subject">
+                <paper-menu id="teachersubzzzz" class="dropdown-content"   on-iron-select="fnsubject">
+                  <template is="dom-repeat" items="{{subjectarr}}">
+                    <paper-item value="{{item.subject_id}}">{{item.subject_name}}</paper-item>
+                  </template>    
+                </paper-menu>
+          </paper-dropdown-menu>
+       </span>
+     
+        <span class="position"> 
+         <paper-dropdown-menu  label="Select Section">
+                <paper-menu id="tsectttyyyy" class="dropdown-content"   on-iron-select="fnsetsection">
+                  <template is="dom-repeat" items="{{sectionarr}}">
+                    <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
+                  </template>    
+                </paper-menu>
+          </paper-dropdown-menu>
+       </span>   
+             
+  <span class="position"> 
+       <paper-dropdown-menu  label="Select the chapter">
+              <paper-menu id="teacherapprovechapterzz" class="dropdown-content"   on-iron-select="fnselectchapter">
+                   <template is="dom-repeat" items="{{chapterarr}}">
+                    <paper-item value="{{item.capterid}}">{{item.chaptername}}</paper-item>
+                  </template>    
+                </paper-menu>
+         </paper-dropdown-menu>
+  </span>   
+       
+      
+   <paper-input value="{{empid}}" hidden></paper-input>
+      <div id="empidzz" style="position: 
+      absolute;margin-left: 5%;margin-top: 1.4%;"><label><b>Employee Name:</b></label></div>
+      <h4 style="margin-top: 1.3%;position: absolute;
+      margin-left: 14%;">{{empname}}</h4>
+   <table  border="0" class="report1" id="reporttabzzzzz">
+        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+          <th>CONCEPT</th>
+          <th>PERIOD NO</th>
+          <th>Skill</th>
+          <th>Value</th>
+          <th>Innovation</th>
+          <th>Planning date</th>
+          <th>Completion Date</th>
+          <th>Remarks</th>
+          <th>Enrichment Suggestion</th>
+          <th>Completion Status</th>
+          <th>Save</th>  
+          </tr>  
+          <template is="dom-repeat" items="{{mainarr}}" as="w">
+           <tr>  
+           <class-teacher-book-reject-item-card empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
+            idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
+              </class-teacher-book-reject-item-card> 
+            </tr>
+           </template>
+     </table> 
+    </div> 
+  <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'class-teacher-book-reject-card',
+
+   fnsetgrade:function(e){
+        this.gradeid=e.target.selectedItem.value;
+        sessionStorage.setItem("grdeidz",this.gradeid);
+        this.gradename=e.target.selectedItem.textContent.trim();
+        document.querySelector('#teachersubzzzz').selected=-1;
+        document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
+  },
+     fnsubject:function(e){
+       this.subjectid=e.target.selectedItem.value;
+       sessionStorage.setItem("subjectidz",this.subjectid);
+       this.subjectname=e.target.selectedItem.textContent.trim()
+       this.$.bookservice.fngetrejectsection(this.gradeid,this.subjectid);
+       document.querySelector('#tsectttyyyy').selected=-1;
+       document.querySelector('#teacherapprovechapterzz').selected=-1;
+     },
+     fnsetsection:function(e){
+     this.sectionidz=e.target.selectedItem.value;
+       sessionStorage.setItem("sectionidz",this.sectionidz);
+       this.sectionidname=e.target.selectedItem.textContent.trim();
+     this.$.bookservice.fngetrejectsubject(this.gradeid,this.subjectid,this.sectionidz);
+     
+       document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
+      },
+     fnselectchapter:function(e){
+      this.chapterid=e.target.selectedItem.value;
+      this.chaptername=e.target.selectedItem.textContent.trim();
+      localStorage.setItem("curr_sess_capters",this.chapterid); 
+     this.$.bookservice.FnFetchClassConceptService(this.gradeid,this.subjectid,this.chapterid,this.sectionidz); 
+     this.$.reporttabzzzzz.hidden=false;
+     this.$.empidzz.hidden=false;
+document.querySelector('aproval-save-and-edit-book-card').fnsetapproveclear();
+     },
+     FnRefresh1:function()
+     {
+        document.querySelector('#teacherreffzzf').selected=-1;
+        document.querySelector('#teachersubzzzz').selected=-1;
+        document.querySelector('#tsectttyyyy').selected=-1;
+        document.querySelector('#teacherapprovechapterzz').selected=-1;
+        this.$.reporttabzzzzz.hidden=true;
+        this.$.empidzz.hidden=true;
+        this.empname="";
+     }
+   
+
+
+
+    });
+  })();
+  </script>
+</dom-module>

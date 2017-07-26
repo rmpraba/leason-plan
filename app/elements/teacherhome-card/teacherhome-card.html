@@ -13,10 +13,8 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <link rel="import" href="../scorecard-service/scorecard-service.html">
 <link rel="import" href="../student-report-service/student-report-service.html">
 <link rel="import" href="../employee-report-service/employee-report-service.html">
-
-
 <dom-module id="teacherhome-card">
-  <template>
+  <template>   
     <style>
       :host   
       {
@@ -465,6 +463,11 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
             <h4>class teacher book chapter</h4>
           </paper-button>
         </div>
+         <div class="card" hidden$="{{bookreject}}">
+          <paper-button on-click="fnbookreject" no ink><img src="../../images/reject.jpg" height="180px" width="180px">
+            <h4>Capter Rejection</h4>
+          </paper-button>
+        </div>
 <!-- </div> -->
      
  
@@ -555,6 +558,7 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
         this.captureReport=true;
         this.bookaprval=true;
         this.bookclassplan=true;
+        this.bookreject=true;
        }, 
 
       FnSelectacademicyear:function(e)
@@ -707,18 +711,23 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
            this.$.bookservice.bookgrade();
      
         } 
-     }
+     }    
      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="classplan"){
 
       document.querySelector('app-card').setPage('homepage','');
 document.querySelector('home-page').setPage('class-teacher-book-approve-card','');
             this.$.bookservice.fnbookplangrade();
             this.$.bookservice.fnbookplansubject();
-            this.$.bookservice.masterzskill();
+            //this.$.bookservice.masterzskill();
        document.querySelector('class-teacher-book-approve-card').FnRefresh1();
 
      }
-     
+   if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookreject"){
+   document.querySelector('app-card').setPage('homepage','');
+   document.querySelector('home-page').setPage('class-teacher-book-reject-card','');
+   this.$.bookservice.fnsetrejectbookgrade();
+   this.$.bookservice.fnsetrejectbooksubject()
+     }
 
     this.$.cdialog.close();
       },
@@ -863,7 +872,7 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
             this.coordinator=false;
             this.bookaprval=false;
             this.bookclassplan=false;
-    
+             this.bookreject=false;
   
           }
         
@@ -1011,9 +1020,13 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
        document.querySelector('employe-schooltype-to-category-card').FnRefresh(); 
        //document.querySelector('employe-schooltype-to-category-card').fnsclsubject();
        document.querySelector('employe-schooltype-to-category-card').fnempsubject();
-          this.$.cdialog.toggle();
+       this.$.cdialog.toggle();
     
       }, 
+      fnbookreject:function(e){
+      localStorage.setItem('curr_sess_loggedassesmenttype','bookreject');
+      this.$.cdialog.toggle();
+       },
       SubjectToStudent:function(e)
       {
         document.querySelector('app-card').setPage('homepage','');

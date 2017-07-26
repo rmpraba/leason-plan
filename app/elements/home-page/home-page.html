@@ -228,6 +228,9 @@
            <section data-category="class-teacher-book-approve-pdf-card">
           <class-teacher-book-approve-pdf-card></class-teacher-book-approve-pdf-card>
           </section>
+          <section data-category="class-teacher-book-reject-card">
+          <class-teacher-book-reject-card></class-teacher-book-reject-card>
+          </section>
          
         
         </iron-pages>
@@ -264,7 +267,14 @@
       document.querySelector('teacherhome-card').FnRefresh();
       document.querySelector('student-allow-item-card').FnRefresh();
 
-      }if(localStorage.getItem("curr_sess_page")=="teacher-book-approve-card")
+      }
+  if(localStorage.getItem("curr_sess_page")=="class-teacher-book-reject-card")
+      {
+      this.page="teacherhomecard";
+       //document.querySelector('teacherhome-card').FnRefresh();
+      //document.querySelector('student-allow-item-card').FnRefresh();
+     }
+    if(localStorage.getItem("curr_sess_page")=="teacher-book-approve-card")
       {
       this.page="teacherhomecard";
       document.querySelector('teacherhome-card').FnRefresh();

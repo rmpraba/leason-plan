@@ -9975,9 +9975,9 @@ app.post('/fngetconceptvalue111-service',  urlencodedParser,function (req,res)
   });
 });
 
-app.post('/',  urlencodedParser,function (req,res)
+app.post('/fngetrejectsection-service',  urlencodedParser,function (req,res)
   {  
-    var qur="SELECT * FROM md_concept where capter_id='"+req.query.capter_id+"'";
+    var qur="SELECT distinct class_id,section_id FROM mp_teacher_grade  where grade_id='"+req.query.gradeid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and subject_id='"+req.query.subjectid+"' and role_id='subject-teacher'";
     console.log(qur);
     connection.query(qur,
     function(err, rows)
@@ -9990,6 +9990,54 @@ app.post('/',  urlencodedParser,function (req,res)
      res.status(200).json({'returnval': 'no rows'}); 
   });
 });
+app.post('/fngetrejectsubject-service',  urlencodedParser,function (req,res)
+  {  
+    var qur="select distinct capter_id as capterid,(select distinct capter from md_chapter where capter_id=capterid)as chaptername from final_book_sug where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionidz+"' and completion='No'";
+    console.log(qur);
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': rows});
+    }
+    else
+     res.status(200).json({'returnval': 'no rows'}); 
+  });
+});
+
+app.post('/',  urlencodedParser,function (req,res)
+  {  
+   
+     var qur1="select capter_id ,capter from final_book_sug where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and capter_id in(select r.capter_id from md_concept r where r.capter_id=capter_id)";
+     
+    var qur2="SELECT distinct class_id,section_id FROM mp_teacher_grade  where grade_id='"+req.query.gradeid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and subject_id='"+req.query.subjectid+"' and role_id='subject-teacher'";
+
+     var qur3="SELECT distinct class_id,section_id FROM mp_teacher_grade  where grade_id='"+req.query.gradeid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and subject_id='"+req.query.subjectid+"' and role_id='subject-teacher' and class_id  not in( select distinct  section_id FROM final_book_sug where grade_id='"+req.query.gradeid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and subject_id='"+req.query.subjectid+"')";
+   
+    console.log(qur1);
+    console.log(qur2);
+    console.log(qur3);
+    var conceptarr=[];
+    var sectionarr=[];
+    connection.query(qur1,function(err, rows){
+    if(!err)
+    {  
+    conceptarr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err)
+    {  
+
+    sectionarr=rows;
+    res.status(200).json({'conceptarr': conceptarr,'sectionarr':sectionarr});
+    }
+    });
+    }
+    else
+     res.status(200).json({'': 'no rows'}); 
+  });
+});
+
 
 
 app.post('/fngetclassbooksubjectvalue-service',  urlencodedParser,function (req,res)
@@ -10086,6 +10134,24 @@ var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee
 app.post('/fnbookplangrade-service',  urlencodedParser,function (req,res)
   {  
       var qur1="select distinct grade_id as gradeid,(select distinct grade_name from md_grade where grade_id=gradeid) as gradename from mp_teacher_grade where academic_year='"+req.query.academic_year+"' and id='"+req.query.emp_id+"' and  role_id='"+req.query.roleid+"' and school_id='"+req.query.schoolid+"'";
+
+ 
+     connection.query(qur1,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+     // console.log(JSON.stringify(rows));   
+      res.status(200).json({'returnval': rows});
+    }
+    else
+      res.status(200).json({'returnval': ''});
+  });
+});
+
+app.post('/fetchclassconcept11-service',  urlencodedParser,function (req,res)
+  {  
+      var qur1="select * from mp_teacher_grade where grade_id='"+req.query.gradeid+"' and  subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectionid+"' and capter_id='"+req.query.chapterid+"'  and academic_year='"+req.query.academic_year+"' and school_id='"+req.query.schoolid+"' completion='no'";
 
  
      connection.query(qur1,
