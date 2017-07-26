@@ -105,11 +105,12 @@
           <th>Remarks</th>
           <th>Enrichment Suggestion</th>
           <th>Completion Status</th>
+          <th>Block Remark </th>
           <th>Save</th>  
           </tr>  
           <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>  
-           <class-teacher-book-reject-item-card  completion_date="{{w.completiondate}}" enrichment_sug="{{w.enrichmentsug}}" empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
+<class-teacher-book-reject-item-card  completiondate="{{w.completion_date}}" enrichmentsug="{{w.enrichment_sug}}" empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
             idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
               </class-teacher-book-reject-item-card> 
             </tr>

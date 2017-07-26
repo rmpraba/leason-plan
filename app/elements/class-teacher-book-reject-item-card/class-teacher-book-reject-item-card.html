@@ -20,24 +20,25 @@
       <paper-input value={{conceptid}} hidden></paper-input>
       <paper-input value={{subflag}} hidden></paper-input>
       <table border="0">
-        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+      <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
               <td hidden>{{empid}}</td>
-              <td>{{concept}}</td>
+              <td><paper-input value={{concept}}></paper-input></td>
               <td><paper-input value={{period}}></paper-input></td>
               <td><paper-textarea value={{skill}}></paper-textarea></td>
               <td>{{valuez}}</td>
-              <td><paper-textarea  readonly$="{{innovattionvaluezs1}}" value={{innovation}}></paper-textarea>
+              <td><paper-textarea  value={{innovation}}></paper-textarea>
               </td> 
               <td>{{planneddate}}</td>
               <td>
-              <paper-input value={{completiondate}}></paper-input>
-              <complection-date-picker-card></complection-date-picker-card></td>
+              <paper-input hidden$="{{hideeditvalue}}" value={{completiondate}}></paper-input>
+              <complection-date-picker-card hidden$="{{hidesavevalue}}" ></complection-date-picker-card></td>
               <td><paper-input value={{remark}}></paper-input></td>
               <td><paper-input value={{enrichmentsug}}></paper-input></td>
               <td>
-                <paper-checkbox  id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
+                <paper-checkbox id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
                 <paper-checkbox id={{idz}} on-change="fnsetno">No</paper-checkbox>
               </td>
+              <td><paper-input value={{blockremark}}></paper-input></td>
               <td><paper-icon-button  on-click="fnaroveset" hidden$="{{hidesavevalue}}" icon="save"></paper-icon-button>
               <paper-icon-button  on-click="fnedit" icon="create" hidden$="{{hideeditvalue}}"></paper-icon-button>
               </td>
@@ -63,20 +64,24 @@ this.hideeditvalue=false;
 this.hidesavevalue=false;
 this.hideeditvalue=true;
   },
-    fnaroveset:function(e){
-       //alert('1');
-       //alert(this.conceptid);
+    fnaroveset:function(e)
+    {
   
-  
-this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
-       document.querySelector('aproval-save-and-edit-book-card').splices();
-      // alert('Inserted');
-
+      this.$.bookservice.fnfinalbook(costatus,this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
+             document.querySelector('aproval-save-and-edit-book-card').splices();
+            // alert('Inserted');
+      if(this.empid==""||this.skill==""||this.innovation==""||this.enrichmentsug==""||this.period==""||this.planneddate==""||this.concept==""||this.conceptid==""||this.remark==""||this.valuez==""||this.blockremark==""&&this.blockremark==null)
+        {
+            alert("Please Enter All fields");
+        }
+          alert(this.empid+" 1"+this.skill+" 2"+this.innovation+" 3"+this.enrichmentsug+"4 "+this.period+"5 "+this.planneddate+"6 "+this.concept+" 7"+this.conceptid+" 8"+this.remark+" 9"+this.valuez+" 10"+this.blockremark);
+         this.$.bookservice.fnfinalreaprovebook(this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez,this.blockremark);
+         // this.hidesavevalue=true;
+         //this.hideeditvalue=false;
+          this.costatus=="";         
      },
     fnsetyes:function(e){
-     // alert(this.id);
-      //alert(document.querySelector('#'+this.id).checked);
- if(document.querySelector('#'+this.id).checked==true){
+  if(document.querySelector('#'+this.id).checked==true){
              costatus='Yes';
      document.querySelector('#'+this.idz).checked=false;
       
