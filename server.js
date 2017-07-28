@@ -3582,6 +3582,7 @@ app.post('/fnfinalbook-service',  urlencodedParser,function (req, res)
          remark:req.query.remark,   
          concept_id:req.query.conceptid,
          value:req.query.valuez,
+         conc_date:req.query.conc_date,
       }
 
 /*console.log("----------------");
@@ -8951,6 +8952,87 @@ app.post('/generateroletogrademappinginfo-service',  urlencodedParser,function (
      res.status(200).json({'returnval': 'no rows'}); 
   });
 });
+
+app.post('/fetchclassconcept-service',  urlencodedParser,function (req,res)
+  {  
+   var qur1="select   concept_id as conceptid,planning_date,period,conc_date,skill,value,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and conc_date not in(select s.conc_date  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
+  
+   var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
+
+   var qur3="select * from  final_book_sug where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectoinid+"' and capter_id='"+req.query.chapterid+"'";
+     var skillarr=[];
+     var emparr=[];
+     var dbarr=[];
+     console.log(qur1);
+   connection.query(qur1,function(err, rows){
+    if(!err)
+    {  
+    skillarr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err)
+    {  
+    emparr=rows;
+    connection.query(qur3,function(err, rows){
+    if(!err)
+    { 
+    dbarr=rows;
+      res.status(200).json({'skillarr': skillarr,'emparr':emparr,'dbarr':dbarr});
+    }
+    });
+    }
+    });
+    }
+    else
+     res.status(200).json({'returnval': 'no rows'}); 
+  });
+});
+app.post('/fetchclassconcept-service', urlencodedParser,function (req,res)
+  {  
+
+
+ var qur1="select   concept_id as conceptid,planning_date,period,skill,value,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
+
+var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
+   console.log("----------");
+   console.log(qur1);
+   console.log(qur2);
+   console.log("----------");
+
+    var skillarr=[];
+    var emparr=[];
+    connection.query(qur1,function(err, rows){
+    if(!err)
+    {  
+    skillarr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err)
+    {  
+
+    emparr=rows;
+    res.status(200).json({'skillarr': skillarr,'emparr':emparr});
+    }
+    });
+    }
+    else
+     res.status(200).json({'': 'no rows'}); 
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/fngetskill-service',  urlencodedParser,function (req,res)
   {  
 
@@ -9614,7 +9696,8 @@ app.post('/fnsetcoskill-service' , urlencodedParser,function (req, res)
        remark:req.query.remark,
        flag:req.query.flag,
        value:req.query.valuez,
-       rowid:req.query.rowid
+       rowid:req.query.rowid,
+       conc_date:req.query.conc_date,
     };
     console.log("----------------------------");
      console.log(response);
@@ -10099,37 +10182,6 @@ app.post('/bookrefsection-service',  urlencodedParser,function (req,res)
   });
 });
 
-app.post('/fetchclassconcept-service', urlencodedParser,function (req,res)
-  {  
-
-
- var qur1="select   concept_id as conceptid,planning_date,period,skill,value,innovation,remark,flag,(select  concept from md_concept  where  concept_id=conceptid)  as conceptname from md_skill where capter_id='"+req.query.chapterid+"' and concept_id not in(select s.concept_id  from final_book_sug s where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and  s.section_id='"+req.query.sectoinid+"' and  s.grade_id='"+req.query.gradeid+"' and s.capter_id='"+req.query.chapterid+"')";
-
-var qur2="SELECT distinct id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname FROM mp_teacher_grade where  school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and class_id='"+req.query.sectoinid+"' ";
-   console.log("----------");
-   console.log(qur1);
-   console.log(qur2);
-   console.log("----------");
-
-    var skillarr=[];
-    var emparr=[];
-    connection.query(qur1,function(err, rows){
-    if(!err)
-    {  
-    skillarr=rows;
-    connection.query(qur2,function(err, rows){
-    if(!err)
-    {  
-
-    emparr=rows;
-    res.status(200).json({'skillarr': skillarr,'emparr':emparr});
-    }
-    });
-    }
-    else
-     res.status(200).json({'': 'no rows'}); 
-  });
-});
 
 app.post('/fnbookplangrade-service',  urlencodedParser,function (req,res)
   {  
