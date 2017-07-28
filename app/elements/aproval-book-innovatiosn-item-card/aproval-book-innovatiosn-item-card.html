@@ -266,9 +266,9 @@
       }
       else if(this.planneddate=="empty")
       {
-          alert("save");
+          //alert("save");
         //alert(JSON.stringify(conarr));
-        alert(this.period+""+this.skill+""+this.innovation+""+this.remark+""+this.rowid+""+this.valuez);
+        //alert(this.period+""+this.skill+""+this.innovation+""+this.remark+""+this.rowid+""+this.valuez);
         this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez); 
         this.hidecheck1=true;
         this.hidecheck=false;  
@@ -276,7 +276,7 @@
       }
       else
       {
-        alert("edit");
+        //alert("edit");
         // alert(JSON.stringify(conarr));
 
         this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
@@ -341,7 +341,7 @@
            obj.period=this.period;
            obj.planneddate=this.planneddate;
            this.fngetconceptcheckparam=obj;
-          alert(JSON.stringify(obj));
+        //  alert(JSON.stringify(obj));
            this.$.fngetconceptcheckajax.generateRequest();
           },
         fngetconceptcheckResponse:function(e){
@@ -401,6 +401,7 @@
     skillclose:function()
     {
       this.$.skilldialog.close();
+      this.skill="";
     },
     lsnvalue:function(e)
     {
@@ -414,6 +415,7 @@
     valueclose:function()
     {
       this.$.valuedialog.close();
+      this.valuez="";
     },
     innovatsave:function(e)
     {
@@ -423,6 +425,7 @@
     innovatclose:function()
     {
       this.$.innovationdialog.close();
+      this.innovation="";
     },
     remarksave:function(e)
     {
@@ -431,6 +434,7 @@
     remarkclose:function()
     {
       this.$.remarkdialog.close();
+      this.remark="";
     },
     lsninnovation:function(e)
     {

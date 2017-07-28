@@ -57,6 +57,18 @@
         width: 80%;
         margin-left: 11%;  
       }
+      #card
+      {
+        @apply(--layout-vertical);
+      }
+      #tablchapt
+      {
+            width: 860px;
+            border-collapse: collapse;
+            margin-left: 14%;
+            table-layout: fixed;
+            margin-top: 5%;
+      }
     
     </style>
     <!-- <div>
@@ -137,9 +149,19 @@
         </center>
       </div>
 
+      <table id="tablchapt">
+        <tr>
+          <th>GRADE</th>  
+          <th>SUBJECT</th>
+          <th>SECTION</th>
+          <th>CHAPTER</th>
+          <th>EMPLOYEE NAME</th>
+        </tr>
+      </table>
+       
       <template is="dom-repeat" items="{{fullstatusarr}}" as="view">
         <div id='itemcard'>
-          <class-teacher-book-reject-item-card empid="{{view.emp_id}}" empname="{{view.name}}" gradeid="{{view.grade_id}}" gradename="{{view.grade_name}}" subjectid="{{view.subject_id}}" subjectname="{{view.subject_name}}" classid="{{view.section_id}}" sectionname="{{view.section_name}}" chapterid="{{view.capter_id}}" chapter_name="{{view.capter}}"></class-teacher-book-reject-item-card>
+          <class-teacher-book-reject-item-card empid="{{view.emp_id}}" empname="{{view.emp_name}}" gradeid="{{view.grade_id}}" gradename="{{view.grade_name}}" subjectid="{{view.subject_id}}" subjectname="{{view.subject_name}}" classid="{{view.section_id}}" sectionname="{{view.section_name}}" chapterid="{{view.capter_id}}" chapter_name="{{view.capter}}"></class-teacher-book-reject-item-card>
         </div>
       </template>
 
@@ -154,7 +176,7 @@
     Polymer({
       is: 'class-teacher-book-reject-card',
 
-   fnsetgrade:function(e){
+   /*fnsetgrade:function(e){
         this.gradeid=e.target.selectedItem.value;
         sessionStorage.setItem("grdeidz",this.gradeid);
         this.gradename=e.target.selectedItem.textContent.trim();
@@ -209,7 +231,7 @@
         this.$.reporttabzzzzz.hidden=true;
         this.$.empidzz.hidden=true;
         this.empname="";
-     }
+     }*/
    
 
 

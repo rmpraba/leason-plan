@@ -10459,7 +10459,7 @@ app.post('/fnchapterupdatezzz-service',  urlencodedParser,function (req, res)
 
 app.post('/chapterstatus-service',  urlencodedParser,function (req, res)
 {
- var qur="select distinct(f.emp_id), e.name,f.grade_id,g.grade_name,f.subject_id,s.subject_name,f.section_id,gs.section_id as section_name,f.capter_id,ch.capter   from  final_book_sug f  join md_grade g on(g.grade_id=f.grade_id) join md_subject s on(s.subject_id=f.subject_id) join mp_grade_section gs on(gs.class_id=f.section_id) join md_chapter ch on(ch.capter_id=f.capter_id) join   md_employee e on(e.id=f.emp_id) where f.school_id='"+req.query.schoolid+"' and f.completion='No' and gs.school_id='"+req.query.schoolid+"' and gs.grade_id=f.grade_id and gs.academic_year='"+req.query.academic_year+"'and f.academic_year='"+req.query.academic_year+"' and ch.school_id='"+req.query.schoolid+"'";
+ var qur="select f.grade_id,g.grade_name,f.subject_id,s.subject_name,f.section_id,gs.section_id as section_name,f.capter_id,ch.capter,e.emp_name,f.emp_id from  final_book_sug f  join md_grade g on(g.grade_id=f.grade_id) join md_subject s on(s.subject_id=f.subject_id) join mp_grade_section gs on(gs.class_id=f.section_id) join md_chapter ch on(ch.capter_id=f.capter_id) join   md_employee_creation e on(e.emp_id=f.emp_id) where f.school_id='"+req.query.schoolid+"' and f.completion='No' and gs.school_id='"+req.query.schoolid+"' and gs.grade_id=f.grade_id and gs.academic_year='"+req.query.academic_year+"'and f.academic_year='"+req.query.academic_year+"' and ch.school_id='"+req.query.schoolid+"'"; 
   
   console.log('-------------------Chapter completion----------------------');
   console.log(qur);
@@ -10469,7 +10469,7 @@ app.post('/chapterstatus-service',  urlencodedParser,function (req, res)
     {
     if(rows.length>0)
     {
-      console.log(rows);
+      //console.log(rows);
       res.status(200).json({'returnval': rows});
     }
     else
