@@ -184,29 +184,34 @@ this.$.dzfsd1xsasa.close();
 },
     fnsavebook:function(e)
     {
-      alert(3);
+      //alert(3);
       if(this.period==""|| this.period==null|| this.skill=="" || this.skill==null || this.innovation=="" || this.innovation==null || this.remark=="" || this.remark==null || this.valuez=="" || this.valuez==null)
       {
-          alert("Please insert the value");
+          alert("Please Enter All Fields");
+          this.hidecheck1=false;
+        this.hidecheck=true;
+        
       }
       else if(this.planneddate=="empty")
       {
-        //alert("save");
+          alert("save");
         //alert(JSON.stringify(conarr));
-        this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez);
-        
+        alert(this.period+""+this.skill+""+this.innovation+""+this.remark+""+this.rowid+""+this.valuez);
+        this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez); 
+        this.hidecheck1=true;
+        this.hidecheck=false;
+        this.planneddate="";       
       }
       else
       {
-        //alert("edit");
+        alert("edit");
         // alert(JSON.stringify(conarr));
         this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
       }
-        this.hidecheck1=true;
-        this.hidecheck=false;
-        this.planneddate="";
+        
         document.querySelector('concept-check-card').fnclean();
         this.conceptjhkhzz="";
+
   },
 
 fngetconceptz:function(e){

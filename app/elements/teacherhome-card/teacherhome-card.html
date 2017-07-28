@@ -733,7 +733,8 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
    document.querySelector('app-card').setPage('homepage','');
    document.querySelector('home-page').setPage('class-teacher-book-reject-card','');
    this.$.bookservice.fnsetrejectbookgrade();
-   this.$.bookservice.fnsetrejectbooksubject()
+   this.$.bookservice.fnsetrejectbooksubject();
+   document.querySelector('class-teacher-book-reject-card').FnRefresh1();
      }
 
     this.$.cdialog.close();

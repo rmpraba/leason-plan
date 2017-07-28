@@ -710,7 +710,9 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.gradeid=sessionStorage.getItem("grdeidz");
            obj.sectoinidz=sessionStorage.getItem("sectionidz");
            this.fetchclassconcept11param=obj;
-            this.$.fetchclassconcept11ajax.generateRequest();
+           //alert("r");
+           //alert(JSON.stringify(obj));
+           this.$.fetchclassconcept11ajax.generateRequest();
         },
         fetchclassconcept11Response:function(e){
                  var res=e.detail.response.returnval;
