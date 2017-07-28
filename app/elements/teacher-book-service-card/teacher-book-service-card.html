@@ -671,8 +671,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.valuez=valuez;
            obj.blockremark=blockremark;
            this.fnfinalbook1param=obj;
-           alert("1");
-            alert(JSON.stringify(obj));
+           //alert("1");
+            //alert(JSON.stringify(obj));
            this.$.fnfinalbook1ajax.generateRequest();
         },
         fnfinalbook1Response:function(e)
@@ -749,7 +749,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       setattr.push(obj);
                       }
 
-                      alert(JSON.stringify(setattr));
+                      //alert(JSON.stringify(setattr));
   document.querySelector('class-teacher-book-reject-card').mainarr=setattr; 
  document.querySelector('class-teacher-book-reject-card').empid=res[0].empid; 
  document.querySelector('class-teacher-book-reject-card').empname=res[0].empname; 
@@ -1535,7 +1535,7 @@ fnsetcoskill:function(arr,period,skill,innovation,remark,rowid,valuez)
         obj.rowid=rowid+localStorage.getItem("curr_sess_capters");
         obj.flag="active";
         this.fnsetcoskillparam=obj;
-       alert(JSON.stringify(obj));
+       //alert(JSON.stringify(obj));
         this.$.fnsetcoskillajax.generateRequest();
        }
    },
@@ -1756,7 +1756,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
 
      chaptcompletionstatus:function()
      {
-        alert(333333333);
+        //alert(333333333);
         this.chapterstatusurl=sessionStorage.getItem("addrinfo")+"/chapterstatus-service";
            var obj={"schoolid":"","academic_year":"","roleid":""};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -1767,7 +1767,7 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
      chapterstatusResponse:function(e)
      {
         var res=e.detail.response.returnval;
-        alert(JSON.stringify(res));
+        //alert(JSON.stringify(res));
         document.querySelector('class-teacher-book-reject-card').fullstatusarr=res;
      }
 
