@@ -1761,7 +1761,6 @@ var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(res.leng
            var obj={"schoolid":"","academic_year":"","roleid":""};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            this.chapterstatusparam=obj;
            this.$.chapterstatusajax.generateRequest();
      },
