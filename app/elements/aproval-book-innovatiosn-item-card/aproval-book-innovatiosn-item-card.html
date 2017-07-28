@@ -17,7 +17,9 @@
       {
         overflow-x: hidden;
         overflow-y: visible;
-        height: 50px;
+        height: 90px;
+        width: 70%;
+        margin-top: 14%;
       }
 
       #dzfsd
@@ -35,8 +37,31 @@
           width: 250px;
           height: 320px;
           width: 280px;
-          
-
+      }
+      #skilldialog
+      {
+          border-radius: 10px;
+          width: 350px;
+          height: 270px;
+       
+      }
+      #valuedialog
+      {
+          border-radius: 10px;
+          width: 380px;
+          height: 270px;
+      }
+      #innovationdialog
+      {
+          border-radius: 10px;
+          width: 380px;
+          height: 270px;
+      }
+      #remarkdialog
+      {
+          border-radius: 10px;
+          width: 380px;
+          height: 270px;
       }
     </style>
     <div>
@@ -62,21 +87,33 @@
                 <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
               </td>
              <td>
-                <paper-textarea  readonly$="{{skillvaluezs}}" value="{{skill}}"></paper-textarea>
+                <paper-button on-click="lsnskill">
+                <h4>{{skill}}</h4>
+                </paper-button>  
              </td>
              <td>
-                <paper-textarea  readonly$="{{skillvaluezs}}" value="{{valuez}}"></paper-textarea>
+                <paper-button on-click="lsnvalue">
+                  <h4>{{valuez}}</h4>
+                </paper-button>
             </td>
             <td>
-              <paper-textarea  readonly$="{{innovattionvaluezs}}" value="{{innovation}}"</paper-textarea>
+              <!-- <paper-textarea  readonly$="{{innovattionvaluezs}}" value="{{innovation}}"></paper-textarea> -->
+              <paper-button on-click="lsninnovation">
+                <h4>{{innovation}}</h4>
+              </paper-button>
             </td> 
             <td>
-              <paper-input value="{{remark}}"></paper-input>
+              <!-- <paper-input value="{{remark}}"></paper-input> -->
+              <paper-button on-click="lsnremark">
+                <h4>{{remark}}</h4>
+              </paper-button>
             </td>
               
               <td style="padding-left: 2%;">
-                <paper-icon-button   hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
-                <paper-icon-button  hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
+                <paper-icon-button id="saveidd"  hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
+                <paper-tooltip for="saveidd">Save</paper-tooltip>
+                <paper-icon-button id="editidd" hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
+                <paper-tooltip for="editidd">Edit</paper-tooltip>
               </td>
              
            </tr>
@@ -104,6 +141,39 @@
          <paper-button on-click="fnclose1" style="background-color:black;color:white">Close</paper-button>
       </center>
     </paper-dialog>
+
+     <paper-dialog id="skilldialog" modal>
+          <paper-textarea  label="Skill"  readonly$="{{skillvaluezs}}" value="{{skill}}"></paper-textarea>
+          <center style="margin-top: 14%;">
+            <paper-button  on-click="skillsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button style="color:white;background-color:black" on-click="skillclose" >Close</paper-button>
+          </center>
+      </paper-dialog>
+
+
+     <paper-dialog id="valuedialog" modal>
+          <paper-textarea label="Value" readonly$="{{skillvaluezs}}" value="{{valuez}}"></paper-textarea>
+          <center style="margin-top: 14%;">
+            <paper-button  on-click="valuesave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button style="color:white;background-color:black" on-click="valueclose" >Close</paper-button>
+          </center>
+      </paper-dialog>
+
+      <paper-dialog id="innovationdialog" modal>
+          <paper-textarea label="Innovation" readonly$="{{innovattionvaluezs}}" value="{{innovation}}"></paper-textarea>
+          <center style="margin-top: 14%;">
+            <paper-button  on-click="innovatsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button style="color:white;background-color:black" on-click="innovatclose" >Close</paper-button>
+          </center>
+      </paper-dialog>
+
+      <paper-dialog id="remarkdialog" modal>
+          <paper-textarea label="Remarks" value="{{remark}}"></paper-textarea>
+          <center style="margin-top: 14%;">
+            <paper-button  on-click="remarksave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button style="color:white;background-color:black" on-click="remarkclose" >Close</paper-button>
+          </center>
+      </paper-dialog>
      <iron-ajax
         method="post"
         id="fngetconceptcheckajax"
@@ -135,57 +205,59 @@
      var valuearr=[];
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
-fnsubmit:function(e){
- //this.$.bookservice.fnpassinsetconcept(conarr);
- this.$.dzfsd.toggle();
- var temp=[];
- for(var i=0;i<conarr.length;i++){
-  if(conarr[i].rowid==this.rowid){
-    temp.push({"conceptname":conarr[i].conceptname});
-  }
- }
- // alert(JSON.stringify(temp));
- this.conceptzz=[];
- this.conceptzz=temp;
-},
-fnsubmit1:function(e){
- // alert(JSON.stringify(valuearr));
- this.$.dzfsd1xsasa.toggle();
- var temp1=[];
- for(var i=0;i<valuearr.length;i++){
-  if(valuearr[i].rowid==this.rowid){
-    temp1.push({"valuename":valuearr[i].valuename});
-  }
- }
- //alert(JSON.stringify(temp1));
- this.massvalue=[];
- this.massvalue=temp1;
-},
-fnpasparr:function(e){
-conarr=e;
-// alert(JSON.stringify(conarr));
-},
-fnpasparr1:function(e){
-  
-valuearr=e;
-},
-fnclose:function(e){
-this.$.dzfsd.close();
-// for(var i=0;i<conarr.length;i++){
-//   if(conarr[i].rowid==this.rowid){
-    
-//   }
-//  }
-// this.emsddsad=conarr1fsdfs;
-// alert(JSON.stringify(this.emsddsad));
-},
-fnclose1:function(e){
-this.$.dzfsd1xsasa.close();
-},
+    fnsubmit:function(e){
+     //this.$.bookservice.fnpassinsetconcept(conarr);
+     this.$.dzfsd.toggle();
+     var temp=[];
+     for(var i=0;i<conarr.length;i++){
+      if(conarr[i].rowid==this.rowid){
+        temp.push({"conceptname":conarr[i].conceptname});
+      }
+     }
+     // alert(JSON.stringify(temp));
+     this.conceptzz=[];
+     this.conceptzz=temp;
+    },
+    fnsubmit1:function(e){
+     // alert(JSON.stringify(valuearr));
+     this.$.dzfsd1xsasa.toggle();
+     var temp1=[];
+     for(var i=0;i<valuearr.length;i++){
+      if(valuearr[i].rowid==this.rowid){
+        temp1.push({"valuename":valuearr[i].valuename});
+      }
+     }
+     //alert(JSON.stringify(temp1));
+     this.massvalue=[];
+     this.massvalue=temp1;
+    },
+    fnpasparr:function(e){
+    conarr=e;
+    // alert(JSON.stringify(conarr));
+    },
+    fnpasparr1:function(e){
+      
+    valuearr=e;
+    },
+    fnclose:function(e){
+    this.$.dzfsd.close();
+    // for(var i=0;i<conarr.length;i++){
+    //   if(conarr[i].rowid==this.rowid){
+        
+    //   }
+    //  }
+    // this.emsddsad=conarr1fsdfs;
+    // alert(JSON.stringify(this.emsddsad));
+    },
+    fnclose1:function(e){
+    this.$.dzfsd1xsasa.close();
+    },
     fnsavebook:function(e)
     {
       //alert(3);
-      if(this.period==""|| this.period==null|| this.skill=="" || this.skill==null || this.innovation=="" || this.innovation==null || this.remark=="" || this.remark==null || this.valuez=="" || this.valuez==null)
+      this.skillvaluezs=true;
+
+      if(this.period==""|| this.period==null|| this.skill=="" || this.skill==null || this.remark=="" || this.remark==null || this.valuez=="" || this.valuez==null)
       {
           alert("Please Enter All Fields");
           this.hidecheck1=false;
@@ -199,46 +271,49 @@ this.$.dzfsd1xsasa.close();
         alert(this.period+""+this.skill+""+this.innovation+""+this.remark+""+this.rowid+""+this.valuez);
         this.$.bookservice.fnsetcoskill(conarr,this.period,this.skill,this.innovation,this.remark,this.rowid,this.valuez); 
         this.hidecheck1=true;
-        this.hidecheck=false;
-        this.planneddate="";       
+        this.hidecheck=false;  
+        this.planneddate="";     
       }
       else
       {
         alert("edit");
         // alert(JSON.stringify(conarr));
+
         this.$.bookservice.fnbookeditskill(this.period,this.skill,this.innovation,this.remark,this.planneddate,this.rowidz,this.valuez);
       }
+       /* this.hidecheck1=true;
+        this.hidecheck=false; */
         
         document.querySelector('concept-check-card').fnclean();
         this.conceptjhkhzz="";
 
   },
 
-fngetconceptz:function(e){
-  this.fngetconceptcheck();
-  this.$.dzfsd.toggle(); 
-},
-fngetconceptz1:function(e){
-   this.$.dzfsd1xsasa.toggle(); 
-  this.fngetinchaptvaluevalue();
-},
-fngetinchaptvaluevalue:function(e){
-this.fngetbookvaluezurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue111-service";
-           var obj={};
-           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-           obj.capter_id=localStorage.getItem("curr_sess_capters");
-           obj.period=this.period;
-           obj.planneddate=this.planneddate;
-           this.fngetbookvaluezparam=obj;
-         // alert(JSON.stringify(obj));
-           this.$.fngetbookvaluezajax.generateRequest();
-},
-fngetbookvaluezResponse:function(e){
-var res1=e.detail.response.skillarr;
- var res=e.detail.response.conceptarr;
- //alert(JSON.stringify(res1));
- //alert(JSON.stringify(res));
+    fngetconceptz:function(e){
+      this.fngetconceptcheck();
+      this.$.dzfsd.toggle(); 
+    },
+    fngetconceptz1:function(e){
+       this.$.dzfsd1xsasa.toggle(); 
+      this.fngetinchaptvaluevalue();
+    },
+    fngetinchaptvaluevalue:function(e){
+    this.fngetbookvaluezurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue111-service";
+               var obj={};
+               obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+               obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+               obj.capter_id=localStorage.getItem("curr_sess_capters");
+               obj.period=this.period;
+               obj.planneddate=this.planneddate;
+               this.fngetbookvaluezparam=obj;
+             // alert(JSON.stringify(obj));
+               this.$.fngetbookvaluezajax.generateRequest();
+    },
+    fngetbookvaluezResponse:function(e){
+      var res1=e.detail.response.skillarr;
+       var res=e.detail.response.conceptarr;
+       //alert(JSON.stringify(res1));
+       //alert(JSON.stringify(res));
           for(var j=0;j<res.length;j++){
             var flag=0;
               for(var i=0;i<res1.length;i++){
@@ -256,8 +331,9 @@ var res1=e.detail.response.skillarr;
                  this.valuearrz=res;
                //  alert(JSON.stringify(this.valuearrz));
 },
-fngetconceptcheck:function(e){
-this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+    fngetconceptcheck:function(e)
+    {
+      this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
            obj.academic_year=localStorage.getItem("curr_sess_academicyear");
@@ -265,7 +341,7 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
            obj.period=this.period;
            obj.planneddate=this.planneddate;
            this.fngetconceptcheckparam=obj;
-          // alert(JSON.stringify(obj));
+          alert(JSON.stringify(obj));
            this.$.fngetconceptcheckajax.generateRequest();
           },
         fngetconceptcheckResponse:function(e){
@@ -300,16 +376,75 @@ this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue
       // alert(JSON.stringify(res));      
       this.conceparr=res;
    },   
-fndelete:function(e){
-this.$.bookservice.buffdel();
-},
- fneditbook:function(e){
-  this.hidecheck1=false;
-  this.hidecheck=true;
-},
-fnsetpassvalz:function(e){
- tempvaluarr=e;
-},
+    fndelete:function(e){
+    this.$.bookservice.buffdel();
+    },
+     fneditbook:function(e){
+      this.hidecheck1=false;
+      this.hidecheck=true;
+      this.skillvaluezs=false;
+      this.innovattionvaluezs=false;
+    },
+    fnsetpassvalz:function(e){
+     tempvaluarr=e;
+    },
+
+    lsnskill:function(e)
+    {
+      this.$.skilldialog.toggle();
+      //this.skillvaluezs=true;
+    },
+    skillsave:function(e)
+    {
+      this.$.skilldialog.toggle();
+    },
+    skillclose:function()
+    {
+      this.$.skilldialog.close();
+    },
+    lsnvalue:function(e)
+    {
+      this.$.valuedialog.toggle();
+    },
+    valuesave:function(e)
+    {
+      this.$.valuedialog.toggle();
+      //this.skillvaluezs=true;
+    },
+    valueclose:function()
+    {
+      this.$.valuedialog.close();
+    },
+    innovatsave:function(e)
+    {
+      this.$.innovationdialog.toggle();
+      //this.innovattionvaluezs=true;
+    },
+    innovatclose:function()
+    {
+      this.$.innovationdialog.close();
+    },
+    remarksave:function(e)
+    {
+      this.$.remarkdialog.toggle();
+    },
+    remarkclose:function()
+    {
+      this.$.remarkdialog.close();
+    },
+    lsninnovation:function(e)
+    {
+      this.$.innovationdialog.toggle();
+    },
+
+    lsnremark:function(e)
+    {
+      this.$.remarkdialog.toggle();
+    },
+    setdate:function()
+    {
+      alert('You are allowed to select future date only..!');
+    }
 
 
    });

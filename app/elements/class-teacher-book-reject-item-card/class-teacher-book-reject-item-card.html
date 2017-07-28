@@ -9,14 +9,29 @@
         display: block;
       }
        table
-      {   table-layout: fixed;
+        {   
+          table-layout: fixed;
           width: 1270px;
           border-collapse: collapse;
           margin-left: 19%;
         }
 
+        .card
+        {
+          @apply(--layout-horizontal);
+        } 
+        p
+        {
+          width: 25%;
+          margin-left: 10%;
+        } 
+        paper-button
+        {
+          text-transform: none;
+          height: 25px;
+        } 
     </style>
-      <paper-input value={{captheadid}} hidden></paper-input>
+      <!-- <paper-input value={{captheadid}} hidden></paper-input>
       <paper-input value={{conceptid}} hidden></paper-input>
       <paper-input value={{subflag}} hidden></paper-input>
       <table border="0">
@@ -43,7 +58,22 @@
               <paper-icon-button  on-click="fnedit" icon="create" hidden$="{{hideeditvalue}}"></paper-icon-button>
               </td>
         </tr>
-      </table>
+      </table> -->
+
+      
+      <div class="card">
+        <p hidden>{{gradeid}}</p>
+        <p hidden>{{subjectid}}</p>
+        <p hidden>{{classid}}</p>
+        <p hidden>{{chapterid}}</p>
+        <p hidden>{{empid}}</p>
+        <p>{{gradename}}</p>
+        <p>{{subjectname}}</p>
+        <p>{{sectionname}}</p>
+        <p>{{chapter_name}}</p>
+        <p>{{empname}}</p>
+        <p><paper-button  id="tb3" on-click="FnView">View</paper-button></p>
+      </div>
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
 
   </template>

@@ -41,12 +41,25 @@
       paper-dropdown-menu
       {
       
-      --paper-input-container-label: { color: red };
-      text-align:center;
+        --paper-input-container-label: { color: red };
+        text-align:center;
+      }
+      #itemcard:nth-child(odd) 
+      {
+        background-color: white; 
+      }
+      #itemcard:nth-child(even) 
+      {
+        background-color: #f1f1f1;
+      }
+      #itemcard
+      {
+        width: 80%;
+        margin-left: 11%;  
       }
     
     </style>
-    <div>
+    <!-- <div>
      <span class="position"> 
        <paper-dropdown-menu  label="Select the Grade">
                 <paper-menu id="teacherreffzzzzzzz" class="dropdown-content"   on-iron-select="fnsetgrade">
@@ -110,13 +123,28 @@
           </tr>  
           <template is="dom-repeat" items="{{mainarr}}" as="w">
            <tr>  
-<class-teacher-book-reject-item-card  completiondate="{{w.completion_date}}" enrichmentsug="{{w.enrichment_sug}}" empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
-            idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
+              <class-teacher-book-reject-item-card  completiondate="{{w.completion_date}}"   enrichmentsug="{{w.enrichment_sug}}" empname="{{empname}}"  empid="      {{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
+              idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
               </class-teacher-book-reject-item-card> 
             </tr>
            </template>
      </table> 
-    </div> 
+    </div>  -->
+
+      <div>
+        <center>
+          <h3>Completion Status</h3>
+        </center>
+      </div>
+
+      <template is="dom-repeat" items="{{fullstatusarr}}" as="view">
+        <div id='itemcard'>
+          <class-teacher-book-reject-item-card empid="{{view.emp_id}}" empname="{{view.name}}" gradeid="{{view.grade_id}}" gradename="{{view.grade_name}}" subjectid="{{view.subject_id}}" subjectname="{{view.subject_name}}" classid="{{view.section_id}}" sectionname="{{view.section_name}}" chapterid="{{view.capter_id}}" chapter_name="{{view.capter}}"></class-teacher-book-reject-item-card>
+        </div>
+      </template>
+
+
+
   <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
   <script>

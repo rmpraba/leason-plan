@@ -31,31 +31,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'concept-check-card',
 
-     fnsetzz:function(e){
+    fnsetzz:function(e)
+    {
 
-      if(document.querySelector('#'+this.id).checked==true){
+      if(document.querySelector('#'+this.id).checked==true)
+      {
         var obj={};
         obj.id=this.id;
         obj.rowid=this.rowid;
         obj.conceptid=this.conceptid;
         obj.conceptname=this.conceptname;
         if(concarr.length==0)
-        concarr.push(obj);
-        else{
+        {
+          concarr.push(obj);
+          //alert(JSON.stringify(obj));
+        }
+        
+        else
+        {
           var f=0;
-          for(var i=0;i<concarr.length;i++){
-            if(concarr[i].id==this.id&&concarr[i].conceptid==this.conceptid&&concarr[i].rowid==this.rowid){
-            f=1;
+          for(var i=0;i<concarr.length;i++)
+          {
+            alert(concarr[i].id+" "+this.id+" "+concarr[i].conceptid+" "+this.conceptid+" "+concarr[i].rowid+" "+this.rowid);
+            if(concarr[i].id==this.id&&concarr[i].conceptid==this.conceptid&&concarr[i].rowid==this.rowid)
+            {
+              f=1;
             }
           }
           if(f==0)
             concarr.push(obj);
         }
       }
-      if(document.querySelector('#'+this.id).checked==false){
-          for(var i=0;i<concarr.length;i++){
-            if(concarr[i].id==this.id&&concarr[i].conceptid==this.conceptid&&concarr[i].rowid==this.rowid){
-            concarr.splice(i,1);
+      if(document.querySelector('#'+this.id).checked==false)
+      {
+          for(var i=0;i<concarr.length;i++)
+          {
+            if(concarr[i].id==this.id&&concarr[i].conceptid==this.conceptid&&concarr[i].rowid==this.rowid)
+            {
+              concarr.splice(i,1);
             }
           }
       }

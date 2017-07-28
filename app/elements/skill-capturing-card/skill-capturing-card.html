@@ -83,16 +83,23 @@ var costatus;
       
            }
     },
-    fnsetno:function(e){
+    fnsetno:function(e)
+    {
       // alert(this.id);
 
-if(document.querySelector('#'+this.idz).checked==true){
-             costatus='No';
-     document.querySelector('#'+this.id).checked=false;
-      
-           }
+      if(document.querySelector('#'+this.idz).checked==true)
+      {
+                   costatus='No';
+           document.querySelector('#'+this.id).checked=false;
+            
+      }
   
     },
+
+    dateset:function()
+    {
+      alert('You are allowed to select future date only..!');
+    }
  });
   })();
   </script>

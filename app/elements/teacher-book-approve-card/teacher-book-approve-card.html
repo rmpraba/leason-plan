@@ -187,7 +187,7 @@
           <th>VALUE</th>
           <th>INNOVATION</th>
           <th>REMARKS</th>
-          <th>Save</th>
+          <th></th>
           <!-- <th>Delete</th> -->
         
           </tr>
@@ -253,16 +253,17 @@
           // this.$.bookservice.subflagseqe();
           this.bufferperiod="";
           this.periodafter="";
+          this.$.bufferdialog.toggle();
         },
-        fnconsubmit:function(e){
-        //alert(this.bufferperiod);      
-        this.periodafter=-1;
-     this.$.bookservice.buffset(this.bufferperiod,this.periodafter);
+        fnconsubmit:function(e)
+        {
+          //alert(this.bufferperiod);      
+            this.periodafter=-1;
+            this.$.bookservice.buffset(this.bufferperiod,this.periodafter);
             this.bufferperiod="";
-          this.periodafter="";
+            this.periodafter="";
             // this.$.bookservice.subflagseqe();
-
-
+            this.$.bufferdialog.toggle();
         },
     fnchapter:function(e){
           //alert(Chaperzzzzidzz.checked);

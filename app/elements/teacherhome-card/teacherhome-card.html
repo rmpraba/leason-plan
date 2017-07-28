@@ -16,7 +16,7 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
 <dom-module id="teacherhome-card">
   <template>   
     <style>
-      :host   
+      :host    
       {
         display: block;   
       } 
@@ -52,7 +52,7 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
     </style>
     <div class="container-full">
     <div class="container">
-    <!-- <center> -->
+    <!-- <center> --> 
     <div class="subjectteacher" hidden$="{{subjectteacher}}">
     <div class="inner1">
       <div id="entry" class="card" hidden$="{{BA}}">    
@@ -186,6 +186,30 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
         </paper-button>
         </div>
     </div>
+
+    <div class="inner1">
+          <div class="card" hidden$="{{captureReport}}">
+            <paper-button on-click="CaptureReportads" no ink><img src="../../images/active1.jpg" height="180px" width="180px">
+            <h4>Chapter creation</h4>
+            </paper-button>
+          </div>
+          <div class="card" hidden$="{{bookaprval}}">
+            <paper-button on-click="fnbookapruval" no ink><img src="../../images/appruval.jpg" height="180px" width="180px">
+            <h4>Book Apruval Date</h4>
+           </paper-button>
+          </div>
+        <div class="card" hidden$="{{bookclassplan}}">
+          <paper-button on-click="fnbookclassplan" no ink><img src="../../images/classplan.gif" height="180px" width="180px">
+            <h4>class teacher book chapter</h4>
+          </paper-button>
+        </div>  
+        <div class="card" hidden$="{{bookreject}}">
+          <paper-button on-click="fnbookreject" no ink><img src="../../images/reject.jpg" height="180px" width="180px">
+            <h4>Capter Rejection</h4>
+          </paper-button>
+        </div>
+      </div>
+
     </div>
 
     <div class="highlevelcommon" hidden$="{{highlevelcommon}}">
@@ -446,36 +470,28 @@ l<link rel="import" href="..\..\bower_components/polymer/polymer.html">
        </div>
       </div>   
 
-        <div class="container1">
+      <!-- <div class="container1">
           <div class="card" hidden$="{{captureReport}}">
             <paper-button on-click="CaptureReportads" no ink><img src="../../images/active1.jpg" height="180px" width="180px">
             <h4>Chapter creation</h4>
             </paper-button>
           </div>
-      
           <div class="card" hidden$="{{bookaprval}}">
             <paper-button on-click="fnbookapruval" no ink><img src="../../images/appruval.jpg" height="180px" width="180px">
             <h4>Book Apruval Date</h4>
-
            </paper-button>
-
-        </div>
+          </div>
         <div class="card" hidden$="{{bookclassplan}}">
           <paper-button on-click="fnbookclassplan" no ink><img src="../../images/classplan.gif" height="180px" width="180px">
             <h4>class teacher book chapter</h4>
           </paper-button>
         </div>  
-        
-
         <div class="card" hidden$="{{bookreject}}">
           <paper-button on-click="fnbookreject" no ink><img src="../../images/reject.jpg" height="180px" width="180px">
             <h4>Capter Rejection</h4>
           </paper-button>
-      </div>
-</div>
-
-
-     
+        </div>
+      </div> -->
 
 
     <div class="cdialog">      
@@ -732,9 +748,10 @@ document.querySelector('home-page').setPage('class-teacher-book-approve-card',''
    if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookreject"){
    document.querySelector('app-card').setPage('homepage','');
    document.querySelector('home-page').setPage('class-teacher-book-reject-card','');
-   this.$.bookservice.fnsetrejectbookgrade();
-   this.$.bookservice.fnsetrejectbooksubject();
-   document.querySelector('class-teacher-book-reject-card').FnRefresh1();
+   //this.$.bookservice.fnsetrejectbookgrade();
+   //this.$.bookservice.fnsetrejectbooksubject();
+   this.$.bookservice.chaptcompletionstatus();
+   //document.querySelector('class-teacher-book-reject-card').FnRefresh1();
      }
 
     this.$.cdialog.close();
