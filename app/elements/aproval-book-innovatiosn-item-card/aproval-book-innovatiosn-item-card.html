@@ -75,7 +75,7 @@
             <td style="padding-left: 3%;">{{rowid}}</td>
             
              <td>
-                <paper-icon-button icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 6%;margin-top: -1%;"></paper-icon-button>
+                <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetconceptz" style="color:#6699ff;position: absolute;margin-left: 6%;margin-top: -1%;"></paper-icon-button>
                   <template is="dom-repeat" items="{{conceptzz}}" as="r">
                     <h4 style="margin-left: -11%;width: 35%;">{{r.conceptname}}</h4>
                   </template>
