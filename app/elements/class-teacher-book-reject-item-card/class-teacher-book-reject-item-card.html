@@ -64,7 +64,7 @@
       <div class="card">
         <p hidden>{{gradeid}}</p>
         <p hidden>{{subjectid}}</p>
-        <p hidden>{{classid}}</p>
+        <p hidden>{{classid}}</p>  
         <p hidden>{{chapterid}}</p>
         <p hidden>{{empid}}</p>
         <p>{{gradename}}</p>
@@ -75,7 +75,16 @@
         <p><paper-button  id="tb3" on-click="FnView">View</paper-button></p>
       </div>
      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
-
+ <iron-ajax
+        method="post"
+        id="rejectcapterstatusajax"
+        url="{{rejectcapterstatusurl}}"
+        params="{{rejectcapterstatusparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="rejectcapterstatusResponse"
+        debounce-duration="300"/>
+   </iron-ajax>
   </template>
   <script>
   (function(){
@@ -86,6 +95,56 @@ var costatus;
 
     Polymer({
       is: 'class-teacher-book-reject-item-card',
+
+      FnView:function(e){
+    
+this.rejectcapterstatusurl=sessionStorage.getItem("addrinfo")+"/fetchclassconcept11-service";
+           var obj={"schoolid":"","academic_year":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.subjectid=this.subjectid;
+           obj.gradeid=this.gradeid;
+           obj.sectoinidz=this.classid;
+           obj.chapterid=this.chapterid;
+           obj.empid=this.empid;
+           this.rejectcapterstatusparam=obj;
+           this.$.rejectcapterstatusajax.generateRequest();
+           sessionStorage.setItem("grdeidz",this.gradeid);
+           sessionStorage.setItem("subjectidz",this.subjectid);
+           sessionStorage.setItem("sectionidz",this.classid);
+           localStorage.setItem("curr_sess_capters",this.chapterid); 
+    
+        },
+         rejectcapterstatusResponse:function(e){
+         // alert(JSON.stringify(e.detail.response.returnval));
+          var res=e.detail.response.returnval;
+        var setattr=[];
+             for(var i=0;i<res.length;i++){
+                      var obj={};
+                      obj.conceptid=res[i].concept_id;
+                      obj.concept=res[i].concept;
+                      obj.skill=res[i].skill;
+                      obj.innovation=res[i].innovation;
+                      obj.planned_date=res[i].planning_date;
+                      obj.completion_date=res[i].completion_date;
+                      obj.enrichment_sug=res[i].enrichment_sug;
+                      var id_date=res[i].planning_date;
+                      id_date=id_date.replace(/[^\w\s]/gi, '');
+                      obj.id_date=id_date;
+                      obj.remark=res[i].remark;
+                      obj.period=res[i].period;
+                      obj.valuez=res[i].value;
+                       obj.rowid=i+1;
+                      setattr.push(obj);
+                      }
+
+                      alert(JSON.stringify(setattr));
+  document.querySelector('class-teacher-book-rejection-item-card').mainarr=setattr; 
+  document.querySelector('class-teacher-book-rejection-item-card').empid=res[0].empid; 
+ document.querySelector('class-teacher-book-rejection-item-card').empname=res[0].empname; 
+    document.querySelector('app-card').setPage('homepage','');
+  document.querySelector('home-page').setPage('class-teacher-book-rejection-item-card','');
+        },
  /* ready:function(e){
 this.hidesavevalue=true;
 this.hideeditvalue=false;

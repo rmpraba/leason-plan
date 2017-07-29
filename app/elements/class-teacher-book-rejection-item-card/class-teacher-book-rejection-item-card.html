@@ -1,0 +1,73 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="class-teacher-book-rejection-item-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }  
+      .report1
+      {
+          table-layout: fixed;
+          border-collapse: collapse;
+          width: 94%;
+          margin-left: 5%;
+          margin-top: 5%;
+      }
+    </style>
+    <div>
+    <paper-input hidden value={{empid}}></paper-input>
+    <paper-input hidden value={{empname}}></paper-input>
+     <paper-icon-button icon="arrow-back" on-click="passset"></paper-icon-button>
+
+     <table  border="0" class="report1" id="reporttabzzzzz">
+        <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+          <th>CONCEPT</th>
+          <th>PERIOD NO</th>
+          <th>Skill</th>
+          <th>Value</th>
+          <th>Innovation</th>
+          <th>Planning date</th>
+          <th>Completion Date</th>
+          <th>Remarks</th>
+          <th>Enrichment Suggestion</th>
+          <th>Completion Status</th>
+           <th>Save</th>  
+          </tr>  
+          <template is="dom-repeat" items="{{mainarr}}" as="w">
+           <tr>  
+              <class-teacher-book-rejection-card  completiondate="{{w.completion_date}}"   enrichmentsug="{{w.enrichment_sug}}" empname="{{empname}}"  empid="{{empid}}" conceptid="{{w.conceptid}}" concept="{{w.concept}}"   skill="{{w.skill}}"  gradeid="{{w.grade_id}}" subjectid="{{w.subject_id}}" iddate="{{w.id_date}}" id="enrz{{empid}}{{w.rowid}}"
+              idz="enrno{{w.rowid}}" innovation="{{w.innovation}}" remark="{{w.remark}}" planneddate="{{w.planned_date}}" period="{{w.period}}" valuez="{{w.valuez}}">
+              </class-teacher-book-rejection-card> 
+            </tr>
+           </template>
+     </table> 
+     </div>  
+      <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+ </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'class-teacher-book-rejection-item-card',
+
+     
+ passset:function(e){
+    document.querySelector('app-card').setPage('homepage','');
+    document.querySelector('home-page').setPage('class-teacher-book-reject-card','');
+    },
+    });
+  })();
+  </script>
+</dom-module>

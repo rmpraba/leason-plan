@@ -10203,7 +10203,6 @@ app.post('/fnbookplangrade-service',  urlencodedParser,function (req,res)
 
 app.post('/fetchclassconcept11-service',  urlencodedParser,function (req,res)
   {
-
 var qur1="select distinct emp_id as empid,(select distinct emp_name from md_employee_creation where emp_id=empid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"') as empname,skill,innovation,planning_date,completion_date,remark,enrichment_sug,completion,capter_id,concept_id,grade_id,period,section_id,subject_id,concept,value from final_book_sug where grade_id='"+req.query.gradeid+"' and  subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectoinidz+"' and capter_id='"+req.query.chapterid+"'  and academic_year='"+req.query.academic_year+"' and school_id='"+req.query.schoolid+"' and completion='no'";
       console.log("---------------");
       console.log(qur1);
@@ -10367,7 +10366,7 @@ console.log(qur);
 app.post('/fnfinalbook1-service',  urlencodedParser,function (req, res)
 {  
 
-var qur="update final_book_sug set completion_date='"+req.query.completion_date+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',value='"+req.query.valuez+"' ,period='"+req.query.period+"',value='"+req.query.valuez+"',enrichment_sug='"+req.query.enrichmentsug+"',completion='"+req.query.completion+"',blockremark='"+req.query.blockremark+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and concept_id='"+req.query.conceptid+"' and capter_id='"+req.query.chapterid+"'and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectionid+"' and planning_date='"+req.query.planneddate+"'";
+var qur="update final_book_sug set completion_date='"+req.query.completion_date+"',skill='"+req.query.skill+"',innovation='"+req.query.innovation+"',remark='"+req.query.remark+"',value='"+req.query.valuez+"' ,period='"+req.query.period+"',value='"+req.query.valuez+"',enrichment_sug='"+req.query.enrichmentsug+"',completion='"+req.query.completion+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and concept_id='"+req.query.conceptid+"' and capter_id='"+req.query.chapterid+"'and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and  section_id='"+req.query.sectionid+"' and planning_date='"+req.query.planneddate+"'";
 console.log("****************");
 console.log(qur);
 console.log("****************");

@@ -357,15 +357,7 @@
         content-type="application/json"
         on-response="fetchclassconceptResponse"
         debounce-duration="300" />
-           <iron-ajax
-        method="post"
-        id="fetchclassconcept11ajax"
-        url="{{fetchclassconcept11url}}"
-        params="{{fetchclassconcept11param}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="fetchclassconcept11Response"
-        debounce-duration="300" />
+       
 
     <iron-ajax
         method="post"
@@ -534,6 +526,15 @@
         on-response="fngetrejectsubjectResponse"
         debounce-duration="300"/>
        
+       <iron-ajax
+        method="post"
+        id="fetchclassconcept11ajax"
+        url="{{fetchclassconcept11url}}"
+        params="{{fetchclassconcept11param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchclassconcept11Response"
+        debounce-duration="300"/>
        
 
        <iron-ajax
@@ -649,7 +650,7 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
             alert('Inserted');
             this.FnFetchClassConceptService();
           },
-        fnfinalreaprovebook:function(empid,skill,innovation,enrichmentsug,period,planneddate,concept,conceptid,remark,valuez,blockremark){
+        fnfinalreaprovebook:function(empid,skill,innovation,enrichmentsug,period,planneddate,concept,conceptid,remark,valuez){
              this.fnfinalbook1url=sessionStorage.getItem("addrinfo")+"/fnfinalbook1-service";
            var obj={};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -670,9 +671,8 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            obj.remark=remark;
            obj.completion='yes';
            obj.valuez=valuez;
-           obj.blockremark=blockremark;
            this.fnfinalbook1param=obj;
-           //alert("1");
+            //alert("1");
             //alert(JSON.stringify(obj));
            this.$.fnfinalbook1ajax.generateRequest();
         },
@@ -712,12 +712,11 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
            this.$.fetchclassconceptajax.generateRequest();
         },
         FnFetchClassConceptService11:function(gradeid,subjectid,chapterid,sectoinidz){
-    this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fetchclassconcept11-service";
-   var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+       this.fetchclassconcept11url=sessionStorage.getItem("addrinfo")+"/fetchclassconcept11-service";
+     var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
          obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-           obj.chapterid=localStorage.getItem("curr_sess_capters"); 
+            obj.chapterid=localStorage.getItem("curr_sess_capters"); 
            obj.subjectid=sessionStorage.getItem("subjectidz"); 
            obj.gradeid=sessionStorage.getItem("grdeidz");
            obj.sectoinidz=sessionStorage.getItem("sectionidz");
@@ -744,23 +743,15 @@ document.querySelector('teacher-book-approve-card').conceptarr=e.detail.response
                       obj.remark=res[i].remark;
                       obj.period=res[i].period;
                       obj.valuez=res[i].value;
-                      obj.grade_id=sessionStorage.getItem("grdeidz");
-                      obj.subject_id=sessionStorage.getItem("subjectidz");
-                      obj.rowid=i+1;
+                        obj.rowid=i+1;
                       setattr.push(obj);
                       }
 
                       //alert(JSON.stringify(setattr));
-  document.querySelector('class-teacher-book-reject-card').mainarr=setattr; 
- document.querySelector('class-teacher-book-reject-card').empid=res[0].empid; 
- document.querySelector('class-teacher-book-reject-card').empname=res[0].empname; 
-
-
- /*document.querySelector('class-teacher-book-approve-card').empid=res1[0].empid; 
- document.querySelector('class-teacher-book-approve-card').empname=res1[0].empname; 
-*/
-
-        },
+   document.querySelector('class-teacher-book-rejection-item-card').mainarr=setattr; 
+  document.querySelector('class-teacher-book-rejection-item-card').empid=res[0].empid; 
+ document.querySelector('class-teacher-book-rejection-item-card').empname=res[0].empname; 
+},
         fetchclassconceptResponse:function(e){
           var res=e.detail.response.skillarr;
           var res1=e.detail.response.emparr;

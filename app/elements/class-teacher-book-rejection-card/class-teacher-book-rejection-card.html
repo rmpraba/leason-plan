@@ -1,0 +1,114 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="class-teacher-book-rejection-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }  table
+        {   
+          table-layout: fixed;
+          width: 1270px;
+          border-collapse: collapse;
+          margin-left: 19%;
+        }
+
+        .card
+        {
+          @apply(--layout-horizontal);
+        } 
+        p
+        {
+          width: 25%;
+          margin-left: 10%;
+        } 
+        paper-button
+        {
+          text-transform: none;
+          height: 25px;
+        } 
+    </style>
+    <div>   <paper-input value={{captheadid}} hidden></paper-input>
+            <paper-input value={{conceptid}} hidden></paper-input>
+      <table border="0">
+      <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff">
+              <td hidden>{{empid}}</td>
+              <td>{{concept}}</td>
+              <td>{{period}}</td>
+              <td>{{skill}}</td>
+              <td>{{valuez}}</td>
+              <td>{{innovation}}</td> 
+              <td>{{planneddate}}</td>
+              <td>
+                <div hidden$="{{hideeditvalue}}">{{completiondate}}</div>
+                  <complection-date-picker-card hidden$="{{hidesavevalue}}" ></complection-date-picker-card></td>
+              <td><paper-input value={{remark}}></paper-input></td>
+              <td>{{enrichmentsug}}</td>
+              <td>
+                <paper-checkbox id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
+                <paper-checkbox id={{idz}} on-change="fnsetno">No</paper-checkbox>
+           </td>
+              <td><paper-icon-button  on-click="fnaroveset" hidden$="{{hidesavevalue}}" icon="save"></paper-icon-button>
+              <paper-icon-button  on-click="fnedit" icon="create" hidden$="{{hideeditvalue}}"></paper-icon-button>
+              </td>
+           </tr>
+      </table>
+       <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+ 
+  </template>
+  <script>
+  (function() {
+    'use strict';
+var costatus;
+    Polymer({
+      is: 'class-teacher-book-rejection-card',
+
+      ready:function(e){
+this.hidesavevalue=true;
+this.hideeditvalue=false;
+  },
+  fnedit:function(e){
+this.hidesavevalue=false;
+this.hideeditvalue=true;
+  },
+
+    fnaroveset:function(e){
+      if(this.empid==""||this.skill==""||this.innovation==""||this.enrichmentsug==""||this.period==""||this.planneddate==""||this.concept==""||this.conceptid==""||this.remark==""||this.valuez==""){
+       alert("Please Enter The value");
+      }
+    alert(this.empid+" 1"+this.skill+" 2"+this.innovation+" 3"+this.enrichmentsug+"4 "+this.period+"5 "+this.planneddate+"6 "+this.concept+" 7"+this.conceptid+" 8"+this.remark+" 9"+this.valuez);
+ this.$.bookservice.fnfinalreaprovebook(this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
+  this.hidesavevalue=true;
+  this.hideeditvalue=false;
+ 
+   },
+    fnsetyes:function(e){
+   
+  if(document.querySelector('#'+this.id).checked==true){
+             costatus='Yes';
+     document.querySelector('#'+this.idz).checked=false;
+      
+           }
+    },
+    fnsetno:function(e){
+      // alert(this.id);
+
+if(document.querySelector('#'+this.idz).checked==true){
+             costatus='No';
+     document.querySelector('#'+this.id).checked=false;
+      }
+   },
+    });
+  })();
+  </script>
+</dom-module>
