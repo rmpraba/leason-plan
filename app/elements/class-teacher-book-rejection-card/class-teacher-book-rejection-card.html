@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           width: 1270px;
           border-collapse: collapse;
           margin-left: 19%;
+          margin-top: 20%;
         }
 
         .card
@@ -52,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <td>
                 <div hidden$="{{hideeditvalue}}">{{completiondate}}</div>
                   <complection-date-picker-card hidden$="{{hidesavevalue}}" ></complection-date-picker-card></td>
-              <td><paper-input value={{remark}}></paper-input></td>
+              <td><paper-textarea value={{remark}}></paper-textarea></td>
               <td>{{enrichmentsug}}</td>
               <td>
                 <paper-checkbox id={{id}} on-change="fnsetyes">Yes</paper-checkbox></br>
@@ -86,7 +87,7 @@ this.hideeditvalue=true;
       if(this.empid==""||this.skill==""||this.innovation==""||this.enrichmentsug==""||this.period==""||this.planneddate==""||this.concept==""||this.conceptid==""||this.remark==""||this.valuez==""){
        alert("Please Enter The value");
       }
-    alert(this.empid+" 1"+this.skill+" 2"+this.innovation+" 3"+this.enrichmentsug+"4 "+this.period+"5 "+this.planneddate+"6 "+this.concept+" 7"+this.conceptid+" 8"+this.remark+" 9"+this.valuez);
+   // alert(this.empid+" 1"+this.skill+" 2"+this.innovation+" 3"+this.enrichmentsug+"4 "+this.period+"5 "+this.planneddate+"6 "+this.concept+" 7"+this.conceptid+" 8"+this.remark+" 9"+this.valuez);
  this.$.bookservice.fnfinalreaprovebook(this.empid,this.skill,this.innovation,this.enrichmentsug,this.period,this.planneddate,this.concept,this.conceptid,this.remark,this.valuez);
   this.hidesavevalue=true;
   this.hideeditvalue=false;

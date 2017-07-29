@@ -69,7 +69,7 @@
      
         <span class="position"> 
          <paper-dropdown-menu  label="Select Section">
-          <paper-menu id="rejectclszzz" class="dropdown-content"  on-iron-select="fnsetsection">
+          <paper-menu id="sectionrejectcpt" class="dropdown-content"  on-iron-select="fnsetsection">
               <template is="dom-repeat" items="{{sectionarr}}">
                   <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
               </template>    
@@ -131,7 +131,7 @@
         sessionStorage.setItem("grdeidz",this.gradeid);
         this.gradename=e.target.selectedItem.textContent.trim();
         document.querySelector('#teachersubzzzz').selected=-1;
-        document.querySelector('#rejectclszzz').selected=-1;
+        document.querySelector('#sectionrejectcpt').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
         this.$.reporttabzzzzz.hidden=true;
         this.$.empidzz.hidden=true;
@@ -142,7 +142,7 @@
        sessionStorage.setItem("subjectidz",this.subjectid);
        this.subjectname=e.target.selectedItem.textContent.trim()
        this.$.bookservice.fngetclassbooksubjectvalue(this.gradeid,this.subjectid);
-       document.querySelector('#rejectclszzz').selected=-1;
+       document.querySelector('#sectionrejectcpt').selected=-1;
        document.querySelector('#teacherapprovechapterzz').selected=-1;
        this.$.reporttabzzzzz.hidden=true;
        this.$.empidzz.hidden=true;
@@ -152,7 +152,7 @@
      this.sectionidz=e.target.selectedItem.value;
        sessionStorage.setItem("sectionidz",this.sectionidz);
        this.sectionidname=e.target.selectedItem.textContent.trim();
-       document.querySelector('#rejectclszzz').selected=-1;
+       document.querySelector('#sectionrejectcpt').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
         this.$.reporttabzzzzz.hidden=true;
         this.$.empidzz.hidden=true;
@@ -169,7 +169,7 @@
      },
      FnRefreshzz:function()
      {
-        document.querySelector('#rejectclszzz').selected=-1;
+        document.querySelector('#sectionrejectcpt').selected=-1;
         document.querySelector('#teacherreffzzf').selected=-1;
         document.querySelector('#teachersubzzzz').selected=-1;
         document.querySelector('#teacherapprovechapterzz').selected=-1;
